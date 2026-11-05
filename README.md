@@ -1,4 +1,4 @@
-# Networking 1 — Interactive Classroom Presentations
+# Networking 1 — Interactive Presentations
 
 Live website: **https://devdahon.github.io/Networking/**
 
