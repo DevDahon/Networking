@@ -1,5 +1,9 @@
 # Networking 1 — Interactive Classroom Presentations
 
+Live website: **https://devdahon.github.io/Networking/**
+
+Pushes to `main` run the tests, build with the `/Networking/` asset base, and deploy to GitHub Pages through `.github/workflows/deploy.yml`. The workflow can also be started manually from GitHub Actions. Local development remains `npm install` followed by `npm run dev`.
+
 ## OSI message walkthroughs
 
 Topic 5 slides 12–13 use a simple message instead of another school webpage example. The first highlights all seven sender and receiver responsibilities. The next accepts an editable message, displays nested transport/network/local-link wrappers, previews actual encoded payload bits, and reconstructs the original text at the receiver. Both start paused, with Previous, Next step, Reset, and optional Autoplay. They are conceptual walkthroughs, not live network traffic or mandatory seven-module software implementations.
