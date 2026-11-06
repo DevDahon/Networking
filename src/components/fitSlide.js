@@ -13,6 +13,11 @@ export function fitSlide(stage){
   let disposed=false,maxHeight=0;
   function fit(reset=false){
     if(disposed||!frame.clientWidth||!frame.clientHeight)return;
+    if(frame.clientWidth<768){
+      if(body.style.width)body.style.width='';
+      if(body.style.transform)body.style.transform='';
+      return;
+    }
     const width=1280;
     body.style.width=`${width}px`;
     const measured=Math.max(body.offsetHeight,body.scrollHeight+2);

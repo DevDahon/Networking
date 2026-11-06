@@ -4,8 +4,10 @@ import {examplePlan} from '../src/simulations/exampleModels.js';
 import {introDiagrams} from '../src/simulations/intro.js';
 import {classroomExample} from '../src/components/classroomExample.js';
 
-it.each([1,2])('topic %i printer returns acceptance status rather than the document or a guarantee of printing',number=>{
- const topic=topics[number-1],slide=topic.slides.find(s=>s.kind==='example'&&s.diagram.nodes.some(n=>n.kind==='printer'));
+const printerSlides=topics[0].slides.filter(s=>s.kind==='example'&&s.diagram.nodes.some(n=>n.kind==='printer'));
+
+it.each(printerSlides.map((slide,i)=>[i+1,slide]))('printer example %i returns acceptance status rather than the document or a guarantee of printing',(_num,slide)=>{
+ const topic=topics[0];
  const steps=examplePlan(topic.id,slide,{source:'4'}),reply=steps.at(-1);
  expect(steps[1].route).toEqual([4,0,6]);expect(reply.route).toEqual([6,0,4]);
  expect(reply.facts).toContainEqual(['Response','Job accepted / queued']);
@@ -22,7 +24,7 @@ it('keeps local printer acceptance separate from Internet availability',()=>{
 });
 
 it('makes the sharing host send the file or permission error while its folder remains a stored resource',()=>{
- const topic=topics[14],slide=topic.slides.find(s=>s.kind==='example');
+ const topic=topics.find(t=>t.id==='13-file-printer-sharing'),slide=topic.slides.find(s=>s.kind==='example');
  expect(slide.diagram.nodes[2].kind).toBe('resource');
  expect(slide.diagram.edges).toEqual([[0,1]]);expect(slide.diagram.resourceEdges).toEqual([[1,2]]);
  const allowed=examplePlan(topic.id,slide).at(-1),denied=examplePlan(topic.id,slide,{scenario:'fault'}).at(-1);
@@ -34,7 +36,7 @@ it('makes the sharing host send the file or permission error while its folder re
 });
 
 it('shows both directions for the compatible static-address pair',()=>{
- const topic=topics[11],slide=topic.slides.find(s=>s.kind==='example'),steps=examplePlan(topic.id,slide);
+ const topic=topics.find(t=>t.id==='08-ip-addressing'),slide=topic.slides.find(s=>s.title==='Example: two manually configured classroom computers'),steps=examplePlan(topic.id,slide);
  expect(steps[2].route).toEqual([0,1,2]);expect(steps[3].route).toEqual([2,1,0]);
  expect(examplePlan(topic.id,slide,{scenario:'fault'}).at(-1).route).toEqual([]);
 });

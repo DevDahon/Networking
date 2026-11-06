@@ -14,9 +14,7 @@ const copy={
   ['Three practical benefits of networking','Three Benefits of Networking','Networking makes resources, information, and services available to multiple users. Sharing, collaboration, and managed backups help people work together more efficiently.'],
   ['Two risks of shared infrastructure','Two Risks of Networking','Shared access can expose information when permissions are poorly controlled. Shared equipment can also affect many users when it fails.'],
   ['Two performance measures','Two Performance Measures: Bandwidth and Latency','Bandwidth describes how much data a link can carry per second. Latency describes delay, so a high-capacity connection can still feel slow when responses take time.'],
-  ['@transferDemo',null,'File delivery depends on both the amount of data and the connection carrying it. Higher bandwidth reduces ideal transmission time, while latency adds delay before delivery completes.']
- ],
- '02-network-types-architecture':[
+  ['@transferDemo',null,'File delivery depends on both the amount of data and the connection carrying it. Higher bandwidth reduces ideal transmission time, while latency adds delay before delivery completes.'],
   ['Four network coverage types',null,'Network coverage describes the geographic scope of connected devices and sites. Personal, local, metropolitan, and wide area networks differ in scope rather than following universal distance cutoffs.'],
   ['Personal Area Network (PAN)',null,'A Personal Area Network connects devices around one person. It usually covers a short range and can use Bluetooth or wired connections.'],
   ['Local Area Network (LAN)',null,'A Local Area Network connects devices within a limited area, such as a room, building, or campus. It lets those devices exchange data and share resources through wired or wireless links.'],
@@ -26,8 +24,7 @@ const copy={
   ['@availabilityDemo','Resource Availability in Peer-to-Peer and Client-Server Networks','A shared resource is available only while its host and required connection are working. Peer-hosted files depend on their individual owners, while centralized files depend on the server.'],
   ['Two link choices: wired and wireless',null,'Wired links carry signals through a physical cable, while wireless links use radio. One network can combine both methods without changing its geographic classification.'],
   ['@coverage','Network Coverage and Service Architecture','Coverage describes where a network extends, while service architecture describes device roles. Changing a file service does not turn a local network into a wide area network.'],
-  ['A school with two campuses',null,'A school can have a local network at each campus and a provider service connecting the sites. A central file server adds a service role without changing either campus network’s local scope.'],
-  ['One organization, several network classifications','Classifying One Organization’s Networks','The same organization can use several network types and service arrangements. Geographic reach, service roles, and connection media answer different questions about its network.']
+  ['A school with two campuses',null,'A school can have a local network at each campus and a provider service connecting the sites. A central file server adds a service role without changing either campus network’s local scope.']
  ],
  '03-network-topologies':[
   ['Bus Topology',null,'A bus connects devices to a shared backbone rather than to a central switch. Signals use the common cable, and correct termination is needed at its ends.'],
@@ -41,7 +38,7 @@ const copy={
   ['Choose a topology for the task','Choosing a Network Topology','A useful topology meets the network’s capacity, coverage, growth, and availability needs. A layout that is easy to expand may still depend on a central device or upstream connection.'],
   ['@topology','What Happens When a Link or Device Fails?','A failed cable or device can disconnect one endpoint, a branch, or the whole network segment. The connection pattern determines the affected area under the failure assumptions shown for each topology.'],
   ['@pathTraceDemo','Following a Path Between Network Devices','A path is the sequence of connections used to get from one device to another. The highlighted connections show an available route in this graph; a failed link can force a different route or prevent delivery.'],
-  ['Design an eight-seat computer lab',null,'A classroom design must provide connections for computers and shared infrastructure. Eight computers, one printer, and one router uplink require ten switch ports before expansion.'],
+  ['Design an eight-seat computer lab',null,'A classroom design must provide connections for computers and shared infrastructure. Eight computers, one printer, and one router uplink require ten switch ports before expansion.']
  ],
  '04-network-devices':[
   ['Nine common network devices',null,'Network devices connect hosts, carry signals, forward data, or enforce access rules. A single product can combine several functions, so its behavior matters more than its shape.'],
@@ -65,23 +62,20 @@ const copy={
   ['@osiLayer:2',null,'The Data Link layer carries frames across one local link at a time. Link addresses identify where a frame should go on that link.'],
   ['@osiLayer:1',null,'The Physical layer carries bits as signals through a medium. Those signals can travel through copper, fiber, or radio.'],
   ['Example: a web request uses several responsibilities','How the Seven OSI Layers Work Together','Follow the message “Hello!” down the sender’s layers and up the receiver’s layers. Each highlighted layer explains one responsibility in the exchange.'],
-  ['@osiJourney','Encapsulation and Decapsulation','Encapsulation adds delivery information around your message. Decapsulation removes that information so the receiving application gets the original message.'],
-  ['@osiComparison','Comparing the OSI and TCP/IP Models','The seven-layer Open Systems Interconnection model and the common four-layer TCP/IP model group communication responsibilities differently. Their mapping is useful for explanation but does not impose identical software boundaries.'],
-  ['@osiDevices','How Device Functions Relate to Layers','Devices perform functions associated with communication layers. A product can span several layers, so a device name alone does not establish every responsibility it performs.'],
-  ['@layerBoundaryDemo','Communication Evidence at Layer Boundaries','Evidence at one functional boundary helps identify what to investigate next. A lower-level failure can prevent higher-level communication without proving that every higher layer is faulty.'],
-  ['@osiTroubleshooting','Using OSI Responsibilities to Investigate Faults','A symptom can involve several communication layers rather than one exclusive cause. Comparing physical, delivery, transport, and application evidence narrows the investigation.']
- ],
- '05-network-communication':[
   ['Seven OSI layer responsibilities',null,'The Open Systems Interconnection model names seven responsibilities involved in communication. Reviewing those responsibilities helps explain the delivery steps used in this topic.'],
   ['Four layers in the TCP/IP model',null,'The common TCP/IP model groups communication into Application, Transport, Internet, and Link. These groups connect application services to the delivery and transmission functions underneath them.'],
   ['Wrap the data, then unwrap it','What Is Encapsulation?','Encapsulation adds control information around application data for transport, network, and link delivery. The receiver interprets the corresponding headers and framing to recover the data.'],
   ['Example: a message gains delivery information',null,'A short application message needs delivery information before it can cross a network. Nested data units keep the message associated with process, network, and local-link information.'],
+  ['@osiJourney','Encapsulation and Decapsulation','Encapsulation adds delivery information around your message. Decapsulation removes that information so the receiving application gets the original message.'],
   ['Two transport services: TCP and UDP',null,'Transmission Control Protocol supplies an ordered reliable byte stream, while User Datagram Protocol supplies independent datagrams. Applications choose the behavior their communication needs rather than assuming one transport is always better.'],
-  ['Local delivery and the next hop','Local Delivery and Next-Hop Addressing','An Internet Protocol address identifies a logical destination, while a hardware address supports local-link delivery. For a remote destination, the first local frame targets the gateway rather than the remote server’s hardware address.'],
   ['@osi','Encapsulation and Transport Delivery','Messages use different delivery information at different communication layers. Transport behavior and the local-link path explain how the same application data reaches its receiver.'],
-  ['Follow the next-hop addresses','Packet and Frame Addresses Along a Route','A packet can keep the same remote destination while its surrounding link frame changes at a router. Each new link needs appropriate framing for the next local hop.'],
+  ['Local delivery and the next hop','Local Delivery and Next-Hop Addressing','An Internet Protocol address identifies a logical destination, while a hardware address supports local-link delivery. For a remote destination, the first local frame targets the gateway rather than the remote server’s hardware address.'],
   ['@nextHopFrameDemo','IP Destinations and Per-Link Hardware Addresses','A routed exchange uses logical packet endpoints and local frame endpoints for different purposes. This no-translation example keeps the packet addresses while replacing hardware-address framing between links.'],
-  ['Open a school website',null,'A remote web request passes through local delivery and routed forwarding before reaching the server. The reply also needs working delivery functions back to the requesting application.']
+  ['@osiComparison','Comparing the OSI and TCP/IP Models','The seven-layer Open Systems Interconnection model and the common four-layer TCP/IP model group communication responsibilities differently. Their mapping is useful for explanation but does not impose identical software boundaries.'],
+  ['@osiDevices','How Device Functions Relate to Layers','Devices perform functions associated with communication layers. A product can span several layers, so a device name alone does not establish every responsibility it performs.'],
+  ['@layerBoundaryDemo','Communication Evidence at Layer Boundaries','Evidence at one functional boundary helps identify what to investigate next. A lower-level failure can prevent higher-level communication without proving that every higher layer is faulty.'],
+  ['@osiTroubleshooting','Using OSI Responsibilities to Investigate Faults','A symptom can involve several communication layers rather than one exclusive cause. Comparing physical, delivery, transport, and application evidence narrows the investigation.'],
+  ['Follow the next-hop addresses','Packet and Frame Addresses Along a Route','A packet can keep the same remote destination while its surrounding link frame changes at a router. Each new link needs appropriate framing for the next local hop.']
  ],
  '06-network-cables-media':[
   ['Five network media choices',null,'A transmission medium carries signals between network interfaces. Twisted-pair copper, fiber, coaxial cable, and radio differ in construction, reach, interference behavior, and installation needs.'],
@@ -91,21 +85,17 @@ const copy={
   ['The Ethernet modular connector','What Is the Ethernet Modular Connector?','Twisted-pair Ethernet commonly uses an eight-position, eight-contact modular connector called RJ45. The connector must match the cable’s conductors, category, and termination requirements.'],
   ['Five cabling tool and tester functions',null,'Cabling tools prepare, terminate, or test different parts of an installation. A basic continuity tester checks wiring paths, while certification requires suitable performance measurements.'],
   ['@media','Cable Structure and Cabling Tool Functions','The internal structure of a cable determines how it carries and protects its signal. Stripping, crimping, punch-down termination, and testing each require the appropriate tool.'],
-  ['Connect two buildings',null,'An inter-building link must meet distance, environmental, and electrical-isolation requirements. Appropriate fiber and matching optics can serve a longer path that exceeds a standard copper channel limit.'],
-  ['Inspect a cable and choose the right tool','Selecting Media and Tools for an Installation','Cable markings, physical structure, and installation requirements guide material and tool selection. Correct termination and continuity checks support installation quality but do not replace category-performance certification.']
- ],
- '07-rj45-crimping':[
   ['Know the connector orientation first','Connector Orientation and Pin Numbering','Pin order is meaningful only when both connector ends are viewed in the same stated orientation. With contacts facing you, latch behind, and cable entering downward in this view, pin 1 is on the left.'],
   ['T568A: eight conductor positions',null,'T568A specifies which conductor occupies each of the eight contact positions. Read the color order from pin 1 to pin 8 using the stated connector orientation.'],
   ['T568B: eight conductor positions',null,'T568B is another standardized eight-contact conductor arrangement. It exchanges the orange and green pair positions relative to T568A while preserving the blue and brown positions.'],
   ['Straight-through and crossover arrangements',null,'A straight-through cable uses the same termination standard at both ends. A traditional crossover changes selected pair positions, although many modern interfaces can adjust automatically.'],
   ['Example: a straight-through patch cable',null,'Matching T568B terminations produce a straight-through conductor map. Each pin reaches the same numbered pin at the opposite end when the cable is correctly terminated.'],
   ['Prepare, terminate, and verify','Cable Preparation, Termination, and Verification','A reliable termination needs correctly arranged conductors, full insertion, and jacket strain relief. Inspection before crimping helps avoid faults that require a replacement plug.'],
-  ['Termination sequence: inspect before crimping','The Cable Termination Sequence','Cable termination follows preparation, conductor arrangement, insertion, crimping, and testing. Each step protects the wiring order, pair structure, and mechanical connection.'],
   ['Three common wire-map faults',null,'A wire map identifies which contact paths connect between cable ends. Opens, shorts, and miswires describe different continuity problems and require different corrections.'],
   ['@cable','Testing an Eight-Contact Cable Wire Map','A wire-map test follows each conductor from one connector end to the other. Correct pin paths establish continuity but do not prove the cable meets its rated signal-performance category.'],
   ['@pairScanDemo','Continuity and Twisted-Pair Integrity','Straight continuity does not guarantee that conductors remain in their intended twisted pairs. A split-pair cable can pass a simple pin-to-pin check while performing poorly at network frequencies.'],
-  ['Repair a failed classroom patch cable',null,'A damaged patch cable can produce an intermittent or failed physical link. Connector condition, conductor paths, and strain relief should be checked before unrelated address settings are changed.']
+  ['Connect two buildings and repair patch cables',null,'An inter-building link must meet distance, environmental, and electrical-isolation requirements, while repairing a patch cable requires correct conductor arrangement and verified continuity.'],
+  ['Termination sequence: inspect before crimping','The Cable Termination Sequence','Cable termination follows preparation, conductor arrangement, insertion, crimping, and testing. Each step protects the wiring order, pair structure, and mechanical connection.']
  ],
  '08-ip-addressing':[
   ['An address for a network interface','What Is an Internet Protocol Address?','An Internet Protocol address identifies a network interface for logical delivery. Version 4 uses 32 bits, while version 6 uses 128 bits and a different written format.'],
@@ -116,8 +106,17 @@ const copy={
   ['Eight common special-purpose IPv4 ranges',null,'Some address ranges have special uses such as loopback, link-local communication, documentation, or multicast. An address outside the private ranges is therefore not automatically a globally reachable host address.'],
   ['@ipv4','IPv4 Address Structure and Binary Representation','An Internet Protocol version 4 address contains four eight-bit octets. Binary values and the prefix explain both the written address and its network boundary.'],
   ['@bitwiseDemo','How an Address and Mask Identify the Network','A bitwise AND combines address bits with subnet-mask bits to obtain the network address. Mask ones preserve network bits, while mask zeros clear the host portion.'],
-  ['Interpret an IPv4 configuration','Interpreting an IPv4 Host Configuration','A host configuration combines an address, network boundary, and optional service or routing settings. Understanding each field prevents confusing name resolution with local or remote delivery.'],
-  ['Read a classroom configuration',null,'A classroom host can use the same router address for its gateway and forwarded name-resolution service. Those are separate roles, and a reachable resolver does not have to share the gateway’s address.']
+  ['Give a device a stable address','What Is Static IP Configuration?','Static configuration assigns an interface’s address settings manually. A predictable address helps infrastructure and services remain locatable when settings are managed correctly.'],
+  ['Four IPv4 configuration fields',null,'A basic host configuration includes an address, subnet mask, default gateway, and name resolver. Each field has a separate purpose and must match the intended network.'],
+  ['Same subnet is a two-sided decision','How Hosts Decide Whether a Peer Is Local','Each host uses its own address and mask to decide whether a peer is local. A successful local round trip needs compatible decisions and a working link in both directions.'],
+  ['Example: two manually configured classroom computers',null,'Two hosts with unique usable addresses in the same subnet can communicate over a working local network. A default gateway is unnecessary for this numeric local exchange.']
+,
+  ['@asymmetricDemo','How Mismatched Masks Cause Asymmetric Decisions','Different subnet masks can make two hosts disagree about whether they share a local network. One host may try direct delivery while the other requires a route that is unavailable.'],
+  ['Windows configuration and verification','Setting and Checking a Windows IPv4 Configuration','Windows adapter settings control an interface’s address and related options. Configuration must be verified through both inspection and an appropriate connectivity test.'],
+  ['Windows static-IP configuration','Windows Static Address Configuration Procedure','Manual address configuration requires the intended adapter and a coordinated set of valid settings. Recording the original configuration supports verification and restoration after the change.'],
+  ['@static','Static Address Compatibility and Reachability','Syntactically valid addresses do not guarantee that two hosts can communicate. Local subnet agreement, link availability, and any required routes determine the modeled path.'],
+  ['Read a classroom configuration and configure a static printer',null,'A classroom host can use the same router address for its gateway and forwarded name-resolution service, while a printer benefits from an address coordinated outside the dynamic DHCP pool.'],
+  ['Interpret an IPv4 configuration','Interpreting an IPv4 Host Configuration','A host configuration combines an address, network boundary, and optional service or routing settings. Understanding each field prevents confusing name resolution with local or remote delivery.']
  ],
  '09-basic-subnetting':[
   ['Split an address space into smaller networks','What Is Subnetting?','Subnetting divides an address block into smaller logical networks by increasing the prefix length. Each resulting block has a defined boundary and address capacity.'],
@@ -157,17 +156,6 @@ const copy={
   ['SNMP: Simple Network Management Protocol','Simple Network Management Protocol (SNMP)','Simple Network Management Protocol reads or manages information from network devices and sends notifications. Its security depends on the version, credentials, and configured protection mode.'],
   ['NTP: Network Time Protocol','Network Time Protocol (NTP)','Network Time Protocol uses exchanges with time sources to synchronize clocks. Consistent time supports useful logs and time-sensitive operations without selecting an operating-system time zone.'],
   ['@protocolDirectory','Network Protocol Functions and Common Ports','Protocol and port references identify conventional service roles and endpoint bindings. The transport must accompany the number, and some network protocols have no transport port at all.']
- ],
- '10-static-ip':[
-  ['Give a device a stable address','What Is Static IP Configuration?','Static configuration assigns an interface’s address settings manually. A predictable address helps infrastructure and services remain locatable when settings are managed correctly.'],
-  ['Four IPv4 configuration fields',null,'A basic host configuration includes an address, subnet mask, default gateway, and name resolver. Each field has a separate purpose and must match the intended network.'],
-  ['Same subnet is a two-sided decision','How Hosts Decide Whether a Peer Is Local','Each host uses its own address and mask to decide whether a peer is local. A successful local round trip needs compatible decisions and a working link in both directions.'],
-  ['Example: two manually configured classroom computers',null,'Two hosts with unique usable addresses in the same subnet can communicate over a working local network. A default gateway is unnecessary for this numeric local exchange.'],
-  ['@asymmetricDemo','How Mismatched Masks Cause Asymmetric Decisions','Different subnet masks can make two hosts disagree about whether they share a local network. One host may try direct delivery while the other requires a route that is unavailable.'],
-  ['Windows configuration and verification','Setting and Checking a Windows IPv4 Configuration','Windows adapter settings control an interface’s address and related options. Configuration must be verified through both inspection and an appropriate connectivity test.'],
-  ['Windows static-IP configuration','Windows Static Address Configuration Procedure','Manual address configuration requires the intended adapter and a coordinated set of valid settings. Recording the original configuration supports verification and restoration after the change.'],
-  ['@static','Static Address Compatibility and Reachability','Syntactically valid addresses do not guarantee that two hosts can communicate. Local subnet agreement, link availability, and any required routes determine the modeled path.'],
-  ['A printer needs a predictable address',null,'A network printer benefits from an address that remains predictable for its clients. A coordinated static assignment or managed reservation avoids conflicts with dynamic allocations.']
  ],
  '11-dhcp':[
   ['A lease supplies configuration','What Is a DHCP Lease?','A lease grants temporary use of an address supplied by Dynamic Host Configuration Protocol. The server also provides options such as mask, gateway, and name resolver.'],

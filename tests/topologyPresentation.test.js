@@ -7,8 +7,10 @@ import {layouts} from '../src/simulations/models.js';
 let dispose;
 afterEach(()=>{dispose?.();dispose=null;});
 
+const topologyTopic=topics.find(t=>t.id==='03-network-topologies');
+
 it('teaches topology concepts, a consistent star example, simulations, then design',()=>{
- const slides=topics[2].slides;
+ const slides=topologyTopic.slides;
  expect(slides.map(s=>s.kind)).toEqual(['title','objectives','concept','concept','example','example','example','example','example','example','demo','demo','concept','application','summary']);
  expect(slides[10].type).toBe('topology');expect(slides[11].type).toBe('pathTraceDemo');
  expect(slides[4].items.join(' ')).toContain('Five computers and one printer');

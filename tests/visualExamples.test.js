@@ -8,7 +8,7 @@ it.each(topics.map(topic=>[topic.id]))('places a labeled visual example inside t
  for(const slide of examples){
   const index=topic.slides.indexOf(slide);
   expect(index).toBeGreaterThan(2);expect(index).toBeLessThan(topic.slides.length-2);
-  if(![2,3].includes(topic.number))expect(topic.slides[index-1].kind).not.toBe('example');
+  if(![1,2].includes(topic.number))expect(topic.slides[index-1].kind).not.toBe('example');
   const root=document.createElement('div');root.innerHTML=classroomExample(slide);
   expect(root.querySelectorAll('[data-example-node]')).toHaveLength(slide.diagram.nodes.length);
   expect(root.querySelectorAll('li')).toHaveLength(slide.items.length);
@@ -17,7 +17,7 @@ it.each(topics.map(topic=>[topic.id]))('places a labeled visual example inside t
 });
 
 it('follows the four-type overview with four examples and connects exactly five computers and one printer through the switch',()=>{
- const topic=topics.find(topic=>topic.number===2);
+ const topic=topics.find(topic=>topic.id==='01-introduction-to-networking');
  const local=topic.slides.find(slide=>slide.kind==='example'&&slide.title==='Local Area Network (LAN)');
  expect(local).toBeDefined();
  expect(local.exampleTitle).toBe('Example: Five computers share one network printer');
@@ -35,5 +35,5 @@ it('follows the four-type overview with four examples and connects exactly five 
  expect(local.diagram.nodes.filter(node=>node.kind==='printer')).toHaveLength(1);
  expect(local.diagram.edges).toHaveLength(6);
  expect(local.diagram.edges.every(([a])=>local.diagram.nodes[a].kind==='switch')).toBe(true);
- expect(topic.slides.filter(slide=>slide.kind==='example')).toHaveLength(4);
+ expect(topic.slides.filter(slide=>slide.kind==='example')).toHaveLength(5);
 });

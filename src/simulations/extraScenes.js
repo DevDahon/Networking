@@ -1,4 +1,5 @@
 import {topologyCoordinates,topologyConnections} from '../components/topologyDiagram.js';
+import {renderTopologyNode,getSavedNodeStyle} from '../components/networkSymbols.js';
 import {reserveSimulationSpace} from '../components/simulationSpace.js';
 import {esc,button,input,select,wire,networkSVG,result} from '../components/ui.js';
 import {createStepPlayback} from './playback.js';
@@ -12,17 +13,29 @@ function scene(root,spec){
  root.classList.add('extra-scene');let config={...spec.defaults},index=0,plan;
  const playback=createStepPlayback({length:()=>plan.steps.length,getIndex:()=>index,setIndex:value=>{index=value;},render:draw});
  const fields=()=>typeof spec.fields==='function'?spec.fields(config):spec.fields;
- function apply(changed){playback.pause();for(const f of fields())config[f.name]=root.querySelector(`[name="${f.name}"]`)?.value??config[f.name];spec.change?.(changed,config);playback.reset();draw();}
+ function apply(changed){
+  playback.pause();
+  if(changed){const el=root.querySelector(`[name="${changed}"]`);if(el)config[changed]=el.value;}
+  for(const f of fields()){const el=root.querySelector(`[name="${f.name}"]`);if(el)config[f.name]=f.number?Number(el.value):el.value;}
+  spec.change?.(changed,config);playback.reset();draw();
+ }
  function draw(){
   let error='';try{plan=spec.build(config);}catch(e){error=e.message;plan={steps:[]};}
   index=Math.max(0,Math.min(index,plan.steps.length-1));const current=plan.steps[index];
+  const hasInputs=fields().some(f=>!f.options);
   const markup=stepIndex=>{const current=plan.steps[stepIndex];
-   return `<form class="control-row extra-config">${fields().map(f=>f.options?select(f.label,f.name,f.options,config[f.name]):input(f.label,f.name,config[f.name],f.number?'number':'text')).join('')}<button type="submit">Apply configuration</button></form>${error?result(error,false):`${spec.visual?spec.visual(config,stepIndex,plan):networkSVG(plan.labels||['Source','Network','Destination'],Math.min(2,stepIndex))}<div class="step-card" aria-live="polite"><b>Step ${stepIndex+1} of ${plan.steps.length} · <span class="extra-play-state">${playback.status}</span></b><h3>${esc(current.title)}</h3><p>${esc(current.text)}</p>${current.ok===false?'<span class="extra-blocked">Modeled limit or blocked operation</span>':''}</div>`}<div class="control-row extra-playback">${button('Play / replay','play','primary')}${button('Pause','pause')}${button('Resume','resume')}${button('Previous step','previous')}${button('Next step','advance')}${button('Reset sequence','reset')}${select('Animation speed','speed',[['0.5','0.5×'],['1','1×'],['2','2×']],playback.speed)}</div><p class="small">${esc(spec.note)} Configuration changes pause playback. No real equipment, traffic, or files are accessed.</p>`;
+   return `<form class="control-row extra-config">${fields().map(f=>f.options?select(f.label,f.name,f.options,config[f.name]):input(f.label,f.name,config[f.name],f.number?'number':'text')).join('')}${hasInputs?'<button type="submit">Apply configuration</button>':''}</form>${error?result(error,false):`${spec.visual?spec.visual(config,stepIndex,plan):networkSVG(plan.labels||['Source','Network','Destination'],Math.min(2,stepIndex))}<div class="step-card" aria-live="polite"><b>Step ${stepIndex+1} of ${plan.steps.length} · <span class="extra-play-state">${playback.status}</span></b><h3>${esc(current.title)}</h3><p>${esc(current.text)}</p>${current.ok===false?'<span class="extra-blocked">Modeled limit or blocked operation</span>':''}</div>`}<div class="control-row extra-playback">${button('Play / replay','play','primary')}${button('Pause','pause')}${button('Resume','resume')}${button('Previous step','previous')}${button('Next step','advance')}${button('Reset sequence','reset')}${select('Animation speed','speed',[['0.5','0.5×'],['1','1×'],['2','2×']],playback.speed)}</div><p class="small">${esc(spec.note)} Configuration changes pause playback. No real equipment, traffic, or files are accessed.</p>`;
   };
   root.innerHTML=markup(index);
   if(!error)reserveSimulationSpace(root,plan.steps.map((_,i)=>markup(i)));
   root.querySelector('form').onsubmit=e=>{e.preventDefault();apply();};
-  for(const f of fields())if(f.options)root.querySelector(`[name="${f.name}"]`).onchange=()=>apply(f.name);
+  for(const f of fields()){
+   const el=root.querySelector(`[name="${f.name}"]`);
+   if(el&&f.options){
+    el.onchange=()=>apply(f.name);
+    el.oninput=()=>apply(f.name);
+   }
+  }
   root.querySelector('form').onfocusin=()=>{playback.pause();const indicator=root.querySelector('.extra-play-state');if(indicator)indicator.textContent='Paused';};
   root.querySelector('[name="speed"]').onchange=e=>playback.setSpeed(e.target.value);
   root.querySelectorAll('.extra-playback button').forEach(b=>b.disabled=!!error);
@@ -39,12 +52,21 @@ export function transferDemo(root){return scene(root,{
  note:'Real arithmetic in an ideal one-way transfer model: 1 MB = 1,000,000 bytes and 1 Mb/s = 1,000,000 bits/s. Playback time is teaching time, not a speed measurement.'
  });}
 export function availabilityDemo(root){return scene(root,{
- defaults:{architecture:'server',resource:'A',peerA:'on',peerB:'on',server:'on'},fields:[field('architecture','Service architecture',null,[['server','Client-server'],['peer','Peer-to-peer']]),field('resource','Requested file',null,['A','B']),field('peerA','Peer A',null,[['on','Online'],['off','Offline']]),field('peerB','Peer B',null,[['on','Online'],['off','Offline']]),field('server','Dedicated server',null,[['on','Online'],['off','Offline']])],
+ defaults:{architecture:'server',resource:'A',peerA:'on',peerB:'on',server:'on'},
+ fields:c=>[
+  field('architecture','Service architecture',null,[['server','Client-server'],['peer','Peer-to-peer']]),
+  field('resource','Requested file',null,['A','B']),
+  ...(c.architecture==='server'
+    ? [field('server','Dedicated server',null,[['on','Online'],['off','Offline']])]
+    : [field('peerA','Peer A',null,[['on','Online'],['off','Offline']]),
+       field('peerB','Peer B',null,[['on','Online'],['off','Offline']])])
+ ],
  build:c=>{const m=serviceAvailability(c);return {labels:['Requesting client',m.host,`File ${c.resource}`],steps:[step('Identify the resource owner',`File ${c.resource} is hosted by ${m.host}. Coverage and link medium do not choose the service architecture.`),step('Request the resource',m.text,m.online),step('Compare the failure scope',m.scope,m.online)]};},note:'A connected requesting client and working LAN are assumed. Peers A/B own their own files in peer mode; the dedicated server owns both in server mode.'
  });}
 function topologyDrawing(c,index,plan){
  const m=layouts[c.kind],xy=topologyCoordinates(c.kind,m.nodes.length),visited=plan.path.slice(0,index+1);
- return `<svg class="extra-topology" viewBox="0 0 800 340" role="img" aria-label="${esc(visited.map(i=>m.nodes[i]).join(' → ')||'No reachable path')}">${topologyConnections(c.kind,m.edges,xy,{failed:Number(c.failed),path:visited})}${m.nodes.map((n,i)=>`<g><rect x="${xy[i][0]-52}" y="${xy[i][1]-24}" width="104" height="48" rx="8" fill="${visited.includes(i)?'#dbeafe':'white'}" stroke="#2563eb"/><text x="${xy[i][0]}" y="${xy[i][1]+5}" text-anchor="middle" font-size="16">${esc(n)}</text></g>`).join('')}</svg><p class="small">${esc(m.note)}</p>`;
+ const nodeStyle=getSavedNodeStyle();
+ return `<svg class="extra-topology" viewBox="0 0 800 340" role="img" aria-label="${esc(visited.map(i=>m.nodes[i]).join(' → ')||'No reachable path')}">${topologyConnections(c.kind,m.edges,xy,{failed:Number(c.failed),path:visited})}${m.nodes.map((n,i)=>renderTopologyNode({x:xy[i][0],y:xy[i][1],label:n,style:nodeStyle,status:visited.includes(i)?'connected':'default',dataAttrs:`data-trace-node="${i}"`})).join('')}</svg><p class="small">${esc(m.note)}</p>`;
 }
 export function pathTraceDemo(root){return scene(root,{
  defaults:{kind:'Star',source:1,target:4,failed:-1},fields:c=>[field('kind','Topology',null,Object.keys(layouts)),field('source','Source node',null,layouts[c.kind].nodes.map((n,i)=>[i,n])),field('target','Destination node',null,layouts[c.kind].nodes.map((n,i)=>[i,n])),field('failed','Failed link',null,[[-1,'None'],...layouts[c.kind].edges.map(([a,b],i)=>[i,`${layouts[c.kind].nodes[a]} ↔ ${layouts[c.kind].nodes[b]}`])])],change:(name,c)=>{if(name==='kind')c.failed=-1;},

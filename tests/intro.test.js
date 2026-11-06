@@ -8,7 +8,7 @@ afterEach(()=>{dispose?.();dispose=null;vi.useRealTimers();});
 
 it('follows the agreed fifteen-slide introduction without detailed configuration content',()=>{
  const slides=topics[0].slides;
- expect(slides).toHaveLength(15);
+ expect(slides).toHaveLength(25);
  expect(slides[3].title).toBe('Everyday Uses of Networks');
  expect(slides[4].title).toBe('Basic Network Components');
  expect(slides[5].type).toBe('introConnections');

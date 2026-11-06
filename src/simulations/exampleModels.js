@@ -28,7 +28,9 @@ export function exampleOptions(topic,slide){
  if(slide.topologyKind)return [['healthy','All links connected'],['fault','Selected link removed']];
  if(slide.exampleId==='intro-internet')return [['healthy','Internet connection available'],['fault','Internet connection unavailable']];
  if(slide.exampleId==='intro-exchange')return [];
- if(slide.diagram.nodes.some(n=>n.kind==='printer')&&slide.diagram.nodes.length===7)return [['healthy','Connected source cable'],['fault','Disconnected source cable']];
+ if(slide.diagram?.nodes?.some(n=>n.kind==='printer')&&slide.diagram?.nodes?.length===7)return [['healthy','Connected source cable'],['fault','Disconnected source cable']];
+ if(slide.title==='Example: a straight-through patch cable')return [['healthy','Correct pin mapping'],['fault','Open conductor at pin 7']];
+ if(slide.title==='Example: two manually configured classroom computers')return [['healthy','Both hosts use /24'],['fault','Different host masks']];
  const options={
   '06-network-cables-media':[['healthy','Matching fiber optics'],['fault','180 m copper channel']],
   '07-rj45-crimping':[['healthy','Correct pin mapping'],['fault','Open conductor at pin 7']],
@@ -56,6 +58,24 @@ export function examplePlan(topic,slide,{scenario='healthy',source='3'}={}){
   stage('Prepare a response','Computer B receives the request and prepares the document response. It is now the sender of this new message.',[2],[],true,[['New sender','Computer B'],['New receiver','Computer A']]),
   stage('Return the response','The document response travels back to Computer A. One conversation can contain messages in both directions.',[2,1,0],[2,1,0],true,[['Response','Requested document']])
  ];
+ if(slide.title==='Example: a message gains delivery information')return [
+  stage('Write the message','The application creates the message Hello.',[0],[],true,[['Payload','Hello']]),
+  stage('Encapsulate the message','Transport information identifies the receiving process. Network and link information support delivery.',[0],[],true,[['Nested units','Data → segment → packet → frame']]),
+  stage('Carry the frame','Signals carry the frame through the modeled local path.',[0,1,2],[0,1,2]),
+  stage('Recover the message','The receiver interprets the delivery information and presents Hello to the intended application.',[2],[],true,[['Received payload','Hello']])
+ ];
+ if(slide.title==='Example: a straight-through patch cable'||topic==='07-rj45-crimping'){
+  const result=pairIntegrity(fault?'open':'standard');
+  return [...result.mapping.map((pins,i)=>stage(`Test conductor ${i+1}`,pins.length?`End A pin ${i+1} reaches End B pin ${pins[0]}.`:`End A pin ${i+1} has no continuous path.`,[0,1,2],[],pins.length===1,[['End A color',result.a[i]],['End B pin',pins.join(', ')||'Open']])),
+   stage(result.open?'Open circuit detected':'All eight conductors map straight through',result.open?'Pin 7 is open in this fixture. Re-terminate or replace the faulty cable, then retest.':'All eight mappings are continuous and correct for the selected straight-through fixture. This does not certify category performance.',[0,2],[],!result.open)];
+ }
+ if(slide.title==='Example: two manually configured classroom computers'||topic==='10-static-ip'){
+  const result=asymmetricSubnet({a:'192.168.1.10',b:fault?'192.168.1.200':'192.168.1.20',aPrefix:24,bPrefix:fault?25:24});
+  return [stage('Computer A checks its own mask',`${result.a}/${result.sa.prefix} considers ${result.b} ${result.aLocal?'local':'remote'}.`,[0],[],result.aLocal,[['A network',result.sa.network]]),
+   stage('Computer B independently checks its mask',`${result.b}/${result.sb.prefix} considers ${result.a} ${result.bLocal?'local':'remote'}.`,[2],[],result.bLocal,[['B network',result.sb.network]]),
+   stage(result.ok?'Send a local request':'The isolated model has no required route',result.ok?'Both hosts agree on local delivery; the intact switch path carries this example’s request from Computer A to Computer B.':'Computer B needs a route back to A, but this diagram has no router. A complete round trip fails.',[0,1,2],result.ok?[0,1,2]:[],result.ok),
+   ...(result.ok?[stage('Return the peer response','Computer B sends this example’s reply through the switch to Computer A. Both the request and response need valid delivery paths.',[2,1,0],[2,1,0],true,[['Response','Peer reply']])]:[])];
+ }
  if(d.nodes.length===7&&d.nodes.some(n=>n.kind==='printer')){
   const pc=Number(source);if(!Number.isInteger(pc)||pc<1||pc>5)throw new Error('Choose Computer 1 through Computer 5.');
   if(topic==='03-network-topologies'){

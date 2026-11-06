@@ -1,8 +1,7 @@
 // Apply sequencing after examples are inserted, before display wording expands.
 // @ selectors identify simulations; other selectors are topic-owned titles.
 export const sequenceMoves={
- '01-introduction-to-networking':[],
- '02-network-types-architecture':[
+ '01-introduction-to-networking':[
   ['@availabilityDemo','after','Two network service architectures']
  ],
  '03-network-topologies':[
@@ -14,22 +13,19 @@ export const sequenceMoves={
  ],
  'osi-reference-model':[
   ['Example: a web request uses several responsibilities','after','Layer 1: Physical'],
+  ['@nextHopFrameDemo','after','Local delivery and the next hop'],
   ['@layerBoundaryDemo','before','@osiTroubleshooting']
  ],
- '05-network-communication':[
-  ['Follow the next-hop addresses','after','@osi'],
-  ['@nextHopFrameDemo','after','Follow the next-hop addresses']
- ],
  '06-network-cables-media':[
-  ['@mediumBudgetDemo','after','Example: a room link and a building link']
- ],
- '07-rj45-crimping':[
+  ['@mediumBudgetDemo','after','Example: a room link and a building link'],
   ['Termination sequence: inspect before crimping','after','Prepare, terminate, and verify'],
   ['@pairScanDemo','after','@cable']
  ],
  '08-ip-addressing':[
   ['@bitwiseDemo','after','@ipv4'],
-  ['Interpret an IPv4 configuration','after','@bitwiseDemo']
+  ['Interpret an IPv4 configuration','after','@bitwiseDemo'],
+  ['@asymmetricDemo','after','Example: two manually configured classroom computers'],
+  ['Windows static-IP configuration','before','@static']
  ],
  '09-basic-subnetting':[
   ['@partitionDemo','after','Example: split one /24 into four /26 networks'],
@@ -40,10 +36,6 @@ export const sequenceMoves={
   ['@dnsCacheDemo','after','DNS: Domain Name System'],
   ['Example: open a protected school website','before','@protocolWeb'],
   ['Seven common email service ports','before','@protocolMail']
- ],
- '10-static-ip':[
-  ['@asymmetricDemo','after','Example: two manually configured classroom computers'],
-  ['Windows static-IP configuration','before','@static']
  ],
  '11-dhcp':[
   ['Read a DHCP configuration and lease','before','@dhcp'],
