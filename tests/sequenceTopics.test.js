@@ -7,15 +7,15 @@ const constraints=[
  [2,'@topology','Choosing a Network Topology'],
  [3,'How Interfaces and Switches Connect Local Devices','@macLearningDemo'],
  [4,'Seven OSI layer responsibilities','What Is Encapsulation?'],
- [6,'The Subnet Mask: The Dividing Boundary','@bitwiseDemo'],
- [6,'Example: two manually configured classroom computers','@asymmetricDemo'],
- [6,'Windows Static Address Configuration Procedure','@static'],
- [7,'Domain Name System (DNS)','@dnsCacheDemo'],
- [7,'Example: open a protected school website','@protocolWeb'],
- [8,'@dhcp','@reservedPoolDemo'],
- [9,'Two protected Wi-Fi security options','Example: a laptop joins classroom Wi-Fi'],
- [10,'Publishing and Accessing a Windows Shared Folder','@sharing'],
- [11,'Nine modeled network faults','Example: numeric access works but a name fails']
+ [7,'The Subnet Mask: The Dividing Boundary','@bitwiseDemo'],
+ [8,'Example: two manually configured classroom computers','@asymmetricDemo'],
+ [8,'Windows Static Address Configuration Procedure','@static'],
+ [9,'Domain Name System (DNS)','@dnsCacheDemo'],
+ [9,'Example: open a protected school website','@protocolWeb'],
+ [10,'@dhcp','@reservedPoolDemo'],
+ [11,'Two protected Wi-Fi security options','Example: a laptop joins classroom Wi-Fi'],
+ [12,'Publishing and Accessing a Windows Shared Folder','@sharing'],
+ [13,'Nine modeled network faults','Example: numeric access works but a name fails']
 ];
 
 it.each(constraints)('keeps the prerequisite beside its demonstration in topic %i: %s → %s', (number, first, next) => {
@@ -25,8 +25,8 @@ it.each(constraints)('keeps the prerequisite beside its demonstration in topic %
 });
 
 it('reviews every topic and retains all slide content, boundaries, and simulation counts',()=>{
- expect(Object.keys(sequenceMoves)).toHaveLength(11);
- expect(topics.reduce((sum,t)=>sum+t.slides.length,0)).toBe(185);
+ expect(Object.keys(sequenceMoves)).toHaveLength(13);
+ expect(topics.reduce((sum,t)=>sum+t.slides.length,0)).toBe(201);
  for(const topic of topics){
   expect(topic.slides[0].kind).toBe('title');expect(topic.slides[1].kind).toBe('objectives');expect(topic.slides.at(-1).kind).toBe('summary');
   if(topic.id!=='06-network-cables-media')expect(topic.slides.filter(s=>s.type||s.kind==='example').length).toBeGreaterThanOrEqual(2);

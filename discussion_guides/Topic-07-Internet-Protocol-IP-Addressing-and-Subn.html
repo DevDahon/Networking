@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Topic 7: Internet Protocol (IP) Addressing and Subnet Basics — Instructor Discussion Guide</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 14mm 14mm 16mm 14mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #1e293b;
+      background: #ffffff;
+      line-height: 1.5;
+      font-size: 13px;
+    }
+    .guide-header-cover {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+      color: #ffffff;
+      padding: 24px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+    }
+    .guide-header-cover .badge {
+      display: inline-block;
+      background: #38bdf8;
+      color: #0f172a;
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+    .guide-header-cover h1 {
+      font-size: 23px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      color: #ffffff;
+    }
+    .guide-header-cover p {
+      font-size: 13px;
+      color: #cbd5e1;
+      max-width: 95%;
+    }
+    .meta-bar {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      display: flex;
+      gap: 20px;
+      font-size: 11px;
+      color: #94a3b8;
+    }
+    .meta-bar b {
+      color: #ffffff;
+    }
+
+    .slide-card {
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      background: #ffffff;
+      page-break-inside: avoid;
+      break-inside: avoid;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+    .card-header {
+      background: #f1f5f9;
+      padding: 10px 14px;
+      border-bottom: 1px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .slide-pill {
+      background: #0f172a;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 12px;
+      white-space: nowrap;
+    }
+    .slide-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+      flex-grow: 1;
+    }
+    .type-tag {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #e2e8f0;
+      color: #475569;
+    }
+    .type-tag.example {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .reading-box {
+      background: #f8fafc;
+      padding: 12px 14px;
+      border-bottom: 1px dashed #cbd5e1;
+    }
+    .box-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: #64748b;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .lead-text {
+      font-weight: 600;
+      color: #1e293b;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+    .content-bullets {
+      margin-left: 18px;
+      font-size: 12px;
+      color: #334155;
+    }
+    .content-bullets li {
+      margin-bottom: 3px;
+    }
+    .demo-badge {
+      background: #e0f2fe;
+      border: 1px solid #bae6fd;
+      color: #0369a1;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .teacher-guide-box {
+      background: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 12px 14px;
+    }
+    .guide-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .guide-icon {
+      font-size: 14px;
+    }
+    .guide-title {
+      font-weight: 800;
+      font-size: 12px;
+      text-transform: uppercase;
+      color: #1e40af;
+      letter-spacing: 0.3px;
+    }
+
+    .guide-section {
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #1e3a8a;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-bottom: 3px;
+    }
+    .analogy-text {
+      font-size: 12px;
+      color: #1e293b;
+      font-style: italic;
+      background: rgba(255,255,255,0.7);
+      padding: 6px 8px;
+      border-radius: 4px;
+      border-left: 2px solid #3b82f6;
+    }
+    .talking-points {
+      margin-left: 16px;
+      font-size: 12px;
+      color: #1e293b;
+    }
+    .talking-points li {
+      margin-bottom: 3px;
+    }
+
+    .q-and-a {
+      background: #ffffff;
+      border: 1px solid #bfdbfe;
+      padding: 8px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+    .question-text {
+      color: #1e3a8a;
+      margin-bottom: 4px;
+    }
+    .answer-text {
+      color: #047857;
+    }
+
+    .takeaway-banner {
+      margin-top: 8px;
+      background: #dbeafe;
+      color: #1e40af;
+      font-size: 12px;
+      padding: 5px 8px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="guide-header-cover">
+    <span class="badge">Instructor's Discussion Guide</span>
+    <h1>Topic 7: Internet Protocol (IP) Addressing and Subnet Basics</h1>
+    <p>Understand IPv4 address structure, decimal octets, classes, private ranges, subnet boundaries, and IPv6 fundamentals.</p>
+    <div class="meta-bar">
+      <span><b>Curriculum:</b> Networking 1</span>
+      <span><b>Excluded:</b> Title (Slide 1), Objectives (Slide 2), and Summary (Final Slide)</span>
+      <span><b>Total Discussion Units:</b> 15 Slides</span>
+    </div>
+  </div>
+
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 3 of 18</span>
+        <h2 class="slide-title">What Is an Internet Protocol Address?</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">An Internet Protocol (IP) address is a unique logical Layer 3 numerical identifier assigned to every device on a network. While a physical Media Access Control (MAC) address identifies hardware on a single local cable, an IP address is hierarchical and location-based, enabling routers to direct data packets across interconnected local, enterprise, and global networks.</p>
+        
+      <ul class="content-bullets">
+        <li>Logical identity: Assigned by network configuration, unlike a permanent physical Media Access Control (MAC) address.</li><li>Hierarchical routing: Routers use the network portion to direct traffic across interconnected networks.</li><li>Octet ranges: Each of the four decimal octets ranges from 0 to 255 (representing 8 binary bits each).</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A classroom needs addresses for 28 PCs plus a router interface.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Logical identity: Assigned by network configuration, unlike a permanent physical MAC address.</li><li>Hierarchical routing: Routers use the network portion to direct traffic across interconnected networks.</li><li>Octet ranges: Each of the four decimal octets ranges from 0 to 255 (representing 8 binary bits each).</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of what is an internet protocol address?.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> An Internet Protocol (IP) address is a unique logical Layer 3 numerical identifier assigned to every device on a network. While a physical Media Access Control (MAC) address identifies hardware on a single local cable, an IP address is hierarchical and location-based, enabling routers to direct data packets across interconnected local, enterprise, and global networks.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 4 of 18</span>
+        <h2 class="slide-title">Two Parts of an IP Address: Network and Host</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Every Internet Protocol (IP) address is divided into two parts: the network portion identifies the network, and the host portion identifies the specific device.</p>
+        
+      <ul class="content-bullets">
+        <li>Network portion: Identifies the specific network or subnet.</li><li>Host portion: Identifies the individual device on that network.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A classroom needs addresses for 28 PCs plus a router interface.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Network portion: Identifies the specific network or subnet.</li><li>Host portion: Identifies the individual device on that network.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of two parts of an ip address: network and host.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Every Internet Protocol (IP) address is divided into two parts: the network portion identifies the network, and the host portion identifies the specific device.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 5 of 18</span>
+        <h2 class="slide-title">What Is a Subnet and Why Do We Subnet?</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A subnet is a smaller, organized group of computers within a network, such as separating Students, Staff, and Guest Wi-Fi.</p>
+        
+      <ul class="content-bullets">
+        <li>Organization: Divides a large network into manageable, logical departments.</li><li>Traffic control: Keeps broadcast messages inside one group so they do not slow down other computers.</li><li>Security boundaries: Devices in different subnets cannot talk directly; they must pass through a router or firewall where security rules apply.</li><li>Address efficiency: Allows network administrators to assign addresses without wasting large blocks.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A classroom needs addresses for 28 PCs plus a router interface.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Organization: Divides a large network into manageable, logical departments.</li><li>Traffic control: Keeps broadcast messages inside one group so they do not slow down other computers.</li><li>Security boundaries: Devices in different subnets cannot talk directly; they must pass through a router or firewall where security rules apply.</li><li>Address efficiency: Allows network administrators to assign addresses without wasting large blocks.</li><li>Subnetting is a logical division created by the Subnet Mask; it does not require buying new physical switches.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of what is a subnet and why do we subnet?.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A subnet is a smaller, organized group of computers within a network, such as separating Students, Staff, and Guest Wi-Fi.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 6 of 18</span>
+        <h2 class="slide-title">The Subnet Mask: The Dividing Boundary</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A subnet mask is a 32-bit filter that marks the boundary between network bits and host bits using consecutive ones and zeros.</p>
+        
+      <ul class="content-bullets">
+        <li>Network boundary: Consecutive binary 1s identify the network portion; consecutive binary 0s identify the host portion.</li><li>Dotted-decimal format: A mask with 24 ones is written as 255.255.255.0.</li><li>Classless Inter-Domain Routing (CIDR) prefix notation: Counting the 24 network ones is written shorthand as /24 (pronounced 'slash twenty-four').</li><li>Universal /24 standard: The most common mask in small offices, schools, and homes, providing up to 254 usable computers.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A classroom needs addresses for 28 PCs plus a router interface.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Network boundary: Consecutive binary 1s identify the network portion; consecutive binary 0s identify the host portion.</li><li>Dotted-decimal format: A mask with 24 ones is written as 255.255.255.0.</li><li>CIDR prefix notation: Counting the 24 network ones is written shorthand as /24 (pronounced 'slash twenty-four').</li><li>Universal /24 standard: The most common mask in small offices, schools, and homes, providing up to 254 usable computers.</li><li>A subnet mask must always have contiguous 1s followed by contiguous 0s.</li><li>A mask like 255.255.0.255 is invalid.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of the subnet mask: the dividing boundary.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A subnet mask is a 32-bit filter that marks the boundary between network bits and host bits using consecutive ones and zeros.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 7 of 18</span>
+        <h2 class="slide-title">How an Address and Mask Identify the Network</h2>
+        <span class="type-tag demo">Simulation</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A bitwise AND combines address bits with subnet-mask bits to obtain the network address. Mask ones preserve network bits, while mask zeros clear the host portion.</p>
+        
+      <div class="demo-badge">
+        <b>Interactive Demonstration:</b> <code>bitwiseDemo</code> — Use on-screen controls to step through or demonstrate the concept visually.
+      </div>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Understand IPv4 address structure, decimal octets, classes, private ranges, subnet boundaries, and IPv6 fundamentals.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Display address bits, mask bits, and the actual bitwise network result.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of how an address and mask identify the network.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A bitwise AND combines address bits with subnet-mask bits to obtain the network address. Mask ones preserve network bits, while mask zeros clear the host portion.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 8 of 18</span>
+        <h2 class="slide-title">Interpreting an IPv4 Host Configuration</h2>
+        <span class="type-tag walkthrough">walkthrough</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A host configuration combines an address, network boundary, and optional service or routing settings. Understanding each field prevents confusing name resolution with local or remote delivery.</p>
+        
+      <ul class="content-bullets">
+        <li>In 192.168.10.25/24, the prefix marks 24 network bits and eight host bits. The mask is 255.255.255.0.</li><li>The gateway 192.168.10.1 is another usable address on that local subnet and handles destinations without a more specific route.</li><li>A Domain Name System (DNS) resolver maps names to records. It may equal the gateway when that gateway forwards DNS, but this is not required.</li><li>An octet uses weights 128, 64, 32, 16, 8, 4, 2, 1; adding enabled weights converts eight bits into a decimal value.</li><li>Private addresses are not globally routed; loopback, link-local, shared carrier, documentation, multicast, and reserved ranges also need separate treatment.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A classroom needs addresses for 28 PCs plus a router interface.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>In 192.168.10.25/24, the prefix marks 24 network bits and eight host bits.</li><li>The mask is 255.255.255.0.</li><li>The gateway 192.168.10.1 is another usable address on that local subnet and handles destinations without a more specific route.</li><li>A DNS resolver maps names to records.</li><li>It may equal the gateway when that gateway forwards DNS, but this is not required.</li><li>An octet uses weights 128, 64, 32, 16, 8, 4, 2, 1; adding enabled weights converts eight bits into a decimal value.</li><li>Private addresses are not globally routed; loopback, link-local, shared carrier, documentation, multicast, and reserved ranges also need separate treatment.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of interpreting an ipv4 host configuration.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A host configuration combines an address, network boundary, and optional service or routing settings. Understanding each field prevents confusing name resolution with local or remote delivery.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 9 of 18</span>
+        <h2 class="slide-title">Inside Every Subnet: Network, Broadcast, and Host IPs</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Every subnet is simply an Internet Protocol (IP) address group with a starting address, an ending address, and usable host addresses in between.</p>
+        
+      <ul class="content-bullets">
+        <li>Network ID (The First Internet Protocol (IP)): The very first address (e.g., 192.168.1.0). It names the entire subnet and cannot be assigned to a computer.</li><li>Broadcast Internet Protocol (IP) (The Last IP): The very last address (e.g., 192.168.1.255). It sends messages to every device in the subnet at once.</li><li>Usable Host IPs (The Middle Numbers): All addresses between the first and last (e.g., 192.168.1.1 through 192.168.1.254). Assigned to PCs, phones, and printers.</li><li>Total Minus 2 Rule: Because the first (Network ID) and last (Broadcast Internet Protocol (IP)) are reserved, usable host count is always Total IPs − 2.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A classroom needs addresses for 28 PCs plus a router interface.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Network ID (The First IP): The very first address (e.g., 192.168.1.0).</li><li>It names the entire subnet and cannot be assigned to a computer.</li><li>Broadcast IP (The Last IP): The very last address (e.g., 192.168.1.255).</li><li>It sends messages to every device in the subnet at once.</li><li>Usable Host IPs (The Middle Numbers): All addresses between the first and last (e.g., 192.168.1.1 through 192.168.1.254).</li><li>Assigned to PCs, phones, and printers.</li><li>Total Minus 2 Rule: Because the first (Network ID) and last (Broadcast IP) are reserved, usable host count is always Total IPs − 2.</li><li>In a /24 subnet with 256 total addresses, subtracting 2 gives exactly 254 usable host addresses.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of inside every subnet: network, broadcast, and host ips.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Every subnet is simply an Internet Protocol (IP) address group with a starting address, an ending address, and usable host addresses in between.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 10 of 18</span>
+        <h2 class="slide-title">Subnet Calculator Demo</h2>
+        <span class="type-tag demo">Simulation</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">The address and prefix determine a subnet’s mask, boundary, and address count. Network, broadcast, and usable-host conventions must then be applied appropriately.</p>
+        
+      <div class="demo-badge">
+        <b>Interactive Demonstration:</b> <code>subnet</code> — Use on-screen controls to step through or demonstrate the concept visually.
+      </div>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A classroom needs addresses for 28 PCs plus a router interface.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Real calculation • any valid IPv4 address and prefix, binary boundary, guided steps, and explained calculations.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of subnet calculator demo.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> The address and prefix determine a subnet’s mask, boundary, and address count. Network, broadcast, and usable-host conventions must then be applied appropriately.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 11 of 18</span>
+        <h2 class="slide-title">CIDR Prefix Notation (/24 Shortcut)</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Classless Inter-Domain Routing (CIDR) prefix notation states the number of consecutive network ones in the mask using a slash (such as /24), replacing cumbersome dotted-decimal masks.</p>
+        
+      <ul class="content-bullets">
+        <li>/24 means 24 ones in the mask: 11111111.11111111.11111111.00000000, which is 255.255.255.0.</li><li>/16 means 16 ones (255.255.0.0), while /8 means 8 ones (255.0.0.0).</li><li>Remaining host bits: subtracting the prefix from 32 gives the host bits (for /24, 32 − 24 = 8 bits, or 254 usable hosts).</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A classroom needs addresses for 28 PCs plus a router interface.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>/24 means 24 ones in the mask: 11111111.11111111.11111111.00000000, which is 255.255.255.0.</li><li>/16 means 16 ones (255.255.0.0), while /8 means 8 ones (255.0.0.0).</li><li>Remaining host bits: subtracting the prefix from 32 gives the host bits (for /24, 32 − 24 = 8 bits, or 254 usable hosts).</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of cidr prefix notation (/24 shortcut).</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Classless Inter-Domain Routing (CIDR) prefix notation states the number of consecutive network ones in the mask using a slash (such as /24), replacing cumbersome dotted-decimal masks.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 12 of 18</span>
+        <h2 class="slide-title">Example: read one classroom address</h2>
+        <span class="type-tag example">example</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">An address and prefix place a host within a logical subnet. The same configuration also identifies a gateway for appropriate remote destinations.</p>
+        
+      <ul class="content-bullets">
+        <li>The /24 prefix places this host in 192.168.10.0/24. Ordinary usable host addresses run from .1 through .254.</li><li>A peer at 192.168.10.40 is local; a destination outside this subnet needs an appropriate route, often through the configured gateway.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Understand IPv4 address structure, decimal octets, classes, private ranges, subnet boundaries, and IPv6 fundamentals.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>The /24 prefix places this host in 192.168.10.0/24.</li><li>Ordinary usable host addresses run from .1 through .254.</li><li>A peer at 192.168.10.40 is local; a destination outside this subnet needs an appropriate route, often through the configured gateway.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of example: read one classroom address.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> An address and prefix place a host within a logical subnet. The same configuration also identifies a gateway for appropriate remote destinations.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 13 of 18</span>
+        <h2 class="slide-title">Classful History vs Modern Subnetting</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Modern Classless Inter-Domain Routing (CIDR) eliminates rigid historical classes, allowing any Internet Protocol (IP) block to use any prefix size to fit the exact needs of a network.</p>
+        
+      <ul class="content-bullets">
+        <li>Classful legacy (1981): 10.0.0.0 was locked into Class A (/8), allocating 16 million hosts to one network with severe waste.</li><li>Modern CIDR (1993): Classless Inter-Domain Routing allows any prefix to be used with any Internet Protocol (IP) address.</li><li>10.0.0.0/24 is normal: an administrator can carve 10.0.0.0 into small /24 subnets (254 hosts per classroom) with a 255.255.255.0 mask.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A classroom needs addresses for 28 PCs plus a router interface.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Classful legacy (1981): 10.0.0.0 was locked into Class A (/8), allocating 16 million hosts to one network with severe waste.</li><li>Modern CIDR (1993): Classless Inter-Domain Routing allows any prefix to be used with any IP address.</li><li>10.0.0.0/24 is normal: an administrator can carve 10.0.0.0 into small /24 subnets (254 hosts per classroom) with a 255.255.255.0 mask.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of classful history vs modern subnetting.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Modern Classless Inter-Domain Routing (CIDR) eliminates rigid historical classes, allowing any Internet Protocol (IP) block to use any prefix size to fit the exact needs of a network.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 14 of 18</span>
+        <h2 class="slide-title">Three Private IPv4 Address Ranges</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Request for Comments (RFC) 1918 reserves three private address blocks for local networks: 10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16. These addresses are free to use on local LANs and are not routed on the public Internet.</p>
+        
+      <ul class="content-bullets">
+        <li>10.0.0.0/8: 10.0.0.0 through 10.255.255.255.</li><li>172.16.0.0/12: 172.16.0.0 through 172.31.255.255.</li><li>192.168.0.0/16: 192.168.0.0 through 192.168.255.255.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A classroom needs addresses for 28 PCs plus a router interface.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>10.0.0.0/8: 10.0.0.0 through 10.255.255.255.</li><li>172.16.0.0/12: 172.16.0.0 through 172.31.255.255.</li><li>192.168.0.0/16: 192.168.0.0 through 192.168.255.255.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of three private ipv4 address ranges.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Request for Comments (RFC) 1918 reserves three private address blocks for local networks: 10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16. These addresses are free to use on local LANs and are not routed on the public Internet.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 15 of 18</span>
+        <h2 class="slide-title">Eight Special-Purpose IPv4 Ranges</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Several address ranges have special uses such as loopback (127.0.0.1), link-local APIPA (169.254.0.0/16), and documentation. An address outside the private ranges is not automatically a globally reachable host address.</p>
+        
+      <ul class="content-bullets">
+        <li>127.0.0.0/8: loopback.</li><li>169.254.0.0/16: Internet Protocol version 4 (IPv4) link-local.</li><li>100.64.0.0/10: shared carrier-grade Network Address Translation (NAT) space.</li><li>192.0.2.0/24: documentation.</li><li>198.51.100.0/24: documentation.</li><li>203.0.113.0/24: documentation.</li><li>224.0.0.0/4: multicast.</li><li>240.0.0.0/4: reserved space, including limited broadcast at 255.255.255.255.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A classroom needs addresses for 28 PCs plus a router interface.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>127.0.0.0/8: loopback.</li><li>169.254.0.0/16: IPv4 link-local.</li><li>100.64.0.0/10: shared carrier-grade NAT space.</li><li>192.0.2.0/24: documentation.</li><li>198.51.100.0/24: documentation.</li><li>203.0.113.0/24: documentation.</li><li>224.0.0.0/4: multicast.</li><li>240.0.0.0/4: reserved space, including limited broadcast at 255.255.255.255.</li><li>This is not an exhaustive registry.</li><li>A non-private address is not automatically ordinary globally routable unicast.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of eight special-purpose ipv4 ranges.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Several address ranges have special uses such as loopback (127.0.0.1), link-local APIPA (169.254.0.0/16), and documentation. An address outside the private ranges is not automatically a globally reachable host address.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 16 of 18</span>
+        <h2 class="slide-title">Introduction to IPv6 Basics</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Internet Protocol version 6 (IPv6) solves Internet Protocol version 4 (IPv4) address exhaustion by providing 128-bit addresses, offering practically unlimited addresses for modern global devices.</p>
+        
+      <ul class="content-bullets">
+        <li>Why Internet Protocol version 6 (IPv6) is needed: Internet Protocol version 4 (IPv4) provides only 4.3 billion addresses, which are now completely exhausted by billions of smartphones, computers, and cloud servers.</li><li>128-Bit Structure: Internet Protocol version 6 (IPv6) uses 128 binary bits written as eight groups of four hexadecimal digits separated by colons (e.g., 2001:0db8:85a3:0000:0000:8a2e:0370:7334).</li><li>Zero Compression Rule (::): Consecutive groups of zeros can be abbreviated with a double colon (::) once in an address (e.g., 2001:db8::1).</li><li>Address Types Without Broadcast: Internet Protocol version 6 (IPv6) uses Unicast (one-to-one), Multicast (one-to-many), and Anycast (one-to-nearest). IPv6 eliminates noisy broadcast messages entirely.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A classroom needs addresses for 28 PCs plus a router interface.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Why IPv6 is needed: IPv4 provides only 4.3 billion addresses, which are now completely exhausted by billions of smartphones, computers, and cloud servers.</li><li>128-Bit Structure: IPv6 uses 128 binary bits written as eight groups of four hexadecimal digits separated by colons (e.g., 2001:0db8:85a3:0000:0000:8a2e:0370:7334).</li><li>Zero Compression Rule (::): Consecutive groups of zeros can be abbreviated with a double colon (::) once in an address (e.g., 2001:db8::1).</li><li>Address Types Without Broadcast: IPv6 uses Unicast (one-to-one), Multicast (one-to-many), and Anycast (one-to-nearest).</li><li>IPv6 eliminates noisy broadcast messages entirely.</li><li>IPv6 provides 340 undecillion addresses (3.4 × 10^38), ensuring every device on Earth can have its own permanent, globally unique IP address without needing NAT.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of introduction to ipv6 basics.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Internet Protocol version 6 (IPv6) solves Internet Protocol version 4 (IPv4) address exhaustion by providing 128-bit addresses, offering practically unlimited addresses for modern global devices.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 17 of 18</span>
+        <h2 class="slide-title">Subnet Sizing and Address Planning</h2>
+        <span class="type-tag application">application</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Determine the required host capacity before selecting a subnet prefix. Sizing must account for gateway routers, reserved addresses, and planned future growth.</p>
+        
+      <ul class="content-bullets">
+        <li>/28 offers only 14 ordinary usable addresses, which is insufficient.</li><li>/27 gives 30 usable addresses: 28 PCs, 1 router, 1 spare.</li><li>Allocate addresses sequentially and document the plan.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A classroom needs addresses for 28 PCs plus a router interface.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>/28 offers only 14 ordinary usable addresses, which is insufficient.</li><li>/27 gives 30 usable addresses: 28 PCs, 1 router, 1 spare.</li><li>Allocate addresses sequentially and document the plan.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of subnet sizing and address planning.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Determine the required host capacity before selecting a subnet prefix. Sizing must account for gateway routers, reserved addresses, and planned future growth.
+        </div>
+      </div>
+    </div>
+  
+
+</body>
+</html>
+  

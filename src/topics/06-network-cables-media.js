@@ -3,13 +3,12 @@ export default topic({
   "id": "06-network-cables-media",
   "title": "Network Cable Types and Media",
   "icon": "Cable",
-  "description": "Compare network cable types, categories, wiring standards, termination, and wire mapping.",
+  "description": "Compare network cable types, categories, fiber optics, coaxial, and wireless media.",
   "objectives": [
-    "Compare twisted pair, fiber, coaxial, and wireless media.",
-    "Select cabling tools for stripping, crimping, punch-down, and testing.",
-    "Terminate an 8P8C modular connector using T568A or T568B pin order.",
-    "Distinguish straight-through and crossover cable arrangements.",
-    "Interpret open, short, and miswire results while recognizing tester limitations."
+    "Compare twisted-pair copper, optical fiber, coaxial cable, and wireless media.",
+    "Identify Ethernet cable categories and their performance limits (Cat 5e, Cat 6, Cat 6A).",
+    "Describe fiber optic cable construction, single-mode, and multi-mode types.",
+    "Select the appropriate transmission medium based on speed, distance, and interference."
   ],
   "concepts": [
     {
@@ -36,105 +35,56 @@ export default topic({
       "footnote": "A standard channel comprises up to 90 m of permanent horizontal link plus 10 m of patch cords."
     },
     {
-      "title": "Modular Connectors: RJ45 and Keystone Jack",
+      "title": "Fiber-Optic Cable Construction",
+      "lead": "Optical fiber carries light pulses instead of electrical signals, eliminating electromagnetic interference.",
       "items": [
-        "RJ45 (8P8C) plug: Modular male plug with eight gold-plated contacts, used to terminate flexible stranded patch cables.",
-        "Keystone Jack: Modular female jack with 110 IDC contacts, mounted in wall faceplates and patch panels for permanent solid-core horizontal cabling.",
-        "Category matching: Plugs and jacks must match the cable category and conductor gauge to prevent signal degradation."
-      ]
-    },
-    {
-      "title": "T568A: eight conductor positions",
-      "items": [
-        "Pin 1: White/Green.",
-        "Pin 2: Green.",
-        "Pin 3: White/Orange.",
-        "Pin 4: Blue.",
-        "Pin 5: White/Blue.",
-        "Pin 6: Orange.",
-        "Pin 7: White/Brown.",
-        "Pin 8: Brown."
+        "Core and Cladding: Ultra-thin glass core surrounded by reflective cladding that bounces light along the fiber using total internal reflection.",
+        "Single-Mode Fiber (SMF): Extremely thin 9-micron core using laser light; spans dozens of kilometers for campus backbones and telco WANs.",
+        "Multi-Mode Fiber (MMF): Wider 50 or 62.5-micron core using LED or VCSEL light; spans up to 550 m for high-speed data center links.",
+        "Immunity to Interference: Because light does not conduct electricity, fiber is immune to electrical noise, motors, and lightning surges."
       ],
-      "expectedCount": 8,
-      "lead": "Contacts face you, latch behind, cable enters downward; pin 1 is left."
+      "footnote": "Never look directly into an active fiber optic connector or transceiver; invisible laser light can cause permanent retinal damage."
     },
     {
-      "title": "T568B: eight conductor positions",
+      "title": "Coaxial Cable and Shielding",
+      "lead": "Coaxial cable uses a concentric four-layer design that provides strong physical durability and electrical shielding.",
       "items": [
-        "Pin 1: White/Orange.",
-        "Pin 2: Orange.",
-        "Pin 3: White/Green.",
-        "Pin 4: Blue.",
-        "Pin 5: White/Blue.",
-        "Pin 6: Green.",
-        "Pin 7: White/Brown.",
-        "Pin 8: Brown."
+        "Center Conductor: Solid copper or copper-clad steel wire that carries the high-frequency radio frequency signal.",
+        "Dielectric Insulator: Non-conductive plastic foam layer that maintains precise physical spacing between center conductor and shield.",
+        "Braided Metallic Shield: Woven copper or aluminum foil that blocks external electrical interference and completes the circuit ground.",
+        "Common Use Cases: Modern cable broadband modems (DOCSIS), closed-circuit TV (CCTV), and legacy 10BASE2/10BASE5 bus networks."
       ],
-      "expectedCount": 8,
-      "lead": "Contacts face you, latch behind, cable enters downward; pin 1 is left."
+      "footnote": "Coaxial cables terminate with threaded F-type connectors (for cable modems) or twist-lock BNC connectors (for legacy gear)."
     },
     {
-      "title": "Straight-through and crossover arrangements",
-      "lead": "A conventional straight-through cable uses the same standard at both ends: A–A or B–B.",
+      "title": "Unguided Media and Wireless Radio",
+      "lead": "Unguided media transmit electromagnetic waves through the air without physical cables, enabling mobile connectivity.",
       "items": [
-        "A conventional A–B crossover swaps pins 1↔3 and 2↔6 for traditional 10/100BASE-T transmit/receive pairs.",
-        "Many modern interfaces support auto-MDI/MDIX, so a crossover cable is often unnecessary. Gigabit Ethernet uses all four pairs.",
-        "An equal but nonstandard color order may pass a simple continuity check while creating split pairs and poor performance."
-      ]
-    },
-    {
-      "title": "Four cabling tool and tester functions",
-      "items": [
-        "Cable stripper: removes jacket without nicking conductor insulation.",
-        "Crimping tool: terminates compatible modular plugs.",
-        "Punch-down tool: seats conductors in compatible IDC jacks or patch panels.",
-        "Basic LAN tester: checks conductor continuity and wire mapping."
+        "Radio Frequencies (RF): Transmits digital data modulated onto microwave and radio carrier frequencies between 2.4 GHz and 6 GHz.",
+        "Shared Transmission Airspace: Unlike dedicated copper links, all wireless stations in an area share the same radio frequency spectrum.",
+        "Environmental Attenuation: Radio waves are absorbed, reflected, and scattered by concrete walls, metal filing cabinets, and water.",
+        "Convenience vs. Stability: Wireless enables laptop and smartphone mobility, while wired Ethernet delivers guaranteed speed and zero interference."
       ],
-      "expectedCount": 4
-    },
-    {
-      "title": "Tools and Equipment for RJ45 Cable Crimping",
-      "lead": "Terminating an 8P8C modular plug requires preparing dedicated cutting, stripping, crimping, and testing tools alongside quality Cat 5e/Cat 6 media.",
-      "toolKey": "rj45-setup",
-      "items": [
-        "RJ45 Modular Crimper: Heavy-duty ratcheting tool with precision 8P8C dies to compress contacts into copper conductors and engage the jacket strain relief.",
-        "UTP Cable Stripper: Compact rotary wire stripper calibrated to cleanly score and remove the outer PVC jacket without nicking conductor insulation.",
-        "Modular RJ45 Plugs: Cat 5e or Cat 6 clear polycarbonate male 8P8C plugs featuring eight gold-plated contact pins and a flexible locking tab.",
-        "Unshielded Twisted Pair (UTP) Cable: Four-pair 24 AWG stranded copper Ethernet cable designed for flexible patch cords between workstations and wall jacks.",
-        "Flush Cutters / Snips: Precision diagonal cutting pliers used to trim untwisted, aligned wires straight and square across before insertion into the plug.",
-        "LAN Cable Tester: Dual-unit continuity wire-map tester to confirm all eight pin paths and detect open circuits, short circuits, or crossed pairs."
-      ],
-      "footnote": "Always prepare spare 8P8C plugs; modular plugs cannot be reused once crimped."
-    },
-    {
-      "title": "Tools and Equipment for Keystone Jack Punch-Down",
-      "lead": "Terminating a permanent wall jack requires specialized insulation displacement tools, punch-down supports, and rated solid-core cabling.",
-      "toolKey": "keystone-setup",
-      "items": [
-        "110 Impact Punch-Down Tool: Spring-loaded impact driver with a reversible 110/66 blade that seats conductors into IDC V-notches and cuts excess wire flush.",
-        "Keystone Jack (110 IDC): RJ45 female modular jack with 110 insulation displacement contacts, universal T568A/T568B color coding, and snap-in faceplate clips.",
-        "UTP Cable Stripper: Round jacket stripper used to remove 1 to 1.5 inches of outer jacket while preserving pair twists up to the IDC blocks.",
-        "Solid-Core UTP Cable: Four-pair 23/24 AWG solid copper horizontal cable engineered for structured in-wall and ceiling cable runs.",
-        "Punch-Down Palm Tool / Stand: Contoured palm puck or base holder that cradles the jack securely to prevent hand injury and ensure even downward punching pressure.",
-        "IDC Dust Caps & Cable Tester: Snap-on protective dust covers to lock conductors firmly in place, plus a LAN tester with patch cord to verify end-to-end pin mapping."
-      ],
-      "footnote": "Always orient the punch-down tool with the CUT blade facing outward toward the excess wire tail."
-    },
-    {
-      "title": "Three common wire-map faults",
-      "items": [
-        "Open: a conductor has no continuous end-to-end path.",
-        "Short: conductors are accidentally joined.",
-        "Miswire: a conductor arrives at an unexpected pin."
-      ],
-      "expectedCount": 3,
-      "footnote": "A wire-map pass does not certify pair integrity, signal quality, or cable bandwidth."
+      "footnote": "In enterprise networks, wireless access points are always connected back to the core network using wired Category 6 Ethernet cables."
     }
   ],
-  "walkthrough": false,
+  "demo": {
+    "type": "media",
+    "title": "Media and tool bench",
+    "lead": "Illustrated comparison • inspect cable cross-sections and choose media for a task."
+  },
+  "application": {
+    "title": "Connect two buildings",
+    "lead": "A 180 m outdoor path joins two buildings with electrical equipment nearby.",
+    "items": [
+      "A standard 100 m copper Ethernet channel is insufficient for this direct path.",
+      "A suitable fiber link with appropriate transceivers can meet reach and isolation requirements.",
+      "Installation needs rated materials and professional planning; fiber is not simply a longer RJ45 cable."
+    ]
+  },
   "installation": {
-    "equipment": "Suitable UTP, two compatible 8P8C plugs, punch-down keystone jack, stripper, crimper, punch-down tool, LAN tester, eye protection.",
-    "mistakes": "Mirroring the connector view, punching with the cut blade facing inward, excessive untwisting, incomplete insertion.",
-    "safety": "Keep fingers away from blades and crimp jaws. Collect wire scraps; never terminate a live cable."
+    "equipment": "UTP/STP samples, fiber/coax samples, media comparison guides.",
+    "mistakes": "Assuming all categories and all fiber types have identical reach.",
+    "safety": "Never look into fiber connectors. Handle glass fibers carefully and dispose of scraps in approved sharps containers."
   }
 });

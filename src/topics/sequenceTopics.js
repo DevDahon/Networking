@@ -12,9 +12,12 @@ export const sequenceMoves={
  ],
  'osi-reference-model':[],
  '06-network-cables-media':[],
+ '07-rj45-crimping':[],
  '08-ip-addressing':[
   ['@bitwiseDemo','after','The subnet mask separates network and host'],
-  ['Interpret an IPv4 configuration','after','@bitwiseDemo'],
+  ['Interpret an IPv4 configuration','after','@bitwiseDemo']
+ ],
+ '10-static-ip':[
   ['@asymmetricDemo','after','Example: two manually configured classroom computers'],
   ['Windows static-IP configuration','before','@static']
  ],

@@ -36,7 +36,7 @@ it('makes the sharing host send the file or permission error while its folder re
 });
 
 it('shows both directions for the compatible static-address pair',()=>{
- const topic=topics.find(t=>t.id==='08-ip-addressing'),slide=topic.slides.find(s=>s.title==='Example: two manually configured classroom computers'),steps=examplePlan(topic.id,slide);
+ const topic=topics.find(t=>t.id==='10-static-ip'),slide=topic.slides.find(s=>s.title==='Example: two manually configured classroom computers'),steps=examplePlan(topic.id,slide);
  expect(steps[2].route).toEqual([0,1,2]);expect(steps[3].route).toEqual([2,1,0]);
  expect(examplePlan(topic.id,slide,{scenario:'fault'}).at(-1).route).toEqual([]);
 });

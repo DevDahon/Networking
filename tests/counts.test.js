@@ -25,7 +25,7 @@ it('rejects lesson data that groups a claimed count into too few entries',()=>{
  expect(()=>addPresenterNotes([{title:'Five parts',expectedCount:5,items:['Sender + receiver','Message + medium','Protocol']}],{title:'Example',description:'Example',example:'Example'})).toThrow('must display 5 separate items');
 });
 it('both wiring reference slides enumerate the exact eight standard pins',()=>{
- const cable=topics.find(t=>t.id==='06-network-cables-media');
+ const cable=topics.find(t=>t.id==='07-rj45-crimping');
  for(const [standard,order] of [['A',T568A],['B',T568B]]){
   const slide=cable.slides.find(s=>s.title.startsWith(`T568${standard}:`));
   expect(slide.items).toEqual(order.map((color,i)=>`Pin ${i+1}: ${color}.`));

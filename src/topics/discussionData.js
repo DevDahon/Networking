@@ -21,14 +21,25 @@ export const discussionData={
   summary:['A NIC connects a host to a network; interfaces and ports have distinct roles.','A hub repeats bits; a switch learns MAC information and forwards frames.','A bridge joins link-layer segments; a switch is a multiport bridge.','A router forwards IP packets between networks.','An AP bridges wireless access to a LAN; a modem adapts provider-medium signals.','Repeaters regenerate signals and firewalls enforce traffic policy; combined devices may perform several functions.']
  },
  '06-network-cables-media':{
-  walkthrough:{title:'Termination sequence: inspect before crimping',items:['Use the contact-side view with the latch behind and cable entering downward. Pin 1 is left; confirm this orientation at both ends.','Cut cleanly and strip only the required jacket without nicking insulation. Arrange the selected T568 standard and preserve twists close to termination.','Trim conductors evenly, insert them fully into a compatible plug, and confirm the jacket is under strain relief.','Inspect all eight contact positions before crimping. Keep fingers away from blades and jaws; a bad crimp usually requires a new plug.','Connect main and remote tester units. Trace all eight paths, repair opens/shorts/miswires, and check the actual authorized link separately.']},
+  walkthrough:{title:'Select media for a campus installation',items:['Identify the required channel distance: horizontal floor runs under 90 m can use Category 6 twisted pair, while outdoor building runs over 100 m require optical fiber.','Compare interference conditions: factory floors or conduits near high-voltage lines require fiber or properly bonded STP cable.','Select optical fiber profiles: single-mode fiber for long-distance inter-building backbones, and multi-mode fiber for high-speed switch-to-switch links within a data center.','Verify physical termination and transceiver compatibility before applying power or configuring network interfaces.']},
   summary:[
    'Copper carries electrical signals, optical fiber carries light, and wireless uses radio.',
    'UTP relies on pair twisting to cancel crosstalk; STP requires correct shield bonding.',
-   'Cable category, channel length, connectors, and termination quality jointly determine performance.',
-   'T568A and T568B define standardized eight-conductor arrangements for 8P8C (RJ45) modular connectors.',
-   'Straight-through cables use matching ends; crossover cables swap transmit/receive pairs for legacy devices.',
-   'A simple wire-map continuity pass does not certify pair integrity, category bandwidth, or installation quality.'
+   'Cable category, channel length, connectors, and installation quality jointly determine performance.',
+   'Fiber optics provide immunity to electromagnetic interference and span much greater distances than copper.',
+   'Coaxial cable provides durable shielding for broadband and antenna feeds.',
+   'Radio frequencies provide mobile wireless connectivity over shared, unguided airspace.'
+  ]
+ },
+ '07-rj45-crimping':{
+  walkthrough:{title:'Termination sequence: inspect before crimping',items:['Use the contact-side view with the latch behind and cable entering downward. Pin 1 is left; confirm this orientation at both ends.','Cut cleanly and strip only the required jacket without nicking insulation. Arrange the selected T568 standard and preserve twists close to termination.','Trim conductors evenly, insert them fully into a compatible plug, and confirm the jacket is under strain relief.','Inspect all eight contact positions before crimping. Keep fingers away from blades and jaws; a bad crimp usually requires a new plug.','Connect main and remote tester units. Trace all eight paths, repair opens/shorts/miswires, and check the actual authorized link separately.']},
+  summary:[
+   'T568A and T568B specify exact conductor-to-pin orders in an agreed connector view.',
+   'A conventional straight-through cable uses A–A or B–B.',
+   'A traditional A–B crossover swaps the 10/100BASE-T pairs; many modern interfaces use auto-MDI/MDIX.',
+   'Full insertion, preserved twists, compatible plugs, and jacket strain relief affect termination quality.',
+   'Opens, shorts, and unexpected pin paths indicate different wire-map faults.',
+   'A continuity pass does not certify pair integrity, category bandwidth, or real-link performance.'
   ]
  },
  '08-ip-addressing':{
@@ -36,10 +47,21 @@ export const discussionData={
   summary:[
    'IPv4 uses 32 bits arranged in four decimal octets (0–255); IPv6 uses 128 bits.',
    'The subnet mask or prefix separates the network identity from host identity bits.',
-   'The default gateway handles remote routing, while DNS resolves human-readable names to IP addresses.',
+   'Subnetting divides networks into smaller, efficient, and secure broadcast domains.',
+   'A /24 subnet has a Network ID (.0), Broadcast IP (.255), and 254 usable host addresses (.1 to .254).',
    'Private IPv4 address ranges (RFC 1918) include 10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16.',
-   'Static IP configuration gives infrastructure predictable addresses, requiring unique host addresses and compatible subnet masks.',
-   'Same-subnet communication requires both hosts to make compatible local-delivery decisions without requiring a default gateway.'
+   'Modern CIDR replaces classful addressing, allowing custom subnet sizes for any network.'
+  ]
+ },
+ '10-static-ip':{
+  walkthrough:{title:'Windows static-IP configuration',items:['Record the original configuration and select the intended adapter. Open ncpa.cpl, adapter Properties, then Internet Protocol Version 4 (TCP/IPv4) Properties.','On an approved isolated LAN, 192.168.1.10/24 and 192.168.1.20/24 are compatible local hosts. A gateway is unnecessary for a numeric local test.','Use ipconfig /all to inspect settings, then test the peer in both directions. If ICMP is filtered, examine approved policy rather than disabling the firewall.','Changing the second host to 192.168.2.20/24 requires appropriate gateways and bidirectional routing for cross-subnet communication.','Restore the original approved IP/DNS method after a physical demonstration; browser settings do not change the real Windows adapter.']},
+  summary:[
+   'Static addressing supplies manually chosen, stable interface configuration.',
+   'Each ordinary LAN host needs a unique usable address and a valid contiguous subnet mask.',
+   'Same-subnet communication requires both hosts to make compatible local-delivery decisions.',
+   'Different subnets need appropriate routing and local gateways.',
+   'DNS is independent of numeric-IP reachability; valid syntax alone does not prove connectivity.',
+   'Record and restore real configurations, coordinate static assignments with DHCP, and preserve firewall protections.'
   ]
  },
  '11-dhcp':{

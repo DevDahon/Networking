@@ -50,7 +50,7 @@ it('changes the sending computer and stops delivery when its cable is disconnect
 it('calculates wire-map failure and independent mask decisions',()=>{
  const cableTopic=topics.find(t=>t.id==='06-network-cables-media');
  expect(cableTopic.slides.find(s=>s.title==='Example: a straight-through patch cable')).toBeUndefined();
- const staticTopic=topics.find(t=>t.id==='08-ip-addressing'),staticSlide=staticTopic.slides.find(s=>s.title==='Example: two manually configured classroom computers');
+ const staticTopic=topics.find(t=>t.id==='10-static-ip'),staticSlide=staticTopic.slides.find(s=>s.title==='Example: two manually configured classroom computers');
  const mask=examplePlan(staticTopic.id,staticSlide,{scenario:'fault'});
  expect(mask[0].ok).toBe(true);expect(mask[1].ok).toBe(false);expect(mask[2].route).toEqual([]);
 });
@@ -71,7 +71,7 @@ it('cancels automatic example playback on app navigation',()=>{
  vi.advanceTimersByTime(2000);expect(root.querySelector('[data-example-packet]')).not.toBeNull();
  expect(vi.getTimerCount()).toBeGreaterThan(0);
  history.replaceState(null,'','/#/');window.dispatchEvent(new HashChangeEvent('hashchange'));
- vi.advanceTimersByTime(0);expect(vi.getTimerCount()).toBe(0);expect(root.querySelectorAll('.topic-card')).toHaveLength(11);
+ vi.advanceTimersByTime(0);expect(vi.getTimerCount()).toBe(0);expect(root.querySelectorAll('.topic-card')).toHaveLength(13);
 });
 
 it('honors reduced motion and still allows manual stepping',()=>{
