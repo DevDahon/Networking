@@ -8,7 +8,9 @@ export const layouts={
 };
 export function reachable(nodes,edges,start,failed=-1,dead=-1,kind='Mesh') {
  if(start===dead)return [];
- if((kind==='Ring'||kind==='Bus')&&(failed>=0||dead>=0))return [start];
+ if(kind==='Ring'&&(failed>=0||dead>=0))return [start];
+ if(kind==='Bus'&&failed>=0)return [start];
+ if(kind==='Bus'&&dead>=0)return nodes.map((_,i)=>i).filter(i=>i!==dead);
  const seen=new Set([start]);let change=true;
  while(change){change=false;edges.forEach(([a,b],i)=>{if(i===failed||a===dead||b===dead)return;if(seen.has(a)&&!seen.has(b)){seen.add(b);change=true;}if(seen.has(b)&&!seen.has(a)){seen.add(a);change=true;}});}
  return [...seen];
@@ -18,12 +20,53 @@ export function diagnosticState(fault=-1){
  return {fault,link:![0,8].includes(fault),ip:fault===1?'192.168.2.10':fault===4?'169.254.10.10':'192.168.1.10',mask:fault===2?'255.255.255.128':fault===4?'255.255.0.0':'255.255.255.0',gateway:fault===5?'192.168.1.254':fault===4?'—':'192.168.1.1',dns:fault===6?'192.168.1.250':'192.168.1.1',duplicate:fault===3,dhcp:fault!==4,permission:fault!==7};
 }
 export function diagnose(s,command) {
+ const cmd = (command || '').trim();
+ const lower = cmd.toLowerCase();
  const local=s.link&&![1,3,4].includes(s.fault),peer=local&&s.fault!==2,remote=local&&s.fault!==5,dns=remote&&s.fault!==6;
- if(command==='ipconfig'||command==='ipconfig /all') return `Lab adapter: ${s.link?'Connected':'Media disconnected'}\nIPv4: ${s.ip}${s.duplicate?' (duplicate detected)':''}\nMask: ${s.mask}\nGateway: ${s.gateway}${command.endsWith('/all')?`\nDNS: ${s.dns}\nDHCP service: ${s.dhcp?'reachable; server 192.168.1.1':'no response'}\nLease: ${s.dhcp?'60 teaching seconds':'none'}\nPhysical address: 02-00-00-00-00-10`:''}`;
- if(command==='nslookup classroom.example')return dns?'Server: 192.168.1.1\nName: classroom.example\nAddress: 203.0.113.20 (documentation target in this model)':'DNS query timed out: resolver cannot be reached or is not responding in this model.';
- if(command==='arp -a')return local?'192.168.1.1 → 02-00-00-00-00-01 (modeled cached gateway)':'No dynamic neighbor entries in the modeled cache.';
- if(command==='tracert 203.0.113.20')return remote?'1  192.168.1.1\n2  203.0.113.20\nTrace complete (two-hop teaching model).':'*  No usable path in this state. Real traces can also have filtered or missing replies.';
- if(command==='Open shared folder')return !peer?'Share host unreachable in this state.':s.permission?'ClassFiles opened: authorized read access.':'Access denied: host reachable, but this account lacks share access.';
- const ok=command.includes('192.168.1.200')?peer:command.includes('192.168.1.1')?local:remote;
- return ok?'Reply received from modeled destination. ICMP is explicitly permitted in this lab model.':'No reply in the modeled network state. In real networks, filtering or packet loss can also cause timeouts.';
+
+ if(lower==='help'){
+  return `Available diagnostic commands:
+  ipconfig            Basic IP address, subnet mask, default gateway
+  ipconfig /all       Detailed configuration, DNS, DHCP, MAC address
+  ipconfig /release   Release current DHCP address lease
+  ipconfig /renew     Request new configuration from DHCP server
+  ping <target>       Send ICMP Echo requests to verify reachability
+  tracert <target>    Trace hops along the path to destination
+  nslookup <domain>   Query DNS name resolution
+  arp -a              Display local ARP cache table
+  cls / clear         Clear terminal output`;
+ }
+ if(lower==='cls'||lower==='clear') return '';
+ if(lower==='ipconfig /release') return `Ethernet adapter Ethernet0:
+   Connection-specific DNS Suffix  . :
+   IPv4 Address. . . . . . . . . . . : 0.0.0.0
+   Subnet Mask . . . . . . . . . . . : 0.0.0.0
+   Default Gateway . . . . . . . . . :
+(IP address released. Type 'ipconfig /renew' to request a new lease.)`;
+ if(lower==='ipconfig /renew') return s.dhcp?`Ethernet adapter Ethernet0:
+   Connection-specific DNS Suffix  . : classroom.local
+   IPv4 Address. . . . . . . . . . . : ${s.ip}
+   Subnet Mask . . . . . . . . . . . : ${s.mask}
+   Default Gateway . . . . . . . . . : ${s.gateway}
+(DHCP lease successfully obtained from 192.168.1.1.)`:`An error occurred while renewing interface Ethernet0: No response from DHCP server.
+Autoconfiguration IPv4 Address: 169.254.88.14 (APIPA assigned)`;
+
+ if(lower==='ipconfig'||lower==='ipconfig /all') return `Lab adapter: ${s.link?'Connected':'Media disconnected'}\nIPv4: ${s.ip}${s.duplicate?' (duplicate detected)':''}\nMask: ${s.mask}\nGateway: ${s.gateway}${lower.endsWith('/all')?`\nDNS: ${s.dns}\nDHCP service: ${s.dhcp?'reachable; server 192.168.1.1':'no response'}\nLease: ${s.dhcp?'60 teaching seconds':'none'}\nPhysical address: 02-00-00-00-00-10`:''}`;
+ if(lower.startsWith('nslookup')) return dns?`Server:  192.168.1.1\nAddress: 192.168.1.1#53\n\nNon-authoritative answer:\nName:    ${cmd.split(' ')[1]||'classroom.example'}\nAddress: 203.0.113.20 (documentation target in this model)`:'DNS query timed out: resolver cannot be reached or is not responding in this model.';
+ if(lower==='arp -a') return local?`Interface: 192.168.1.10 --- 0x2\n  Internet Address      Physical Address      Type\n  192.168.1.1           02-00-00-00-00-01     dynamic\n  192.168.1.200         02-00-00-00-00-c8     dynamic\n  192.168.1.255         ff-ff-ff-ff-ff-ff     static`:'No dynamic neighbor entries in the modeled cache.';
+ if(lower.startsWith('tracert')) {
+  const target = cmd.split(' ')[1]||'203.0.113.20';
+  return remote?`Tracing route to ${target} over a maximum of 30 hops:\n  1    <1 ms    <1 ms    <1 ms  192.168.1.1\n  2    12 ms    11 ms    12 ms  203.0.113.20\nTrace complete (two-hop teaching model).`:'*  No usable path in this state. Real traces can also have filtered or missing replies.';
+ }
+ if(cmd==='Open shared folder'||lower==='net view') return !peer?'Share host unreachable in this state.':s.permission?'ClassFiles opened: authorized read access.':'Access denied: host reachable, but this account lacks share access.';
+
+ if(lower.startsWith('ping')){
+  if(lower.includes('127.0.0.1')||lower.includes('localhost')) {
+   return `Pinging 127.0.0.1 with 32 bytes of data:\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\nReply from 127.0.0.1: bytes=32 time<1ms TTL=128\n(Loopback test successful: TCP/IP stack is working properly.)`;
+  }
+  const ok=lower.includes('192.168.1.200')?peer:lower.includes('192.168.1.1')?local:remote;
+  return ok?'Reply received from modeled destination. ICMP is explicitly permitted in this lab model.':'No reply in the modeled network state. In real networks, filtering or packet loss can also cause timeouts.';
+ }
+
+ return `'${cmd}' is not recognized as an internal or external command. Type 'help' for available commands.`;
 }

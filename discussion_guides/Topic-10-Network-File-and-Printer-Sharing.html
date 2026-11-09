@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Topic 10: Network File and Printer Sharing — Instructor Discussion Guide</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 14mm 14mm 16mm 14mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #1e293b;
+      background: #ffffff;
+      line-height: 1.5;
+      font-size: 13px;
+    }
+    .guide-header-cover {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+      color: #ffffff;
+      padding: 24px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+    }
+    .guide-header-cover .badge {
+      display: inline-block;
+      background: #38bdf8;
+      color: #0f172a;
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+    .guide-header-cover h1 {
+      font-size: 23px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      color: #ffffff;
+    }
+    .guide-header-cover p {
+      font-size: 13px;
+      color: #cbd5e1;
+      max-width: 95%;
+    }
+    .meta-bar {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      display: flex;
+      gap: 20px;
+      font-size: 11px;
+      color: #94a3b8;
+    }
+    .meta-bar b {
+      color: #ffffff;
+    }
+
+    .slide-card {
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      background: #ffffff;
+      page-break-inside: avoid;
+      break-inside: avoid;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+    .card-header {
+      background: #f1f5f9;
+      padding: 10px 14px;
+      border-bottom: 1px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .slide-pill {
+      background: #0f172a;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 12px;
+      white-space: nowrap;
+    }
+    .slide-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+      flex-grow: 1;
+    }
+    .type-tag {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #e2e8f0;
+      color: #475569;
+    }
+    .type-tag.example {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .reading-box {
+      background: #f8fafc;
+      padding: 12px 14px;
+      border-bottom: 1px dashed #cbd5e1;
+    }
+    .box-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: #64748b;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .lead-text {
+      font-weight: 600;
+      color: #1e293b;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+    .content-bullets {
+      margin-left: 18px;
+      font-size: 12px;
+      color: #334155;
+    }
+    .content-bullets li {
+      margin-bottom: 3px;
+    }
+    .demo-badge {
+      background: #e0f2fe;
+      border: 1px solid #bae6fd;
+      color: #0369a1;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .teacher-guide-box {
+      background: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 12px 14px;
+    }
+    .guide-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .guide-icon {
+      font-size: 14px;
+    }
+    .guide-title {
+      font-weight: 800;
+      font-size: 12px;
+      text-transform: uppercase;
+      color: #1e40af;
+      letter-spacing: 0.3px;
+    }
+
+    .guide-section {
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #1e3a8a;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-bottom: 3px;
+    }
+    .analogy-text {
+      font-size: 12px;
+      color: #1e293b;
+      font-style: italic;
+      background: rgba(255,255,255,0.7);
+      padding: 6px 8px;
+      border-radius: 4px;
+      border-left: 2px solid #3b82f6;
+    }
+    .talking-points {
+      margin-left: 16px;
+      font-size: 12px;
+      color: #1e293b;
+    }
+    .talking-points li {
+      margin-bottom: 3px;
+    }
+
+    .q-and-a {
+      background: #ffffff;
+      border: 1px solid #bfdbfe;
+      padding: 8px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+    .question-text {
+      color: #1e3a8a;
+      margin-bottom: 4px;
+    }
+    .answer-text {
+      color: #047857;
+    }
+
+    .takeaway-banner {
+      margin-top: 8px;
+      background: #dbeafe;
+      color: #1e40af;
+      font-size: 12px;
+      padding: 5px 8px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="guide-header-cover">
+    <span class="badge">Instructor's Discussion Guide</span>
+    <h1>Topic 10: Network File and Printer Sharing</h1>
+    <p>Publish a modeled resource and see how share permissions and file-system permissions combine.</p>
+    <div class="meta-bar">
+      <span><b>Curriculum:</b> Networking 1</span>
+      <span><b>Excluded:</b> Title (Slide 1), Objectives (Slide 2), and Summary (Final Slide)</span>
+      <span><b>Total Discussion Units:</b> 8 Slides</span>
+    </div>
+  </div>
+
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 3 of 11</span>
+        <h2 class="slide-title">What Is a Network Share?</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A network share makes a resource available to authorized clients through a hosting device. The host and required service must remain reachable for remote access.</p>
+        
+      <ul class="content-bullets">
+        <li>In peer-to-peer sharing, a normal Personal Computer (PC) may host the resource; it must stay on and reachable.</li><li>A dedicated file/print server centralizes resource management and availability.</li><li>Windows discovery helps find hosts but direct paths such as \\LAB-PC\ClassFiles may work even when browsing does not. Domain Name System (DNS) or other name resolution must resolve the host name.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">An organization distributes read-only reference files and grants editing only to named contributors.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>In peer-to-peer sharing, a normal PC may host the resource; it must stay on and reachable.</li><li>A dedicated file/print server centralizes resource management and availability.</li><li>Windows discovery helps find hosts but direct paths such as \\LAB-PC\ClassFiles may work even when browsing does not.</li><li>DNS or other name resolution must resolve the host name.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of what is a network share?.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A network share makes a resource available to authorized clients through a hosting device. The host and required service must remain reachable for remote access.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 4 of 11</span>
+        <h2 class="slide-title">Two permission gates for remote file access</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Remote access to a Windows file share depends on share permissions and underlying file-system permissions. Both gates must allow the requested operation for access to succeed.</p>
+        
+      <ul class="content-bullets">
+        <li>Share permissions: control the access allowed through the published network share.</li><li>File-system permissions: New Technology File System (NTFS) permissions control access to the underlying files and folders.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">An organization distributes read-only reference files and grants editing only to named contributors.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Share permissions: control the access allowed through the published network share.</li><li>File-system permissions: NTFS permissions control access to the underlying files and folders.</li><li>Remote access is limited by both sets.</li><li>Read/viewer permits reading; change/editor permits modification only when NTFS also allows it.</li><li>Actual ACLs also include groups, inheritance, and explicit denies.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of two permission gates for remote file access.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Remote access to a Windows file share depends on share permissions and underlying file-system permissions. Both gates must allow the requested operation for access to succeed.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 5 of 11</span>
+        <h2 class="slide-title">Example: students read a shared reference folder</h2>
+        <span class="type-tag example">example</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A shared folder can permit reading while denying remote edits. The effective result depends on both permission sets rather than the more generous setting alone.</p>
+        
+      <ul class="content-bullets">
+        <li>Read at the share and Modify at the file system permit reading but do not permit remote edits in this simplified example.</li><li>Effective access is limited by both permission gates. A reachable host does not itself grant access to its files.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Publish a modeled resource and see how share permissions and file-system permissions combine.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Read at the share and Modify at the file system permit reading but do not permit remote edits in this simplified example.</li><li>Effective access is limited by both permission gates.</li><li>A reachable host does not itself grant access to its files.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of example: students read a shared reference folder.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A shared folder can permit reading while denying remote edits. The effective result depends on both permission sets rather than the more generous setting alone.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 6 of 11</span>
+        <h2 class="slide-title">Securing Shared Files and Printers</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Sharing should give named users only the access their work requires. A reachable host still needs suitable identity, permission, service, and client support.</p>
+        
+      <ul class="content-bullets">
+        <li>Create a test folder → Properties → Sharing → Advanced Sharing; share only the intended folder with named authorized users.</li><li>Check Security permissions separately. Enable discovery/file sharing only for the approved profile and retain appropriate firewall rules.</li><li>Install a supported printer driver and authorize the printer share. A reachable Personal Computer (PC) does not guarantee spooler, driver, or permission success.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">An organization distributes read-only reference files and grants editing only to named contributors.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Create a test folder → Properties → Sharing → Advanced Sharing; share only the intended folder with named authorized users.</li><li>Check Security permissions separately.</li><li>Enable discovery/file sharing only for the approved profile and retain appropriate firewall rules.</li><li>Install a supported printer driver and authorize the printer share.</li><li>A reachable PC does not guarantee spooler, driver, or permission success.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of securing shared files and printers.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Sharing should give named users only the access their work requires. A reachable host still needs suitable identity, permission, service, and client support.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 7 of 11</span>
+        <h2 class="slide-title">Publishing and Accessing a Windows Shared Folder</h2>
+        <span class="type-tag walkthrough">walkthrough</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Publishing a folder creates a network access path to a resource on the host. Remote verification must check the intended client identity and both permission layers.</p>
+        
+      <ul class="content-bullets">
+        <li>On a trusted approved network, a host shares a non-sensitive folder through Properties → Sharing → Advanced Sharing with a named authorized identity.</li><li>The Security tab controls New Technology File System (NTFS) permissions separately. For remote file access, both share and file-system rules must allow the requested action.</li><li>From another computer, use a Universal Naming Convention (UNC) path such as \\HOST\ClassFiles and authenticate with the intended account. Host-side access does not verify the client identity.</li><li>Read-only access permits reading without edits; editing requires suitable permissions at both layers. Retain approved discovery/file-sharing firewall rules.</li><li>Remove temporary shares after a physical demonstration. Printer sharing additionally depends on print permission, driver compatibility, and a working host/spooler.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">An organization distributes read-only reference files and grants editing only to named contributors.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>On a trusted approved network, a host shares a non-sensitive folder through Properties → Sharing → Advanced Sharing with a named authorized identity.</li><li>The Security tab controls NTFS permissions separately.</li><li>For remote file access, both share and file-system rules must allow the requested action.</li><li>From another computer, use a UNC path such as \\HOST\ClassFiles and authenticate with the intended account.</li><li>Host-side access does not verify the client identity.</li><li>Read-only access permits reading without edits; editing requires suitable permissions at both layers.</li><li>Retain approved discovery/file-sharing firewall rules.</li><li>Remove temporary shares after a physical demonstration.</li><li>Printer sharing additionally depends on print permission, driver compatibility, and a working host/spooler.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of publishing and accessing a windows shared folder.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Publishing a folder creates a network access path to a resource on the host. Remote verification must check the intended client identity and both permission layers.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 8 of 11</span>
+        <h2 class="slide-title">Share vs NTFS Permissions</h2>
+        <span class="type-tag demo">Simulation</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Effective remote permissions are limited by every applicable access gate in this simplified model. Network reachability alone cannot override an unshared resource or denied operation.</p>
+        
+      <div class="demo-badge">
+        <b>Interactive Demonstration:</b> <code>sharing</code> — Use on-screen controls to step through or demonstrate the concept visually.
+      </div>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">An organization distributes read-only reference files and grants editing only to named contributors.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Modeled permissions • select host and client, publish a folder, choose both permission levels, and attempt access.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of share vs ntfs permissions.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Effective remote permissions are limited by every applicable access gate in this simplified model. Network reachability alone cannot override an unshared resource or denied operation.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 9 of 11</span>
+        <h2 class="slide-title">How Shared Printer Queues Work</h2>
+        <span class="type-tag demo">Simulation</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A shared printer queue retains accepted jobs and processes their pages in arrival order. Device outages pause processing, while submission permissions determine whether new jobs can enter the queue.</p>
+        
+      <div class="demo-badge">
+        <b>Interactive Demonstration:</b> <code>printQueueDemo</code> — Use on-screen controls to step through or demonstrate the concept visually.
+      </div>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Publish a modeled resource and see how share permissions and file-system permissions combine.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Submit modeled jobs and observe FIFO page processing, retained queues, and new-job permissions.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of how shared printer queues work.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A shared printer queue retains accepted jobs and processes their pages in arrival order. Device outages pause processing, while submission permissions determine whether new jobs can enter the queue.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 10 of 11</span>
+        <h2 class="slide-title">Read-Only vs Editable Sharing</h2>
+        <span class="type-tag application">application</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Reference files and editable working documents can require different access policies. Named accounts and remote permission checks help keep changes limited to authorized contributors.</p>
+        
+      <ul class="content-bullets">
+        <li>Avoid making one broad writable share for sensitive documents.</li><li>Use named accounts and verify permissions from a remote client.</li><li>A shared printer also needs a reachable host, driver, and permission to print.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">An organization distributes read-only reference files and grants editing only to named contributors.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Avoid making one broad writable share for sensitive documents.</li><li>Use named accounts and verify permissions from a remote client.</li><li>A shared printer also needs a reachable host, driver, and permission to print.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of read-only vs editable sharing.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Reference files and editable working documents can require different access policies. Named accounts and remote permission checks help keep changes limited to authorized contributors.
+        </div>
+      </div>
+    </div>
+  
+
+</body>
+</html>
+  

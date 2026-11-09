@@ -40,12 +40,3 @@ it('the seven OSI rows use layer numbers rather than merged mapping groups',()=>
  expect(slide.itemLabels).toEqual(['7','6','5','4','3','2','1']);
  expect(slide.items.map(item=>item.split(':')[0])).toEqual(['Application','Presentation','Session','Transport','Network','Data Link','Physical']);
 });
-it('all eight subnet examples retain mathematically valid per-prefix results',()=>{
- const slide=topics.find(t=>t.id==='09-basic-subnetting').slides.find(s=>s.title==='Eight worked subnet examples');
- expect(slide.itemLabels).toEqual(['/24','/25','/26','/27','/28','/30','/31','/32']);
- slide.items.forEach((text,i)=>{
-  const prefix=Number(slide.itemLabels[i].slice(1)),s=subnet('192.168.10.70',prefix);
-  expect(text).toContain(`192.168.10.70/${prefix}`);
-  if(prefix<31){expect(text).toContain(`network .${s.network.split('.').at(-1)}`);expect(text).toContain(`broadcast .${s.broadcast.split('.').at(-1)}`);}
- });
-});

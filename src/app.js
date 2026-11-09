@@ -3,7 +3,7 @@ import {createSlideGrid} from './components/slideGrid.js';
 import {createSearchModal} from './components/searchModal.js';
 import {createIcons,Network,Globe,Workflow,Router,Layers,Cable,PlugZap,Binary,Split,MonitorCog,RefreshCw,Wifi,FolderOpen,Stethoscope,ArrowUpRight,ArrowLeft,ArrowRight,BookOpen,LayoutGrid,Search,Moon,Sun,Maximize2,Check,HelpCircle} from 'lucide';
 import {topics} from './topics/topicRegistry.js';
-import {esc,button,networkSVG,wire} from './components/ui.js';
+import {esc,formatItemText,button,networkSVG,wire} from './components/ui.js';
 import {titleVisual} from './components/titleVisual.js';
 import {automaticExample} from './simulations/automaticExamples.js';
 import {parseRoute,shouldHandleKey} from './router.js';
@@ -11,6 +11,8 @@ import {loadProgress,saveProgress,resetProgress} from './utils/progress.js';
 import {simulations} from './simulations/index.js';
 import {fitSlide} from './components/fitSlide.js';
 import {connectorOrientationSVG,rj45PlugColorSVG,straightVsCrossoverVisualSVG} from './components/cableVisuals.js';
+import {renderDeviceSlideVisual, deviceMetadata} from './components/deviceIllustrations.js';
+import {renderHorizontalToolsSlide, toolsMetadata} from './components/toolsVisuals.js';
 
 const icons={Network,Globe,Workflow,Router,Layers,Cable,PlugZap,Binary,Split,MonitorCog,RefreshCw,Wifi,FolderOpen,Stethoscope,ArrowUpRight,ArrowLeft,ArrowRight,BookOpen,LayoutGrid,Search,Moon,Sun,Maximize2,Check,HelpCircle};
 const icon=n=>`<i data-lucide="${n.replace(/([a-z0-9])([A-Z])/g,'$1-$2').toLowerCase()}" aria-hidden="true"></i>`;
@@ -90,6 +92,38 @@ export function startApp(root){
   if(s.kind==='title')content.innerHTML=titleVisual(t);
   else if(s.kind==='example')releaseSimulation=automaticExample(content,s,t.id);
   else if(s.type){const dispose=simulations[s.type](content,s);if(typeof dispose==='function')releaseSimulation=dispose;}
+  else if(s.deviceKey && deviceMetadata[s.deviceKey]){
+   const meta=deviceMetadata[s.deviceKey];
+   const roleHtml=`<div class="device-role-card"><h4 class="role-title">${esc(meta.name)}</h4><p class="role-desc">${esc(meta.desc)}</p></div>`;
+   const listHtml=`<ul class="teaching-points">${s.items.map((item,i)=>`<li><span class="point-index">${esc(s.itemLabels?.[i]??String(i+1).padStart(2,'0'))}</span><p>${formatItemText(item)}</p></li>`).join('')}</ul>${s.footnote?`<p class="list-explanation">${esc(s.footnote)}</p>`:''}`;
+   content.innerHTML=`<div class="device-slide-grid"><div class="device-visuals-col">${renderDeviceSlideVisual(s.deviceKey)}</div><div class="device-content-col">${roleHtml}${listHtml}</div></div>`;
+   content.querySelectorAll('.device-tab-btn').forEach(btn => {
+     btn.addEventListener('click', () => {
+       const view = btn.dataset.view;
+       const card = btn.closest('.device-visual-card');
+       if (!card) return;
+       card.querySelectorAll('.device-tab-btn').forEach(b => b.classList.toggle('active', b === btn));
+       const photoView = card.querySelector('.device-photo-view');
+       const schematicView = card.querySelector('.device-schematic-view');
+       if (photoView && schematicView) {
+         if (view === 'photo') {
+           photoView.classList.add('active');
+           photoView.removeAttribute('hidden');
+           schematicView.classList.remove('active');
+           schematicView.setAttribute('hidden', '');
+         } else {
+           schematicView.classList.add('active');
+           schematicView.removeAttribute('hidden');
+           photoView.classList.remove('active');
+           photoView.setAttribute('hidden', '');
+         }
+       }
+     });
+   });
+  }
+  else if(s.toolKey && toolsMetadata[s.toolKey]){
+   content.innerHTML=renderHorizontalToolsSlide(s.toolKey, s.footnote);
+  }
   else {
    let extraVisual='';
    if(t.id==='06-network-cables-media'||t.id==='07-rj45-crimping'){
@@ -98,7 +132,9 @@ export function startApp(root){
     else if(s.title.startsWith('T568B:'))extraVisual=rj45PlugColorSVG('B');
     else if(s.title.includes('Straight-through and crossover'))extraVisual=straightVsCrossoverVisualSVG();
    }
-   const listHtml=`<${s.kind==='objectives'?'ol':'ul'} class="teaching-points ${s.expectedCount>4?'counted-grid':''}"${s.expectedCount?` data-item-count="${s.expectedCount}"`: ''}>${s.items.map((item,i)=>`<li><span class="point-index">${esc(s.itemLabels?.[i]??String(i+1).padStart(2,'0'))}</span><p>${esc(item)}</p></li>`).join('')}</${s.kind==='objectives'?'ol':'ul'}>${s.footnote?`<p class="list-explanation">${esc(s.footnote)}</p>`:''}`;
+   const isGrid = !extraVisual && (s.expectedCount >= 4 || s.items.length >= 4);
+   const gridClass = !extraVisual && (s.expectedCount >= 7 || s.items.length >= 7) ? 'counted-grid-3' : (isGrid ? 'counted-grid' : '');
+   const listHtml=`<${s.kind==='objectives'?'ol':'ul'} class="teaching-points ${gridClass}"${s.expectedCount?` data-item-count="${s.expectedCount}"`: ''}>${s.items.map((item,i)=>`<li><span class="point-index">${esc(s.itemLabels?.[i]??String(i+1).padStart(2,'0'))}</span><p>${formatItemText(item)}</p></li>`).join('')}</${s.kind==='objectives'?'ol':'ul'}>${s.footnote?`<p class="list-explanation">${esc(s.footnote)}</p>`:''}`;
    content.innerHTML=extraVisual?`<div class="rj45-slide-grid">${extraVisual}<div class="rj45-slide-content">${listHtml}</div></div>`:listHtml;
   }
  }
@@ -127,8 +163,13 @@ export function startApp(root){
   }
  };
 
+ const skipLink=document.querySelector('.skip');
+ const onSkip=e=>{e.preventDefault();const main=root.querySelector('#main');if(main){main.focus();main.scrollIntoView({behavior:'smooth'});}};
+ if(skipLink)skipLink.addEventListener('click',onSkip);
+
  root.addEventListener('click',launchTopic);window.addEventListener('hashchange',render);window.addEventListener('keydown',onKey);render();
  return ()=>{
+  if(skipLink)skipLink.removeEventListener('click',onSkip);
   root.removeEventListener('click',launchTopic);
   releaseInk();releaseSimulation();releaseSlide();
   slideGrid.destroy();searchModal.destroy();

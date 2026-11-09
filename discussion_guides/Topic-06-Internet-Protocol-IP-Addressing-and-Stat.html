@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Topic 6: Internet Protocol (IP) Addressing and Static Configuration — Instructor Discussion Guide</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 14mm 14mm 16mm 14mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #1e293b;
+      background: #ffffff;
+      line-height: 1.5;
+      font-size: 13px;
+    }
+    .guide-header-cover {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+      color: #ffffff;
+      padding: 24px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+    }
+    .guide-header-cover .badge {
+      display: inline-block;
+      background: #38bdf8;
+      color: #0f172a;
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+    .guide-header-cover h1 {
+      font-size: 23px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      color: #ffffff;
+    }
+    .guide-header-cover p {
+      font-size: 13px;
+      color: #cbd5e1;
+      max-width: 95%;
+    }
+    .meta-bar {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      display: flex;
+      gap: 20px;
+      font-size: 11px;
+      color: #94a3b8;
+    }
+    .meta-bar b {
+      color: #ffffff;
+    }
+
+    .slide-card {
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      background: #ffffff;
+      page-break-inside: avoid;
+      break-inside: avoid;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+    .card-header {
+      background: #f1f5f9;
+      padding: 10px 14px;
+      border-bottom: 1px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .slide-pill {
+      background: #0f172a;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 12px;
+      white-space: nowrap;
+    }
+    .slide-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+      flex-grow: 1;
+    }
+    .type-tag {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #e2e8f0;
+      color: #475569;
+    }
+    .type-tag.example {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .reading-box {
+      background: #f8fafc;
+      padding: 12px 14px;
+      border-bottom: 1px dashed #cbd5e1;
+    }
+    .box-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: #64748b;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .lead-text {
+      font-weight: 600;
+      color: #1e293b;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+    .content-bullets {
+      margin-left: 18px;
+      font-size: 12px;
+      color: #334155;
+    }
+    .content-bullets li {
+      margin-bottom: 3px;
+    }
+    .demo-badge {
+      background: #e0f2fe;
+      border: 1px solid #bae6fd;
+      color: #0369a1;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .teacher-guide-box {
+      background: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 12px 14px;
+    }
+    .guide-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .guide-icon {
+      font-size: 14px;
+    }
+    .guide-title {
+      font-weight: 800;
+      font-size: 12px;
+      text-transform: uppercase;
+      color: #1e40af;
+      letter-spacing: 0.3px;
+    }
+
+    .guide-section {
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #1e3a8a;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-bottom: 3px;
+    }
+    .analogy-text {
+      font-size: 12px;
+      color: #1e293b;
+      font-style: italic;
+      background: rgba(255,255,255,0.7);
+      padding: 6px 8px;
+      border-radius: 4px;
+      border-left: 2px solid #3b82f6;
+    }
+    .talking-points {
+      margin-left: 16px;
+      font-size: 12px;
+      color: #1e293b;
+    }
+    .talking-points li {
+      margin-bottom: 3px;
+    }
+
+    .q-and-a {
+      background: #ffffff;
+      border: 1px solid #bfdbfe;
+      padding: 8px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+    .question-text {
+      color: #1e3a8a;
+      margin-bottom: 4px;
+    }
+    .answer-text {
+      color: #047857;
+    }
+
+    .takeaway-banner {
+      margin-top: 8px;
+      background: #dbeafe;
+      color: #1e40af;
+      font-size: 12px;
+      padding: 5px 8px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="guide-header-cover">
+    <span class="badge">Instructor's Discussion Guide</span>
+    <h1>Topic 6: Internet Protocol (IP) Addressing and Static Configuration</h1>
+    <p>Read IPv4 addresses, separate network from host bits, understand subnet roles, and configure static host settings.</p>
+    <div class="meta-bar">
+      <span><b>Curriculum:</b> Networking 1</span>
+      <span><b>Excluded:</b> Title (Slide 1), Objectives (Slide 2), and Summary (Final Slide)</span>
+      <span><b>Total Discussion Units:</b> 26 Slides</span>
+    </div>
+  </div>
+
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 3 of 29</span>
+        <h2 class="slide-title">What Is an Internet Protocol Address?</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">An Internet Protocol (IP) address is a unique logical Layer 3 numerical identifier assigned to every device on a network. While a physical Media Access Control (MAC) address identifies hardware on a single local cable, an IP address is hierarchical and location-based, enabling routers to direct data packets across interconnected local, enterprise, and global networks.</p>
+        
+      <ul class="content-bullets">
+        <li>192.168.1.10 is four octets. Each octet has eight bits weighted 128, 64, 32, 16, 8, 4, 2, 1.</li><li>192 is 11000000 because 128 + 64 = 192. An octet cannot hold 300.</li><li>Internet Protocol version 6 (IPv6) example: 2001:db8::10 (documentation). IPv6 has different neighbor discovery and no IPv4-style broadcast address.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Inspect host settings and assign a stable address to a shared network printer.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>192.168.1.10 is four octets.</li><li>Each octet has eight bits weighted 128, 64, 32, 16, 8, 4, 2, 1.</li><li>192 is 11000000 because 128 + 64 = 192.</li><li>An octet cannot hold 300.</li><li>IPv6 example: 2001:db8::10 (documentation).</li><li>IPv6 has different neighbor discovery and no IPv4-style broadcast address.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of what is an internet protocol address?.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> An Internet Protocol (IP) address is a unique logical Layer 3 numerical identifier assigned to every device on a network. While a physical Media Access Control (MAC) address identifies hardware on a single local cable, an IP address is hierarchical and location-based, enabling routers to direct data packets across interconnected local, enterprise, and global networks.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 4 of 29</span>
+        <h2 class="slide-title">IPv4 Address Structure and Binary Representation</h2>
+        <span class="type-tag demo">Simulation</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">An Internet Protocol version 4 (IPv4) address consists of four decimal octets representing 32 binary bits. Toggling individual bits shows how binary weights form decimal values.</p>
+        
+      <div class="demo-badge">
+        <b>Interactive Demonstration:</b> <code>ipv4</code> — Use on-screen controls to step through or demonstrate the concept visually.
+      </div>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Inspect host settings and assign a stable address to a shared network printer.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Enter an IPv4 address to inspect its four octets in binary and toggle individual bit weights.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of ipv4 address structure and binary representation.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> An Internet Protocol version 4 (IPv4) address consists of four decimal octets representing 32 binary bits. Toggling individual bits shows how binary weights form decimal values.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 5 of 29</span>
+        <h2 class="slide-title">Two Parts of an IP Address: Network and Host</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Every Internet Protocol (IP) address is divided into two parts: the network portion identifies the network, and the host portion identifies the specific device.</p>
+        
+      <ul class="content-bullets">
+        <li>Network portion: identifies which network or subnet the device belongs to.</li><li>Host portion: identifies the specific device interface on that network.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Inspect host settings and assign a stable address to a shared network printer.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Network portion: identifies which network or subnet the device belongs to.</li><li>Host portion: identifies the specific device interface on that network.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of two parts of an ip address: network and host.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Every Internet Protocol (IP) address is divided into two parts: the network portion identifies the network, and the host portion identifies the specific device.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 6 of 29</span>
+        <h2 class="slide-title">What Is a Subnet and Why Do We Subnet?</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A subnet is a smaller, organized group of computers within a network, such as separating Students, Staff, and Guest Wi-Fi.</p>
+        
+      <ul class="content-bullets">
+        <li>Why We Subnet: Splitting a flat network into smaller subnets stops broadcast traffic (Address Resolution Protocol (ARP), Dynamic Host Configuration Protocol (DHCP)) from congesting all computers.</li><li>Security Boundaries: Subnets create natural borders where routers and firewalls can enforce access policies between departments.</li><li>Organized Management: Managing smaller subnets allows administrators to allocate dedicated Internet Protocol (IP) address pools and isolate network faults.</li><li>Logical Division: Subnets are logical divisions defined by the Subnet Mask; they do not require changing physical switches or cables.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Inspect host settings and assign a stable address to a shared network printer.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Why We Subnet: Splitting a flat network into smaller subnets stops broadcast traffic (ARP, DHCP) from congesting all computers.</li><li>Security Boundaries: Subnets create natural borders where routers and firewalls can enforce access policies between departments.</li><li>Organized Management: Managing smaller subnets allows administrators to allocate dedicated IP address pools and isolate network faults.</li><li>Logical Division: Subnets are logical divisions defined by the Subnet Mask; they do not require changing physical switches or cables.</li><li>In modern networking, every local area network (LAN) is configured as one or more subnets.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of what is a subnet and why do we subnet?.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A subnet is a smaller, organized group of computers within a network, such as separating Students, Staff, and Guest Wi-Fi.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 7 of 29</span>
+        <h2 class="slide-title">The Subnet Mask: The Dividing Boundary</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A subnet mask is a 32-bit filter that marks the boundary between network bits and host bits using consecutive ones and zeros.</p>
+        
+      <ul class="content-bullets">
+        <li>Consecutive ones: mask bits set to 1 indicate the network portion (for example, 255.255.255.0).</li><li>Consecutive zeros: mask bits set to 0 indicate the host portion available for endpoints.</li><li>Bitwise AND: a host performs an AND operation between its Internet Protocol (IP) address and mask to find its network ID.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Inspect host settings and assign a stable address to a shared network printer.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Consecutive ones: mask bits set to 1 indicate the network portion (for example, 255.255.255.0).</li><li>Consecutive zeros: mask bits set to 0 indicate the host portion available for endpoints.</li><li>Bitwise AND: a host performs an AND operation between its IP address and mask to find its network ID.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of the subnet mask: the dividing boundary.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A subnet mask is a 32-bit filter that marks the boundary between network bits and host bits using consecutive ones and zeros.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 8 of 29</span>
+        <h2 class="slide-title">How an Address and Mask Identify the Network</h2>
+        <span class="type-tag demo">Simulation</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A bitwise AND combines address bits with subnet-mask bits to obtain the network address. Mask ones preserve network bits, while mask zeros clear the host portion.</p>
+        
+      <div class="demo-badge">
+        <b>Interactive Demonstration:</b> <code>bitwiseDemo</code> — Use on-screen controls to step through or demonstrate the concept visually.
+      </div>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Read IPv4 addresses, separate network from host bits, understand subnet roles, and configure static host settings.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Display address bits, mask bits, and the actual bitwise network result.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of how an address and mask identify the network.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A bitwise AND combines address bits with subnet-mask bits to obtain the network address. Mask ones preserve network bits, while mask zeros clear the host portion.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 9 of 29</span>
+        <h2 class="slide-title">Interpreting an IPv4 Host Configuration</h2>
+        <span class="type-tag walkthrough">walkthrough</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A host configuration combines an address, network boundary, and optional service or routing settings. Understanding each field prevents confusing name resolution with local or remote delivery.</p>
+        
+      <ul class="content-bullets">
+        <li>In 192.168.10.25/24, the prefix marks 24 network bits and eight host bits. The mask is 255.255.255.0.</li><li>The gateway 192.168.10.1 is another usable address on that local subnet and handles destinations without a more specific route.</li><li>A Domain Name System (DNS) resolver maps names to records. It may equal the gateway when that gateway forwards DNS, but this is not required.</li><li>An octet uses weights 128, 64, 32, 16, 8, 4, 2, 1; adding enabled weights converts eight bits into a decimal value.</li><li>Private addresses are not globally routed; loopback, link-local, shared carrier, documentation, multicast, and reserved ranges also need separate treatment.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Inspect host settings and assign a stable address to a shared network printer.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>In 192.168.10.25/24, the prefix marks 24 network bits and eight host bits.</li><li>The mask is 255.255.255.0.</li><li>The gateway 192.168.10.1 is another usable address on that local subnet and handles destinations without a more specific route.</li><li>A DNS resolver maps names to records.</li><li>It may equal the gateway when that gateway forwards DNS, but this is not required.</li><li>An octet uses weights 128, 64, 32, 16, 8, 4, 2, 1; adding enabled weights converts eight bits into a decimal value.</li><li>Private addresses are not globally routed; loopback, link-local, shared carrier, documentation, multicast, and reserved ranges also need separate treatment.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of interpreting an ipv4 host configuration.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A host configuration combines an address, network boundary, and optional service or routing settings. Understanding each field prevents confusing name resolution with local or remote delivery.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 10 of 29</span>
+        <h2 class="slide-title">Inside Every Subnet: Network, Broadcast, and Host IPs</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Every subnet is simply an Internet Protocol (IP) address group with a starting address, an ending address, and usable host addresses in between.</p>
+        
+      <ul class="content-bullets">
+        <li>Network ID (The First Address): The very first Internet Protocol (IP) in the group (e.g., 192.168.1.0). It acts like a street name that identifies the entire subnet in routing tables; it cannot be assigned to a computer.</li><li>Broadcast Internet Protocol (IP) (The Last Address): The very last IP in the group (e.g., 192.168.1.255). It acts like an office loudspeaker: sending data here delivers it to every device in this subnet at once (for Address Resolution Protocol (ARP) and Dynamic Host Configuration Protocol (DHCP)).</li><li>Usable Host IPs (The Middle Numbers): All addresses strictly between the first and last (192.168.1.1 through 192.168.1.254). These are the real addresses configured on laptops, phones, printers, and routers.</li><li>Why We Subtract Two (Total − 2): Because the Network ID (first) and Broadcast Internet Protocol (IP) (last) are reserved for network roles, usable host capacity is always Total IPs minus 2.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Inspect host settings and assign a stable address to a shared network printer.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Network ID (The First Address): The very first IP in the group (e.g., 192.168.1.0).</li><li>It acts like a street name that identifies the entire subnet in routing tables; it cannot be assigned to a computer.</li><li>Broadcast IP (The Last Address): The very last IP in the group (e.g., 192.168.1.255).</li><li>It acts like an office loudspeaker: sending data here delivers it to every device in this subnet at once (for ARP and DHCP).</li><li>Usable Host IPs (The Middle Numbers): All addresses strictly between the first and last (192.168.1.1 through 192.168.1.254).</li><li>These are the real addresses configured on laptops, phones, printers, and routers.</li><li>Why We Subtract Two (Total − 2): Because the Network ID (first) and Broadcast IP (last) are reserved for network roles, usable host capacity is always Total IPs minus 2.</li><li>In a standard /24 subnet with 256 addresses: .0 is the Network ID, .255 is the Broadcast IP, and .1 through .254 provide 254 usable host addresses.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of inside every subnet: network, broadcast, and host ips.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Every subnet is simply an Internet Protocol (IP) address group with a starting address, an ending address, and usable host addresses in between.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 11 of 29</span>
+        <h2 class="slide-title">Subnet Calculator Demo</h2>
+        <span class="type-tag demo">Simulation</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">The address and prefix determine a subnet’s mask, boundary, and address count. Network, broadcast, and usable-host conventions must then be applied appropriately.</p>
+        
+      <div class="demo-badge">
+        <b>Interactive Demonstration:</b> <code>subnet</code> — Use on-screen controls to step through or demonstrate the concept visually.
+      </div>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Inspect host settings and assign a stable address to a shared network printer.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Real calculation • any valid IPv4 address and prefix, binary boundary, guided steps, and explained calculations.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of subnet calculator demo.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> The address and prefix determine a subnet’s mask, boundary, and address count. Network, broadcast, and usable-host conventions must then be applied appropriately.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 12 of 29</span>
+        <h2 class="slide-title">CIDR Prefix Notation (/24 Shortcut)</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Classless Inter-Domain Routing (CIDR) prefix notation states the number of consecutive network ones in the mask using a slash (such as /24), replacing cumbersome dotted-decimal masks.</p>
+        
+      <ul class="content-bullets">
+        <li>/24 means 24 ones in the mask: 11111111.11111111.11111111.00000000, which is 255.255.255.0.</li><li>/16 means 16 ones (255.255.0.0), while /8 means 8 ones (255.0.0.0).</li><li>Remaining host bits: subtracting the prefix from 32 gives the host bits (for /24, 32 − 24 = 8 bits, or 254 usable hosts).</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Inspect host settings and assign a stable address to a shared network printer.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>/24 means 24 ones in the mask: 11111111.11111111.11111111.00000000, which is 255.255.255.0.</li><li>/16 means 16 ones (255.255.0.0), while /8 means 8 ones (255.0.0.0).</li><li>Remaining host bits: subtracting the prefix from 32 gives the host bits (for /24, 32 − 24 = 8 bits, or 254 usable hosts).</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of cidr prefix notation (/24 shortcut).</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Classless Inter-Domain Routing (CIDR) prefix notation states the number of consecutive network ones in the mask using a slash (such as /24), replacing cumbersome dotted-decimal masks.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 13 of 29</span>
+        <h2 class="slide-title">Classful History vs Modern Subnetting</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Modern Classless Inter-Domain Routing (CIDR) eliminates rigid historical classes, allowing any Internet Protocol (IP) block to use any prefix size to fit the exact needs of a network.</p>
+        
+      <ul class="content-bullets">
+        <li>Classful legacy (1981): 10.0.0.0 was locked into Class A (/8), allocating 16 million hosts to one network with severe waste.</li><li>Modern CIDR (1993): Classless Inter-Domain Routing allows any prefix to be used with any Internet Protocol (IP) address.</li><li>10.0.0.0/24 is normal: an administrator can carve 10.0.0.0 into small /24 subnets (254 hosts per classroom) with a 255.255.255.0 mask.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Inspect host settings and assign a stable address to a shared network printer.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Classful legacy (1981): 10.0.0.0 was locked into Class A (/8), allocating 16 million hosts to one network with severe waste.</li><li>Modern CIDR (1993): Classless Inter-Domain Routing allows any prefix to be used with any IP address.</li><li>10.0.0.0/24 is normal: an administrator can carve 10.0.0.0 into small /24 subnets (254 hosts per classroom) with a 255.255.255.0 mask.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of classful history vs modern subnetting.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Modern Classless Inter-Domain Routing (CIDR) eliminates rigid historical classes, allowing any Internet Protocol (IP) block to use any prefix size to fit the exact needs of a network.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 14 of 29</span>
+        <h2 class="slide-title">Three Private IPv4 Address Ranges</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Request for Comments (RFC) 1918 reserves three private address blocks for local networks: 10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16. These addresses are free to use on local LANs and are not routed on the public Internet.</p>
+        
+      <ul class="content-bullets">
+        <li>10.0.0.0/8: 10.0.0.0 through 10.255.255.255.</li><li>172.16.0.0/12: 172.16.0.0 through 172.31.255.255.</li><li>192.168.0.0/16: 192.168.0.0 through 192.168.255.255.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Inspect host settings and assign a stable address to a shared network printer.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>10.0.0.0/8: 10.0.0.0 through 10.255.255.255.</li><li>172.16.0.0/12: 172.16.0.0 through 172.31.255.255.</li><li>192.168.0.0/16: 192.168.0.0 through 192.168.255.255.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of three private ipv4 address ranges.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Request for Comments (RFC) 1918 reserves three private address blocks for local networks: 10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16. These addresses are free to use on local LANs and are not routed on the public Internet.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 15 of 29</span>
+        <h2 class="slide-title">Eight Special-Purpose IPv4 Ranges</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Several address ranges have special uses such as loopback (127.0.0.1), link-local APIPA (169.254.0.0/16), and documentation. An address outside the private ranges is not automatically a globally reachable host address.</p>
+        
+      <ul class="content-bullets">
+        <li>127.0.0.0/8: loopback.</li><li>169.254.0.0/16: Internet Protocol version 4 (IPv4) link-local.</li><li>100.64.0.0/10: shared carrier-grade Network Address Translation (NAT) space.</li><li>192.0.2.0/24: documentation.</li><li>198.51.100.0/24: documentation.</li><li>203.0.113.0/24: documentation.</li><li>224.0.0.0/4: multicast.</li><li>240.0.0.0/4: reserved space, including limited broadcast at 255.255.255.255.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Inspect host settings and assign a stable address to a shared network printer.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>127.0.0.0/8: loopback.</li><li>169.254.0.0/16: IPv4 link-local.</li><li>100.64.0.0/10: shared carrier-grade NAT space.</li><li>192.0.2.0/24: documentation.</li><li>198.51.100.0/24: documentation.</li><li>203.0.113.0/24: documentation.</li><li>224.0.0.0/4: multicast.</li><li>240.0.0.0/4: reserved space, including limited broadcast at 255.255.255.255.</li><li>This is not an exhaustive registry.</li><li>A non-private address is not automatically ordinary globally routable unicast.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of eight special-purpose ipv4 ranges.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Several address ranges have special uses such as loopback (127.0.0.1), link-local APIPA (169.254.0.0/16), and documentation. An address outside the private ranges is not automatically a globally reachable host address.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 16 of 29</span>
+        <h2 class="slide-title">Introduction to IPv6 Basics</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Internet Protocol version 6 (IPv6) solves Internet Protocol version 4 (IPv4) address exhaustion by providing 128-bit addresses, offering practically unlimited addresses for modern global devices.</p>
+        
+      <ul class="content-bullets">
+        <li>Why Internet Protocol version 6 (IPv6) is needed: Internet Protocol version 4 (IPv4) provides only 4.3 billion addresses, which are now completely exhausted by billions of smartphones, computers, and cloud servers.</li><li>128-Bit Structure: Internet Protocol version 6 (IPv6) uses 128 binary bits written as eight groups of four hexadecimal digits separated by colons (e.g., 2001:0db8:85a3:0000:0000:8a2e:0370:7334).</li><li>Zero Compression Rule (::): Consecutive groups of zeros can be abbreviated with a double colon (::) once in an address (e.g., 2001:db8::1).</li><li>Address Types Without Broadcast: Internet Protocol version 6 (IPv6) uses Unicast (one-to-one), Multicast (one-to-many), and Anycast (one-to-nearest). IPv6 eliminates noisy broadcast messages entirely.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Inspect host settings and assign a stable address to a shared network printer.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Why IPv6 is needed: IPv4 provides only 4.3 billion addresses, which are now completely exhausted by billions of smartphones, computers, and cloud servers.</li><li>128-Bit Structure: IPv6 uses 128 binary bits written as eight groups of four hexadecimal digits separated by colons (e.g., 2001:0db8:85a3:0000:0000:8a2e:0370:7334).</li><li>Zero Compression Rule (::): Consecutive groups of zeros can be abbreviated with a double colon (::) once in an address (e.g., 2001:db8::1).</li><li>Address Types Without Broadcast: IPv6 uses Unicast (one-to-one), Multicast (one-to-many), and Anycast (one-to-nearest).</li><li>IPv6 eliminates noisy broadcast messages entirely.</li><li>IPv6 provides 340 undecillion addresses (3.4 × 10^38), ensuring every device on Earth can have its own permanent, globally unique IP address without needing NAT.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of introduction to ipv6 basics.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Internet Protocol version 6 (IPv6) solves Internet Protocol version 4 (IPv4) address exhaustion by providing 128-bit addresses, offering practically unlimited addresses for modern global devices.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 17 of 29</span>
+        <h2 class="slide-title">Subnet Mask, Gateway, and DNS Roles</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">The subnet mask defines the local network boundary, the default gateway forwards remote traffic to the outside world, and Domain Name System (DNS) resolves hostnames to numeric Internet Protocol (IP) addresses.</p>
+        
+      <ul class="content-bullets">
+        <li>192.168.1.10/24 uses 24 network bits and 8 host bits; its mask is 255.255.255.0.</li><li>The default gateway is a local router used for destinations without a more specific route.</li><li>Domain Name System (DNS): maps names to records such as Internet Protocol (IP) addresses.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Inspect host settings and assign a stable address to a shared network printer.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>192.168.1.10/24 uses 24 network bits and 8 host bits; its mask is 255.255.255.0.</li><li>The default gateway is a local router used for destinations without a more specific route.</li><li>DNS: maps names to records such as IP addresses.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of subnet mask, gateway, and dns roles.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> The subnet mask defines the local network boundary, the default gateway forwards remote traffic to the outside world, and Domain Name System (DNS) resolves hostnames to numeric Internet Protocol (IP) addresses.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 18 of 29</span>
+        <h2 class="slide-title">Example: read one classroom address</h2>
+        <span class="type-tag example">example</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">An address and prefix place a host within a logical subnet. The same configuration also identifies a gateway for appropriate remote destinations.</p>
+        
+      <ul class="content-bullets">
+        <li>The /24 prefix places this host in 192.168.10.0/24. Ordinary usable host addresses run from .1 through .254.</li><li>A peer at 192.168.10.40 is local; a destination outside this subnet needs an appropriate route, often through the configured gateway.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Read IPv4 addresses, separate network from host bits, understand subnet roles, and configure static host settings.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>The /24 prefix places this host in 192.168.10.0/24.</li><li>Ordinary usable host addresses run from .1 through .254.</li><li>A peer at 192.168.10.40 is local; a destination outside this subnet needs an appropriate route, often through the configured gateway.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of example: read one classroom address.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> An address and prefix place a host within a logical subnet. The same configuration also identifies a gateway for appropriate remote destinations.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 19 of 29</span>
+        <h2 class="slide-title">Two ways to assign an address</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">An address can be configured manually or obtained through a configuration service. Static and dynamic assignment differ in how settings are supplied and maintained.</p>
+        
+      <ul class="content-bullets">
+        <li>Static: an administrator manually configures the address and related settings.</li><li>Dynamic: Dynamic Host Configuration Protocol (DHCP) supplies an address lease and configuration options.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Inspect host settings and assign a stable address to a shared network printer.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Static: an administrator manually configures the address and related settings.</li><li>Dynamic: DHCP supplies an address lease and configuration options.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of two ways to assign an address.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> An address can be configured manually or obtained through a configuration service. Static and dynamic assignment differ in how settings are supplied and maintained.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 20 of 29</span>
+        <h2 class="slide-title">What Is Static IP Configuration?</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Static configuration assigns an interface’s address settings manually. A predictable address helps infrastructure and services remain locatable when settings are managed correctly.</p>
+        
+      <ul class="content-bullets">
+        <li>Record address, mask, gateway, and Domain Name System (DNS) before changing anything. A Dynamic Host Configuration Protocol (DHCP) reservation is a different way to provide a stable address.</li><li>Choose a unique usable address in the intended subnet and coordinate it with the administrator’s addressing plan.</li><li>Avoid unmanaged overlap with Dynamic Host Configuration Protocol (DHCP) pools. Duplicate addresses cause conflicts even when each individual address is syntactically valid.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Inspect host settings and assign a stable address to a shared network printer.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Record address, mask, gateway, and DNS before changing anything.</li><li>A DHCP reservation is a different way to provide a stable address.</li><li>Choose a unique usable address in the intended subnet and coordinate it with the administrator’s addressing plan.</li><li>Avoid unmanaged overlap with DHCP pools.</li><li>Duplicate addresses cause conflicts even when each individual address is syntactically valid.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of what is static ip configuration?.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Static configuration assigns an interface’s address settings manually. A predictable address helps infrastructure and services remain locatable when settings are managed correctly.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 21 of 29</span>
+        <h2 class="slide-title">Four IPv4 configuration fields</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A basic host configuration includes an address, subnet mask, default gateway, and name resolver. Each field has a separate purpose and must match the intended network.</p>
+        
+      <ul class="content-bullets">
+        <li>Internet Protocol (IP) address: a unique usable address assigned to the interface.</li><li>Subnet mask: identifies which address bits describe the local network.</li><li>Default gateway: a local router for destinations needing a remote route.</li><li>Domain Name System (DNS) server: a resolver for names; not needed for numeric-IP local tests.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Inspect host settings and assign a stable address to a shared network printer.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>IP address: a unique usable address assigned to the interface.</li><li>Subnet mask: identifies which address bits describe the local network.</li><li>Default gateway: a local router for destinations needing a remote route.</li><li>DNS server: a resolver for names; not needed for numeric-IP local tests.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of four ipv4 configuration fields.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A basic host configuration includes an address, subnet mask, default gateway, and name resolver. Each field has a separate purpose and must match the intended network.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 22 of 29</span>
+        <h2 class="slide-title">How Hosts Decide if a Peer is Local</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Each host uses its own address and mask to decide whether a peer is local. A successful local round trip needs compatible decisions and a working link in both directions.</p>
+        
+      <ul class="content-bullets">
+        <li>They can communicate by Internet Protocol (IP) on a correctly connected Local Area Network (LAN) without a default gateway.</li><li>192.168.1.10/24 and 192.168.2.20/24 need appropriate routing between the two subnets.</li><li>Mismatched masks can make one host consider a destination local while the other sends through a gateway. Test both directions.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Inspect host settings and assign a stable address to a shared network printer.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>They can communicate by IP on a correctly connected LAN without a default gateway.</li><li>192.168.1.10/24 and 192.168.2.20/24 need appropriate routing between the two subnets.</li><li>Mismatched masks can make one host consider a destination local while the other sends through a gateway.</li><li>Test both directions.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of how hosts decide if a peer is local.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Each host uses its own address and mask to decide whether a peer is local. A successful local round trip needs compatible decisions and a working link in both directions.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 23 of 29</span>
+        <h2 class="slide-title">Example: two manually configured classroom computers</h2>
+        <span class="type-tag example">example</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Two hosts with unique usable addresses in the same subnet can communicate over a working local network. A default gateway is unnecessary for this numeric local exchange.</p>
+        
+      <ul class="content-bullets">
+        <li>Both hosts calculate 192.168.1.0/24 as their local network, so this exchange does not require a router.</li><li>The addresses must be unique and the link and host policy must permit communication. A successful address calculation alone does not prove reachability.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Read IPv4 addresses, separate network from host bits, understand subnet roles, and configure static host settings.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Both hosts calculate 192.168.1.0/24 as their local network, so this exchange does not require a router.</li><li>The addresses must be unique and the link and host policy must permit communication.</li><li>A successful address calculation alone does not prove reachability.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of example: two manually configured classroom computers.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Two hosts with unique usable addresses in the same subnet can communicate over a working local network. A default gateway is unnecessary for this numeric local exchange.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 24 of 29</span>
+        <h2 class="slide-title">When Subnet Masks Do Not Match</h2>
+        <span class="type-tag demo">Simulation</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Different subnet masks can make two hosts disagree about whether they share a local network. One host may try direct delivery while the other requires a route that is unavailable.</p>
+        
+      <div class="demo-badge">
+        <b>Interactive Demonstration:</b> <code>asymmetricDemo</code> — Use on-screen controls to step through or demonstrate the concept visually.
+      </div>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Inspect host settings and assign a stable address to a shared network printer.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Calculate each host’s local/remote decision independently using its own mask.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of when subnet masks do not match.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Different subnet masks can make two hosts disagree about whether they share a local network. One host may try direct delivery while the other requires a route that is unavailable.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 25 of 29</span>
+        <h2 class="slide-title">Configuring Static IP in Windows</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Windows adapter settings control an interface’s address and related options. Configuration must be verified through both inspection and an appropriate connectivity test.</p>
+        
+      <ul class="content-bullets">
+        <li>Open Settings → Network & Internet → Advanced network settings → More network adapter options (or run ncpa.cpl).</li><li>Open the intended adapter’s Properties → Internet Protocol Version 4 (Transmission Control Protocol (TCP)/IPv4) → Properties. Enter the approved values, then confirm.</li><li>Use ipconfig /all and ping the peer’s numeric address. Record results; restore “Obtain an Internet Protocol (IP) address automatically” and automatic Domain Name System (DNS) if that was the original setup.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Inspect host settings and assign a stable address to a shared network printer.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Open Settings → Network & Internet → Advanced network settings → More network adapter options (or run ncpa.cpl).</li><li>Open the intended adapter’s Properties → Internet Protocol Version 4 (TCP/IPv4) → Properties.</li><li>Enter the approved values, then confirm.</li><li>Use ipconfig /all and ping the peer’s numeric address.</li><li>Record results; restore “Obtain an IP address automatically” and automatic DNS if that was the original setup.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of configuring static ip in windows.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Windows adapter settings control an interface’s address and related options. Configuration must be verified through both inspection and an appropriate connectivity test.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 26 of 29</span>
+        <h2 class="slide-title">Windows Static Address Configuration Procedure</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Manual address configuration requires the intended adapter and a coordinated set of valid settings. Recording the original configuration supports verification and restoration after the change.</p>
+        
+      <ul class="content-bullets">
+        <li>Record the original configuration and select the intended adapter. Open ncpa.cpl, adapter Properties, then Internet Protocol Version 4 (Transmission Control Protocol (TCP)/IPv4) Properties.</li><li>On an approved isolated Local Area Network (LAN), 192.168.1.10/24 and 192.168.1.20/24 are compatible local hosts. A gateway is unnecessary for a numeric local test.</li><li>Use ipconfig /all to inspect settings, then test the peer in both directions. If Internet Control Message Protocol (ICMP) is filtered, examine approved policy rather than disabling the firewall.</li><li>Changing the second host to 192.168.2.20/24 requires appropriate gateways and bidirectional routing for cross-subnet communication.</li><li>Restore the original approved Internet Protocol (IP)/Domain Name System (DNS) method after a physical demonstration; browser settings do not change the real Windows adapter.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Inspect host settings and assign a stable address to a shared network printer.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Record the original configuration and select the intended adapter.</li><li>Open ncpa.cpl, adapter Properties, then Internet Protocol Version 4 (TCP/IPv4) Properties.</li><li>On an approved isolated LAN, 192.168.1.10/24 and 192.168.1.20/24 are compatible local hosts.</li><li>A gateway is unnecessary for a numeric local test.</li><li>Use ipconfig /all to inspect settings, then test the peer in both directions.</li><li>If ICMP is filtered, examine approved policy rather than disabling the firewall.</li><li>Changing the second host to 192.168.2.20/24 requires appropriate gateways and bidirectional routing for cross-subnet communication.</li><li>Restore the original approved IP/DNS method after a physical demonstration; browser settings do not change the real Windows adapter.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of windows static address configuration procedure.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Manual address configuration requires the intended adapter and a coordinated set of valid settings. Recording the original configuration supports verification and restoration after the change.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 27 of 29</span>
+        <h2 class="slide-title">Static IP Compatibility and Testing</h2>
+        <span class="type-tag demo">Simulation</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Syntactically valid addresses do not guarantee that two hosts can communicate. Local subnet agreement, link availability, and any required routes determine the modeled path.</p>
+        
+      <div class="demo-badge">
+        <b>Interactive Demonstration:</b> <code>static</code> — Use on-screen controls to step through or demonstrate the concept visually.
+      </div>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Inspect host settings and assign a stable address to a shared network printer.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Modeled network • validate fields, disconnect the link, or enable a router with interfaces in both subnets.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of static ip compatibility and testing.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Syntactically valid addresses do not guarantee that two hosts can communicate. Local subnet agreement, link availability, and any required routes determine the modeled path.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 28 of 29</span>
+        <h2 class="slide-title">Configuring a Static LAN Printer</h2>
+        <span class="type-tag application">application</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A classroom host can use the same router address for its gateway and forwarded name-resolution service, while a printer benefits from an address coordinated outside the dynamic Dynamic Host Configuration Protocol (DHCP) pool.</p>
+        
+      <ul class="content-bullets">
+        <li>The host and gateway share a local subnet; the router may forward Domain Name System (DNS) requests.</li><li>The printer benefits from an address excluded from the Dynamic Host Configuration Protocol (DHCP) dynamic pool to prevent conflicts.</li><li>Verify numeric connectivity and service ports separately; a successful ping does not prove application reachability.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Inspect host settings and assign a stable address to a shared network printer.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>The host and gateway share a local subnet; the router may forward DNS requests.</li><li>The printer benefits from an address excluded from the DHCP dynamic pool to prevent conflicts.</li><li>Verify numeric connectivity and service ports separately; a successful ping does not prove application reachability.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of configuring a static lan printer.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A classroom host can use the same router address for its gateway and forwarded name-resolution service, while a printer benefits from an address coordinated outside the dynamic Dynamic Host Configuration Protocol (DHCP) pool.
+        </div>
+      </div>
+    </div>
+  
+
+</body>
+</html>
+  

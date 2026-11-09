@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Topic 1: Introduction to Networking and Network Architecture — Instructor Discussion Guide</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 14mm 14mm 16mm 14mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #1e293b;
+      background: #ffffff;
+      line-height: 1.5;
+      font-size: 13px;
+    }
+    .guide-header-cover {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+      color: #ffffff;
+      padding: 24px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+    }
+    .guide-header-cover .badge {
+      display: inline-block;
+      background: #38bdf8;
+      color: #0f172a;
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+    .guide-header-cover h1 {
+      font-size: 23px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      color: #ffffff;
+    }
+    .guide-header-cover p {
+      font-size: 13px;
+      color: #cbd5e1;
+      max-width: 95%;
+    }
+    .meta-bar {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      display: flex;
+      gap: 20px;
+      font-size: 11px;
+      color: #94a3b8;
+    }
+    .meta-bar b {
+      color: #ffffff;
+    }
+
+    .slide-card {
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      background: #ffffff;
+      page-break-inside: avoid;
+      break-inside: avoid;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+    .card-header {
+      background: #f1f5f9;
+      padding: 10px 14px;
+      border-bottom: 1px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .slide-pill {
+      background: #0f172a;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 12px;
+      white-space: nowrap;
+    }
+    .slide-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+      flex-grow: 1;
+    }
+    .type-tag {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #e2e8f0;
+      color: #475569;
+    }
+    .type-tag.example {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .reading-box {
+      background: #f8fafc;
+      padding: 12px 14px;
+      border-bottom: 1px dashed #cbd5e1;
+    }
+    .box-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: #64748b;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .lead-text {
+      font-weight: 600;
+      color: #1e293b;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+    .content-bullets {
+      margin-left: 18px;
+      font-size: 12px;
+      color: #334155;
+    }
+    .content-bullets li {
+      margin-bottom: 3px;
+    }
+    .demo-badge {
+      background: #e0f2fe;
+      border: 1px solid #bae6fd;
+      color: #0369a1;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .teacher-guide-box {
+      background: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 12px 14px;
+    }
+    .guide-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .guide-icon {
+      font-size: 14px;
+    }
+    .guide-title {
+      font-weight: 800;
+      font-size: 12px;
+      text-transform: uppercase;
+      color: #1e40af;
+      letter-spacing: 0.3px;
+    }
+
+    .guide-section {
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #1e3a8a;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-bottom: 3px;
+    }
+    .analogy-text {
+      font-size: 12px;
+      color: #1e293b;
+      font-style: italic;
+      background: rgba(255,255,255,0.7);
+      padding: 6px 8px;
+      border-radius: 4px;
+      border-left: 2px solid #3b82f6;
+    }
+    .talking-points {
+      margin-left: 16px;
+      font-size: 12px;
+      color: #1e293b;
+    }
+    .talking-points li {
+      margin-bottom: 3px;
+    }
+
+    .q-and-a {
+      background: #ffffff;
+      border: 1px solid #bfdbfe;
+      padding: 8px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+    .question-text {
+      color: #1e3a8a;
+      margin-bottom: 4px;
+    }
+    .answer-text {
+      color: #047857;
+    }
+
+    .takeaway-banner {
+      margin-top: 8px;
+      background: #dbeafe;
+      color: #1e40af;
+      font-size: 12px;
+      padding: 5px 8px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="guide-header-cover">
+    <span class="badge">Instructor's Discussion Guide</span>
+    <h1>Topic 1: Introduction to Networking and Network Architecture</h1>
+    <p>Discover everyday networking, classify network coverage and architectures, and follow a simple exchange between devices.</p>
+    <div class="meta-bar">
+      <span><b>Curriculum:</b> Networking 1</span>
+      <span><b>Excluded:</b> Title (Slide 1), Objectives (Slide 2), and Summary (Final Slide)</span>
+      <span><b>Total Discussion Units:</b> 19 Slides</span>
+    </div>
+  </div>
+
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 3 of 22</span>
+        <h2 class="slide-title">What Is a Computer Network?</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A computer network is a system of two or more connected devices that exchange data and share resources. Wired or wireless links carry the data using agreed communication rules called protocols.</p>
+        
+      <ul class="content-bullets">
+        <li>Connected devices: computers, phones, servers, and printers can all participate in a network; the devices do not have to be identical.</li><li>Communication: a device sends data through a connection, and another device receives and interprets it using compatible communication rules.</li><li>Shared access: connected users can exchange messages, use shared files, or send work to a network printer. A local network can provide these services without Internet access.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Discover everyday networking, classify network coverage and architectures, and follow a simple exchange between devices.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Connected devices: computers, phones, servers, and printers can all participate in a network; the devices do not have to be identical.</li><li>Communication: a device sends data through a connection, and another device receives and interprets it using compatible communication rules.</li><li>Shared access: connected users can exchange messages, use shared files, or send work to a network printer.</li><li>A local network can provide these services without Internet access.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of what is a computer network?.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A computer network is a system of two or more connected devices that exchange data and share resources. Wired or wireless links carry the data using agreed communication rules called protocols.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 4 of 22</span>
+        <h2 class="slide-title">Everyday Uses of Networks</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Networks let people communicate and use services hosted on other devices. Messaging, online learning, shared files, and shared printers are familiar examples.</p>
+        
+      <ul class="content-bullets">
+        <li>Messaging: a phone sends a message to another person through a connected service.</li><li>Online learning: a student accesses course materials hosted by a school or Internet service.</li><li>Shared resources: several computers use the same printer or store files on a shared host.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Discover everyday networking, classify network coverage and architectures, and follow a simple exchange between devices.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Messaging: a phone sends a message to another person through a connected service.</li><li>Online learning: a student accesses course materials hosted by a school or Internet service.</li><li>Shared resources: several computers use the same printer or store files on a shared host.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of everyday uses of networks.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Networks let people communicate and use services hosted on other devices. Messaging, online learning, shared files, and shared printers are familiar examples.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 5 of 22</span>
+        <h2 class="slide-title">Basic Network Components</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A network combines end devices, connecting devices, and links. These create or receive data, provide paths, and carry signals between devices.</p>
+        
+      <ul class="content-bullets">
+        <li>End devices create or receive data: computers, phones, servers, and printers.</li><li>Connecting devices provide paths: a switch joins local wired devices, a wireless access point connects wireless devices, and a router joins networks.</li><li>Links carry signals: Ethernet cables, optical fiber, and wireless radio connect compatible interfaces.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Discover everyday networking, classify network coverage and architectures, and follow a simple exchange between devices.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>End devices create or receive data: computers, phones, servers, and printers.</li><li>Connecting devices provide paths: a switch joins local wired devices, a wireless access point connects wireless devices, and a router joins networks.</li><li>Links carry signals: Ethernet cables, optical fiber, and wireless radio connect compatible interfaces.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of basic network components.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A network combines end devices, connecting devices, and links. These create or receive data, provide paths, and carry signals between devices.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 6 of 22</span>
+        <h2 class="slide-title">How Devices Connect</h2>
+        <span class="type-tag demo">Simulation</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Wired connections carry signals through a cable. Wireless connections carry signals over radio between compatible devices.</p>
+        
+      <div class="demo-badge">
+        <b>Interactive Demonstration:</b> <code>introConnections</code> — Use on-screen controls to step through or demonstrate the concept visually.
+      </div>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Discover everyday networking, classify network coverage and architectures, and follow a simple exchange between devices.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Wired connections carry signals through a cable.</li><li>Wireless connections carry signals over radio between compatible devices.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of how devices connect.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Wired connections carry signals through a cable. Wireless connections carry signals over radio between compatible devices.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 7 of 22</span>
+        <h2 class="slide-title">Local Network vs. Internet</h2>
+        <span class="type-tag demo">Simulation</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A local network connects nearby devices so they can share data and resources. Internet access connects that network to services on other networks around the world.</p>
+        
+      <div class="demo-badge">
+        <b>Interactive Demonstration:</b> <code>introConnectivity</code> — Use on-screen controls to step through or demonstrate the concept visually.
+      </div>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Discover everyday networking, classify network coverage and architectures, and follow a simple exchange between devices.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>A local network connects nearby devices so they can share data and resources.</li><li>Internet access connects that network to services on other networks around the world.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of local network vs. internet.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A local network connects nearby devices so they can share data and resources. Internet access connects that network to services on other networks around the world.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 8 of 22</span>
+        <h2 class="slide-title">Five Elements of Data Communication</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Data communication involves a sender, receiver, message, medium, and protocol. Together, these explain who exchanges data, what travels, how it travels, and which rules make it understandable.</p>
+        
+      <ul class="content-bullets">
+        <li>Sender: the device originating a message.</li><li>Receiver: the intended destination of the message.</li><li>Message: the data being exchanged.</li><li>Medium: the physical or wireless path carrying the message.</li><li>Protocol: rules for formatting, addressing, and exchanging the message. Both sides must support compatible rules.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Discover everyday networking, classify network coverage and architectures, and follow a simple exchange between devices.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Sender: the device originating a message.</li><li>Receiver: the intended destination of the message.</li><li>Message: the data being exchanged.</li><li>Medium: the physical or wireless path carrying the message.</li><li>Protocol: rules for formatting, addressing, and exchanging the message.</li><li>Both sides must support compatible rules.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of five elements of data communication.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Data communication involves a sender, receiver, message, medium, and protocol. Together, these explain who exchanges data, what travels, how it travels, and which rules make it understandable.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 9 of 22</span>
+        <h2 class="slide-title">Example: one printer, five connected computers</h2>
+        <span class="type-tag example">example</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Five computers can share one network printer through a switch. Each device has its own connection, allowing print requests and replies to travel through the local network.</p>
+        
+      <ul class="content-bullets">
+        <li>Computer 3 sends a document through the switch to the network printer.</li><li>The computer is the sender, the printer is the receiver, and the print data is the message. Ethernet cables carry the exchange.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Discover everyday networking, classify network coverage and architectures, and follow a simple exchange between devices.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Computer 3 sends a document through the switch to the network printer.</li><li>The computer is the sender, the printer is the receiver, and the print data is the message.</li><li>Ethernet cables carry the exchange.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of example: one printer, five connected computers.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Five computers can share one network printer through a switch. Each device has its own connection, allowing print requests and replies to travel through the local network.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 10 of 22</span>
+        <h2 class="slide-title">A Simple Data Exchange</h2>
+        <span class="type-tag demo">Simulation</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A request asks another device to provide information or a service. When that device replies, it becomes the sender and the original requester becomes the receiver.</p>
+        
+      <div class="demo-badge">
+        <b>Interactive Demonstration:</b> <code>introExchange</code> — Use on-screen controls to step through or demonstrate the concept visually.
+      </div>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Discover everyday networking, classify network coverage and architectures, and follow a simple exchange between devices.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>One computer requests a shared document and another responds.</li><li>Sender and receiver roles change when the reply travels back.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of a simple data exchange.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A request asks another device to provide information or a service. When that device replies, it becomes the sender and the original requester becomes the receiver.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 11 of 22</span>
+        <h2 class="slide-title">Three Benefits of Networking</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Networking makes resources, information, and services available to multiple users. Sharing, collaboration, and managed backups help people work together more efficiently.</p>
+        
+      <ul class="content-bullets">
+        <li>Resource sharing: devices can use shared printers, storage, and an Internet connection.</li><li>Collaboration: people exchange documents and work with shared information.</li><li>Centralized backups: managed copies reduce scattered files and support recovery.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Discover everyday networking, classify network coverage and architectures, and follow a simple exchange between devices.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Resource sharing: devices can use shared printers, storage, and an Internet connection.</li><li>Collaboration: people exchange documents and work with shared information.</li><li>Centralized backups: managed copies reduce scattered files and support recovery.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of three benefits of networking.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Networking makes resources, information, and services available to multiple users. Sharing, collaboration, and managed backups help people work together more efficiently.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 12 of 22</span>
+        <h2 class="slide-title">Two Risks of Networking</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Shared access can expose information when permissions are poorly controlled. Shared equipment can also affect many users when it fails.</p>
+        
+      <ul class="content-bullets">
+        <li>Security exposure: an improperly exposed share can reveal data or permit unwanted changes.</li><li>Shared failures: a failed central device or service can affect many connected users.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Discover everyday networking, classify network coverage and architectures, and follow a simple exchange between devices.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Security exposure: an improperly exposed share can reveal data or permit unwanted changes.</li><li>Shared failures: a failed central device or service can affect many connected users.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of two risks of networking.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Shared access can expose information when permissions are poorly controlled. Shared equipment can also affect many users when it fails.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 13 of 22</span>
+        <h2 class="slide-title">Two Performance Measures: Bandwidth vs Latency</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Bandwidth describes how much data a link can carry per second. Latency describes delay, so a high-capacity connection can still feel slow when responses take time.</p>
+        
+      <ul class="content-bullets">
+        <li>Bandwidth: the capacity of a link, usually measured in bits per second.</li><li>Latency: the time delay in communication. A high-capacity link may still have high delay.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Discover everyday networking, classify network coverage and architectures, and follow a simple exchange between devices.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Bandwidth: the capacity of a link, usually measured in bits per second.</li><li>Latency: the time delay in communication.</li><li>A high-capacity link may still have high delay.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of two performance measures: bandwidth vs latency.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Bandwidth describes how much data a link can carry per second. Latency describes delay, so a high-capacity connection can still feel slow when responses take time.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 14 of 22</span>
+        <h2 class="slide-title">Four network coverage types</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Network coverage describes the geographic scope of connected devices and sites. Personal, local, metropolitan, and wide area networks differ in scope rather than following universal distance cutoffs.</p>
+        
+      <ul class="content-bullets">
+        <li>Personal Area Network (PAN): devices around a person, such as a phone and Bluetooth headset.</li><li>Local Area Network (LAN): a room, building, or local campus network, including a wireless Local Area Network (LAN).</li><li>Metropolitan Area Network (MAN): interconnects sites across a metropolitan area.</li><li>Wide Area Network (WAN): spans wider regions, often using carrier links. The Internet interconnects many networks.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Discover everyday networking, classify network coverage and architectures, and follow a simple exchange between devices.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Personal Area Network (PAN): devices around a person, such as a phone and Bluetooth headset.</li><li>Local Area Network (LAN): a room, building, or local campus network, including a wireless Local Area Network (LAN).</li><li>Metropolitan Area Network (MAN): interconnects sites across a metropolitan area.</li><li>Wide Area Network (WAN): spans wider regions, often using carrier links.</li><li>The Internet interconnects many networks.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of four network coverage types.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Network coverage describes the geographic scope of connected devices and sites. Personal, local, metropolitan, and wide area networks differ in scope rather than following universal distance cutoffs.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 15 of 22</span>
+        <h2 class="slide-title">Personal Area Network (PAN)</h2>
+        <span class="type-tag example">example</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A Personal Area Network connects devices around one person. It usually covers a short range and can use Bluetooth or wired connections.</p>
+        
+      <ul class="content-bullets">
+        <li>The phone sends audio to the headset over Bluetooth.</li><li>These devices form a network around one person; this does not require an Internet connection.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Discover everyday networking, classify network coverage and architectures, and follow a simple exchange between devices.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>The phone sends audio to the headset over Bluetooth.</li><li>These devices form a network around one person; this does not require an Internet connection.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of personal area network (pan).</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A Personal Area Network connects devices around one person. It usually covers a short range and can use Bluetooth or wired connections.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 16 of 22</span>
+        <h2 class="slide-title">Local Area Network (LAN)</h2>
+        <span class="type-tag example">example</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A Local Area Network connects devices within a limited area, such as a room, building, or campus. It lets those devices exchange data and share resources through wired or wireless links.</p>
+        
+      <ul class="content-bullets">
+        <li>Each of the five computers and the printer has its own Ethernet cable to the switch: six occupied switch ports.</li><li>The computers can send print jobs to the reachable printer. Internet access is unnecessary for this local exchange.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Discover everyday networking, classify network coverage and architectures, and follow a simple exchange between devices.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Each of the five computers and the printer has its own Ethernet cable to the switch: six occupied switch ports.</li><li>The computers can send print jobs to the reachable printer.</li><li>Internet access is unnecessary for this local exchange.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of local area network (lan).</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A Local Area Network connects devices within a limited area, such as a room, building, or campus. It lets those devices exchange data and share resources through wired or wireless links.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 17 of 22</span>
+        <h2 class="slide-title">Metropolitan Area Network (MAN)</h2>
+        <span class="type-tag example">example</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A Metropolitan Area Network connects networks across a city or metropolitan area. It can link sites such as library branches, municipal offices, or campuses within that area.</p>
+        
+      <ul class="content-bullets">
+        <li>A city-operated network interconnects library branches across a metropolitan area.</li><li>Each branch also has its own local network; the city links connect those separate sites.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Discover everyday networking, classify network coverage and architectures, and follow a simple exchange between devices.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>A city-operated network interconnects library branches across a metropolitan area.</li><li>Each branch also has its own local network; the city links connect those separate sites.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of metropolitan area network (man).</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A Metropolitan Area Network connects networks across a city or metropolitan area. It can link sites such as library branches, municipal offices, or campuses within that area.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 18 of 22</span>
+        <h2 class="slide-title">Wide Area Network (WAN)</h2>
+        <span class="type-tag example">example</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A Wide Area Network connects networks across large geographic areas, such as regions or countries. Organizations commonly use provider services to link their distant sites.</p>
+        
+      <ul class="content-bullets">
+        <li>A provider service joins campuses in different regions. Routers connect the campus networks to that service.</li><li>The wide-area link joins local networks; it does not replace their local switches or wireless access points.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Discover everyday networking, classify network coverage and architectures, and follow a simple exchange between devices.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>A provider service joins campuses in different regions.</li><li>Routers connect the campus networks to that service.</li><li>The wide-area link joins local networks; it does not replace their local switches or wireless access points.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of wide area network (wan).</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A Wide Area Network connects networks across large geographic areas, such as regions or countries. Organizations commonly use provider services to link their distant sites.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 19 of 22</span>
+        <h2 class="slide-title">Two network service architectures</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Network architecture describes which devices request and provide services. Peer-to-peer and client-server arrangements can both operate within the same geographic network type.</p>
+        
+      <ul class="content-bullets">
+        <li>Peer-to-peer: peers can both request and provide resources, such as one Personal Computer (PC) sharing a folder with another.</li><li>Client-server: clients request services from dedicated service providers, such as a school file server.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Discover everyday networking, classify network coverage and architectures, and follow a simple exchange between devices.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Peer-to-peer: peers can both request and provide resources, such as one PC sharing a folder with another.</li><li>Client-server: clients request services from dedicated service providers, such as a school file server.</li><li>One Local Area Network (LAN) can use both architectures.</li><li>A server is a role, not simply a large or expensive computer.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of two network service architectures.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Network architecture describes which devices request and provide services. Peer-to-peer and client-server arrangements can both operate within the same geographic network type.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 20 of 22</span>
+        <h2 class="slide-title">P2P vs Client-Server Availability</h2>
+        <span class="type-tag demo">Simulation</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A shared resource is available only while its host and required connection are working. Peer-hosted files depend on their individual owners, while centralized files depend on the server.</p>
+        
+      <div class="demo-badge">
+        <b>Interactive Demonstration:</b> <code>availabilityDemo</code> — Use on-screen controls to step through or demonstrate the concept visually.
+      </div>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Discover everyday networking, classify network coverage and architectures, and follow a simple exchange between devices.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Compare the same shared files when a peer or the central server goes offline.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of p2p vs client-server availability.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A shared resource is available only while its host and required connection are working. Peer-hosted files depend on their individual owners, while centralized files depend on the server.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 21 of 22</span>
+        <h2 class="slide-title">Two link choices: wired and wireless</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Wired links carry signals through a physical cable, while wireless links use radio. One network can combine both methods without changing its geographic classification.</p>
+        
+      <ul class="content-bullets">
+        <li>Ethernet provides a cabled link with predictable interference characteristics and a physical port requirement.</li><li>Wi-Fi provides radio access and mobility; walls, interference, distance, and shared airtime affect performance.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Discover everyday networking, classify network coverage and architectures, and follow a simple exchange between devices.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Ethernet provides a cabled link with predictable interference characteristics and a physical port requirement.</li><li>Wi-Fi provides radio access and mobility; walls, interference, distance, and shared airtime affect performance.</li><li>Neither medium is automatically secure.</li><li>Use authentication, encryption, and appropriate access controls.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of two link choices: wired and wireless.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Wired links carry signals through a physical cable, while wireless links use radio. One network can combine both methods without changing its geographic classification.
+        </div>
+      </div>
+    </div>
+  
+
+</body>
+</html>
+  

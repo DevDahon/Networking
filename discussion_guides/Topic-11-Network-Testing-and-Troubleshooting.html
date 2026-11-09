@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Topic 11: Network Testing and Troubleshooting — Instructor Discussion Guide</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 14mm 14mm 16mm 14mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #1e293b;
+      background: #ffffff;
+      line-height: 1.5;
+      font-size: 13px;
+    }
+    .guide-header-cover {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+      color: #ffffff;
+      padding: 24px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+    }
+    .guide-header-cover .badge {
+      display: inline-block;
+      background: #38bdf8;
+      color: #0f172a;
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+    .guide-header-cover h1 {
+      font-size: 23px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      color: #ffffff;
+    }
+    .guide-header-cover p {
+      font-size: 13px;
+      color: #cbd5e1;
+      max-width: 95%;
+    }
+    .meta-bar {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      display: flex;
+      gap: 20px;
+      font-size: 11px;
+      color: #94a3b8;
+    }
+    .meta-bar b {
+      color: #ffffff;
+    }
+
+    .slide-card {
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      background: #ffffff;
+      page-break-inside: avoid;
+      break-inside: avoid;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+    .card-header {
+      background: #f1f5f9;
+      padding: 10px 14px;
+      border-bottom: 1px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .slide-pill {
+      background: #0f172a;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 12px;
+      white-space: nowrap;
+    }
+    .slide-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+      flex-grow: 1;
+    }
+    .type-tag {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #e2e8f0;
+      color: #475569;
+    }
+    .type-tag.example {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .reading-box {
+      background: #f8fafc;
+      padding: 12px 14px;
+      border-bottom: 1px dashed #cbd5e1;
+    }
+    .box-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: #64748b;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .lead-text {
+      font-weight: 600;
+      color: #1e293b;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+    .content-bullets {
+      margin-left: 18px;
+      font-size: 12px;
+      color: #334155;
+    }
+    .content-bullets li {
+      margin-bottom: 3px;
+    }
+    .demo-badge {
+      background: #e0f2fe;
+      border: 1px solid #bae6fd;
+      color: #0369a1;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .teacher-guide-box {
+      background: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 12px 14px;
+    }
+    .guide-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .guide-icon {
+      font-size: 14px;
+    }
+    .guide-title {
+      font-weight: 800;
+      font-size: 12px;
+      text-transform: uppercase;
+      color: #1e40af;
+      letter-spacing: 0.3px;
+    }
+
+    .guide-section {
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #1e3a8a;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-bottom: 3px;
+    }
+    .analogy-text {
+      font-size: 12px;
+      color: #1e293b;
+      font-style: italic;
+      background: rgba(255,255,255,0.7);
+      padding: 6px 8px;
+      border-radius: 4px;
+      border-left: 2px solid #3b82f6;
+    }
+    .talking-points {
+      margin-left: 16px;
+      font-size: 12px;
+      color: #1e293b;
+    }
+    .talking-points li {
+      margin-bottom: 3px;
+    }
+
+    .q-and-a {
+      background: #ffffff;
+      border: 1px solid #bfdbfe;
+      padding: 8px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+    .question-text {
+      color: #1e3a8a;
+      margin-bottom: 4px;
+    }
+    .answer-text {
+      color: #047857;
+    }
+
+    .takeaway-banner {
+      margin-top: 8px;
+      background: #dbeafe;
+      color: #1e40af;
+      font-size: 12px;
+      padding: 5px 8px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="guide-header-cover">
+    <span class="badge">Instructor's Discussion Guide</span>
+    <h1>Topic 11: Network Testing and Troubleshooting</h1>
+    <p>Inspect evidence, run state-derived diagnostic commands, and repair nine common network faults.</p>
+    <div class="meta-bar">
+      <span><b>Curriculum:</b> Networking 1</span>
+      <span><b>Excluded:</b> Title (Slide 1), Objectives (Slide 2), and Summary (Final Slide)</span>
+      <span><b>Total Discussion Units:</b> 9 Slides</span>
+    </div>
+  </div>
+
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 3 of 12</span>
+        <h2 class="slide-title">Systematic Troubleshooting Process</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Troubleshooting starts by defining the symptom and collecting evidence. A justified change is followed by repeating the original failing test and documenting the result.</p>
+        
+      <ul class="content-bullets">
+        <li>Start with power, cable, port, and wireless association. Compare with a known-good link when authorized.</li><li>Check address, mask, duplicate conflicts, Dynamic Host Configuration Protocol (DHCP) service, and gateway. Test local and remote reachability separately.</li><li>If numeric connectivity works but names fail, investigate Domain Name System (DNS). If the host is reachable but a share is denied, inspect identity and permissions.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A student can reach the gateway by IP, but cannot open a website by its name.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Start with power, cable, port, and wireless association.</li><li>Compare with a known-good link when authorized.</li><li>Check address, mask, duplicate conflicts, DHCP service, and gateway.</li><li>Test local and remote reachability separately.</li><li>If numeric connectivity works but names fail, investigate DNS.</li><li>If the host is reachable but a share is denied, inspect identity and permissions.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of systematic troubleshooting process.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Troubleshooting starts by defining the symptom and collecting evidence. A justified change is followed by repeating the original failing test and documenting the result.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 4 of 12</span>
+        <h2 class="slide-title">Six Windows diagnostic commands</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Diagnostic commands inspect configuration, reachability, name resolution, or neighbor information. Each answers a limited question rather than proving that the whole network works.</p>
+        
+      <ul class="content-bullets">
+        <li>ipconfig: shows basic interface configuration; it does not prove reachability.</li><li>ipconfig /all: shows detail such as Domain Name System (DNS), Dynamic Host Configuration Protocol (DHCP) server, and leases; it does not prove reachability.</li><li>ping: tests Internet Control Message Protocol (ICMP) Echo behavior and round-trip time; a timeout can also mean filtering or packet loss.</li><li>tracert: provides TTL-based hop evidence; filtered probes can produce gaps.</li><li>nslookup: queries Domain Name System (DNS); success does not prove the destination service works.</li><li>arp -a: lists cached Internet Protocol version 4 (IPv4) neighbor mappings, not every device on the Local Area Network (LAN).</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A student can reach the gateway by IP, but cannot open a website by its name.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>ipconfig: shows basic interface configuration; it does not prove reachability.</li><li>ipconfig /all: shows detail such as DNS, DHCP server, and leases; it does not prove reachability.</li><li>ping: tests ICMP Echo behavior and round-trip time; a timeout can also mean filtering or packet loss.</li><li>tracert: provides TTL-based hop evidence; filtered probes can produce gaps.</li><li>nslookup: queries DNS; success does not prove the destination service works.</li><li>arp -a: lists cached IPv4 neighbor mappings, not every device on the LAN.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of six windows diagnostic commands.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Diagnostic commands inspect configuration, reachability, name resolution, or neighbor information. Each answers a limited question rather than proving that the whole network works.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 5 of 12</span>
+        <h2 class="slide-title">Nine modeled network faults</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Similar symptoms can come from different physical, addressing, service, or permission faults. Distinguishing the cause requires evidence tied to the failed operation.</p>
+        
+      <ul class="content-bullets">
+        <li>Ethernet cable disconnected.</li><li>Incorrect static Internet Protocol (IP) address.</li><li>Incorrect subnet mask.</li><li>Duplicate Internet Protocol (IP) address.</li><li>Dynamic Host Configuration Protocol (DHCP) server unavailable.</li><li>Incorrect default gateway.</li><li>Domain Name System (DNS) server problem.</li><li>File-sharing permission denied.</li><li>Wireless client disconnected.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A student can reach the gateway by IP, but cannot open a website by its name.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Ethernet cable disconnected.</li><li>Incorrect static IP address.</li><li>Incorrect subnet mask.</li><li>Duplicate IP address.</li><li>DHCP server unavailable.</li><li>Incorrect default gateway.</li><li>DNS server problem.</li><li>File-sharing permission denied.</li><li>Wireless client disconnected.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of nine modeled network faults.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Similar symptoms can come from different physical, addressing, service, or permission faults. Distinguishing the cause requires evidence tied to the failed operation.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 6 of 12</span>
+        <h2 class="slide-title">Example: numeric access works but a name fails</h2>
+        <span class="type-tag example">example</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A successful numeric service test and a failed name query point to different functional results. Name-resolution settings and reachability deserve investigation before replacing an already working link.</p>
+        
+      <ul class="content-bullets">
+        <li>If the same service works using its numeric address while name resolution times out, investigate resolver settings and name-service reachability.</li><li>Do not replace a working cable based on this symptom alone. Correct the identified resolver fault, then repeat the original name-based request.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Inspect evidence, run state-derived diagnostic commands, and repair nine common network faults.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>If the same service works using its numeric address while name resolution times out, investigate resolver settings and name-service reachability.</li><li>Do not replace a working cable based on this symptom alone.</li><li>Correct the identified resolver fault, then repeat the original name-based request.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of example: numeric access works but a name fails.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A successful numeric service test and a failed name query point to different functional results. Name-resolution settings and reachability deserve investigation before replacing an already working link.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 7 of 12</span>
+        <h2 class="slide-title">Understanding Traceroute Results</h2>
+        <span class="type-tag demo">Simulation</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Traceroute uses limited-lifetime probes to obtain evidence from successive hops. A missing reply can reflect filtering, while an explicit unreachable response provides different evidence about the path.</p>
+        
+      <div class="demo-badge">
+        <b>Interactive Demonstration:</b> <code>ttlTraceDemo</code> — Use on-screen controls to step through or demonstrate the concept visually.
+      </div>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Inspect evidence, run state-derived diagnostic commands, and repair nine common network faults.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Inspect modeled ICMP TTL-expiry evidence, hidden replies, and an explicit broken-link report.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of understanding traceroute results.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Traceroute uses limited-lifetime probes to obtain evidence from successive hops. A missing reply can reflect filtering, while an explicit unreachable response provides different evidence about the path.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 8 of 12</span>
+        <h2 class="slide-title">Verifying a Network Repair</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A troubleshooting hypothesis should explain the available evidence and predict a useful test. A repair is confirmed by repeating the original failed operation, not by assuming that a changed setting solved it.</p>
+        
+      <ul class="content-bullets">
+        <li>169.254.x.x suggests link-local configuration; check Dynamic Host Configuration Protocol (DHCP) reachability rather than guessing a public address.</li><li>A wrong gateway can break remote access while local peers still work. A Domain Name System (DNS) fault can leave numeric connectivity intact.</li><li>Document the original state, corrective action, and successful retest. Escalate unfamiliar equipment faults instead of making uncontrolled changes.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A student can reach the gateway by IP, but cannot open a website by its name.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>169.254.x.x suggests link-local configuration; check DHCP reachability rather than guessing a public address.</li><li>A wrong gateway can break remote access while local peers still work.</li><li>A DNS fault can leave numeric connectivity intact.</li><li>Document the original state, corrective action, and successful retest.</li><li>Escalate unfamiliar equipment faults instead of making uncontrolled changes.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of verifying a network repair.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A troubleshooting hypothesis should explain the available evidence and predict a useful test. A repair is confirmed by repeating the original failed operation, not by assuming that a changed setting solved it.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 9 of 12</span>
+        <h2 class="slide-title">Troubleshooting Workflow: Symptom to Fix</h2>
+        <span class="type-tag walkthrough">walkthrough</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A complete investigation connects the reported symptom to observations, a likely cause, and a targeted correction. The final retest checks whether the user’s original operation now succeeds.</p>
+        
+      <ul class="content-bullets">
+        <li>Define the symptom and scope, then inspect power, physical link, association, and the known healthy configuration.</li><li>ipconfig /all exposes address, mask, gateway, Domain Name System (DNS), and Dynamic Host Configuration Protocol (DHCP) details without proving reachability.</li><li>Compare a local numeric test, a gateway test, a remote numeric test, and a Domain Name System (DNS) query to narrow the affected function.</li><li>Use tracert for hop evidence and arp -a for cached Internet Protocol version 4 (IPv4) neighbors, recognizing filtering and cache limitations.</li><li>Change one justified setting, repeat the original failing test, and document the result. Keep security controls active and escalate unfamiliar equipment faults.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A student can reach the gateway by IP, but cannot open a website by its name.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Define the symptom and scope, then inspect power, physical link, association, and the known healthy configuration.</li><li>ipconfig /all exposes address, mask, gateway, DNS, and DHCP details without proving reachability.</li><li>Compare a local numeric test, a gateway test, a remote numeric test, and a DNS query to narrow the affected function.</li><li>Use tracert for hop evidence and arp -a for cached IPv4 neighbors, recognizing filtering and cache limitations.</li><li>Change one justified setting, repeat the original failing test, and document the result.</li><li>Keep security controls active and escalate unfamiliar equipment faults.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of troubleshooting workflow: symptom to fix.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A complete investigation connects the reported symptom to observations, a likely cause, and a targeted correction. The final retest checks whether the user’s original operation now succeeds.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 10 of 12</span>
+        <h2 class="slide-title">Diagnosing Network Faults Workbench</h2>
+        <span class="type-tag demo">Simulation</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Different command results expose different parts of the network state. Comparing them supports a targeted repair rather than unrelated configuration changes.</p>
+        
+      <div class="demo-badge">
+        <b>Interactive Demonstration:</b> <code>troubleshoot</code> — Use on-screen controls to step through or demonstrate the concept visually.
+      </div>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A student can reach the gateway by IP, but cannot open a website by its name.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Modeled network • nine deterministic fault states.</li><li>Inspect commands, select a cause, apply a targeted repair, and retest.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of diagnosing network faults workbench.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Different command results expose different parts of the network state. Comparing them supports a targeted repair rather than unrelated configuration changes.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 11 of 12</span>
+        <h2 class="slide-title">Local LAN vs Internet vs DNS</h2>
+        <span class="type-tag application">application</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Reaching a local gateway does not prove that remote routes, name resolution, or a website work. Separate tests identify which stage succeeds and which still needs investigation.</p>
+        
+      <ul class="content-bullets">
+        <li>Check numeric external reachability and Domain Name System (DNS) responses to separate routing from name resolution.</li><li>Do not assume the cable is faulty when the gateway is responding.</li><li>Even working Domain Name System (DNS) and ping do not prove a web service or permission is functioning.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A student can reach the gateway by IP, but cannot open a website by its name.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Check numeric external reachability and DNS responses to separate routing from name resolution.</li><li>Do not assume the cable is faulty when the gateway is responding.</li><li>Even working DNS and ping do not prove a web service or permission is functioning.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of local lan vs internet vs dns.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Reaching a local gateway does not prove that remote routes, name resolution, or a website work. Separate tests identify which stage succeeds and which still needs investigation.
+        </div>
+      </div>
+    </div>
+  
+
+</body>
+</html>
+  

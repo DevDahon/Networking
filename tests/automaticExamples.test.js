@@ -47,13 +47,9 @@ it('changes the sending computer and stops delivery when its cable is disconnect
  expect(root.querySelector('.example-flow-path')).toBeNull();
 });
 
-it('calculates subnet blocks, wire-map failure, and independent mask decisions',()=>{
- const subnetTopic=topics.find(t=>t.id==='09-basic-subnetting'),subnetSlide=subnetTopic.slides.find(s=>s.kind==='example');
- const blocks=examplePlan(subnetTopic.id,subnetSlide);
- expect(blocks[0].facts[1][1]).toBe('192.168.10.63');expect(blocks[3].facts[1][1]).toBe('192.168.10.255');
- const cableTopic=topics.find(t=>t.id==='06-network-cables-media'),cableSlide=cableTopic.slides.find(s=>s.title==='Example: a straight-through patch cable');
- const scan=examplePlan(cableTopic.id,cableSlide,{scenario:'fault'});
- expect(scan[6].ok).toBe(false);expect(scan[7].ok).toBe(true);expect(scan.at(-1).ok).toBe(false);
+it('calculates wire-map failure and independent mask decisions',()=>{
+ const cableTopic=topics.find(t=>t.id==='06-network-cables-media');
+ expect(cableTopic.slides.find(s=>s.title==='Example: a straight-through patch cable')).toBeUndefined();
  const staticTopic=topics.find(t=>t.id==='08-ip-addressing'),staticSlide=staticTopic.slides.find(s=>s.title==='Example: two manually configured classroom computers');
  const mask=examplePlan(staticTopic.id,staticSlide,{scenario:'fault'});
  expect(mask[0].ok).toBe(true);expect(mask[1].ok).toBe(false);expect(mask[2].route).toEqual([]);
@@ -75,7 +71,7 @@ it('cancels automatic example playback on app navigation',()=>{
  vi.advanceTimersByTime(2000);expect(root.querySelector('[data-example-packet]')).not.toBeNull();
  expect(vi.getTimerCount()).toBeGreaterThan(0);
  history.replaceState(null,'','/#/');window.dispatchEvent(new HashChangeEvent('hashchange'));
- vi.advanceTimersByTime(0);expect(vi.getTimerCount()).toBe(0);expect(root.querySelectorAll('.topic-card')).toHaveLength(12);
+ vi.advanceTimersByTime(0);expect(vi.getTimerCount()).toBe(0);expect(root.querySelectorAll('.topic-card')).toHaveLength(11);
 });
 
 it('honors reduced motion and still allows manual stepping',()=>{
@@ -103,22 +99,7 @@ it('preserves a packet position when paused and resumes on the same link',()=>{
  expect(Number(moved.getAttribute('cy'))).toBeLessThanOrEqual(365);
 });
 
-it('shows all seven responsibilities down the sender and up the receiver',()=>{
- const topic=topics.find(t=>t.id==='osi-reference-model');
- const slide=topic.slides.find(s=>s.kind==='example');
- const plan=examplePlan(topic.id,slide);
- expect(slide.title).toBe('How the Seven Open Systems Interconnection (OSI) Layers Work Together');
- expect(plan.map(s=>s.layer)).toEqual([7,6,5,4,3,2,1,1,2,3,4,5,6,7]);
- expect(plan.slice(0,7).every(s=>s.side==='sender')).toBe(true);
- expect(plan.slice(7).every(s=>s.side==='receiver')).toBe(true);
- expect(plan[6].route).toEqual([0,1,2]);
- dispose=automaticExample(root,slide,topic.id);
- for(const stage of plan){
-  const active=root.querySelector('[data-layer][aria-current="step"]');
-  expect(active.dataset.layer).toBe(String(stage.layer));expect(active.dataset.side).toBe(stage.side);
-  expect(root.querySelector('.example-current p').textContent).toBe(stage.text);
-  if(stage!==plan.at(-1))click('example-next');
- }
- expect(root.querySelector('.example-current').textContent).toContain('Hello!');
- expect(root.querySelector('.example-current').textContent).not.toContain('school');
+it('confirms osi-reference-model has no example slides to animate', () => {
+ const topic = topics.find(t => t.id === 'osi-reference-model');
+ expect(topic.slides.filter(s => s.kind === 'example')).toHaveLength(0);
 });

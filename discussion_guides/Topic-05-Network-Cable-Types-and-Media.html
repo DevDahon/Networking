@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Topic 5: Network Cable Types and Media — Instructor Discussion Guide</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 14mm 14mm 16mm 14mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #1e293b;
+      background: #ffffff;
+      line-height: 1.5;
+      font-size: 13px;
+    }
+    .guide-header-cover {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+      color: #ffffff;
+      padding: 24px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+    }
+    .guide-header-cover .badge {
+      display: inline-block;
+      background: #38bdf8;
+      color: #0f172a;
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+    .guide-header-cover h1 {
+      font-size: 23px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      color: #ffffff;
+    }
+    .guide-header-cover p {
+      font-size: 13px;
+      color: #cbd5e1;
+      max-width: 95%;
+    }
+    .meta-bar {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      display: flex;
+      gap: 20px;
+      font-size: 11px;
+      color: #94a3b8;
+    }
+    .meta-bar b {
+      color: #ffffff;
+    }
+
+    .slide-card {
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      background: #ffffff;
+      page-break-inside: avoid;
+      break-inside: avoid;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+    .card-header {
+      background: #f1f5f9;
+      padding: 10px 14px;
+      border-bottom: 1px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .slide-pill {
+      background: #0f172a;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 12px;
+      white-space: nowrap;
+    }
+    .slide-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+      flex-grow: 1;
+    }
+    .type-tag {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #e2e8f0;
+      color: #475569;
+    }
+    .type-tag.example {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .reading-box {
+      background: #f8fafc;
+      padding: 12px 14px;
+      border-bottom: 1px dashed #cbd5e1;
+    }
+    .box-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: #64748b;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .lead-text {
+      font-weight: 600;
+      color: #1e293b;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+    .content-bullets {
+      margin-left: 18px;
+      font-size: 12px;
+      color: #334155;
+    }
+    .content-bullets li {
+      margin-bottom: 3px;
+    }
+    .demo-badge {
+      background: #e0f2fe;
+      border: 1px solid #bae6fd;
+      color: #0369a1;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .teacher-guide-box {
+      background: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 12px 14px;
+    }
+    .guide-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .guide-icon {
+      font-size: 14px;
+    }
+    .guide-title {
+      font-weight: 800;
+      font-size: 12px;
+      text-transform: uppercase;
+      color: #1e40af;
+      letter-spacing: 0.3px;
+    }
+
+    .guide-section {
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #1e3a8a;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-bottom: 3px;
+    }
+    .analogy-text {
+      font-size: 12px;
+      color: #1e293b;
+      font-style: italic;
+      background: rgba(255,255,255,0.7);
+      padding: 6px 8px;
+      border-radius: 4px;
+      border-left: 2px solid #3b82f6;
+    }
+    .talking-points {
+      margin-left: 16px;
+      font-size: 12px;
+      color: #1e293b;
+    }
+    .talking-points li {
+      margin-bottom: 3px;
+    }
+
+    .q-and-a {
+      background: #ffffff;
+      border: 1px solid #bfdbfe;
+      padding: 8px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+    .question-text {
+      color: #1e3a8a;
+      margin-bottom: 4px;
+    }
+    .answer-text {
+      color: #047857;
+    }
+
+    .takeaway-banner {
+      margin-top: 8px;
+      background: #dbeafe;
+      color: #1e40af;
+      font-size: 12px;
+      padding: 5px 8px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="guide-header-cover">
+    <span class="badge">Instructor's Discussion Guide</span>
+    <h1>Topic 5: Network Cable Types and Media</h1>
+    <p>Compare network cable types, categories, wiring standards, termination, and wire mapping.</p>
+    <div class="meta-bar">
+      <span><b>Curriculum:</b> Networking 1</span>
+      <span><b>Excluded:</b> Title (Slide 1), Objectives (Slide 2), and Summary (Final Slide)</span>
+      <span><b>Total Discussion Units:</b> 10 Slides</span>
+    </div>
+  </div>
+
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 3 of 13</span>
+        <h2 class="slide-title">Five network media choices</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A transmission medium carries signals between network interfaces. Twisted-pair copper, fiber, coaxial cable, and radio differ in construction, reach, interference behavior, and installation needs.</p>
+        
+      <ul class="content-bullets">
+        <li>Unshielded Twisted Pair (UTP): Four unshielded twisted copper pairs, no overall shield. Twisting reduces electromagnetic interference (EMI).</li><li>Shielded Twisted Pair (STP): Shielded twisted-pair cable with foil or braid shielding; requires proper grounding and bonding.</li><li>Fiber: Carries light signals through glass or plastic cores; immune to EMI and spans long distances.</li><li>Coaxial: Copper core with dielectric insulator and braided metallic shield; used for broadband and legacy bus.</li><li>Wireless: Radio frequency transmission providing mobility across shared, unguided electromagnetic airspace.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Compare network cable types, categories, wiring standards, termination, and wire mapping.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>UTP: Four unshielded twisted copper pairs, no overall shield.</li><li>Twisting reduces electromagnetic interference (EMI).</li><li>STP: Shielded twisted-pair cable with foil or braid shielding; requires proper grounding and bonding.</li><li>Fiber: Carries light signals through glass or plastic cores; immune to EMI and spans long distances.</li><li>Coaxial: Copper core with dielectric insulator and braided metallic shield; used for broadband and legacy bus.</li><li>Wireless: Radio frequency transmission providing mobility across shared, unguided electromagnetic airspace.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of five network media choices.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A transmission medium carries signals between network interfaces. Twisted-pair copper, fiber, coaxial cable, and radio differ in construction, reach, interference behavior, and installation needs.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 4 of 13</span>
+        <h2 class="slide-title">Three Ethernet cable categories</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A cable category describes specified performance characteristics for compatible Ethernet installations. Supported rate and reach also depend on the standard, connectors, channel length, and installation quality.</p>
+        
+      <ul class="content-bullets">
+        <li>Cat 5e: Supports 1 Gb/s (1000BASE-T) over a standard 100 m channel.</li><li>Cat 6: Supports 1 Gb/s at 100 m; supports 10 Gb/s (10GBASE-T) up to 55 m.</li><li>Cat 6A: Supports 10 Gb/s (10GBASE-T) over a full 100 m channel.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Compare network cable types, categories, wiring standards, termination, and wire mapping.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Cat 5e: Supports 1 Gb/s (1000BASE-T) over a standard 100 m channel.</li><li>Cat 6: Supports 1 Gb/s at 100 m; supports 10 Gb/s (10GBASE-T) up to 55 m.</li><li>Cat 6A: Supports 10 Gb/s (10GBASE-T) over a full 100 m channel.</li><li>A standard channel comprises up to 90 m of permanent horizontal link plus 10 m of patch cords.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of three ethernet cable categories.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A cable category describes specified performance characteristics for compatible Ethernet installations. Supported rate and reach also depend on the standard, connectors, channel length, and installation quality.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 5 of 13</span>
+        <h2 class="slide-title">RJ45 Plugs and Keystone Jacks</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Twisted-pair Ethernet uses Eight Positions, Eight Contacts (8P8C) modular plugs for patch cords and 110 Insulation-Displacement Contact (IDC) keystone jacks for permanent wall runs. Both components must match the cable category and wiring standard.</p>
+        
+      <ul class="content-bullets">
+        <li>Registered Jack 45 (RJ45) (Eight Positions, Eight Contacts (8P8C)) plug: Modular male plug with eight gold-plated contacts, used to terminate flexible stranded patch cables.</li><li>Keystone Jack: Modular female jack with 110 Insulation-Displacement Contact (IDC) contacts, mounted in wall faceplates and patch panels for permanent solid-core horizontal cabling.</li><li>Category matching: Plugs and jacks must match the cable category and conductor gauge to prevent signal degradation.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Compare network cable types, categories, wiring standards, termination, and wire mapping.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>RJ45 (8P8C) plug: Modular male plug with eight gold-plated contacts, used to terminate flexible stranded patch cables.</li><li>Keystone Jack: Modular female jack with 110 IDC contacts, mounted in wall faceplates and patch panels for permanent solid-core horizontal cabling.</li><li>Category matching: Plugs and jacks must match the cable category and conductor gauge to prevent signal degradation.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of rj45 plugs and keystone jacks.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Twisted-pair Ethernet uses Eight Positions, Eight Contacts (8P8C) modular plugs for patch cords and 110 Insulation-Displacement Contact (IDC) keystone jacks for permanent wall runs. Both components must match the cable category and wiring standard.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 6 of 13</span>
+        <h2 class="slide-title">T568A: eight conductor positions</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">T568A specifies which conductor occupies each of the eight contact positions. Read the color order from pin 1 to pin 8 using the stated connector orientation.</p>
+        
+      <ul class="content-bullets">
+        <li>Pin 1: White/Green.</li><li>Pin 2: Green.</li><li>Pin 3: White/Orange.</li><li>Pin 4: Blue.</li><li>Pin 5: White/Blue.</li><li>Pin 6: Orange.</li><li>Pin 7: White/Brown.</li><li>Pin 8: Brown.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Compare network cable types, categories, wiring standards, termination, and wire mapping.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Pin 1: White/Green.</li><li>Pin 2: Green.</li><li>Pin 3: White/Orange.</li><li>Pin 4: Blue.</li><li>Pin 5: White/Blue.</li><li>Pin 6: Orange.</li><li>Pin 7: White/Brown.</li><li>Pin 8: Brown.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of t568a: eight conductor positions.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> T568A specifies which conductor occupies each of the eight contact positions. Read the color order from pin 1 to pin 8 using the stated connector orientation.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 7 of 13</span>
+        <h2 class="slide-title">T568B: eight conductor positions</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">T568B is another standardized eight-contact conductor arrangement. It exchanges the orange and green pair positions relative to T568A while preserving the blue and brown positions.</p>
+        
+      <ul class="content-bullets">
+        <li>Pin 1: White/Orange.</li><li>Pin 2: Orange.</li><li>Pin 3: White/Green.</li><li>Pin 4: Blue.</li><li>Pin 5: White/Blue.</li><li>Pin 6: Green.</li><li>Pin 7: White/Brown.</li><li>Pin 8: Brown.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Compare network cable types, categories, wiring standards, termination, and wire mapping.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Pin 1: White/Orange.</li><li>Pin 2: Orange.</li><li>Pin 3: White/Green.</li><li>Pin 4: Blue.</li><li>Pin 5: White/Blue.</li><li>Pin 6: Green.</li><li>Pin 7: White/Brown.</li><li>Pin 8: Brown.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of t568b: eight conductor positions.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> T568B is another standardized eight-contact conductor arrangement. It exchanges the orange and green pair positions relative to T568A while preserving the blue and brown positions.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 8 of 13</span>
+        <h2 class="slide-title">Straight-Through vs Crossover Cables</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A straight-through cable uses the same termination standard at both ends. A traditional crossover changes selected pair positions, although many modern interfaces can adjust automatically.</p>
+        
+      <ul class="content-bullets">
+        <li>A conventional A–B crossover swaps pins 1↔3 and 2↔6 for traditional 10/100BASE-T transmit/receive pairs.</li><li>Many modern interfaces support auto-MDI/Medium Dependent Interface Crossover (MDIX), so a crossover cable is often unnecessary. Gigabit Ethernet uses all four pairs.</li><li>An equal but nonstandard color order may pass a simple continuity check while creating split pairs and poor performance.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Compare network cable types, categories, wiring standards, termination, and wire mapping.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>A conventional A–B crossover swaps pins 1↔3 and 2↔6 for traditional 10/100BASE-T transmit/receive pairs.</li><li>Many modern interfaces support auto-MDI/MDIX, so a crossover cable is often unnecessary.</li><li>Gigabit Ethernet uses all four pairs.</li><li>An equal but nonstandard color order may pass a simple continuity check while creating split pairs and poor performance.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of straight-through vs crossover cables.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A straight-through cable uses the same termination standard at both ends. A traditional crossover changes selected pair positions, although many modern interfaces can adjust automatically.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 9 of 13</span>
+        <h2 class="slide-title">Four cabling tool and tester functions</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Cabling tools prepare, terminate, or test different parts of an installation. Stripping, crimping, punch-down termination, and continuity testing each require the appropriate tool.</p>
+        
+      <ul class="content-bullets">
+        <li>Cable stripper: removes jacket without nicking conductor insulation.</li><li>Crimping tool: terminates compatible modular plugs.</li><li>Punch-down tool: seats conductors in compatible Insulation-Displacement Contact (IDC) jacks or patch panels.</li><li>Basic Local Area Network (LAN) tester: checks conductor continuity and wire mapping.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Compare network cable types, categories, wiring standards, termination, and wire mapping.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Cable stripper: removes jacket without nicking conductor insulation.</li><li>Crimping tool: terminates compatible modular plugs.</li><li>Punch-down tool: seats conductors in compatible IDC jacks or patch panels.</li><li>Basic LAN tester: checks conductor continuity and wire mapping.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of four cabling tool and tester functions.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Cabling tools prepare, terminate, or test different parts of an installation. Stripping, crimping, punch-down termination, and continuity testing each require the appropriate tool.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 10 of 13</span>
+        <h2 class="slide-title">RJ45 Cable Crimping Tools</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Terminating an Eight Positions, Eight Contacts (8P8C) modular plug requires preparing dedicated cutting, stripping, crimping, and testing tools alongside quality Cat 5e/Cat 6 media.</p>
+        
+      <ul class="content-bullets">
+        <li>Registered Jack 45 (RJ45) Modular Crimper: Heavy-duty ratcheting tool with precision Eight Positions, Eight Contacts (8P8C) dies to compress contacts into copper conductors and engage the jacket strain relief.</li><li>Unshielded Twisted Pair (UTP) Cable Stripper: Compact rotary wire stripper calibrated to cleanly score and remove the outer PVC jacket without nicking conductor insulation.</li><li>Modular Registered Jack 45 (RJ45) Plugs: Cat 5e or Cat 6 clear polycarbonate male Eight Positions, Eight Contacts (8P8C) plugs featuring eight gold-plated contact pins and a flexible locking tab.</li><li>Unshielded Twisted Pair (UTP) Cable: Four-pair 24 AWG stranded copper Ethernet cable designed for flexible patch cords between workstations and wall jacks.</li><li>Flush Cutters / Snips: Precision diagonal cutting pliers used to trim untwisted, aligned wires straight and square across before insertion into the plug.</li><li>Local Area Network (LAN) Cable Tester: Dual-unit continuity wire-map tester to confirm all eight pin paths and detect open circuits, short circuits, or crossed pairs.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Compare network cable types, categories, wiring standards, termination, and wire mapping.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>RJ45 Modular Crimper: Heavy-duty ratcheting tool with precision 8P8C dies to compress contacts into copper conductors and engage the jacket strain relief.</li><li>UTP Cable Stripper: Compact rotary wire stripper calibrated to cleanly score and remove the outer PVC jacket without nicking conductor insulation.</li><li>Modular RJ45 Plugs: Cat 5e or Cat 6 clear polycarbonate male 8P8C plugs featuring eight gold-plated contact pins and a flexible locking tab.</li><li>Unshielded Twisted Pair (UTP) Cable: Four-pair 24 AWG stranded copper Ethernet cable designed for flexible patch cords between workstations and wall jacks.</li><li>Flush Cutters / Snips: Precision diagonal cutting pliers used to trim untwisted, aligned wires straight and square across before insertion into the plug.</li><li>LAN Cable Tester: Dual-unit continuity wire-map tester to confirm all eight pin paths and detect open circuits, short circuits, or crossed pairs.</li><li>Always prepare spare 8P8C plugs; modular plugs cannot be reused once crimped.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of rj45 cable crimping tools.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Terminating an Eight Positions, Eight Contacts (8P8C) modular plug requires preparing dedicated cutting, stripping, crimping, and testing tools alongside quality Cat 5e/Cat 6 media.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 11 of 13</span>
+        <h2 class="slide-title">Keystone Jack Punch-Down Tools</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Terminating a permanent wall jack requires specialized insulation displacement tools, punch-down supports, and rated solid-core cabling.</p>
+        
+      <ul class="content-bullets">
+        <li>110 Impact Punch-Down Tool: Spring-loaded impact driver with a reversible 110/66 blade that seats conductors into Insulation-Displacement Contact (IDC) V-notches and cuts excess wire flush.</li><li>Keystone Jack (110 Insulation-Displacement Contact (IDC)): Registered Jack 45 (RJ45) female modular jack with 110 insulation displacement contacts, universal T568A/T568B color coding, and snap-in faceplate clips.</li><li>Unshielded Twisted Pair (UTP) Cable Stripper: Round jacket stripper used to remove 1 to 1.5 inches of outer jacket while preserving pair twists up to the Insulation-Displacement Contact (IDC) blocks.</li><li>Solid-Core Unshielded Twisted Pair (UTP) Cable: Four-pair 23/24 AWG solid copper horizontal cable engineered for structured in-wall and ceiling cable runs.</li><li>Punch-Down Palm Tool / Stand: Contoured palm puck or base holder that cradles the jack securely to prevent hand injury and ensure even downward punching pressure.</li><li>Insulation-Displacement Contact (IDC) Dust Caps & Cable Tester: Snap-on protective dust covers to lock conductors firmly in place, plus a Local Area Network (LAN) tester with patch cord to verify end-to-end pin mapping.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Compare network cable types, categories, wiring standards, termination, and wire mapping.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>110 Impact Punch-Down Tool: Spring-loaded impact driver with a reversible 110/66 blade that seats conductors into IDC V-notches and cuts excess wire flush.</li><li>Keystone Jack (110 IDC): RJ45 female modular jack with 110 insulation displacement contacts, universal T568A/T568B color coding, and snap-in faceplate clips.</li><li>UTP Cable Stripper: Round jacket stripper used to remove 1 to 1.5 inches of outer jacket while preserving pair twists up to the IDC blocks.</li><li>Solid-Core UTP Cable: Four-pair 23/24 AWG solid copper horizontal cable engineered for structured in-wall and ceiling cable runs.</li><li>Punch-Down Palm Tool / Stand: Contoured palm puck or base holder that cradles the jack securely to prevent hand injury and ensure even downward punching pressure.</li><li>IDC Dust Caps & Cable Tester: Snap-on protective dust covers to lock conductors firmly in place, plus a LAN tester with patch cord to verify end-to-end pin mapping.</li><li>Always orient the punch-down tool with the CUT blade facing outward toward the excess wire tail.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of keystone jack punch-down tools.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Terminating a permanent wall jack requires specialized insulation displacement tools, punch-down supports, and rated solid-core cabling.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 12 of 13</span>
+        <h2 class="slide-title">Three common wire-map faults</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A wire map identifies which contact paths connect between cable ends. Opens, shorts, and miswires describe different continuity problems and require different corrections.</p>
+        
+      <ul class="content-bullets">
+        <li>Open: a conductor has no continuous end-to-end path.</li><li>Short: conductors are accidentally joined.</li><li>Miswire: a conductor arrives at an unexpected pin.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Compare network cable types, categories, wiring standards, termination, and wire mapping.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Open: a conductor has no continuous end-to-end path.</li><li>Short: conductors are accidentally joined.</li><li>Miswire: a conductor arrives at an unexpected pin.</li><li>A wire-map pass does not certify pair integrity, signal quality, or cable bandwidth.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of three common wire-map faults.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A wire map identifies which contact paths connect between cable ends. Opens, shorts, and miswires describe different continuity problems and require different corrections.
+        </div>
+      </div>
+    </div>
+  
+
+</body>
+</html>
+  

@@ -4,7 +4,7 @@ import {clarifyTopic} from '../src/topics/clarifyTopics.js';
 
 it('introduces the main idea visibly on every discussion, example, and simulation slide',()=>{
  const discussion=topics.flatMap(topic=>topic.slides.filter(s=>!['title','objectives','summary'].includes(s.kind)));
- expect(discussion).toHaveLength(172);
+ expect(discussion).toHaveLength(152);
  for(const slide of discussion){
   expect(slide.lead).toBeTypeOf('string');
   expect(slide.lead).toMatch(/\.$/);
@@ -16,7 +16,7 @@ it('clarifies wording without altering learning content, controls, or topic boun
  const fixture={id:'01-introduction-to-networking',objectives:['Recognize communication'],slides:[
   {kind:'title',title:'Introduction to Networking',notes:{opening:'Introduce this subject.'}},
   {kind:'concept',title:'Five parts of a conversation',items:['Sender','Receiver','Message','Medium','Protocol'],expectedCount:5,notes:{}},
-  {kind:'demo',type:'transferDemo',title:'Bandwidth, delay, and file delivery',notes:{}},
+  {kind:'demo',type:'availabilityDemo',title:'Resource availability in peer and server networks',notes:{}},
   {kind:'summary',title:'Summary of the Discussion',items:['The core ideas'],notes:{opening:'Recall the core ideas.'}}
  ]};
  // Use the complete coverage check rather than permitting a partly edited deck.
@@ -24,9 +24,9 @@ it('clarifies wording without altering learning content, controls, or topic boun
  expect(fixture.slides[1].title).toBe('Five parts of a conversation');
  expect(fixture.slides[1].items).toEqual(['Sender','Receiver','Message','Medium','Protocol']);
  const intro=topics[0];
- expect(intro.slides[8]).toMatchObject({title:'Five Elements of Data Communication',expectedCount:5});
- expect(intro.slides[8].items).toHaveLength(5);
- expect(intro.slides.some(s=>s.type==='transferDemo')).toBe(true);
+ expect(intro.slides[7]).toMatchObject({title:'Five Elements of Data Communication',expectedCount:5});
+ expect(intro.slides[7].items).toHaveLength(5);
+ expect(intro.slides.some(s=>s.type==='transferDemo')).toBe(false);
  expect(intro.slides.at(-1).kind).toBe('summary');
 });
 

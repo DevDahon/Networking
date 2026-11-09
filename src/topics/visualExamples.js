@@ -18,7 +18,7 @@ const coverageExamples=[
 ];
 const definitions={
  '01-introduction-to-networking':[
-  ['Local Network vs. Internet',example('Example: one printer, five connected computers','A classroom network shares a resource among several devices.',localClassroom,['Computer 3 sends a document through the switch to the network printer.','The computer is the sender, the printer is the receiver, and the print data is the message. Ethernet cables carry the exchange.'])]
+  ['Five parts of a conversation',example('Example: one printer, five connected computers','A classroom network shares a resource among several devices.',localClassroom,['Computer 3 sends a document through the switch to the network printer.','The computer is the sender, the printer is the receiver, and the print data is the message. Ethernet cables carry the exchange.'])]
  ],
  '03-network-topologies':[
   ['Six network topologies',example('Example: a six-endpoint star','Every endpoint has its own connection to the central switch.',localClassroom,['Five computers and one printer form six spokes around one switch.','Unplugging Computer 2’s cable isolates that computer. A failed central switch affects all six endpoints.'])]
@@ -26,20 +26,10 @@ const definitions={
  '04-network-devices':[
   ['Joining networks and media',example('Example: the switch and router have different jobs','Local printing and visiting a remote website follow different paths.',{nodes:[node('Computer',100,145),node('Switch',340,145,'Local frames','switch'),node('Printer',340,285,'Local destination','printer'),node('Router',600,145,'Next network','network'),node('Provider',870,145,'Remote networks','network')],edges:[[0,1],[1,2],[1,3],[3,4]]},['Local print traffic travels from the computer through the switch to the printer.','Traffic to a remote network goes through the switch to the router, which chooses an appropriate next hop.'])]
  ],
- 'osi-reference-model':[
-  ['What is the OSI model?',example('Example: a web request uses several responsibilities','The seven-layer model describes functions involved in one communication.',{nodes:[node('Computer A',210,145,'Sends Hello!'),node('Connection',500,145,'Carries signals','network'),node('Computer B',790,145,'Receives Hello!','computer')],edges:[[0,1],[1,2]]},['These are conceptual responsibilities; real applications can combine them. Session describes logical dialog coordination, not a mandatory separate messaging protocol.'])],
-  ['Wrap the data, then unwrap it',example('Example: a message gains delivery information','A short message is carried inside nested data units.',chain(['Message: Hello','Packet in a frame','Receiver'],['Application data','Transport and delivery headers','Interpret the data']),['The sender adds transport information, an Internet Protocol header, and Ethernet framing for this example.','The receiving endpoint checks and interprets the framing and headers to deliver Hello to the intended application.'])]
- ],
- '06-network-cables-media':[
-  ['Three Ethernet cable categories',example('Example: a room link and a building link','Different distances and physical conditions call for different media.',chain(['Room computer','Building switch','Other building'],['30 m copper channel','Matching interfaces','180 m fiber path']),['A correctly installed Category 5e channel can support a 30 m, 1 gigabit-per-second Ethernet connection.','A 180 m direct path exceeds the standard 100 m copper channel limit. Appropriate fiber and matching optics can serve that longer path.'])],
-  ['Straight-through and crossover arrangements',example('Example: a straight-through patch cable','The same termination standard at both ends preserves pin-to-pin mapping.',chain(['End A: T568B','Eight conductors','End B: T568B'],['Pins 1 through 8','1→1, 2→2, …, 8→8','Same color order']),['Both ends use white-orange, orange, white-green, blue, white-blue, green, white-brown, brown, read in the stated contact-side orientation.','A wire-map tester should show each pin reaching the same numbered pin. Continuity alone does not certify cable performance.'])]
- ],
+ '06-network-cables-media':[],
  '08-ip-addressing':[
   ['Prefix, gateway, and DNS do different jobs',example('Example: read one classroom address','The address, prefix, and gateway describe different parts of the configuration.',chain(['Computer','Local gateway','Remote network'],['192.168.10.25/24','192.168.10.1','Reached through routing']),['The /24 prefix places this host in 192.168.10.0/24. Ordinary usable host addresses run from .1 through .254.','A peer at 192.168.10.40 is local; a destination outside this subnet needs an appropriate route, often through the configured gateway.'])],
   ['Same subnet is a two-sided decision',example('Example: two manually configured classroom computers','Both hosts use different usable addresses in the same subnet.',chain(['Computer A','Ethernet switch','Computer B'],['192.168.1.10/24','Local connection','192.168.1.20/24']),['Both hosts calculate 192.168.1.0/24 as their local network, so this exchange does not require a router.','The addresses must be unique and the link and host policy must permit communication. A successful address calculation alone does not prove reachability.'])]
- ],
- '09-basic-subnetting':[
-  ['Calculate a /26 step by step',example('Example: split one /24 into four /26 networks','Two extra network bits divide 256 addresses into four equal blocks.',{nodes:[node('192.168.10.0/26',150,90,'.1–.62 usable','network'),node('192.168.10.64/26',700,90,'.65–.126 usable','network'),node('192.168.10.128/26',150,255,'.129–.190 usable','network'),node('192.168.10.192/26',700,255,'.193–.254 usable','network')],edges:[]},['Each block has 64 total addresses and 62 ordinary usable host addresses. Broadcasts are .63, .127, .191, and .255.','The four blocks cover 192.168.10.0/24 without overlap. Communication between different blocks requires routing.'])]
  ],
  'network-protocols-services':[
   ['A web request uses several services',example('Example: open a protected school website','Several specialized protocols cooperate in one familiar operation.',{nodes:[node('Browser',150,145,'school.example'),node('Name resolver',600,60,'Return the server address','network'),node('Web server',600,260,'Protected web response')],edges:[[0,1],[0,2]]},['Domain Name System (DNS) resolves the server name. For a common HTTP/1.1-over-TLS example, Transmission Control Protocol (TCP) connects to server port 443 and Transport Layer Security (TLS) protects the exchange.','Hypertext Transfer Protocol Secure (HTTPS) carries the web request and response inside that protected connection. The resolver is not a relay for the web page.'])]
@@ -74,7 +64,7 @@ export function withVisualExamples(topic){
    }
   }
  }
- if(!slides.some(s=>s.kind==='example'))throw new Error(`Missing visual example for ${topic.id}`);
+ if(!['osi-reference-model','06-network-cables-media'].includes(topic.id)&&!slides.some(s=>s.kind==='example'))throw new Error(`Missing visual example for ${topic.id}`);
  addPresenterNotes(slides.filter(s=>s.kind==='example'||!s.notes),{title:topic.title,description:topic.description,example:topic.description});
  return {...topic,slides};
 }

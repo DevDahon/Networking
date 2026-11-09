@@ -23,24 +23,53 @@ const wireShortNames={
  'Brown':'BRN'
 };
 
+const wireSolidHex={
+ 'Green':'#16a34a',
+ 'Orange':'#ea580c',
+ 'Blue':'#2563eb',
+ 'Brown':'#854d0e',
+ 'White/Green':'#16a34a',
+ 'White/Orange':'#ea580c',
+ 'White/Blue':'#2563eb',
+ 'White/Brown':'#854d0e'
+};
+
+function renderWireLink(x1,y1,x2,y2,colorName,isCurved=false){
+ const solid=wireSolidHex[colorName];
+ const isStriped=colorName.startsWith('White/');
+ const pathD=isCurved
+  ?`M ${x1} ${y1} C ${(x1+x2)/2} ${y1}, ${(x1+x2)/2} ${y2}, ${x2} ${y2}`
+  :`M ${x1} ${y1} L ${x2} ${y2}`;
+
+ if(isStriped){
+  return `
+   <path d="${pathD}" fill="none" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round"/>
+   <path d="${pathD}" fill="none" stroke="${solid}" stroke-width="2" stroke-dasharray="6 4" stroke-linecap="round"/>
+  `;
+ }
+ return `
+  <path d="${pathD}" fill="none" stroke="${solid}" stroke-width="2.2" stroke-linecap="round"/>
+ `;
+}
+
 export function rj45Patterns(){
  return `
   <defs>
-   <pattern id="stripe-orange" width="8" height="8" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
-    <line x1="0" y1="0" x2="0" y2="8" stroke="#ea580c" stroke-width="4"/>
-    <line x1="4" y1="0" x2="4" y2="8" stroke="#ffffff" stroke-width="4"/>
+   <pattern id="stripe-orange" width="6" height="6" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+    <rect width="6" height="6" fill="#ffffff"/>
+    <line x1="0" y1="0" x2="0" y2="6" stroke="#ea580c" stroke-width="3"/>
    </pattern>
-   <pattern id="stripe-green" width="8" height="8" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
-    <line x1="0" y1="0" x2="0" y2="8" stroke="#16a34a" stroke-width="4"/>
-    <line x1="4" y1="0" x2="4" y2="8" stroke="#ffffff" stroke-width="4"/>
+   <pattern id="stripe-green" width="6" height="6" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+    <rect width="6" height="6" fill="#ffffff"/>
+    <line x1="0" y1="0" x2="0" y2="6" stroke="#16a34a" stroke-width="3"/>
    </pattern>
-   <pattern id="stripe-blue" width="8" height="8" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
-    <line x1="0" y1="0" x2="0" y2="8" stroke="#2563eb" stroke-width="4"/>
-    <line x1="4" y1="0" x2="4" y2="8" stroke="#ffffff" stroke-width="4"/>
+   <pattern id="stripe-blue" width="6" height="6" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+    <rect width="6" height="6" fill="#ffffff"/>
+    <line x1="0" y1="0" x2="0" y2="6" stroke="#2563eb" stroke-width="3"/>
    </pattern>
-   <pattern id="stripe-brown" width="8" height="8" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
-    <line x1="0" y1="0" x2="0" y2="8" stroke="#854d0e" stroke-width="4"/>
-    <line x1="4" y1="0" x2="4" y2="8" stroke="#ffffff" stroke-width="4"/>
+   <pattern id="stripe-brown" width="6" height="6" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+    <rect width="6" height="6" fill="#ffffff"/>
+    <line x1="0" y1="0" x2="0" y2="6" stroke="#854d0e" stroke-width="3"/>
    </pattern>
   </defs>
  `;
@@ -209,10 +238,8 @@ export function straightVsCrossoverVisualSVG(){
      </g>
 
      <!-- Parallel Lines -->
-     <g stroke-width="1.8">
-      ${T568B.map((c,i)=>`
-       <line x1="65" y1="${54+i*13}" x2="350" y2="${54+i*13}" stroke="${wireColors[c]}" stroke-dasharray="${c.startsWith('White')?'3 2':'none'}"/>
-      `).join('')}
+     <g fill="none">
+      ${T568B.map((c,i)=>renderWireLink(60, 54.5+i*13, 355, 54.5+i*13, c, false)).join('')}
      </g>
 
      <!-- End 2 pins -->
@@ -242,23 +269,23 @@ export function straightVsCrossoverVisualSVG(){
      </g>
 
      <!-- Crossed Lines (1<->3, 2<->6) -->
-     <g stroke-width="1.8">
+     <g fill="none">
       <!-- 1 -> 3 -->
-      <path d="M 65 54 C 180 54, 230 80, 350 80" stroke="${wireColors['White/Green']}" stroke-dasharray="3 2"/>
+      ${renderWireLink(60, 54.5, 355, 80.5, 'White/Green', true)}
       <!-- 2 -> 6 -->
-      <path d="M 65 67 C 180 67, 230 119, 350 119" stroke="${wireColors['Green']}"/>
+      ${renderWireLink(60, 67.5, 355, 119.5, 'Green', true)}
       <!-- 3 -> 1 -->
-      <path d="M 65 80 C 180 80, 230 54, 350 54" stroke="${wireColors['White/Orange']}" stroke-dasharray="3 2"/>
+      ${renderWireLink(60, 80.5, 355, 54.5, 'White/Orange', true)}
       <!-- 4 -> 4 -->
-      <line x1="65" y1="93" x2="350" y2="93" stroke="${wireColors['Blue']}"/>
+      ${renderWireLink(60, 93.5, 355, 93.5, 'Blue', false)}
       <!-- 5 -> 5 -->
-      <line x1="65" y1="106" x2="350" y2="106" stroke="${wireColors['White/Blue']}" stroke-dasharray="3 2"/>
+      ${renderWireLink(60, 106.5, 355, 106.5, 'White/Blue', false)}
       <!-- 6 -> 2 -->
-      <path d="M 65 119 C 180 119, 230 67, 350 67" stroke="${wireColors['Orange']}"/>
+      ${renderWireLink(60, 119.5, 355, 67.5, 'Orange', true)}
       <!-- 7 -> 7 -->
-      <line x1="65" y1="132" x2="350" y2="132" stroke="${wireColors['White/Brown']}" stroke-dasharray="3 2"/>
+      ${renderWireLink(60, 132.5, 355, 132.5, 'White/Brown', false)}
       <!-- 8 -> 8 -->
-      <line x1="65" y1="145" x2="350" y2="145" stroke="${wireColors['Brown']}"/>
+      ${renderWireLink(60, 145.5, 355, 145.5, 'Brown', false)}
      </g>
 
      <!-- End 2 (B) pins -->
@@ -276,4 +303,33 @@ export function straightVsCrossoverVisualSVG(){
    </svg>
   </div>
  `;
+}
+
+export function modularConnectorsVisual() {
+  return `
+    <div class="rj45-schematic-wrap connectors-compare-wrap">
+      <div class="connectors-pair-grid">
+        <div class="connector-photo-card">
+          <div class="connector-photo-box">
+            <img src="images/tools/rj45_plugs.jpg" alt="Modular RJ45 8P8C Plugs" class="connector-photo-img" loading="lazy" />
+          </div>
+          <div class="connector-photo-meta">
+            <span class="connector-photo-badge badge-male">MALE PLUG</span>
+            <h4 class="connector-photo-title">8P8C Modular Plug (RJ45)</h4>
+            <p class="connector-photo-desc">Gold-plated contact pins crimped onto flexible stranded patch cables for workstation &amp; patch panel ports.</p>
+          </div>
+        </div>
+        <div class="connector-photo-card">
+          <div class="connector-photo-box">
+            <img src="images/tools/keystone_jack.jpg" alt="110 IDC Keystone Jack" class="connector-photo-img" loading="lazy" />
+          </div>
+          <div class="connector-photo-meta">
+            <span class="connector-photo-badge badge-female">FEMALE RECEPTACLE</span>
+            <h4 class="connector-photo-title">Keystone Jack (110 IDC)</h4>
+            <p class="connector-photo-desc">Insulation displacement contact (IDC) blocks punched down onto solid-core in-wall horizontal runs.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
 }

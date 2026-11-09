@@ -1,4 +1,15 @@
 export const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+export function formatItemText(item){
+ if(!item)return '';
+ if(item.includes('**'))return esc(item).replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
+ const colonIndex=item.indexOf(': ');
+ if(colonIndex>0&&colonIndex<40&&!item.slice(0,colonIndex).includes('\n')){
+  const label=item.slice(0,colonIndex);
+  const rest=item.slice(colonIndex+2);
+  return `<strong>${esc(label)}:</strong> ${esc(rest)}`;
+ }
+ return esc(item);
+}
 export const button=(label,id,cls='')=>`<button type="button" data-action="${id}" class="${cls}">${label}</button>`;
 export const select=(label,id,options,value)=>`<label for="${id}">${label}<select name="${id}" id="${id}">${options.map(o=>{const [v,t]=Array.isArray(o)?o:[o,o];return `<option value="${esc(v)}" ${String(v)===String(value)?'selected':''}>${esc(t)}</option>`;}).join('')}</select></label>`;
 export const input=(label,id,value,type='text')=>`<label for="${id}">${label}<input name="${id}" id="${id}" type="${type}" value="${esc(value)}" autocomplete="off"></label>`;

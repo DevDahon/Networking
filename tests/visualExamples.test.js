@@ -2,7 +2,9 @@ import {it,expect} from 'vitest';
 import {topics} from '../src/topics/topicRegistry.js';
 import {classroomExample} from '../src/components/classroomExample.js';
 
-it.each(topics.map(topic=>[topic.id]))('places a labeled visual example inside the discussion: %s',id=>{
+const topicsWithExamples = topics.filter(topic => !['osi-reference-model', '06-network-cables-media'].includes(topic.id));
+
+it.each(topicsWithExamples.map(topic=>[topic.id]))('places a labeled visual example inside the discussion: %s',id=>{
  const topic=topics.find(topic=>topic.id===id),examples=topic.slides.filter(slide=>slide.kind==='example');
  expect(examples.length).toBeGreaterThan(0);
  for(const slide of examples){
@@ -14,6 +16,13 @@ it.each(topics.map(topic=>[topic.id]))('places a labeled visual example inside t
   expect(root.querySelectorAll('li')).toHaveLength(slide.items.length);
   for(const [a,b] of slide.diagram.edges){expect(slide.diagram.nodes[a]).toBeDefined();expect(slide.diagram.nodes[b]).toBeDefined();}
  }
+});
+
+it('has removed example slides from osi-reference-model and 06-network-cables-media as requested', () => {
+ const osi = topics.find(t => t.id === 'osi-reference-model');
+ expect(osi.slides.filter(s => s.kind === 'example')).toHaveLength(0);
+ const cable = topics.find(t => t.id === '06-network-cables-media');
+ expect(cable.slides.filter(s => s.kind === 'example')).toHaveLength(0);
 });
 
 it('follows the four-type overview with four examples and connects exactly five computers and one printer through the switch',()=>{

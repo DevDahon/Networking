@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Topic 7: Network Protocols and Services — Instructor Discussion Guide</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 14mm 14mm 16mm 14mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #1e293b;
+      background: #ffffff;
+      line-height: 1.5;
+      font-size: 13px;
+    }
+    .guide-header-cover {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+      color: #ffffff;
+      padding: 24px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+    }
+    .guide-header-cover .badge {
+      display: inline-block;
+      background: #38bdf8;
+      color: #0f172a;
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+    .guide-header-cover h1 {
+      font-size: 23px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      color: #ffffff;
+    }
+    .guide-header-cover p {
+      font-size: 13px;
+      color: #cbd5e1;
+      max-width: 95%;
+    }
+    .meta-bar {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      display: flex;
+      gap: 20px;
+      font-size: 11px;
+      color: #94a3b8;
+    }
+    .meta-bar b {
+      color: #ffffff;
+    }
+
+    .slide-card {
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      background: #ffffff;
+      page-break-inside: avoid;
+      break-inside: avoid;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+    .card-header {
+      background: #f1f5f9;
+      padding: 10px 14px;
+      border-bottom: 1px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .slide-pill {
+      background: #0f172a;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 12px;
+      white-space: nowrap;
+    }
+    .slide-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+      flex-grow: 1;
+    }
+    .type-tag {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #e2e8f0;
+      color: #475569;
+    }
+    .type-tag.example {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .reading-box {
+      background: #f8fafc;
+      padding: 12px 14px;
+      border-bottom: 1px dashed #cbd5e1;
+    }
+    .box-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: #64748b;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .lead-text {
+      font-weight: 600;
+      color: #1e293b;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+    .content-bullets {
+      margin-left: 18px;
+      font-size: 12px;
+      color: #334155;
+    }
+    .content-bullets li {
+      margin-bottom: 3px;
+    }
+    .demo-badge {
+      background: #e0f2fe;
+      border: 1px solid #bae6fd;
+      color: #0369a1;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .teacher-guide-box {
+      background: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 12px 14px;
+    }
+    .guide-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .guide-icon {
+      font-size: 14px;
+    }
+    .guide-title {
+      font-weight: 800;
+      font-size: 12px;
+      text-transform: uppercase;
+      color: #1e40af;
+      letter-spacing: 0.3px;
+    }
+
+    .guide-section {
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #1e3a8a;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-bottom: 3px;
+    }
+    .analogy-text {
+      font-size: 12px;
+      color: #1e293b;
+      font-style: italic;
+      background: rgba(255,255,255,0.7);
+      padding: 6px 8px;
+      border-radius: 4px;
+      border-left: 2px solid #3b82f6;
+    }
+    .talking-points {
+      margin-left: 16px;
+      font-size: 12px;
+      color: #1e293b;
+    }
+    .talking-points li {
+      margin-bottom: 3px;
+    }
+
+    .q-and-a {
+      background: #ffffff;
+      border: 1px solid #bfdbfe;
+      padding: 8px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+    .question-text {
+      color: #1e3a8a;
+      margin-bottom: 4px;
+    }
+    .answer-text {
+      color: #047857;
+    }
+
+    .takeaway-banner {
+      margin-top: 8px;
+      background: #dbeafe;
+      color: #1e40af;
+      font-size: 12px;
+      padding: 5px 8px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="guide-header-cover">
+    <span class="badge">Instructor's Discussion Guide</span>
+    <h1>Topic 7: Network Protocols and Services</h1>
+    <p>Follow common network services, compare their functions and security, and inspect transport ports through controlled demonstrations.</p>
+    <div class="meta-bar">
+      <span><b>Curriculum:</b> Networking 1</span>
+      <span><b>Excluded:</b> Title (Slide 1), Objectives (Slide 2), and Summary (Final Slide)</span>
+      <span><b>Total Discussion Units:</b> 19 Slides</span>
+    </div>
+  </div>
+
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 3 of 22</span>
+        <h2 class="slide-title">Three Core Terms: Protocol, Service, Port</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A protocol defines exchange rules, a service provides a useful function, and a transport port acts like an apartment door number directing traffic to a specific application process.</p>
+        
+      <ul class="content-bullets">
+        <li>Protocol: agreed message formats and behavior, such as Domain Name System (DNS) queries and replies.</li><li>Service: a useful function provided by a running system, such as a Domain Name System (DNS) resolver answering names.</li><li>Port: a Transmission Control Protocol (TCP) or User Datagram Protocol (UDP) endpoint number used to direct traffic to a process; it is not a physical Ethernet socket.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A classroom laptop obtains configuration, looks up the school server, downloads a protected handout, and connects securely via SSH.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Protocol: agreed message formats and behavior, such as DNS queries and replies.</li><li>Service: a useful function provided by a running system, such as a DNS resolver answering names.</li><li>Port: a TCP or UDP endpoint number used to direct traffic to a process; it is not a physical Ethernet socket.</li><li>A familiar port suggests a convention; it does not prove which program is listening or whether that program is safe.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of three core terms: protocol, service, port.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A protocol defines exchange rules, a service provides a useful function, and a transport port acts like an apartment door number directing traffic to a specific application process.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 4 of 22</span>
+        <h2 class="slide-title">Four TCP/IP responsibility groups</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">The common Transmission Control Protocol (TCP)/Internet Protocol (IP) model groups network functions into four responsibility areas. Application services depend on transport, Internet delivery, and local-link functions.</p>
+        
+      <ul class="content-bullets">
+        <li>Application: Dynamic Host Configuration Protocol (DHCP), Domain Name System (DNS), Hypertext Transfer Protocol (HTTP), Hypertext Transfer Protocol Secure (HTTPS), and Secure Shell (SSH) provide user-facing and network configuration services; commonly associated with Open Systems Interconnection (OSI) 7.</li><li>Transport: Transmission Control Protocol (TCP) and User Datagram Protocol (UDP) use process ports; commonly associated with Open Systems Interconnection (OSI) 4.</li><li>Internet: Internet Protocol (IP) supplies logical delivery and Internet Control Message Protocol (ICMP) supplies related diagnostics; commonly associated with Open Systems Interconnection (OSI) 3.</li><li>Link: local framing and physical transmission; Address Resolution Protocol (ARP) supports Internet Protocol version 4 (IPv4) neighbor resolution at this local-link boundary.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A classroom laptop obtains configuration, looks up the school server, downloads a protected handout, and connects securely via SSH.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Application: DHCP, DNS, HTTP, HTTPS, and SSH provide user-facing and network configuration services; commonly associated with OSI 7.</li><li>Transport: TCP and UDP use process ports; commonly associated with OSI 4.</li><li>Internet: IP supplies logical delivery and ICMP supplies related diagnostics; commonly associated with OSI 3.</li><li>Link: local framing and physical transmission; ARP supports IPv4 neighbor resolution at this local-link boundary.</li><li>OSI/TCP-IP mappings are approximate.</li><li>Advanced enterprise protocols like SNMP, NTP, and dedicated mail servers are studied in Networking II.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of four tcp/ip responsibility groups.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> The common Transmission Control Protocol (TCP)/Internet Protocol (IP) model groups network functions into four responsibility areas. Application services depend on transport, Internet delivery, and local-link functions.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 5 of 22</span>
+        <h2 class="slide-title">Two transport services: TCP and UDP</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Transmission Control Protocol supplies ordered reliable bytes, while User Datagram Protocol carries independent datagrams without built-in delivery guarantees. Their differences affect how application protocols handle communication.</p>
+        
+      <ul class="content-bullets">
+        <li>Transmission Control Protocol (TCP): connection-oriented, ordered reliable bytes, with acknowledgments and retransmission. Useful when the application needs this stream service.</li><li>User Datagram Protocol (UDP): connectionless datagrams without built-in delivery or ordering guarantees. Useful when a small exchange or application-controlled behavior fits the task.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A classroom laptop obtains configuration, looks up the school server, downloads a protected handout, and connects securely via SSH.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>TCP: connection-oriented, ordered reliable bytes, with acknowledgments and retransmission.</li><li>Useful when the application needs this stream service.</li><li>UDP: connectionless datagrams without built-in delivery or ordering guarantees.</li><li>Useful when a small exchange or application-controlled behavior fits the task.</li><li>Neither “UDP is always faster” nor “TCP proves the application processed the request” is a reliable conclusion.</li><li>Application protocols can add recovery above UDP.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of two transport services: tcp and udp.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Transmission Control Protocol supplies ordered reliable bytes, while User Datagram Protocol carries independent datagrams without built-in delivery guarantees. Their differences affect how application protocols handle communication.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 6 of 22</span>
+        <h2 class="slide-title">Client and Server Endpoints</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A client commonly uses a temporary source port to contact a server’s listening port. Addresses, ports, and transport together identify the communication context.</p>
+        
+      <ul class="content-bullets">
+        <li>A normal client often uses a temporary source port, such as Transmission Control Protocol (TCP) 53001, to contact a server listening on TCP 443. The response returns to that client endpoint.</li><li>The connection context includes transport plus source/destination addresses and ports. Transmission Control Protocol (TCP) and User Datagram Protocol (UDP) can use the same numeric port independently.</li><li>System ports are 0–1023, user/registered ports 1024–49151, and dynamic/private ports 49152–65535. Port 0 is reserved; operating systems may choose temporary ports from implementation-specific ranges.</li><li>A reachable Internet Protocol (IP), an open transport endpoint, Transport Layer Security (TLS) validation, and a working application are separate observations. Testing one does not prove all the others.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A classroom laptop obtains configuration, looks up the school server, downloads a protected handout, and connects securely via SSH.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>A normal client often uses a temporary source port, such as TCP 53001, to contact a server listening on TCP 443.</li><li>The response returns to that client endpoint.</li><li>The connection context includes transport plus source/destination addresses and ports.</li><li>TCP and UDP can use the same numeric port independently.</li><li>System ports are 0–1023, user/registered ports 1024–49151, and dynamic/private ports 49152–65535.</li><li>Port 0 is reserved; operating systems may choose temporary ports from implementation-specific ranges.</li><li>A reachable IP, an open transport endpoint, TLS validation, and a working application are separate observations.</li><li>Testing one does not prove all the others.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of client and server endpoints.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A client commonly uses a temporary source port to contact a server’s listening port. Addresses, ports, and transport together identify the communication context.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 7 of 22</span>
+        <h2 class="slide-title">Transport Reliability: TCP vs UDP</h2>
+        <span class="type-tag demo">Simulation</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Transport protocols differ in their response to missing data. Transmission Control Protocol provides recovery and ordered bytes, while User Datagram Protocol leaves any needed recovery to the application.</p>
+        
+      <div class="demo-badge">
+        <b>Interactive Demonstration:</b> <code>osiLayer</code> — Use on-screen controls to step through or demonstrate the concept visually.
+      </div>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A classroom laptop obtains configuration, looks up the school server, downloads a protected handout, and connects securely via SSH.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Compare TCP and UDP using the same modeled missing data unit.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of transport reliability: tcp vs udp.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Transport protocols differ in their response to missing data. Transmission Control Protocol provides recovery and ordered bytes, while User Datagram Protocol leaves any needed recovery to the application.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 8 of 22</span>
+        <h2 class="slide-title">Internet Protocol (IP)</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Internet Protocol supplies logical addressing and packet delivery across networks. It provides best-effort delivery rather than an ordered reliable application stream.</p>
+        
+      <ul class="content-bullets">
+        <li>Practical application: Internet Protocol version 4 (IPv4) or Internet Protocol version 6 (IPv6) identifies source/destination interfaces and supports router forwarding.</li><li>Internet Protocol (IP) provides best-effort delivery, not a reliable application byte stream. It has no Transmission Control Protocol (TCP)/User Datagram Protocol (UDP) port. Internet Protocol version 6 (IPv6) uses 128-bit addresses and does not use Address Resolution Protocol (ARP).</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A classroom laptop obtains configuration, looks up the school server, downloads a protected handout, and connects securely via SSH.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Practical application: IPv4 or IPv6 identifies source/destination interfaces and supports router forwarding.</li><li>IP provides best-effort delivery, not a reliable application byte stream.</li><li>It has no TCP/UDP port.</li><li>IPv6 uses 128-bit addresses and does not use ARP.</li><li>OSI 3 · TCP/IP Internet.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of internet protocol (ip).</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Internet Protocol supplies logical addressing and packet delivery across networks. It provides best-effort delivery rather than an ordered reliable application stream.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 9 of 22</span>
+        <h2 class="slide-title">Address Resolution Protocol (ARP)</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Address Resolution Protocol resolves the hardware address of an Internet Protocol version 4 (IPv4) next hop on a local link. A remote destination usually requires the gateway’s local hardware address rather than the remote host’s.</p>
+        
+      <ul class="content-bullets">
+        <li>Practical application: Find a local peer’s Ethernet Media Access Control (MAC), or the gateway MAC when sending toward a remote Internet Protocol (IP) network.</li><li>Address Resolution Protocol (ARP) is not carried inside Transmission Control Protocol (TCP) or User Datagram Protocol (UDP) and has no port. Ethernet ARP uses EtherType 0x0806. Routers do not forward a local ARP broadcast across Internet Protocol (IP) networks; Internet Protocol version 6 (IPv6) uses Neighbor Discovery instead.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A classroom laptop obtains configuration, looks up the school server, downloads a protected handout, and connects securely via SSH.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Practical application: Find a local peer’s Ethernet MAC, or the gateway MAC when sending toward a remote IP network.</li><li>ARP is not carried inside TCP or UDP and has no port.</li><li>Ethernet ARP uses EtherType 0x0806.</li><li>Routers do not forward a local ARP broadcast across IP networks; IPv6 uses Neighbor Discovery instead.</li><li>Local-link boundary · TCP/IP Link; commonly associated with OSI 2.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of address resolution protocol (arp).</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Address Resolution Protocol resolves the hardware address of an Internet Protocol version 4 (IPv4) next hop on a local link. A remote destination usually requires the gateway’s local hardware address rather than the remote host’s.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 10 of 22</span>
+        <h2 class="slide-title">How ARP Resolves MAC Addresses</h2>
+        <span class="type-tag demo">Simulation</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A host needs a local delivery address before sending an Ethernet frame toward an Internet Protocol version 4 (IPv4) neighbor. Address Resolution Protocol uses a local request and reply to establish that mapping.</p>
+        
+      <div class="demo-badge">
+        <b>Interactive Demonstration:</b> <code>protocolArp</code> — Use on-screen controls to step through or demonstrate the concept visually.
+      </div>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A classroom laptop obtains configuration, looks up the school server, downloads a protected handout, and connects securely via SSH.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Change between a local peer and a remote destination; follow the calculated next-hop explanation.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of how arp resolves mac addresses.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A host needs a local delivery address before sending an Ethernet frame toward an Internet Protocol version 4 (IPv4) neighbor. Address Resolution Protocol uses a local request and reply to establish that mapping.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 11 of 22</span>
+        <h2 class="slide-title">ICMP and Network Ping Basics</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Internet Control Message Protocol carries diagnostic and error information related to Internet Protocol delivery. Echo messages and expiry reports provide evidence without proving that every application service works.</p>
+        
+      <ul class="content-bullets">
+        <li>Practical application: Ping commonly uses Echo; traceroute-style tools use Time to Live (TTL)/hop-limit behavior and returned diagnostics.</li><li>Internet Control Message Protocol (ICMP) has no Transmission Control Protocol (TCP)/User Datagram Protocol (UDP) port. ICMP for Internet Protocol version 4 (IPv4) uses Internet Protocol (IP) protocol number 1; Internet Control Message Protocol for IPv6 (ICMPv6) uses next-header 58. Missing replies may mean filtering or loss. It does not fix a failed link.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A classroom laptop obtains configuration, looks up the school server, downloads a protected handout, and connects securely via SSH.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Practical application: Ping commonly uses Echo; traceroute-style tools use TTL/hop-limit behavior and returned diagnostics.</li><li>ICMP has no TCP/UDP port.</li><li>ICMP for IPv4 uses IP protocol number 1; ICMPv6 uses next-header 58.</li><li>Missing replies may mean filtering or loss.</li><li>It does not fix a failed link.</li><li>OSI 3 · TCP/IP Internet.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of icmp and network ping basics.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Internet Control Message Protocol carries diagnostic and error information related to Internet Protocol delivery. Echo messages and expiry reports provide evidence without proving that every application service works.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 12 of 22</span>
+        <h2 class="slide-title">Dynamic Host Configuration Protocol (DHCP)</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Dynamic Host Configuration Protocol supplies leased host configuration and related options. Clients use it to obtain settings such as address, mask, gateway, and name resolver.</p>
+        
+      <ul class="content-bullets">
+        <li>Practical application: Automatically configure classroom PCs without entering each address manually.</li><li>Initial allocation is explained as Discover, Offer, Request, Acknowledgment (ACK). The ports below describe DHCPv4; DHCPv6 has different messages and ports.</li><li>User Datagram Protocol (UDP) 67: DHCPv4 server.</li><li>User Datagram Protocol (UDP) 68: DHCPv4 client.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A classroom laptop obtains configuration, looks up the school server, downloads a protected handout, and connects securely via SSH.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Practical application: Automatically configure classroom PCs without entering each address manually.</li><li>Initial allocation is explained as Discover, Offer, Request, ACK.</li><li>The ports below describe DHCPv4; DHCPv6 has different messages and ports.</li><li>UDP 67: DHCPv4 server.</li><li>UDP 68: DHCPv4 client.</li><li>OSI 7 · TCP/IP Application.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of dynamic host configuration protocol (dhcp).</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Dynamic Host Configuration Protocol supplies leased host configuration and related options. Clients use it to obtain settings such as address, mask, gateway, and name resolver.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 13 of 22</span>
+        <h2 class="slide-title">DHCP Ports and Communication</h2>
+        <span class="type-tag demo">Simulation</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Dynamic Host Configuration Protocol version 4 uses server User Datagram Protocol port 67 and client port 68. Its initial exchange proposes, requests, and confirms an address configuration.</p>
+        
+      <div class="demo-badge">
+        <b>Interactive Demonstration:</b> <code>dhcp</code> — Use on-screen controls to step through or demonstrate the concept visually.
+      </div>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A classroom laptop obtains configuration, looks up the school server, downloads a protected handout, and connects securely via SSH.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>DHCPv4 uses server UDP 67 and client UDP 68; a lease becomes active at ACK.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of dhcp ports and communication.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Dynamic Host Configuration Protocol version 4 uses server User Datagram Protocol port 67 and client port 68. Its initial exchange proposes, requests, and confirms an address configuration.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 14 of 22</span>
+        <h2 class="slide-title">Domain Name System (DNS)</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">The Domain Name System answers queries about names using records such as host addresses and mail destinations. Name resolution supplies information for later communication rather than carrying the application traffic itself.</p>
+        
+      <ul class="content-bullets">
+        <li>Practical application: Find the address for a school web or mail server by name.</li><li>Classic Domain Name System (DNS) supports User Datagram Protocol (UDP) and Transmission Control Protocol (TCP) on port 53. TCP is not limited to zone transfers: it also supports other queries, including fallback after truncation. Caches respect record lifetimes. Encrypted DNS has additional transports.</li><li>User Datagram Protocol (UDP) 53: Classic Domain Name System (DNS) queries/responses.</li><li>Transmission Control Protocol (TCP) 53: Classic Domain Name System (DNS) over a TCP connection.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A classroom laptop obtains configuration, looks up the school server, downloads a protected handout, and connects securely via SSH.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Practical application: Find the address for a school web or mail server by name.</li><li>Classic DNS supports UDP and TCP on port 53.</li><li>TCP is not limited to zone transfers: it also supports other queries, including fallback after truncation.</li><li>Caches respect record lifetimes.</li><li>Encrypted DNS has additional transports.</li><li>UDP 53: Classic DNS queries/responses.</li><li>TCP 53: Classic DNS over a TCP connection.</li><li>OSI 7 · TCP/IP Application.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of domain name system (dns).</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> The Domain Name System answers queries about names using records such as host addresses and mail destinations. Name resolution supplies information for later communication rather than carrying the application traffic itself.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 15 of 22</span>
+        <h2 class="slide-title">DNS Caching and Record Lifetimes</h2>
+        <span class="type-tag demo">Simulation</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A cached name answer can be reused until its permitted lifetime expires. Server record changes may therefore remain unseen by a client until its cache entry is refreshed.</p>
+        
+      <div class="demo-badge">
+        <b>Interactive Demonstration:</b> <code>dnsCacheDemo</code> — Use on-screen controls to step through or demonstrate the concept visually.
+      </div>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Follow common network services, compare their functions and security, and inspect transport ports through controlled demonstrations.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Resolve names, change a server record, and advance the client cache lifetime.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of dns caching and record lifetimes.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A cached name answer can be reused until its permitted lifetime expires. Server record changes may therefore remain unseen by a client until its cache entry is refreshed.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 16 of 22</span>
+        <h2 class="slide-title">Hypertext Transfer Protocol (HTTP)</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Hypertext Transfer Protocol defines requests and responses for web resources. Methods, status codes, and message content describe the requested operation and its result.</p>
+        
+      <ul class="content-bullets">
+        <li>Practical application: A browser requests a page or a client calls a web Application Programming Interface (API).</li><li>Ordinary Hypertext Transfer Protocol (HTTP) does not provide Transport Layer Security (TLS) encryption. HTTP/1.1 commonly uses Transmission Control Protocol (TCP); port 80 is the conventional HTTP service endpoint. An HTTP status error differs from a failure to reach the server.</li><li>Transmission Control Protocol (TCP) 80: Conventional unencrypted Hypertext Transfer Protocol (HTTP) service.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A classroom laptop obtains configuration, looks up the school server, downloads a protected handout, and connects securely via SSH.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Practical application: A browser requests a page or a client calls a web API.</li><li>Ordinary HTTP does not provide TLS encryption.</li><li>HTTP/1.1 commonly uses TCP; port 80 is the conventional HTTP service endpoint.</li><li>An HTTP status error differs from a failure to reach the server.</li><li>TCP 80: Conventional unencrypted HTTP service.</li><li>OSI 7 · TCP/IP Application.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of hypertext transfer protocol (http).</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Hypertext Transfer Protocol defines requests and responses for web resources. Methods, status codes, and message content describe the requested operation and its result.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 17 of 22</span>
+        <h2 class="slide-title">HTTPS and Secure Web Browsing</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Hypertext Transfer Protocol Secure protects web communication using Transport Layer Security. Certificate validation and authenticated encryption protect the connection without guaranteeing that the website’s content is trustworthy.</p>
+        
+      <ul class="content-bullets">
+        <li>Practical application: Access a protected classroom portal without exposing application content on the local path.</li><li>Hypertext Transfer Protocol (HTTP)/1.1 and HTTP/2 commonly use Transport Layer Security (TLS) over Transmission Control Protocol (TCP) 443. HTTP/3 uses QUIC with TLS security over User Datagram Protocol (UDP), commonly 443. Hypertext Transfer Protocol Secure (HTTPS) does not prove a site is trustworthy or hide every piece of network metadata.</li><li>Transmission Control Protocol (TCP) 443: Hypertext Transfer Protocol Secure (HTTPS) using Hypertext Transfer Protocol (HTTP)/1.1 or HTTP/2.</li><li>User Datagram Protocol (UDP) 443: Hypertext Transfer Protocol (HTTP)/3 over QUIC; common Hypertext Transfer Protocol Secure (HTTPS) endpoint.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A classroom laptop obtains configuration, looks up the school server, downloads a protected handout, and connects securely via SSH.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Practical application: Access a protected classroom portal without exposing application content on the local path.</li><li>HTTP/1.1 and HTTP/2 commonly use TLS over TCP 443.</li><li>HTTP/3 uses QUIC with TLS security over UDP, commonly 443.</li><li>HTTPS does not prove a site is trustworthy or hide every piece of network metadata.</li><li>TCP 443: HTTPS using HTTP/1.1 or HTTP/2.</li><li>UDP 443: HTTP/3 over QUIC; common HTTPS endpoint.</li><li>OSI 7 service · TCP/IP Application; TLS spans security/representation responsibilities.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of https and secure web browsing.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Hypertext Transfer Protocol Secure protects web communication using Transport Layer Security. Certificate validation and authenticated encryption protect the connection without guaranteeing that the website’s content is trustworthy.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 18 of 22</span>
+        <h2 class="slide-title">Example: open a protected school website</h2>
+        <span class="type-tag example">example</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Opening a protected website combines name resolution with a secure application exchange. The resolver supplies an address, while the browser exchanges web traffic with the server.</p>
+        
+      <ul class="content-bullets">
+        <li>Domain Name System (DNS) resolves the server name. For a common Hypertext Transfer Protocol (HTTP)/1.1-over-TLS example, Transmission Control Protocol (TCP) connects to server port 443 and Transport Layer Security (TLS) protects the exchange.</li><li>Hypertext Transfer Protocol Secure (HTTPS) carries the web request and response inside that protected connection. The resolver is not a relay for the web page.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Follow common network services, compare their functions and security, and inspect transport ports through controlled demonstrations.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Domain Name System (DNS) resolves the server name.</li><li>For a common HTTP/1.1-over-TLS example, Transmission Control Protocol (TCP) connects to server port 443 and Transport Layer Security (TLS) protects the exchange.</li><li>Hypertext Transfer Protocol Secure (HTTPS) carries the web request and response inside that protected connection.</li><li>The resolver is not a relay for the web page.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of example: open a protected school website.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Opening a protected website combines name resolution with a secure application exchange. The resolver supplies an address, while the browser exchanges web traffic with the server.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 19 of 22</span>
+        <h2 class="slide-title">How Protocols Cooperate on the Web</h2>
+        <span class="type-tag demo">Simulation</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A web request depends on local delivery, name resolution, transport, connection security, and the web service. A failure at one stage produces different evidence from a failure at another.</p>
+        
+      <div class="demo-badge">
+        <b>Interactive Demonstration:</b> <code>protocolWeb</code> — Use on-screen controls to step through or demonstrate the concept visually.
+      </div>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A classroom laptop obtains configuration, looks up the school server, downloads a protected handout, and connects securely via SSH.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Follow ARP, classic DNS, IP, TCP, TLS, and HTTP; change a condition to see exactly where the operation differs.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of how protocols cooperate on the web.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A web request depends on local delivery, name resolution, transport, connection security, and the web service. A failure at one stage produces different evidence from a failure at another.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 20 of 22</span>
+        <h2 class="slide-title">Secure Shell (SSH)</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Secure Shell provides authenticated encrypted remote access and channels. Checking server identity and user authorization is part of establishing a trusted connection.</p>
+        
+      <ul class="content-bullets">
+        <li>Practical application: Administer an authorized router/server or carry an encrypted administrative session.</li><li>Check the server host identity and authenticate using an authorized account. A port number alone does not establish that authentication or encryption is correctly configured.</li><li>Transmission Control Protocol (TCP) 22: Conventional Secure Shell (SSH) server endpoint.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A classroom laptop obtains configuration, looks up the school server, downloads a protected handout, and connects securely via SSH.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Practical application: Administer an authorized router/server or carry an encrypted administrative session.</li><li>Check the server host identity and authenticate using an authorized account.</li><li>A port number alone does not establish that authentication or encryption is correctly configured.</li><li>TCP 22: Conventional SSH server endpoint.</li><li>OSI 7 · TCP/IP Application.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of secure shell (ssh).</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Secure Shell provides authenticated encrypted remote access and channels. Checking server identity and user authorization is part of establishing a trusted connection.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 21 of 22</span>
+        <h2 class="slide-title">Common Protocols and Port Numbers</h2>
+        <span class="type-tag demo">Simulation</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Protocol and port references identify conventional service roles and endpoint bindings. The transport must accompany the number, and some network protocols have no transport port at all.</p>
+        
+      <div class="demo-badge">
+        <b>Interactive Demonstration:</b> <code>protocolDirectory</code> — Use on-screen controls to step through or demonstrate the concept visually.
+      </div>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">A classroom laptop obtains configuration, looks up the school server, downloads a protected handout, and connects securely via SSH.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Inspect all ten core protocols individually, including transport and layer relationships.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of common protocols and port numbers.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Protocol and port references identify conventional service roles and endpoint bindings. The transport must accompany the number, and some network protocols have no transport port at all.
+        </div>
+      </div>
+    </div>
+  
+
+</body>
+</html>
+  

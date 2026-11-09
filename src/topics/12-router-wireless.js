@@ -31,6 +31,18 @@ export default topic({
       ]
     },
     {
+      "title": "Wi-Fi Frequencies and Standards",
+      "lead": "Wireless networks operate over unlicensed radio frequencies using standardized IEEE 802.11 protocols.",
+      "items": [
+        "2.4 GHz Frequency Band: Travels farther and penetrates walls well, but offers lower speeds and suffers high congestion from Bluetooth and microwaves.",
+        "5 GHz Frequency Band: Delivers much faster data speeds and less interference, but has a shorter range and struggles to pass through solid walls.",
+        "Wi-Fi 4 (802.11n): Introduced dual-band operation and MIMO antenna streams, reaching up to 600 Mbps.",
+        "Wi-Fi 5 (802.11ac): High-speed 5 GHz standard providing gigabit wireless speeds for modern laptops and mobile devices.",
+        "Wi-Fi 6 (802.11ax): Modern standard operating on 2.4 GHz, 5 GHz, and 6 GHz (Wi-Fi 6E), optimized for crowded environments like schools and stadiums."
+      ],
+      "footnote": "Dual-band home and school routers broadcast on both 2.4 GHz and 5 GHz simultaneously under the same SSID so devices can choose the best connection."
+    },
+    {
       "title": "Two protected Wi-Fi security options",
       "items": [
         "WPA3-Personal: use when supported by the router and clients.",

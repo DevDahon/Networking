@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Topic 9: Router and Wireless Network Configuration — Instructor Discussion Guide</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 14mm 14mm 16mm 14mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #1e293b;
+      background: #ffffff;
+      line-height: 1.5;
+      font-size: 13px;
+    }
+    .guide-header-cover {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+      color: #ffffff;
+      padding: 24px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+    }
+    .guide-header-cover .badge {
+      display: inline-block;
+      background: #38bdf8;
+      color: #0f172a;
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+    .guide-header-cover h1 {
+      font-size: 23px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      color: #ffffff;
+    }
+    .guide-header-cover p {
+      font-size: 13px;
+      color: #cbd5e1;
+      max-width: 95%;
+    }
+    .meta-bar {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      display: flex;
+      gap: 20px;
+      font-size: 11px;
+      color: #94a3b8;
+    }
+    .meta-bar b {
+      color: #ffffff;
+    }
+
+    .slide-card {
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      background: #ffffff;
+      page-break-inside: avoid;
+      break-inside: avoid;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+    .card-header {
+      background: #f1f5f9;
+      padding: 10px 14px;
+      border-bottom: 1px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .slide-pill {
+      background: #0f172a;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 12px;
+      white-space: nowrap;
+    }
+    .slide-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+      flex-grow: 1;
+    }
+    .type-tag {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #e2e8f0;
+      color: #475569;
+    }
+    .type-tag.example {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .reading-box {
+      background: #f8fafc;
+      padding: 12px 14px;
+      border-bottom: 1px dashed #cbd5e1;
+    }
+    .box-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: #64748b;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .lead-text {
+      font-weight: 600;
+      color: #1e293b;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+    .content-bullets {
+      margin-left: 18px;
+      font-size: 12px;
+      color: #334155;
+    }
+    .content-bullets li {
+      margin-bottom: 3px;
+    }
+    .demo-badge {
+      background: #e0f2fe;
+      border: 1px solid #bae6fd;
+      color: #0369a1;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .teacher-guide-box {
+      background: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 12px 14px;
+    }
+    .guide-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .guide-icon {
+      font-size: 14px;
+    }
+    .guide-title {
+      font-weight: 800;
+      font-size: 12px;
+      text-transform: uppercase;
+      color: #1e40af;
+      letter-spacing: 0.3px;
+    }
+
+    .guide-section {
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #1e3a8a;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-bottom: 3px;
+    }
+    .analogy-text {
+      font-size: 12px;
+      color: #1e293b;
+      font-style: italic;
+      background: rgba(255,255,255,0.7);
+      padding: 6px 8px;
+      border-radius: 4px;
+      border-left: 2px solid #3b82f6;
+    }
+    .talking-points {
+      margin-left: 16px;
+      font-size: 12px;
+      color: #1e293b;
+    }
+    .talking-points li {
+      margin-bottom: 3px;
+    }
+
+    .q-and-a {
+      background: #ffffff;
+      border: 1px solid #bfdbfe;
+      padding: 8px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+    .question-text {
+      color: #1e3a8a;
+      margin-bottom: 4px;
+    }
+    .answer-text {
+      color: #047857;
+    }
+
+    .takeaway-banner {
+      margin-top: 8px;
+      background: #dbeafe;
+      color: #1e40af;
+      font-size: 12px;
+      padding: 5px 8px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="guide-header-cover">
+    <span class="badge">Instructor's Discussion Guide</span>
+    <h1>Topic 9: Router and Wireless Network Configuration</h1>
+    <p>Configure a teaching router, connect clients, and understand LAN, WAN, DHCP, and wireless security.</p>
+    <div class="meta-bar">
+      <span><b>Curriculum:</b> Networking 1</span>
+      <span><b>Excluded:</b> Title (Slide 1), Objectives (Slide 2), and Summary (Final Slide)</span>
+      <span><b>Total Discussion Units:</b> 10 Slides</span>
+    </div>
+  </div>
+
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 3 of 13</span>
+        <h2 class="slide-title">Three gateway interface and translation concepts</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A combined gateway connects local clients to another network through separate interface roles. Address translation can change packet addresses, but it does not replace routing or access-control policy.</p>
+        
+      <ul class="content-bullets">
+        <li>Local Area Network (LAN) interface: faces local clients.</li><li>Wide Area Network (WAN) interface: faces another network, usually the provider. Working Internet service also needs provider connectivity and routes.</li><li>Network Address Translation (NAT): translates addresses; a gateway commonly uses port translation so private clients can share a public Internet Protocol version 4 (IPv4) address.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Staff PCs and visitor phones share one provider connection, but visitors should not browse staff folders.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>LAN interface: faces local clients.</li><li>WAN interface: faces another network, usually the provider.</li><li>Working Internet service also needs provider connectivity and routes.</li><li>NAT: translates addresses; a gateway commonly uses port translation so private clients can share a public IPv4 address.</li><li>NAT does not replace firewall policy.</li><li>Local connectivity does not prove WAN or DNS service.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of three gateway interface and translation concepts.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A combined gateway connects local clients to another network through separate interface roles. Address translation can change packet addresses, but it does not replace routing or access-control policy.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 4 of 13</span>
+        <h2 class="slide-title">SSID, Authentication, and Isolation</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A Service Set Identifier names a wireless network, while authentication controls who can join it. Guest isolation is a separate policy controlling access to private resources.</p>
+        
+      <ul class="content-bullets">
+        <li>Wireless security: avoid open networks, Wired Equivalent Privacy (WEP), and obsolete Wi-Fi Protected Access (WPA)/Temporal Key Integrity Protocol (TKIP). Choose a supported protected configuration.</li><li>Choose a long unique passphrase and protect router administrator credentials separately. Hiding an Service Set Identifier (SSID) is not a security control.</li><li>A guest network should be intentionally isolated from private Local Area Network (LAN) resources. Check the real product’s isolation behavior.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Staff PCs and visitor phones share one provider connection, but visitors should not browse staff folders.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Wireless security: avoid open networks, WEP, and obsolete WPA/TKIP.</li><li>Choose a supported protected configuration.</li><li>Choose a long unique passphrase and protect router administrator credentials separately.</li><li>Hiding an SSID is not a security control.</li><li>A guest network should be intentionally isolated from private LAN resources.</li><li>Check the real product’s isolation behavior.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of ssid, authentication, and isolation.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A Service Set Identifier names a wireless network, while authentication controls who can join it. Guest isolation is a separate policy controlling access to private resources.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 5 of 13</span>
+        <h2 class="slide-title">Two protected Wi-Fi security options</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Protected wireless access needs a security mode supported by both access point and clients. Modern personal-network options use suitable authentication and encryption rather than relying on a hidden network name.</p>
+        
+      <ul class="content-bullets">
+        <li>WPA3-Personal: use when supported by the router and clients.</li><li>WPA2-Personal with Advanced Encryption Standard (AES): use for compatible devices that need this protected configuration.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Staff PCs and visitor phones share one provider connection, but visitors should not browse staff folders.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>WPA3-Personal: use when supported by the router and clients.</li><li>WPA2-Personal with AES: use for compatible devices that need this protected configuration.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of two protected wi-fi security options.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Protected wireless access needs a security mode supported by both access point and clients. Modern personal-network options use suitable authentication and encryption rather than relying on a hidden network name.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 6 of 13</span>
+        <h2 class="slide-title">Example: a laptop joins classroom Wi-Fi</h2>
+        <span class="type-tag example">example</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A laptop needs successful wireless authentication and association before useful network access. Address configuration and upstream service must then work independently of the radio connection.</p>
+        
+      <ul class="content-bullets">
+        <li>The laptop selects Classroom and authenticates using the configured security method. It then obtains a matching address configuration.</li><li>Local services may work while the provider connection is down. Guest isolation can block access to staff resources even when Internet access works.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Configure a teaching router, connect clients, and understand LAN, WAN, DHCP, and wireless security.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>The laptop selects Classroom and authenticates using the configured security method.</li><li>It then obtains a matching address configuration.</li><li>Local services may work while the provider connection is down.</li><li>Guest isolation can block access to staff resources even when Internet access works.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of example: a laptop joins classroom wi-fi.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A laptop needs successful wireless authentication and association before useful network access. Address configuration and upstream service must then work independently of the radio connection.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 7 of 13</span>
+        <h2 class="slide-title">Wi-Fi Frequencies and Standards</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Wireless networks operate over unlicensed radio frequencies using standardized IEEE 802.11 protocols that balance speed and range.</p>
+        
+      <ul class="content-bullets">
+        <li>2.4 GHz Frequency Band: Travels farther and penetrates walls well, but offers lower speeds and suffers high congestion from Bluetooth and microwaves.</li><li>5 GHz Frequency Band: Delivers much faster data speeds and less interference, but has a shorter range and struggles to pass through solid walls.</li><li>Wi-Fi 4 (802.11n): Introduced dual-band operation and MIMO antenna streams, reaching up to 600 Mbps.</li><li>Wi-Fi 5 (802.11ac): High-speed 5 GHz standard providing gigabit wireless speeds for modern laptops and mobile devices.</li><li>Wi-Fi 6 (802.11ax): Modern standard operating on 2.4 GHz, 5 GHz, and 6 GHz (Wi-Fi 6E), optimized for crowded environments like schools and stadiums.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Staff PCs and visitor phones share one provider connection, but visitors should not browse staff folders.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>2.4 GHz Frequency Band: Travels farther and penetrates walls well, but offers lower speeds and suffers high congestion from Bluetooth and microwaves.</li><li>5 GHz Frequency Band: Delivers much faster data speeds and less interference, but has a shorter range and struggles to pass through solid walls.</li><li>Wi-Fi 4 (802.11n): Introduced dual-band operation and MIMO antenna streams, reaching up to 600 Mbps.</li><li>Wi-Fi 5 (802.11ac): High-speed 5 GHz standard providing gigabit wireless speeds for modern laptops and mobile devices.</li><li>Wi-Fi 6 (802.11ax): Modern standard operating on 2.4 GHz, 5 GHz, and 6 GHz (Wi-Fi 6E), optimized for crowded environments like schools and stadiums.</li><li>Dual-band home and school routers broadcast on both 2.4 GHz and 5 GHz simultaneously under the same SSID so devices can choose the best connection.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of wi-fi frequencies and standards.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Wireless networks operate over unlicensed radio frequencies using standardized IEEE 802.11 protocols that balance speed and range.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 8 of 13</span>
+        <h2 class="slide-title">Coordinating Router, Pool, and Wi-Fi</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Router settings affect both management access and client connectivity. A compatible local address, allocation pool, and wireless configuration reduce avoidable disconnections.</p>
+        
+      <ul class="content-bullets">
+        <li>Choose a private Local Area Network (LAN) subnet, then a pool of usable addresses inside it excluding the router’s address.</li><li>Changing the router Local Area Network (LAN) address can interrupt management access; reconnect and obtain a lease in the new subnet.</li><li>Save settings, connect one wired and one wireless client, then verify Internet Protocol (IP) options, gateway reachability, and service access separately.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Staff PCs and visitor phones share one provider connection, but visitors should not browse staff folders.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Choose a private LAN subnet, then a pool of usable addresses inside it excluding the router’s address.</li><li>Changing the router LAN address can interrupt management access; reconnect and obtain a lease in the new subnet.</li><li>Save settings, connect one wired and one wireless client, then verify IP options, gateway reachability, and service access separately.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of coordinating router, pool, and wi-fi.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Router settings affect both management access and client connectivity. A compatible local address, allocation pool, and wireless configuration reduce avoidable disconnections.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 9 of 13</span>
+        <h2 class="slide-title">Applying and Testing Router Settings</h2>
+        <span class="type-tag walkthrough">walkthrough</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A router change must be followed by reconnecting clients and checking their received settings. Local access, name resolution, and upstream service provide different verification evidence.</p>
+        
+      <ul class="content-bullets">
+        <li>Use an isolated, authorized router and record its current settings. A wired management connection reduces dependence on changing Wi-Fi settings.</li><li>Choose a private Local Area Network (LAN) subnet and a matching pool excluding the router address. A LAN address change can interrupt management and existing leases.</li><li>Set an Service Set Identifier (SSID) and supported WPA3-Personal or WPA2-AES security. Use a long unique passphrase distinct from router administrator credentials.</li><li>Reconnect a wired and an authenticated wireless client, then inspect assigned address, mask, gateway, and Domain Name System (DNS).</li><li>Check local access before Wide Area Network (WAN) services. Guest isolation depends on the actual device features and policy; restore approved settings after a physical demonstration.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Staff PCs and visitor phones share one provider connection, but visitors should not browse staff folders.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Use an isolated, authorized router and record its current settings.</li><li>A wired management connection reduces dependence on changing Wi-Fi settings.</li><li>Choose a private LAN subnet and a matching pool excluding the router address.</li><li>A LAN address change can interrupt management and existing leases.</li><li>Set an SSID and supported WPA3-Personal or WPA2-AES security.</li><li>Use a long unique passphrase distinct from router administrator credentials.</li><li>Reconnect a wired and an authenticated wireless client, then inspect assigned address, mask, gateway, and DNS.</li><li>Check local access before WAN services.</li><li>Guest isolation depends on the actual device features and policy; restore approved settings after a physical demonstration.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of applying and testing router settings.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A router change must be followed by reconnecting clients and checking their received settings. Local access, name resolution, and upstream service provide different verification evidence.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 10 of 13</span>
+        <h2 class="slide-title">Router LAN and Wi-Fi Workbench</h2>
+        <span class="type-tag demo">Simulation</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A small gateway can combine local addressing, automatic configuration, and wireless access. Those settings must agree before clients can use the intended services.</p>
+        
+      <div class="demo-badge">
+        <b>Interactive Demonstration:</b> <code>router</code> — Use on-screen controls to step through or demonstrate the concept visually.
+      </div>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Staff PCs and visitor phones share one provider connection, but visitors should not browse staff folders.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Browser-only model • configure LAN and Wi-Fi, apply settings, then add wired or authenticated wireless clients.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of router lan and wi-fi workbench.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A small gateway can combine local addressing, automatic configuration, and wireless access. Those settings must agree before clients can use the intended services.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 11 of 13</span>
+        <h2 class="slide-title">Guest Wi-Fi Isolation and Internet</h2>
+        <span class="type-tag demo">Simulation</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Guest isolation can permit Internet use while blocking access to staff resources. Wireless association, isolation policy, local services, and the upstream connection remain separate conditions.</p>
+        
+      <div class="demo-badge">
+        <b>Interactive Demonstration:</b> <code>guestIsolationDemo</code> — Use on-screen controls to step through or demonstrate the concept visually.
+      </div>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Configure a teaching router, connect clients, and understand LAN, WAN, DHCP, and wireless security.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Change guest association, isolation policy, WAN state, and destination to separate connectivity conditions.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of guest wi-fi isolation and internet.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Guest isolation can permit Internet use while blocking access to staff resources. Wireless association, isolation policy, local services, and the upstream connection remain separate conditions.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 12 of 13</span>
+        <h2 class="slide-title">A small training center</h2>
+        <span class="type-tag application">application</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Staff and visitors may share an Internet connection without sharing access to internal files. A correctly configured guest network separates those access needs.</p>
+        
+      <ul class="content-bullets">
+        <li>Use a private staff Local Area Network (LAN) and a properly isolated guest Wireless Local Area Network (WLAN) supported by the equipment.</li><li>Document Wide Area Network (WAN) requirements from the provider instead of guessing settings.</li><li>Confirm guests cannot access staff resources while approved Internet access remains possible.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Staff PCs and visitor phones share one provider connection, but visitors should not browse staff folders.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Use a private staff LAN and a properly isolated guest WLAN supported by the equipment.</li><li>Document WAN requirements from the provider instead of guessing settings.</li><li>Confirm guests cannot access staff resources while approved Internet access remains possible.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of a small training center.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Staff and visitors may share an Internet connection without sharing access to internal files. A correctly configured guest network separates those access needs.
+        </div>
+      </div>
+    </div>
+  
+
+</body>
+</html>
+  

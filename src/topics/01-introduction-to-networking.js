@@ -136,19 +136,5 @@ export default topic({
       "expectedCount": 2
     }
   ],
-  "demo": {
-    "type": "coverage",
-    "title": "Explore reach and service roles",
-    "lead": "Conceptual comparison • change coverage independently from architecture."
-  },
-  "application": {
-    "title": "A school with two campuses",
-    "lead": "Each campus has a Local Area Network (LAN). A provider link joins the sites; students request files from a central server.",
-    "items": [
-      "The inter-site connection is a Wide Area Network (WAN) service; the local wireless classroom is still a Local Area Network (LAN).",
-      "A Bluetooth mouse forms a Personal Area Network (PAN) with its computer.",
-      "A teacher’s PC sharing a temporary folder illustrates peer service within the same Local Area Network (LAN)."
-    ]
-  },
   "walkthrough": false
 });

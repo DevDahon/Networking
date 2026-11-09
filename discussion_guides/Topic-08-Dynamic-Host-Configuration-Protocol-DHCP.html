@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Topic 8: Dynamic Host Configuration Protocol (DHCP) — Instructor Discussion Guide</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 14mm 14mm 16mm 14mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #1e293b;
+      background: #ffffff;
+      line-height: 1.5;
+      font-size: 13px;
+    }
+    .guide-header-cover {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+      color: #ffffff;
+      padding: 24px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+    }
+    .guide-header-cover .badge {
+      display: inline-block;
+      background: #38bdf8;
+      color: #0f172a;
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+    .guide-header-cover h1 {
+      font-size: 23px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      color: #ffffff;
+    }
+    .guide-header-cover p {
+      font-size: 13px;
+      color: #cbd5e1;
+      max-width: 95%;
+    }
+    .meta-bar {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      display: flex;
+      gap: 20px;
+      font-size: 11px;
+      color: #94a3b8;
+    }
+    .meta-bar b {
+      color: #ffffff;
+    }
+
+    .slide-card {
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      background: #ffffff;
+      page-break-inside: avoid;
+      break-inside: avoid;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+    .card-header {
+      background: #f1f5f9;
+      padding: 10px 14px;
+      border-bottom: 1px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .slide-pill {
+      background: #0f172a;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 12px;
+      white-space: nowrap;
+    }
+    .slide-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+      flex-grow: 1;
+    }
+    .type-tag {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #e2e8f0;
+      color: #475569;
+    }
+    .type-tag.example {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .reading-box {
+      background: #f8fafc;
+      padding: 12px 14px;
+      border-bottom: 1px dashed #cbd5e1;
+    }
+    .box-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: #64748b;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .lead-text {
+      font-weight: 600;
+      color: #1e293b;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+    .content-bullets {
+      margin-left: 18px;
+      font-size: 12px;
+      color: #334155;
+    }
+    .content-bullets li {
+      margin-bottom: 3px;
+    }
+    .demo-badge {
+      background: #e0f2fe;
+      border: 1px solid #bae6fd;
+      color: #0369a1;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .teacher-guide-box {
+      background: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 12px 14px;
+    }
+    .guide-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .guide-icon {
+      font-size: 14px;
+    }
+    .guide-title {
+      font-weight: 800;
+      font-size: 12px;
+      text-transform: uppercase;
+      color: #1e40af;
+      letter-spacing: 0.3px;
+    }
+
+    .guide-section {
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #1e3a8a;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-bottom: 3px;
+    }
+    .analogy-text {
+      font-size: 12px;
+      color: #1e293b;
+      font-style: italic;
+      background: rgba(255,255,255,0.7);
+      padding: 6px 8px;
+      border-radius: 4px;
+      border-left: 2px solid #3b82f6;
+    }
+    .talking-points {
+      margin-left: 16px;
+      font-size: 12px;
+      color: #1e293b;
+    }
+    .talking-points li {
+      margin-bottom: 3px;
+    }
+
+    .q-and-a {
+      background: #ffffff;
+      border: 1px solid #bfdbfe;
+      padding: 8px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+    .question-text {
+      color: #1e3a8a;
+      margin-bottom: 4px;
+    }
+    .answer-text {
+      color: #047857;
+    }
+
+    .takeaway-banner {
+      margin-top: 8px;
+      background: #dbeafe;
+      color: #1e40af;
+      font-size: 12px;
+      padding: 5px 8px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="guide-header-cover">
+    <span class="badge">Instructor's Discussion Guide</span>
+    <h1>Topic 8: Dynamic Host Configuration Protocol (DHCP)</h1>
+    <p>Step through DORA and manage a real simulated pool with leases, renewal, and exhaustion.</p>
+    <div class="meta-bar">
+      <span><b>Curriculum:</b> Networking 1</span>
+      <span><b>Excluded:</b> Title (Slide 1), Objectives (Slide 2), and Summary (Final Slide)</span>
+      <span><b>Total Discussion Units:</b> 8 Slides</span>
+    </div>
+  </div>
+
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 3 of 11</span>
+        <h2 class="slide-title">What Is a DHCP Lease?</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A lease grants temporary use of an address supplied by Dynamic Host Configuration Protocol. The server also provides options such as mask, gateway, and name resolver.</p>
+        
+      <ul class="content-bullets">
+        <li>A pool is the set of available addresses. Exclusions and reservations keep infrastructure addresses under control.</li><li>A lease grants temporary use; Dynamic Host Configuration Protocol (DHCP) also supplies options such as subnet mask, gateway, and Domain Name System (DNS).</li><li>A server must avoid duplicate active assignments. Clients and servers also use conflict detection in real deployments.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">The router has a DHCP pool of only twenty addresses and several existing leases.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>A pool is the set of available addresses.</li><li>Exclusions and reservations keep infrastructure addresses under control.</li><li>A lease grants temporary use; DHCP also supplies options such as subnet mask, gateway, and DNS.</li><li>A server must avoid duplicate active assignments.</li><li>Clients and servers also use conflict detection in real deployments.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of what is a dhcp lease?.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A lease grants temporary use of an address supplied by Dynamic Host Configuration Protocol. The server also provides options such as mask, gateway, and name resolver.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 4 of 11</span>
+        <h2 class="slide-title">Four messages in the initial DHCP exchange</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Initial allocation commonly follows Discover, Offer, Request, and Acknowledgment. These messages locate a server, propose settings, select an offer, and confirm the lease.</p>
+        
+      <ul class="content-bullets">
+        <li>Discover: the client seeks Dynamic Host Configuration Protocol (DHCP) servers.</li><li>Offer: a server proposes an available address and configuration options.</li><li>Request: the client identifies the chosen offer and requests its configuration.</li><li>Acknowledgment (ACK): the server confirms the lease, after which the client can use the configuration.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">The router has a DHCP pool of only twenty addresses and several existing leases.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Discover: the client seeks DHCP servers.</li><li>Offer: a server proposes an available address and configuration options.</li><li>Request: the client identifies the chosen offer and requests its configuration.</li><li>Acknowledgment (ACK): the server confirms the lease, after which the client can use the configuration.</li><li>Initial discovery uses broadcast.</li><li>Some replies can be unicast depending on client state; DORA is an introduction to a richer state machine.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of four messages in the initial dhcp exchange.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Initial allocation commonly follows Discover, Offer, Request, and Acknowledgment. These messages locate a server, propose settings, select an offer, and confirm the lease.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 5 of 11</span>
+        <h2 class="slide-title">Example: a laptop receives a lease</h2>
+        <span class="type-tag example">example</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A new laptop can obtain address settings from an available configuration server. The confirmed lease must use an address that does not conflict with another active allocation.</p>
+        
+      <ul class="content-bullets">
+        <li>The laptop discovers the service, receives an offer for 192.168.1.100, requests it, and receives an acknowledgment committing the lease.</li><li>The server also supplies subnet mask, gateway, resolver information, and lease lifetime. Another active client must receive a different available address.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Step through DORA and manage a real simulated pool with leases, renewal, and exhaustion.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>The laptop discovers the service, receives an offer for 192.168.1.100, requests it, and receives an acknowledgment committing the lease.</li><li>The server also supplies subnet mask, gateway, resolver information, and lease lifetime.</li><li>Another active client must receive a different available address.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of example: a laptop receives a lease.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A new laptop can obtain address settings from an available configuration server. The confirmed lease must use an address that does not conflict with another active allocation.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 6 of 11</span>
+        <h2 class="slide-title">Five lease lifecycle and failure events</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Leases can be renewed, released, or allowed to expire. Unavailable servers and exhausted pools create different failures even when the client’s physical connection works.</p>
+        
+      <ul class="content-bullets">
+        <li>Renewal: requests an extension from the existing server; it need not repeat the initial full Discover, Offer, Request, Acknowledge (DORA) exchange.</li><li>Release: returns the address to the server.</li><li>Expiry: makes an unrenewed lease available again.</li><li>Pool exhaustion: no unused address is available for another client.</li><li>Server unavailable: a client may eventually self-assign link-local configuration without ordinary routed access.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">The router has a DHCP pool of only twenty addresses and several existing leases.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Renewal: requests an extension from the existing server; it need not repeat the initial full DORA exchange.</li><li>Release: returns the address to the server.</li><li>Expiry: makes an unrenewed lease available again.</li><li>Pool exhaustion: no unused address is available for another client.</li><li>Server unavailable: a client may eventually self-assign link-local configuration without ordinary routed access.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of five lease lifecycle and failure events.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Leases can be renewed, released, or allowed to expire. Unavailable servers and exhausted pools create different failures even when the client’s physical connection works.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 7 of 11</span>
+        <h2 class="slide-title">Reading a DHCP Lease Configuration</h2>
+        <span class="type-tag walkthrough">walkthrough</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Automatic configuration includes more than a host address. Lease lifetime, gateway, resolver, and server information help explain which settings the client received.</p>
+        
+      <ul class="content-bullets">
+        <li>An authorized router pool contains usable addresses inside its Local Area Network (LAN) subnet, excluding the router and other managed infrastructure.</li><li>A client set to automatic Internet Protocol (IP)/Domain Name System (DNS) obtains address, mask, gateway, DNS, and a lease lifetime from the reachable server.</li><li>Discover locates a server, Offer proposes configuration, Request selects it, and Acknowledgment (ACK) commits the lease.</li><li>On authorized Windows equipment, ipconfig /all shows Dynamic Host Configuration Protocol (DHCP) and lease information; ipconfig /release and ipconfig /renew return and request configuration.</li><li>Pool exhaustion, unavailable service, conflicting options, and invalid pool boundaries are different faults. An unapproved Dynamic Host Configuration Protocol (DHCP) server must not be attached to the production Local Area Network (LAN).</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">The router has a DHCP pool of only twenty addresses and several existing leases.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>An authorized router pool contains usable addresses inside its LAN subnet, excluding the router and other managed infrastructure.</li><li>A client set to automatic IP/DNS obtains address, mask, gateway, DNS, and a lease lifetime from the reachable server.</li><li>Discover locates a server, Offer proposes configuration, Request selects it, and ACK commits the lease.</li><li>On authorized Windows equipment, ipconfig /all shows DHCP and lease information; ipconfig /release and ipconfig /renew return and request configuration.</li><li>Pool exhaustion, unavailable service, conflicting options, and invalid pool boundaries are different faults.</li><li>An unapproved DHCP server must not be attached to the production LAN.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of reading a dhcp lease configuration.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Automatic configuration includes more than a host address. Lease lifetime, gateway, resolver, and server information help explain which settings the client received.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 8 of 11</span>
+        <h2 class="slide-title">DHCP Allocation and Renewal</h2>
+        <span class="type-tag demo">Simulation</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">An authorized configuration server allocates unique available addresses from its managed pool. Confirmed leases remain assigned until release, expiry, or a valid lifecycle change.</p>
+        
+      <div class="demo-badge">
+        <b>Interactive Demonstration:</b> <code>dhcp</code> — Use on-screen controls to step through or demonstrate the concept visually.
+      </div>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">The router has a DHCP pool of only twenty addresses and several existing leases.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Modeled protocol • configure a pool, step DORA, allocate clients, release or renew, and advance lease time.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of dhcp allocation and renewal.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> An authorized configuration server allocates unique available addresses from its managed pool. Confirmed leases remain assigned until release, expiry, or a valid lifecycle change.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 9 of 11</span>
+        <h2 class="slide-title">DHCP Reservations and Exclusions</h2>
+        <span class="type-tag demo">Simulation</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Reservations associate selected clients with managed addresses, while exclusions remove addresses from general allocation. Active leases and these rules determine whether an address remains available.</p>
+        
+      <div class="demo-badge">
+        <b>Interactive Demonstration:</b> <code>reservedPoolDemo</code> — Use on-screen controls to step through or demonstrate the concept visually.
+      </div>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Step through DORA and manage a real simulated pool with leases, renewal, and exhaustion.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Allocate a bounded pool while reserving or excluding selected addresses.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of dhcp reservations and exclusions.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Reservations associate selected clients with managed addresses, while exclusions remove addresses from general allocation. Active leases and these rules determine whether an address remains available.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 10 of 11</span>
+        <h2 class="slide-title">Thirty laptops join a lab</h2>
+        <span class="type-tag application">application</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A working wireless connection does not guarantee an available address lease. When client demand exceeds the free pool, some clients cannot obtain the intended configuration.</p>
+        
+      <ul class="content-bullets">
+        <li>Some new clients cannot obtain an address even though their Wi-Fi association succeeds.</li><li>Inspect pool capacity and active leases before replacing cables.</li><li>An unauthorized second Dynamic Host Configuration Protocol (DHCP) server can supply conflicting options; keep the lab isolated.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">The router has a DHCP pool of only twenty addresses and several existing leases.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Some new clients cannot obtain an address even though their Wi-Fi association succeeds.</li><li>Inspect pool capacity and active leases before replacing cables.</li><li>An unauthorized second DHCP server can supply conflicting options; keep the lab isolated.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of thirty laptops join a lab.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A working wireless connection does not guarantee an available address lease. When client demand exceeds the free pool, some clients cannot obtain the intended configuration.
+        </div>
+      </div>
+    </div>
+  
+
+</body>
+</html>
+  

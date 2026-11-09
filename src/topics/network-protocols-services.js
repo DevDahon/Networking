@@ -5,7 +5,7 @@ const title='Network Protocols and Services';
 const objectives=[
  'Explain how a protocol, a network service, and a transport port differ.',
  'Distinguish TCP, UDP, IP, ARP, and ICMP responsibilities.',
- 'Describe common configuration, naming, web, file, mail, management, and time services.',
+ 'Describe common configuration, naming, web, and remote management services.',
  'Identify common server/client ports and compare protected and unprotected service options.',
  'Trace a modeled network exchange and relate its stages to OSI and TCP/IP.'
 ];
@@ -21,11 +21,11 @@ const slides=[
   'Port: a TCP or UDP endpoint number used to direct traffic to a process; it is not a physical Ethernet socket.'
  ],'A familiar port suggests a convention; it does not prove which program is listening or whether that program is safe.'),
  counted('Four TCP/IP responsibility groups',[
-  'Application: DHCP, DNS, HTTP/HTTPS, FTP, SFTP, SSH, SMTP, POP3, IMAP, SNMP, and NTP provide services; commonly associated with OSI 7.',
+  'Application: DHCP, DNS, HTTP, HTTPS, and SSH provide user-facing and network configuration services; commonly associated with OSI 7.',
   'Transport: TCP and UDP use process ports; commonly associated with OSI 4.',
   'Internet: IP supplies logical delivery and ICMP supplies related diagnostics; commonly associated with OSI 3.',
   'Link: local framing and physical transmission; ARP supports IPv4 neighbor resolution at this local-link boundary.'
- ],'OSI/TCP-IP mappings are approximate. OSI representation/session responsibilities are commonly grouped into TCP/IP Application; TLS is not a separate mandatory OSI box.'),
+ ],'OSI/TCP-IP mappings are approximate. Advanced enterprise protocols like SNMP, NTP, and dedicated mail servers are studied in Networking II.'),
  counted('Two transport services: TCP and UDP',[
   'TCP: connection-oriented, ordered reliable bytes, with acknowledgments and retransmission. Useful when the application needs this stream service.',
   'UDP: connectionless datagrams without built-in delivery or ordering guarantees. Useful when a small exchange or application-controlled behavior fits the task.'
@@ -41,27 +41,8 @@ const slides=[
  profile('HTTP'),
  profile('HTTPS'),
  demo('A web request uses several services','protocolWeb','Follow ARP, classic DNS, IP, TCP, TLS, and HTTP; change a condition to see exactly where the operation differs.','Play the healthy exchange, then compare a DNS failure, certificate failure, and HTTP 503. Pause at each layer boundary and relate the outcome to the evidence.'),
- profile('FTP'),
  profile('SSH'),
- profile('SFTP'),
- counted('Three email protocol roles',[
-  'SMTP: submits or relays outgoing mail; a successful submission is not proof that a person read the message.',
-  'POP3: retrieves messages in a download-oriented workflow; server-copy retention depends on configuration.',
-  'IMAP: accesses server-held folders and synchronizes message state across clients; it does not replace SMTP sending.'
- ],'Mail can also be accessed through a webmail application using HTTPS. That browser connection is different from the mail-server protocols behind it.'),
- demo('From outgoing message to recipient mailbox','protocolMail','Compare SMTP submission and relay with IMAP or POP3 retrieval.','Play the message route. Change the mailbox protocol and POP3 retention option, then replay to show how the resulting server-copy behavior differs.'),
- counted('Seven common email service ports',[
-  'TCP 25: SMTP relay between mail servers.',
-  'TCP 587: client message submission, commonly upgraded with STARTTLS.',
-  'TCP 465: client message submission with implicit TLS.',
-  'TCP 110: POP3, with plaintext or negotiated STARTTLS depending on configuration.',
-  'TCP 995: POP3 with implicit TLS.',
-  'TCP 143: IMAP, with plaintext or negotiated STARTTLS depending on configuration.',
-  'TCP 993: IMAP with implicit TLS.'
- ],'STARTTLS upgrades an existing protocol session; implicit TLS begins protection at connection setup. Port numbers alone do not prove that secure negotiation is required.'),
- profile('SNMP'),
- profile('NTP'),
- demo('Protocol functions and common port directory','protocolDirectory','Inspect all seventeen protocols individually, including transport and layer relationships.','Select each protocol and each port binding. Distinguish TCP/UDP port numbers from ICMP protocol identifiers and Ethernet ARP identifiers. Explain FTP control versus data and SFTP over SSH.'),
+ demo('Protocol functions and common port directory','protocolDirectory','Inspect all ten core protocols individually, including transport and layer relationships.','Select each protocol and each port binding. Distinguish TCP/UDP port numbers from ICMP protocol identifiers and Ethernet ARP identifiers. Explain SSH remote administration versus web delivery.'),
  {kind:'concept',title:'Read both endpoints, not just one number',items:[
   'A normal client often uses a temporary source port, such as TCP 53001, to contact a server listening on TCP 443. The response returns to that client endpoint.',
   'The connection context includes transport plus source/destination addresses and ports. TCP and UDP can use the same numeric port independently.',
@@ -73,10 +54,9 @@ const slides=[
   'TCP supplies ordered reliable bytes; UDP supplies datagrams without its own delivery guarantee.',
   'IP handles logical delivery, ARP resolves a local IPv4 next-hop MAC, and ICMP carries IP-related diagnostics.',
   'DHCP supplies configuration and DNS resolves names; common ports must be read together with their transports.',
-  'HTTP, FTP, SSH, and SFTP have different service/security roles; HTTPS protects HTTP and SFTP usually runs through SSH.',
-  'SMTP sends/relays mail, POP3 retrieves it, and IMAP synchronizes server-held mailboxes. SNMP manages information and NTP synchronizes time.',
-  'Layer mappings and port conventions guide explanations; actual reachability, authentication, encryption, and application health need distinct evidence.'
+  'HTTP and HTTPS power web services; SSH provides encrypted remote CLI administration on TCP 22.',
+  'Specialized enterprise protocols (SNMP, NTP, SMTP, IMAP/POP3, and file-sharing) build on these foundations in Networking II.'
  ]}
 ];
-addPresenterNotes(slides,{title,description:'Common protocols cooperate across layers to provide useful network services.',example:'A classroom laptop obtains configuration, looks up the school server, downloads a protected handout, and reads email through several different services.'});
+addPresenterNotes(slides,{title,description:'Common protocols cooperate across layers to provide useful network services.',example:'A classroom laptop obtains configuration, looks up the school server, downloads a protected handout, and connects securely via SSH.'});
 export default {id:'network-protocols-services',title,icon:'Globe',description:'Follow common network services, compare their functions and security, and inspect transport ports through controlled demonstrations.',objectives,slides};

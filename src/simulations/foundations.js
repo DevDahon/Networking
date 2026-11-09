@@ -3,8 +3,10 @@ import {reserveSimulationSpace} from '../components/simulationSpace.js';
 import {animatePacket,packetPosition} from '../components/packetMotion.js';
 import {esc,button,select,result,wire,read,networkSVG} from '../components/ui.js';
 import {layouts,reachable} from './models.js';
+import {topologyPath} from './extraModels.js';
 import {createStepPlayback} from './playback.js';
 import {renderTopologyNode,getSavedNodeStyle,setSavedNodeStyle} from '../components/networkSymbols.js';
+import {renderPhysicalDeviceSvg} from '../components/deviceIllustrations.js';
 export function communication(root){
  let step=0,medium='Copper Ethernet',progress=0,lastStep=0,releaseMotion=()=>{};
  const reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches||false;
@@ -30,9 +32,243 @@ export function communication(root){
  draw();return ()=>{releaseMotion();playback.dispose();};
 }
 export function coverage(root){let scope='LAN',arch='Client-server';const descriptions={PAN:'Personal Area Network (PAN) — around one person: phone ↔ headset. Often Bluetooth.',LAN:'Local Area Network (LAN) — within a local site: classroom PCs ↔ switch/AP.',MAN:'Metropolitan Area Network (MAN) — across a metropolitan area: library sites joined by city links.',WAN:'Wide Area Network (WAN) — across regions: campus networks joined by carrier links.'};function draw(){root.innerHTML=`<div class="control-row">${select('Coverage','scope',Object.keys(descriptions).map(key=>[key,`${key} — ${{PAN:'Personal Area Network',LAN:'Local Area Network',MAN:'Metropolitan Area Network',WAN:'Wide Area Network'}[key]}`]),scope)}${select('Service architecture','arch',['Peer-to-peer','Client-server'],arch)}</div><div class="coverage-view"><span class="coverage-orbit">${scope}</span><h2>${descriptions[scope]}</h2></div>${networkSVG(arch==='Client-server'?['Client A','Server','Client B']:['Peer A','Peer B','Peer C'])}<p class="callout">${arch==='Client-server'?'Clients request the server’s service.':'Each peer may request and provide services.'} Coverage and service roles are independent dimensions.</p><p class="small">A Bluetooth smartwatch linked to a phone is a Personal Area Network (PAN); service roles remain a separate classification.</p>`;root.querySelector('[name="scope"]').onchange=e=>{scope=e.target.value;draw();};root.querySelector('[name="arch"]').onchange=e=>{arch=e.target.value;draw();};}draw();}
-export function topology(root){let kind='Star',failed=-1,dead=-1,custom=[],nodeStyle=getSavedNodeStyle();function draw(){const model=kind==='Build your own'?{nodes:['A','B','C','D','E'],edges:custom,note:'Abstract graph builder. Add links and observe reachability from A; this is not an Ethernet loop simulation.'}:layouts[kind];const connected=reachable(model.nodes,model.edges,0,failed,dead,kind);const xy=topologyCoordinates(kind,model.nodes.length);root.innerHTML=`<div class="control-row">${select('Topology','kind',[...Object.keys(layouts),'Build your own'],kind)}${select('Failed cable','failed',[[-1,'None'],...model.edges.map(([a,b],i)=>[i,`${model.nodes[a]} ↔ ${model.nodes[b]}`])],failed)}${select('Failed device','dead',[[-1,'None'],...model.nodes.map((n,i)=>[i,n])],dead)}${select('Node display','nodeStyle',[['symbols','Device symbols'],['boxes','Labeled boxes']],nodeStyle)}${button('Reset faults','reset')}</div><svg class="topology-diagram" viewBox="0 0 800 340" role="img" aria-label="${esc(kind)} topology; reachable from ${model.nodes[0]}: ${esc(connected.map(i=>model.nodes[i]).join(', '))}">${topologyConnections(kind,model.edges,xy,{failed,dead})}${model.nodes.map((n,i)=>renderTopologyNode({x:xy[i][0],y:xy[i][1],label:n,style:nodeStyle,status:i===dead?'dead':connected.includes(i)?'connected':'unreachable',dataAttrs:`data-node-index="${i}"`})).join('')}</svg><p class="callout">${model.note}</p>${result(`Reachable from ${model.nodes[0]}: ${connected.map(i=>model.nodes[i]).join(', ')||'none'}. ${model.nodes.length-connected.length} node(s) outside the source component.`,connected.length===model.nodes.length)}${kind==='Build your own'?`<div class="control-row">${select('From','from',model.nodes,'A')}${select('To','to',model.nodes,'B')}${button('Add connection','add','primary')}${button('Clear builder','clear')}</div>`:''}`;['kind','failed','dead','nodeStyle'].forEach(n=>root.querySelector(`[name="${n}"]`).onchange=e=>{if(n==='kind'){kind=e.target.value;failed=dead=-1;}else if(n==='failed')failed=+e.target.value;else if(n==='dead')dead=+e.target.value;else if(n==='nodeStyle'){nodeStyle=e.target.value;setSavedNodeStyle(nodeStyle);}draw();});wire(root,{reset:()=>{failed=dead=-1;draw();},clear:()=>{custom=[];failed=dead=-1;draw();},add:()=>{const a=model.nodes.indexOf(read(root,'from')),b=model.nodes.indexOf(read(root,'to'));if(a!==b&&!custom.some(([x,y])=>x===a&&y===b||x===b&&y===a))custom.push([a,b]);draw();}});}draw();}
+export function topology(root){
+  let kind='Star',failed=-1,dead=-1,source=1,target=4,custom=[],step=0,nodeStyle=getSavedNodeStyle();
+  let releaseMotion=()=>{};
+
+  function getModel(){
+    return kind==='Build your own'
+      ? {nodes:['A','B','C','D','E'],edges:custom,note:'Abstract graph builder. Add links, simulate faults, and trace paths; this is not an Ethernet loop simulation.'}
+      : layouts[kind];
+  }
+
+  function getPath(model){
+    if(kind==='Build your own'){
+      if(source===target)return [source];
+      if(source===dead||target===dead)return [];
+      const queue=[[source]],seen=new Set([source]);
+      while(queue.length){
+        const p=queue.shift(),last=p.at(-1);
+        if(last===target)return p;
+        model.edges.forEach(([a,b],i)=>{
+          if(i===failed||a===dead||b===dead)return;
+          const next=a===last?b:b===last?a:-1;
+          if(next>=0&&!seen.has(next)){
+            seen.add(next);
+            queue.push([...p,next]);
+          }
+        });
+      }
+      return [];
+    }
+    return topologyPath(kind,source,target,failed,dead);
+  }
+
+  const playback=createStepPlayback({
+    length:()=>{
+      const model=getModel();
+      const path=getPath(model);
+      return Math.max(1,path.length);
+    },
+    getIndex:()=>step,
+    setIndex:value=>{step=value;},
+    render:draw
+  });
+
+  function draw(){
+    releaseMotion();
+    const model=getModel();
+    if(source>=model.nodes.length)source=0;
+    if(target>=model.nodes.length)target=Math.min(model.nodes.length-1,4);
+
+    const path=getPath(model);
+    step=Math.max(0,Math.min(step,Math.max(0,path.length-1)));
+    const visited=path.length>0?path.slice(0,step+1):[];
+
+    const connected=reachable(model.nodes,model.edges,source,failed,dead,kind);
+    const xy=topologyCoordinates(kind,model.nodes.length);
+
+    const stepTitle=path.length===0
+      ? 'No reachable path under current conditions'
+      : step===path.length-1
+        ? `Destination reached: ${model.nodes[target]}`
+        : step===0
+          ? `Source node: ${model.nodes[source]}`
+          : `Hop ${step+1}: ${model.nodes[path[step]]}`;
+
+    const stepText=path.length===0
+      ? `The selected failure prevents communication between ${model.nodes[source]} and ${model.nodes[target]}. Changing addresses does not repair a disconnected physical or logical path.`
+      : step===path.length-1
+        ? `Successfully reached ${model.nodes[target]}. ${path.length} node(s) on shortest available path: ${path.map(i=>model.nodes[i]).join(' → ')}.`
+        : `${model.nodes[path[step]]} → ${model.nodes[path[step+1]]} · Step ${step+1} of ${path.length} along the available path.`;
+
+    const packetPos=path.length>0?xy[path[step]]:null;
+
+    root.innerHTML=`
+      <div class="control-row">
+        ${select('Topology','kind',[...Object.keys(layouts),'Build your own'],kind)}
+        ${select('Failed cable','failed',[[-1,'None'],...model.edges.map(([a,b],i)=>[i,`${model.nodes[a]} ↔ ${model.nodes[b]}`])],failed)}
+        ${select('Failed device','dead',[[-1,'None'],...model.nodes.map((n,i)=>[i,n])],dead)}
+        ${select('Node display','nodeStyle',[['symbols','Device symbols'],['boxes','Labeled boxes']],nodeStyle)}
+        ${button('Reset faults','reset')}
+      </div>
+
+      <div class="control-row">
+        ${select('Trace from','source',model.nodes.map((n,i)=>[i,n]),source)}
+        ${select('Trace to','target',model.nodes.map((n,i)=>[i,n]),target)}
+        ${button('Play trace','play','primary')}
+        ${button('Pause','pause')}
+        ${button('Resume','resume')}
+        ${button('Previous step','prev')}
+        ${button('Next step','next')}
+        ${button('Reset trace','resetTrace')}
+        ${select('Animation speed','speed',[['0.5','0.5×'],['1','1×'],['2','2×']],playback.speed)}
+      </div>
+
+      <svg class="topology-diagram" viewBox="0 0 800 340" role="img" aria-label="${esc(kind)} topology; path: ${esc(visited.map(i=>model.nodes[i]).join(' → ')||'No reachable path')}">
+        ${topologyConnections(kind,model.edges,xy,{failed,dead,path:visited})}
+        ${model.nodes.map((n,i)=>renderTopologyNode({
+          x:xy[i][0],
+          y:xy[i][1],
+          label:n,
+          style:nodeStyle,
+          status:i===dead?'dead':visited.includes(i)?'connected':connected.includes(i)?'default':'unreachable',
+          dataAttrs:`data-node-index="${i}" data-trace-node="${i}"`
+        })).join('')}
+        ${packetPos?`<circle class="packet" data-network-packet cx="${packetPos[0]}" cy="${packetPos[1]}" r="8" fill="#0d9488" stroke="#ffffff" stroke-width="2.5" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.3))"/>`:''}
+      </svg>
+
+      <p class="callout">${model.note}</p>
+
+      <div class="step-card" aria-live="polite">
+        <b>Path trace · Step ${path.length?step+1:0} of ${path.length} · <span class="extra-play-state">${playback.status}</span></b>
+        <h3>${esc(stepTitle)}</h3>
+        <p>${esc(stepText)}</p>
+        ${path.length===0?'<span class="extra-blocked" style="display:inline-block;margin-top:6px;color:#dc2626;font-weight:600;">Selected failure prevents communication between these devices.</span>':''}
+      </div>
+
+      ${result(`Reachable from ${model.nodes[source]}: ${connected.map(i=>model.nodes[i]).join(', ')||'none'}. ${model.nodes.length-connected.length} node(s) outside the source component.`,connected.length===model.nodes.length)}
+
+      ${kind==='Build your own'?`
+        <div class="control-row">
+          ${select('From','from',model.nodes,'A')}
+          ${select('To','to',model.nodes,'B')}
+          ${button('Add connection','add','primary')}
+          ${button('Clear builder','clear')}
+        </div>
+      `:''}
+    `;
+
+    ['kind','failed','dead','source','target','nodeStyle','speed'].forEach(n=>{
+      const el=root.querySelector(`[name="${n}"]`);
+      if(!el)return;
+      el.onchange=e=>{
+        playback.pause();
+        if(n==='kind'){
+          kind=e.target.value;
+          failed=dead=-1;
+          source=kind==='Star'?1:0;
+          target=layouts[kind]?.nodes.length?layouts[kind].nodes.length-1:4;
+          step=0;
+        }else if(n==='failed'){
+          failed=+e.target.value;
+          step=0;
+        }else if(n==='dead'){
+          dead=+e.target.value;
+          step=0;
+        }else if(n==='source'){
+          source=+e.target.value;
+          step=0;
+        }else if(n==='target'){
+          target=+e.target.value;
+          step=0;
+        }else if(n==='nodeStyle'){
+          nodeStyle=e.target.value;
+          setSavedNodeStyle(nodeStyle);
+        }else if(n==='speed'){
+          playback.setSpeed(e.target.value);
+        }
+        draw();
+      };
+    });
+
+    const prevBtn=root.querySelector('[data-action="prev"]');
+    if(prevBtn)prevBtn.disabled=path.length===0||step===0;
+    const nextBtn=root.querySelector('[data-action="next"]');
+    if(nextBtn)nextBtn.disabled=path.length===0||step===path.length-1;
+    const playBtn=root.querySelector('[data-action="play"]');
+    if(playBtn)playBtn.disabled=path.length===0;
+
+    wire(root,{
+      reset:()=>{failed=dead=-1;step=0;playback.reset();draw();},
+      resetFaults:()=>{failed=dead=-1;step=0;playback.reset();draw();},
+      resetTrace:()=>{step=0;playback.reset();draw();},
+      play:()=>{step=0;playback.replay();},
+      pause:()=>{playback.pause();draw();},
+      resume:()=>playback.resume(),
+      prev:()=>{playback.previous();draw();},
+      previous:()=>{playback.previous();draw();},
+      next:()=>{playback.next();draw();},
+      advance:()=>{playback.next();draw();},
+      clear:()=>{custom=[];failed=dead=-1;step=0;playback.reset();draw();},
+      add:()=>{
+        const a=model.nodes.indexOf(read(root,'from')),b=model.nodes.indexOf(read(root,'to'));
+        if(a!==b&&!custom.some(([x,y])=>x===a&&y===b||x===b&&y===a))custom.push([a,b]);
+        step=0;
+        playback.reset();
+        draw();
+      }
+    });
+  }
+
+  draw();
+  return ()=>{
+    releaseMotion();
+    playback.dispose();
+  };
+}
 const devices={NIC:['A host interface for sending/receiving network data.','One Ethernet port or a wireless interface.'],Hub:['Repeats incoming bits to other ports, without MAC learning.','Multiple equal shared repeater ports.'],Switch:['Learns source MAC addresses; forwards known unicast to a learned port, floods unknown unicast.','LAN Ethernet ports; source PC on 1, destination PC on 3.'],Router:['Forwards IP packets between networks using routes.','LAN interface and separate WAN / other-network interface.'],Modem:['Adapts signals for a provider access medium such as DSL or cable.','Provider cable/DSL port plus customer interface.'],AP:['Bridges wireless stations to a LAN.','Radio antenna/interface and wired LAN uplink.'],Repeater:['Regenerates or retransmits a signal to extend a supported medium.','Input/output medium connections; not an IP route selector.'],Bridge:['Joins link-layer segments; switches are multiport bridges.','Two or more link-layer segment interfaces.'],Firewall:['Applies traffic access policy; may be software or an appliance.','Policy between security zones; interfaces depend on deployment.']};
-export function deviceExplorer(root){let name='Switch',port=1;function draw(){root.innerHTML=`<div class="device-tabs">${Object.keys(devices).map(n=>`<button data-device="${n}" aria-pressed="${n===name}">${n}</button>`).join('')}</div><div class="device-face"><span>${name==='AP'?'Wi-Fi access point':name}</span><div class="ports">${Array.from({length:name==='Switch'||name==='Hub'?8:name==='Router'?2:1},(_,i)=>`<button data-port="${i+1}" aria-label="Inspect ${name} port ${i+1}">${name==='Router'?(i?'WAN':'LAN'):i+1}</button>`).join('')}</div></div><h2>${devices[name][0]}</h2><p>${devices[name][1]}</p><p class="callout">Port ${port} selected. ${name==='Switch'?'Known destination on port 3: frame forwards to port 3. Unknown destination: flood other LAN ports.':name==='Router'?'Packet to a remote subnet: consult routing table and forward through the appropriate interface.':name==='Hub'?'Bits received on this port repeat out the other ports.':'Inspect the actual model’s labels; this is a schematic, not a product photograph.'}</p>${networkSVG(name==='Router'?['LAN host','Router','Other network']:['PC on port 1',name,'PC on port 3'])}`;root.querySelectorAll('[data-device]').forEach(b=>b.onclick=()=>{name=b.dataset.device;port=1;draw();});root.querySelectorAll('[data-port]').forEach(b=>b.onclick=()=>{port=+b.dataset.port;draw();});}draw();}
+export function deviceExplorer(root){
+  let name='Switch',port=1;
+  function draw(){
+    const key=name.toLowerCase();
+    root.innerHTML=`
+      <div class="device-tabs">
+        ${Object.keys(devices).map(n=>`<button data-device="${n}" aria-pressed="${n===name}">${n}</button>`).join('')}
+      </div>
+
+      <div class="device-explorer-layout" style="margin: 16px 0;">
+        <div class="device-explorer-card" style="background: white; border: 1px solid var(--border); border-radius: 12px; padding: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span class="eyebrow" style="font-size: 11px; font-weight: 800; color: #2563eb;">PHYSICAL HARDWARE VIEW</span>
+            <span style="font-size: 11px; color: #64748b; font-weight: 600;">${name==='AP'?'Access Point':name} Equipment</span>
+          </div>
+          ${renderPhysicalDeviceSvg(key)}
+          <div class="device-face" style="margin: 14px 0 0; padding: 12px;">
+            <span style="font-size: 14px;">${name==='AP'?'Wi-Fi access point':name} Port Selector</span>
+            <div class="ports">${Array.from({length:name==='Switch'||name==='Hub'?8:name==='Router'?2:1},(_,i)=>`<button data-port="${i+1}" aria-label="Inspect ${name} port ${i+1}">${name==='Router'?(i?'WAN':'LAN'):i+1}</button>`).join('')}</div>
+          </div>
+        </div>
+      </div>
+
+      <h2>${devices[name][0]}</h2>
+      <p>${devices[name][1]}</p>
+      <p class="callout">Port ${port} selected. ${name==='Switch'?'Known destination on port 3: frame forwards to port 3. Unknown destination: flood other LAN ports.':name==='Router'?'Packet to a remote subnet: consult routing table and forward through the appropriate interface.':name==='Hub'?'Bits received on this port repeat out the other ports.':'Inspect the actual model’s labels; this is a schematic, not a product photograph.'}</p>
+      ${networkSVG(name==='Router'?['LAN host','Router','Other network']:['PC on port 1',name,'PC on port 3'])}
+    `;
+
+    root.querySelectorAll('[data-device]').forEach(b=>b.onclick=()=>{
+      name=b.dataset.device;
+      port=1;
+      draw();
+    });
+    root.querySelectorAll('[data-port]').forEach(b=>b.onclick=()=>{
+      port=+b.dataset.port;
+      draw();
+    });
+  }
+  draw();
+}
 const layers=[['Application','User-facing protocol services','HTTP, DNS; TCP/IP Application'],['Presentation','Representation, encoding, encryption concepts','Text encoding, data representation; TCP/IP Application'],['Session','Dialog/session management concepts','Session coordination; TCP/IP Application'],['Transport','Process-to-process delivery','TCP segments, UDP datagrams; TCP/IP Transport'],['Network','Logical addressing and routing','IPv4 / IPv6 packets; TCP/IP Internet'],['Data Link','Local frames and media access','Ethernet frames, MAC; TCP/IP Link'],['Physical','Signals and bit transmission','Copper electrical signals, fiber light, radio; TCP/IP Link']];
 export function osi(root){let layer=0,step=0,transport='TCP';const wraps=['Application data','TCP header + data (segment)','IP header + segment (packet)','Ethernet header + packet + trailer (frame)','Signals on the medium','Receiver removes link framing','Receiver processes IP and transport','Application receives data'];function draw(){root.innerHTML=`<div class="osi-grid"><div>${layers.map((l,i)=>`<button data-layer="${i}" aria-pressed="${i===layer}"><b>${7-i}</b> ${l[0]}</button>`).join('')}</div><div><span class="eyebrow">OSI ${7-layer} · ${layers[layer][0]}</span><h2>${layers[layer][1]}</h2><p>${layers[layer][2]}</p><p class="callout">Conceptual models organize responsibilities. Protocol implementations need not perform seven literal separate steps.</p></div></div><div class="step-card" aria-live="polite"><b>Encapsulation journey · ${step+1}/8</b><p>${wraps[step]}</p></div><div class="control-row">${button('Previous step','prev')}${button(step===7?'Replay':'Next step','next','primary')}${select('Transport loss demonstration','transport',['TCP','UDP'],transport)}${button('Lose data unit 2','loss')}</div><div id="loss"></div>`;root.querySelector('[name="transport"]').onchange=e=>{transport=e.target.value;};root.querySelectorAll('[data-layer]').forEach(b=>b.onclick=()=>{layer=+b.dataset.layer;draw();});wire(root,{prev:()=>{step=Math.max(0,step-1);draw();},next:()=>{step=(step+1)%8;draw();},loss:()=>root.querySelector('#loss').innerHTML=result(read(root,'transport')==='TCP'?'Units 1 and 3 arrive. TCP detects missing bytes through acknowledgment/sequence behavior and retransmits; the application receives ordered bytes.':'Datagrams 1 and 3 arrive. UDP itself neither retransmits datagram 2 nor restores ordering. The application decides how to handle the loss.')});}draw();}
 const media={UTP:['Four twisted copper pairs, no overall shield.','Typical Cat 5e: 1 Gb/s at 100 m channel.','#d97706'],STP:['Twisted pairs with shielding; correct bonding matters.','Category and installation determine rate and reach.','#64748b'],Fiber:['Glass core, cladding, coating and protective jacket.','Optical type and transceivers determine distance and speed.','#0d9488'],Coaxial:['Copper core, dielectric, conductive shield and jacket.','Common in cable-provider access; not a typical Ethernet PC patch lead.','#2563eb']};

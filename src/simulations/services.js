@@ -56,12 +56,48 @@ export function fileSharing(root){let created=false;root.innerHTML=`<div class="
  function show(t,ok=true){root.querySelector('#access-result').innerHTML=result(t,ok);}wire(root,{publish:()=>{if(!read(root,'folder').trim()){show('Enter a share name.',false);return;}created=true;show('Published '+String.fromCharCode(92,92)+read(root,'host')+String.fromCharCode(92)+read(root,'folder')+' in the simulation.');},remove:()=>{created=false;show('The simulated folder share has been removed.');},access:()=>{if(read(root,'host')===read(root,'client')){show('Choose a different PC to test remote share access.',false);return;}const t=sharing({share:read(root,'share'),ntfs:read(root,'ntfs'),action:read(root,'action'),online:read(root,'online')==='yes',shared:created,authenticated:read(root,'auth')==='yes'});show(t,t.startsWith('Allowed'));},printer:()=>{const ok=read(root,'host')!==read(root,'client')&&read(root,'online')==='yes'&&read(root,'auth')==='yes'&&read(root,'print')==='yes';show(ok?'Print job accepted by the modeled shared printer. Host online, authenticated account, and print permission verified.':'Print denied: use a remote client and check host availability, authentication, and printer permission.',ok);}});root.querySelector('[name="host"]').onchange=()=>{created=false;show('Host changed. Publish the folder on the selected host before remote access.');};}
 export function troubleshooting(root){
  let selected=0,state=diagnosticState(0),history=[],command='ipconfig /all';
- const commands=['ipconfig','ipconfig /all','ping 192.168.1.200','ping 192.168.1.1','ping 203.0.113.20','tracert 203.0.113.20','nslookup classroom.example','arp -a','Open shared folder'];
+ const commands=['ipconfig','ipconfig /all','ping 192.168.1.1','ping 192.168.1.200','ping 203.0.113.20','tracert 203.0.113.20','nslookup classroom.example','arp -a','ipconfig /release','ipconfig /renew','ping 127.0.0.1','help'];
+
+ function runCommand(cmd){
+  const c = (cmd || '').trim();
+  if(!c) return;
+  if(c.toLowerCase()==='cls'||c.toLowerCase()==='clear'){
+   history=[];
+   draw();
+   return;
+  }
+  command = c;
+  history.push(`> ${c}\n${diagnose(state,c)}`);
+  draw();
+ }
+
  function draw(){
-  root.innerHTML=`<div class="control-row">${select('Demonstrated fault','scenario',faults.map((f,i)=>[i,f]),selected)}${button('Restore fault','reset')}${button('Apply targeted repair','repair','primary')}</div><p class="callout">${state.fault<0?'Configuration restored. Repeat the original diagnostic command to observe the repair.':`Current fault: ${faults[selected]}. Inspect the settings and compare local, remote, name, and service behavior.`}</p><p class="small">Model: PC .10/24, peer .200/24, gateway/DNS 192.168.1.1; remote documentation target 203.0.113.20. ICMP is permitted.</p>${networkSVG(['Host','Switch / AP','Gateway'])}<div class="control-row">${select('Diagnostic command','command',commands,command)}${button('Execute modeled command','run')}</div><pre class="terminal" role="log" aria-live="polite">${esc(history.at(-1)||'Select a command to inspect this state. No real probes are sent.')}</pre><p class="small">${history.length} command(s) run in this example. The latest result is shown so it fits the presentation. Outputs derive from the current faulty or repaired state; real command wording, timing, and filtering vary.</p>`;
+  root.innerHTML=`<div class="control-row">${select('Demonstrated fault','scenario',faults.map((f,i)=>[i,f]),selected)}${button('Restore fault','reset')}${button('Apply targeted repair','repair','primary')}</div><p class="callout">${state.fault<0?'Configuration restored. Repeat the original diagnostic command to observe the repair.':`Current fault: ${faults[selected]}. Inspect the settings and compare local, remote, name, and service behavior.`}</p><p class="small">Model: PC .10/24, peer .200/24, gateway/DNS 192.168.1.1; remote documentation target 203.0.113.20. ICMP is permitted.</p>${networkSVG(['Host','Switch / AP','Gateway'])}<div class="terminal-container"><div class="terminal-header-bar"><div class="terminal-dots"><span></span><span></span><span></span></div><div class="terminal-title">Command Prompt - Lab Workstation (192.168.1.10)</div></div><pre class="terminal" role="log" aria-live="polite">${esc(history.at(-1)||'Select or type a command below to inspect this state. No real probes are sent.')}</pre><form class="terminal-prompt-form control-row" id="terminal-prompt-form"><span class="terminal-prompt-label">C:\\Users\\Student&gt;</span><input type="text" name="command" id="command" class="terminal-prompt-input" value="${esc(command)}" placeholder="Type command (ping, ipconfig, tracert, nslookup, help)..." autocomplete="off" spellcheck="false" /><button type="submit" class="primary" data-action="run">Execute modeled command</button></form><div class="quick-cmd-list"><span class="quick-cmd-label">Quick commands:</span>${commands.map(c=>`<button type="button" class="quick-cmd" data-cmd="${esc(c)}"><code>${esc(c)}</code></button>`).join('')}</div></div><p class="small">${history.length} command(s) run in this session. The latest result is shown above. Outputs derive from the current faulty or repaired state; real command wording, timing, and filtering vary.</p>`;
+
   root.querySelector('[name="scenario"]').onchange=e=>{selected=Number(e.target.value);state=diagnosticState(selected);history=[];draw();};
-  root.querySelector('[name="command"]').onchange=e=>{command=e.target.value;};
-  wire(root,{run:()=>{command=read(root,'command');history.push(`> ${command}\n${diagnose(state,command)}`);draw();},reset:()=>{state=diagnosticState(selected);history=[];draw();},repair:()=>{state=diagnosticState(-1);draw();}});
+  const inputCmd=root.querySelector('[name="command"]');
+  if(inputCmd){
+   inputCmd.oninput=e=>{command=e.target.value;};
+   inputCmd.onchange=e=>{command=e.target.value;};
+  }
+  const form=root.querySelector('#terminal-prompt-form');
+  if(form){
+   form.onsubmit=e=>{
+    e.preventDefault();
+    runCommand(read(root,'command'));
+   };
+  }
+  root.querySelectorAll('.quick-cmd').forEach(btn=>{
+   btn.onclick=()=>{
+    command=btn.dataset.cmd;
+    runCommand(command);
+   };
+  });
+  wire(root,{
+   run:()=>{runCommand(read(root,'command'));},
+   reset:()=>{state=diagnosticState(selected);history=[];draw();},
+   repair:()=>{state=diagnosticState(-1);draw();}
+  });
  }
  draw();
 }

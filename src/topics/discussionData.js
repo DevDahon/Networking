@@ -42,19 +42,6 @@ export const discussionData={
    'Same-subnet communication requires both hosts to make compatible local-delivery decisions without requiring a default gateway.'
   ]
  },
- '09-basic-subnetting':{
-  walkthrough:{title:'Eight worked subnet examples',expectedCount:8,itemLabels:['/24','/25','/26','/27','/28','/30','/31','/32'],items:[
- '192.168.10.70/24: network .0, broadcast .255, usable .1–.254; 254 usable hosts.',
- '192.168.10.70/25: network .0, broadcast .127, usable .1–.126; 126 usable hosts.',
- '192.168.10.70/26: network .64, broadcast .127, usable .65–.126; 62 usable hosts.',
- '192.168.10.70/27: network .64, broadcast .95, usable .65–.94; 30 usable hosts.',
- '192.168.10.70/28: network .64, broadcast .79, usable .65–.78; 14 usable hosts.',
- '192.168.10.70/30: network .68, broadcast .71, usable .69–.70; two usable hosts.',
- '192.168.10.70/31: point-to-point endpoints .70 and .71; no directed broadcast in this convention.',
- '192.168.10.70/32: one address, .70; no separate broadcast or ordinary LAN host range.'
- ],footnote:'All shortened addresses use the 192.168.10 prefix. /31 and /32 use their stated conventions rather than unconditional subtraction of two.'},
-  summary:['Subnetting creates smaller logical IP networks by increasing the prefix length.','A prefix leaves 32 minus prefix host bits and 2^(host bits) total addresses.','For ordinary broadcast subnets, the first address identifies the network and the last is broadcast.','Ordinary usable count is total minus two; /31 point-to-point and /32 single-address conventions differ.','Subnet boundaries come from the prefix, not from memorizing one address example.','Address planning alone does not enforce isolation; routing and filtering policy determine access.']
- },
  '11-dhcp':{
   walkthrough:{title:'Read a DHCP configuration and lease',items:['An authorized router pool contains usable addresses inside its LAN subnet, excluding the router and other managed infrastructure.','A client set to automatic IP/DNS obtains address, mask, gateway, DNS, and a lease lifetime from the reachable server.','Discover locates a server, Offer proposes configuration, Request selects it, and ACK commits the lease.','On authorized Windows equipment, ipconfig /all shows DHCP and lease information; ipconfig /release and ipconfig /renew return and request configuration.','Pool exhaustion, unavailable service, conflicting options, and invalid pool boundaries are different faults. An unapproved DHCP server must not be attached to the production LAN.']},
   summary:['DHCP supplies temporary address configuration and options from an authorized server.','Initial allocation is commonly explained as Discover, Offer, Request, Acknowledgment.','Active leases must have unique addresses inside the configured pool.','Renewal extends use, release returns an address, and expiry makes it reusable.','A full pool cannot safely allocate another active address.','An unreachable DHCP server may lead to link-local configuration, which does not provide ordinary routed access.']

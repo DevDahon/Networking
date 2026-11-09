@@ -8,14 +8,15 @@ afterEach(()=>{dispose?.();dispose=null;vi.useRealTimers();});
 
 it('follows the agreed fifteen-slide introduction without detailed configuration content',()=>{
  const slides=topics[0].slides;
- expect(slides).toHaveLength(25);
+ expect(slides).toHaveLength(22);
  expect(slides[3].title).toBe('Everyday Uses of Networks');
  expect(slides[4].title).toBe('Basic Network Components');
  expect(slides[5].type).toBe('introConnections');
  expect(slides[6].type).toBe('introConnectivity');
- expect(slides[7].kind).toBe('example');
+ expect(slides[7].title).toBe('Five Elements of Data Communication');
+ expect(slides[8].kind).toBe('example');
  expect(slides[9].type).toBe('introExchange');
- expect(slides[13].type).toBe('transferDemo');
+ expect(slides.some(s => s.type === 'transferDemo')).toBe(false);
  expect(JSON.stringify(slides.map(s=>[s.title,s.lead,s.items]))).not.toMatch(/ipconfig|T568|port 443|subnet calculator|lease pool/i);
 });
 

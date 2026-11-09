@@ -5,37 +5,23 @@ export const sequenceMoves={
   ['@availabilityDemo','after','Two network service architectures']
  ],
  '03-network-topologies':[
-  ['@pathTraceDemo','after','@topology'],
-  ['Choose a topology for the task','after','@pathTraceDemo']
+  ['Choose a topology for the task','after','@topology']
  ],
  '04-network-devices':[
   ['@macLearningDemo','after','Connecting a device to a LAN']
  ],
- 'osi-reference-model':[
-  ['Example: a web request uses several responsibilities','after','Layer 1: Physical'],
-  ['@nextHopFrameDemo','after','Local delivery and the next hop'],
-  ['@layerBoundaryDemo','before','@osiTroubleshooting']
- ],
- '06-network-cables-media':[
-  ['@mediumBudgetDemo','after','Example: a room link and a building link'],
-  ['Termination sequence: inspect before crimping','after','Prepare, terminate, and verify'],
-  ['@pairScanDemo','after','@cable']
- ],
+ 'osi-reference-model':[],
+ '06-network-cables-media':[],
  '08-ip-addressing':[
-  ['@bitwiseDemo','after','@ipv4'],
+  ['@bitwiseDemo','after','The subnet mask separates network and host'],
   ['Interpret an IPv4 configuration','after','@bitwiseDemo'],
   ['@asymmetricDemo','after','Example: two manually configured classroom computers'],
   ['Windows static-IP configuration','before','@static']
  ],
- '09-basic-subnetting':[
-  ['@partitionDemo','after','Example: split one /24 into four /26 networks'],
-  ['Eight worked subnet examples','after','@subnet']
- ],
  'network-protocols-services':[
   ['Read both endpoints, not just one number','after','Two transport services: TCP and UDP'],
   ['@dnsCacheDemo','after','DNS: Domain Name System'],
-  ['Example: open a protected school website','before','@protocolWeb'],
-  ['Seven common email service ports','before','@protocolMail']
+  ['Example: open a protected school website','before','@protocolWeb']
  ],
  '11-dhcp':[
   ['Read a DHCP configuration and lease','before','@dhcp'],

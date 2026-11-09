@@ -45,16 +45,7 @@ export default topic({
   "demo": {
     "type": "topology",
     "title": "Topology workbench",
-    "lead": "Modeled connectivity • choose a layout, remove a labeled link or node, or build your own graph."
-  },
-  "application": {
-    "title": "Design an eight-seat computer lab",
-    "lead": "An eight-seat classroom needs a printer and a router uplink in addition to its computers.",
-    "items": [
-      "Plan at least ten switch ports and allow expansion; a 16-port switch is a practical option.",
-      "Each PC gets a separate cable to the switch.",
-      "Keep a port map so a disconnected PC can be traced to one link."
-    ]
+    "lead": "Modeled connectivity • choose a layout, test cable/device failures, and trace communication paths."
   },
   "walkthrough": false,
   "installation": {

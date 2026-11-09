@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Topic 3: Network Devices and Components — Instructor Discussion Guide</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 14mm 14mm 16mm 14mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #1e293b;
+      background: #ffffff;
+      line-height: 1.5;
+      font-size: 13px;
+    }
+    .guide-header-cover {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+      color: #ffffff;
+      padding: 24px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+    }
+    .guide-header-cover .badge {
+      display: inline-block;
+      background: #38bdf8;
+      color: #0f172a;
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+    .guide-header-cover h1 {
+      font-size: 23px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      color: #ffffff;
+    }
+    .guide-header-cover p {
+      font-size: 13px;
+      color: #cbd5e1;
+      max-width: 95%;
+    }
+    .meta-bar {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      display: flex;
+      gap: 20px;
+      font-size: 11px;
+      color: #94a3b8;
+    }
+    .meta-bar b {
+      color: #ffffff;
+    }
+
+    .slide-card {
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      background: #ffffff;
+      page-break-inside: avoid;
+      break-inside: avoid;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+    .card-header {
+      background: #f1f5f9;
+      padding: 10px 14px;
+      border-bottom: 1px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .slide-pill {
+      background: #0f172a;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 12px;
+      white-space: nowrap;
+    }
+    .slide-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+      flex-grow: 1;
+    }
+    .type-tag {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #e2e8f0;
+      color: #475569;
+    }
+    .type-tag.example {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .reading-box {
+      background: #f8fafc;
+      padding: 12px 14px;
+      border-bottom: 1px dashed #cbd5e1;
+    }
+    .box-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: #64748b;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .lead-text {
+      font-weight: 600;
+      color: #1e293b;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+    .content-bullets {
+      margin-left: 18px;
+      font-size: 12px;
+      color: #334155;
+    }
+    .content-bullets li {
+      margin-bottom: 3px;
+    }
+    .demo-badge {
+      background: #e0f2fe;
+      border: 1px solid #bae6fd;
+      color: #0369a1;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .teacher-guide-box {
+      background: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 12px 14px;
+    }
+    .guide-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .guide-icon {
+      font-size: 14px;
+    }
+    .guide-title {
+      font-weight: 800;
+      font-size: 12px;
+      text-transform: uppercase;
+      color: #1e40af;
+      letter-spacing: 0.3px;
+    }
+
+    .guide-section {
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #1e3a8a;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-bottom: 3px;
+    }
+    .analogy-text {
+      font-size: 12px;
+      color: #1e293b;
+      font-style: italic;
+      background: rgba(255,255,255,0.7);
+      padding: 6px 8px;
+      border-radius: 4px;
+      border-left: 2px solid #3b82f6;
+    }
+    .talking-points {
+      margin-left: 16px;
+      font-size: 12px;
+      color: #1e293b;
+    }
+    .talking-points li {
+      margin-bottom: 3px;
+    }
+
+    .q-and-a {
+      background: #ffffff;
+      border: 1px solid #bfdbfe;
+      padding: 8px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+    .question-text {
+      color: #1e3a8a;
+      margin-bottom: 4px;
+    }
+    .answer-text {
+      color: #047857;
+    }
+
+    .takeaway-banner {
+      margin-top: 8px;
+      background: #dbeafe;
+      color: #1e40af;
+      font-size: 12px;
+      padding: 5px 8px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="guide-header-cover">
+    <span class="badge">Instructor's Discussion Guide</span>
+    <h1>Topic 3: Network Devices and Components</h1>
+    <p>Identify the hardware and follow the different jobs of switching, routing, and wireless access.</p>
+    <div class="meta-bar">
+      <span><b>Curriculum:</b> Networking 1</span>
+      <span><b>Excluded:</b> Title (Slide 1), Objectives (Slide 2), and Summary (Final Slide)</span>
+      <span><b>Total Discussion Units:</b> 19 Slides</span>
+    </div>
+  </div>
+
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 3 of 22</span>
+        <h2 class="slide-title">Nine common network devices</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Network devices connect hosts, carry signals, forward data, or enforce access rules. A single product can combine several functions, so its behavior matters more than its shape.</p>
+        
+      <ul class="content-bullets">
+        <li>Network Interface Card (NIC): provides a host network interface.</li><li>Hub: repeats incoming bits to other ports without learning Media Access Control (MAC) destinations.</li><li>Switch: learns Media Access Control (MAC) information and forwards local-link frames.</li><li>Router: forwards Internet Protocol (IP) packets between networks using routes.</li><li>Modem: adapts signals for a provider access technology.</li><li>Wireless access point: bridges Wi-Fi stations onto a Local Area Network (LAN).</li><li>Repeater: regenerates or retransmits signals.</li><li>Bridge: joins link-layer segments; a switch is a multiport bridge.</li><li>Firewall: permits or blocks traffic according to policy.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">The office has too few wired ports and weak Wi-Fi in a meeting room.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>NIC: provides a host network interface.</li><li>Hub: repeats incoming bits to other ports without learning MAC destinations.</li><li>Switch: learns MAC information and forwards local-link frames.</li><li>Router: forwards IP packets between networks using routes.</li><li>Modem: adapts signals for a provider access technology.</li><li>Wireless access point: bridges Wi-Fi stations onto a LAN.</li><li>Repeater: regenerates or retransmits signals.</li><li>Bridge: joins link-layer segments; a switch is a multiport bridge.</li><li>Firewall: permits or blocks traffic according to policy.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of nine common network devices.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Network devices connect hosts, carry signals, forward data, or enforce access rules. A single product can combine several functions, so its behavior matters more than its shape.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 4 of 22</span>
+        <h2 class="slide-title">Network Interface Card (NIC)</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A Network Interface Card provides the physical connection and hardware Media Access Control (MAC) address that allows a computer to send and receive frames on a local link.</p>
+        
+      <ul class="content-bullets">
+        <li>Physical connection: Houses the physical port (such as Registered Jack 45 (RJ45) or Wi-Fi radio) and controller chip for host communication.</li><li>Unique hardware identity: Permanently assigned a factory-burned 48-bit Media Access Control (MAC) address for local link delivery.</li><li>Data transmission: Converts host memory data into electrical or radio bitstreams, framing data with Media Access Control (MAC) addresses and CRC checksums.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">The office has too few wired ports and weak Wi-Fi in a meeting room.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Physical connection: Houses the physical port (such as RJ45 or Wi-Fi radio) and controller chip for host communication.</li><li>Unique hardware identity: Permanently assigned a factory-burned 48-bit Media Access Control (MAC) address for local link delivery.</li><li>Data transmission: Converts host memory data into electrical or radio bitstreams, framing data with MAC addresses and CRC checksums.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of network interface card (nic).</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A Network Interface Card provides the physical connection and hardware Media Access Control (MAC) address that allows a computer to send and receive frames on a local link.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 5 of 22</span>
+        <h2 class="slide-title">Network Hub</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A network hub is a legacy Layer 1 multiport repeater that blindly broadcasts incoming electrical signals out all other ports, creating a shared collision domain.</p>
+        
+      <ul class="content-bullets">
+        <li>Multiport repeater: Connects multiple twisted-pair Ethernet cables in a single shared electrical bus.</li><li>No address awareness: Operates purely at Layer 1; it cannot read Media Access Control (MAC) addresses, Internet Protocol (IP) packets, or inspect frames.</li><li>Broadcast behavior: Any electrical bit received on one port is broadcast out to every other port, creating a single shared collision domain.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">The office has too few wired ports and weak Wi-Fi in a meeting room.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Multiport repeater: Connects multiple twisted-pair Ethernet cables in a single shared electrical bus.</li><li>No address awareness: Operates purely at Layer 1; it cannot read MAC addresses, IP packets, or inspect frames.</li><li>Broadcast behavior: Any electrical bit received on one port is broadcast out to every other port, creating a single shared collision domain.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of network hub.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A network hub is a legacy Layer 1 multiport repeater that blindly broadcasts incoming electrical signals out all other ports, creating a shared collision domain.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 6 of 22</span>
+        <h2 class="slide-title">Network Switch</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A network switch is an intelligent Layer 2 device that learns Media Access Control (MAC) addresses on each port to forward frames directly to their intended destination.</p>
+        
+      <ul class="content-bullets">
+        <li>Dedicated bandwidth: Connects local hosts with dedicated point-to-point links, eliminating collisions between ports.</li><li>Media Access Control (MAC) address table: Dynamically inspects the source MAC of incoming frames and maps each address to its incoming physical port.</li><li>Forwarding decision: When a frame arrives, the switch forwards known unicast directly to the target port; only unknown destinations are flooded.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">The office has too few wired ports and weak Wi-Fi in a meeting room.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Dedicated bandwidth: Connects local hosts with dedicated point-to-point links, eliminating collisions between ports.</li><li>MAC address table: Dynamically inspects the source MAC of incoming frames and maps each address to its incoming physical port.</li><li>Forwarding decision: When a frame arrives, the switch forwards known unicast directly to the target port; only unknown destinations are flooded.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of network switch.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A network switch is an intelligent Layer 2 device that learns Media Access Control (MAC) addresses on each port to forward frames directly to their intended destination.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 7 of 22</span>
+        <h2 class="slide-title">Network Router</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A router is a Layer 3 internetworking device that uses routing tables to forward Internet Protocol (IP) packets across different networks and broadcast domains.</p>
+        
+      <ul class="content-bullets">
+        <li>Network boundary: Separates distinct broadcast domains and connects local subnets to WANs or the global Internet.</li><li>Routing table: Maintains a table of network destination prefixes, next-hop Internet Protocol (IP) addresses, and outgoing interfaces.</li><li>Packet forwarding: Reads destination Internet Protocol (IP) headers, decrements the Time to Live (TTL), determines the best path, rewrites the Layer 2 frame, and forwards.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">The office has too few wired ports and weak Wi-Fi in a meeting room.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Network boundary: Separates distinct broadcast domains and connects local subnets to WANs or the global Internet.</li><li>Routing table: Maintains a table of network destination prefixes, next-hop IP addresses, and outgoing interfaces.</li><li>Packet forwarding: Reads destination IP headers, decrements the TTL, determines the best path, rewrites the Layer 2 frame, and forwards.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of network router.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A router is a Layer 3 internetworking device that uses routing tables to forward Internet Protocol (IP) packets across different networks and broadcast domains.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 8 of 22</span>
+        <h2 class="slide-title">Modem (Modulator-Demodulator)</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A modem converts digital computer pulses into analog signals for provider transmission lines, adapting local Ethernet to external provider media.</p>
+        
+      <ul class="content-bullets">
+        <li>Media adaptation: Bridges home or office Ethernet to provider infrastructures like telephone lines (Digital Subscriber Line (DSL)), cable (DOCSIS), or fiber (ONT).</li><li>Modulation & demodulation: Modulates outgoing digital square waves into analog carrier frequencies and demodulates incoming analog waves back to bits.</li><li>Signal conversion: Local Area Network (LAN) Ethernet packets enter the modem, are modulated onto high-frequency RF carriers over coaxial or copper cables, and reach the ISP headend.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">The office has too few wired ports and weak Wi-Fi in a meeting room.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Media adaptation: Bridges home or office Ethernet to provider infrastructures like telephone lines (DSL), cable (DOCSIS), or fiber (ONT).</li><li>Modulation & demodulation: Modulates outgoing digital square waves into analog carrier frequencies and demodulates incoming analog waves back to bits.</li><li>Signal conversion: LAN Ethernet packets enter the modem, are modulated onto high-frequency RF carriers over coaxial or copper cables, and reach the ISP headend.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of modem (modulator-demodulator).</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A modem converts digital computer pulses into analog signals for provider transmission lines, adapting local Ethernet to external provider media.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 9 of 22</span>
+        <h2 class="slide-title">Wireless Access Point (AP)</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A wireless access point bridges radio frequency signals from Wi-Fi client stations onto a wired Ethernet local area network.</p>
+        
+      <ul class="content-bullets">
+        <li>Radio transceiver: Transmits and receives radio waves across 2.4 GHz, 5 GHz, or 6 GHz frequency bands.</li><li>Layer 2 bridge: Bridges IEEE 802.11 wireless frames into IEEE 802.3 wired Ethernet frames without changing Internet Protocol (IP) addresses.</li><li>Client bridging: Broadcasts an Service Set Identifier (SSID) beacon, authenticates wireless client devices, and transparently forwards their traffic to the wired switch via PoE uplink.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">The office has too few wired ports and weak Wi-Fi in a meeting room.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Radio transceiver: Transmits and receives radio waves across 2.4 GHz, 5 GHz, or 6 GHz frequency bands.</li><li>Layer 2 bridge: Bridges IEEE 802.11 wireless frames into IEEE 802.3 wired Ethernet frames without changing IP addresses.</li><li>Client bridging: Broadcasts an SSID beacon, authenticates wireless client devices, and transparently forwards their traffic to the wired switch via PoE uplink.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of wireless access point (ap).</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A wireless access point bridges radio frequency signals from Wi-Fi client stations onto a wired Ethernet local area network.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 10 of 22</span>
+        <h2 class="slide-title">Network Repeater</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A repeater regenerates and retimes attenuated signals at the physical layer, extending the effective reach of a network cable or wireless link.</p>
+        
+      <ul class="content-bullets">
+        <li>Overcoming attenuation: Counteracts signal loss and cable resistance that degrade data beyond standard maximum run lengths.</li><li>Signal regeneration: Rather than merely amplifying noise, a digital repeater reconstructs clean, full-voltage digital pulses.</li><li>Signal restoration: Listens on an input interface, cleans and retimes the incoming waveform, and retransmits it at full strength across the extended medium segment.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">The office has too few wired ports and weak Wi-Fi in a meeting room.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Overcoming attenuation: Counteracts signal loss and cable resistance that degrade data beyond standard maximum run lengths.</li><li>Signal regeneration: Rather than merely amplifying noise, a digital repeater reconstructs clean, full-voltage digital pulses.</li><li>Signal restoration: Listens on an input interface, cleans and retimes the incoming waveform, and retransmits it at full strength across the extended medium segment.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of network repeater.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A repeater regenerates and retimes attenuated signals at the physical layer, extending the effective reach of a network cable or wireless link.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 11 of 22</span>
+        <h2 class="slide-title">Network Bridge</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A network bridge joins two physical Local Area Network (LAN) segments at Layer 2, filtering local traffic to isolate collisions while forwarding necessary inter-segment frames.</p>
+        
+      <ul class="content-bullets">
+        <li>Traffic segmentation: Divides a busy network into two smaller collision domains while keeping them in the same subnet.</li><li>Filtering table: Maintains a list of Media Access Control (MAC) addresses on Segment A and Segment B to decide whether traffic needs to cross.</li><li>Frame filtering: If sender and receiver are on Segment A, the bridge filters (drops) the frame from crossing; if the target is on Segment B, it forwards it across.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">The office has too few wired ports and weak Wi-Fi in a meeting room.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Traffic segmentation: Divides a busy network into two smaller collision domains while keeping them in the same subnet.</li><li>Filtering table: Maintains a list of MAC addresses on Segment A and Segment B to decide whether traffic needs to cross.</li><li>Frame filtering: If sender and receiver are on Segment A, the bridge filters (drops) the frame from crossing; if the target is on Segment B, it forwards it across.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of network bridge.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A network bridge joins two physical Local Area Network (LAN) segments at Layer 2, filtering local traffic to isolate collisions while forwarding necessary inter-segment frames.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 12 of 22</span>
+        <h2 class="slide-title">Network Firewall</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A firewall enforces security policies at network boundaries, inspecting packet headers and connection states to permit authorized traffic and block threats.</p>
+        
+      <ul class="content-bullets">
+        <li>Security perimeter: Sits at network boundaries (e.g. between Local Area Network (LAN) and Internet) or as host software to defend against unauthorized access.</li><li>Inspection methods: Uses packet filtering (Internet Protocol (IP)/ports), stateful inspection (tracking active connections), or deep packet inspection (DPI).</li><li>Policy enforcement: Inspects packet headers against security rules; permitted traffic (e.g. outbound web) is passed, while unauthorized packets are dropped or rejected.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">The office has too few wired ports and weak Wi-Fi in a meeting room.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Security perimeter: Sits at network boundaries (e.g.</li><li>between LAN and Internet) or as host software to defend against unauthorized access.</li><li>Inspection methods: Uses packet filtering (IP/ports), stateful inspection (tracking active connections), or deep packet inspection (DPI).</li><li>Policy enforcement: Inspects packet headers against security rules; permitted traffic (e.g.</li><li>outbound web) is passed, while unauthorized packets are dropped or rejected.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of network firewall.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A firewall enforces security policies at network boundaries, inspecting packet headers and connection states to permit authorized traffic and block threats.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 13 of 22</span>
+        <h2 class="slide-title">How Interfaces and Switches Connect Local Devices</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A network interface lets a host send and receive data on a link. A switch connects local links and uses learned hardware addresses to forward Ethernet frames.</p>
+        
+      <ul class="content-bullets">
+        <li>A hub repeats incoming bits out its other ports; it does not learn destination Media Access Control (MAC) addresses.</li><li>A switch learns source Media Access Control (MAC) addresses and forwards known unicast frames toward the learned destination port. Unknown destinations are flooded within the Virtual Local Area Network (VLAN).</li><li>A bridge joins Local Area Network (LAN) segments at layer 2. A switch is effectively a multiport bridge.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">The office has too few wired ports and weak Wi-Fi in a meeting room.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>A hub repeats incoming bits out its other ports; it does not learn destination MAC addresses.</li><li>A switch learns source MAC addresses and forwards known unicast frames toward the learned destination port.</li><li>Unknown destinations are flooded within the VLAN.</li><li>A bridge joins LAN segments at layer 2.</li><li>A switch is effectively a multiport bridge.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of how interfaces and switches connect local devices.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A network interface lets a host send and receive data on a link. A switch connects local links and uses learned hardware addresses to forward Ethernet frames.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 14 of 22</span>
+        <h2 class="slide-title">How Switches Learn MAC Addresses</h2>
+        <span class="type-tag demo">Simulation</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A switch learns a frame’s source Media Access Control address on the port where that frame arrives. Known destinations use learned ports, while unknown destinations require flooding to eligible ports.</p>
+        
+      <div class="demo-badge">
+        <b>Interactive Demonstration:</b> <code>macLearningDemo</code> — Use on-screen controls to step through or demonstrate the concept visually.
+      </div>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Identify the hardware and follow the different jobs of switching, routing, and wireless access.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Inject frames between three modeled ports and observe flooding, learning, and directed forwarding.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of how switches learn mac addresses.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A switch learns a frame’s source Media Access Control address on the port where that frame arrives. Known destinations use learned ports, while unknown destinations require flooding to eligible ports.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 15 of 22</span>
+        <h2 class="slide-title">Routers, Access Points, and Modems</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A router forwards packets between networks, while an access point connects wireless devices to a local network. A modem or optical terminal supports the provider’s access technology.</p>
+        
+      <ul class="content-bullets">
+        <li>A modem adapts signals for a provider access technology, such as cable or Digital Subscriber Line (DSL). An optical network terminal serves a fiber access role.</li><li>A wireless access point bridges Wi-Fi clients onto a Local Area Network (LAN). An AP alone is not necessarily a router.</li><li>A repeater regenerates or retransmits signals. It does not choose Internet Protocol (IP) routes. Home gateways often combine router, switch, Access Point (AP), Dynamic Host Configuration Protocol (DHCP), and firewall functions.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">The office has too few wired ports and weak Wi-Fi in a meeting room.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>A modem adapts signals for a provider access technology, such as cable or DSL.</li><li>An optical network terminal serves a fiber access role.</li><li>A wireless access point bridges Wi-Fi clients onto a LAN.</li><li>An AP alone is not necessarily a router.</li><li>A repeater regenerates or retransmits signals.</li><li>It does not choose IP routes.</li><li>Home gateways often combine router, switch, AP, DHCP, and firewall functions.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of routers, access points, and modems.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A router forwards packets between networks, while an access point connects wireless devices to a local network. A modem or optical terminal supports the provider’s access technology.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 16 of 22</span>
+        <h2 class="slide-title">Example: Switch vs Router Roles</h2>
+        <span class="type-tag example">example</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A local printer and a remote website require different delivery paths. The switch connects local devices, while the router handles forwarding toward another network.</p>
+        
+      <ul class="content-bullets">
+        <li>Local print traffic travels from the computer through the switch to the printer.</li><li>Traffic to a remote network goes through the switch to the router, which chooses an appropriate next hop.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">Identify the hardware and follow the different jobs of switching, routing, and wireless access.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Local print traffic travels from the computer through the switch to the printer.</li><li>Traffic to a remote network goes through the switch to the router, which chooses an appropriate next hop.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of example: switch vs router roles.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A local printer and a remote website require different delivery paths. The switch connects local devices, while the router handles forwarding toward another network.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 17 of 22</span>
+        <h2 class="slide-title">Interfaces, Link Lights, and Firewalls</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">An interface connects a device to a network, while a firewall controls permitted traffic. A working link indicator confirms only part of the connection and does not prove Internet or application access.</p>
+        
+      <ul class="content-bullets">
+        <li>Local Area Network (LAN) ports usually connect local clients; a Wide Area Network (WAN) interface connects toward another network/provider. Check the actual model’s labels.</li><li>A firewall permits or blocks traffic according to policy. It is not a guarantee that all allowed traffic is safe.</li><li>Link lights show physical/link status, not proof of correct Internet Protocol (IP) settings, Domain Name System (DNS), or Internet service.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">The office has too few wired ports and weak Wi-Fi in a meeting room.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>LAN ports usually connect local clients; a WAN interface connects toward another network/provider.</li><li>Check the actual model’s labels.</li><li>A firewall permits or blocks traffic according to policy.</li><li>It is not a guarantee that all allowed traffic is safe.</li><li>Link lights show physical/link status, not proof of correct IP settings, DNS, or Internet service.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of interfaces, link lights, and firewalls.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> An interface connects a device to a network, while a firewall controls permitted traffic. A working link indicator confirms only part of the connection and does not prove Internet or application access.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 18 of 22</span>
+        <h2 class="slide-title">VLAN Concepts and Routing Principles</h2>
+        <span class="type-tag concept">concept</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Virtual LANs divide a single physical switch into isolated logical broadcast domains, while routers connect them using static or dynamic routing rules.</p>
+        
+      <ul class="content-bullets">
+        <li>Virtual Local Area Network (LAN) (Virtual Local Area Network (VLAN)): Divides one physical switch into multiple separate logical broadcast domains (e.g., VLAN 10 for Students, VLAN 20 for Faculty).</li><li>Broadcast Isolation: Broadcast traffic (such as Address Resolution Protocol (ARP) and Dynamic Host Configuration Protocol (DHCP)) stays confined inside its assigned Virtual Local Area Network (VLAN), boosting performance and security.</li><li>Inter-VLAN Routing: Because devices in different VLANs cannot communicate directly, all inter-VLAN traffic must pass through a router or Layer 3 switch.</li><li>Static Routing: A network administrator manually enters fixed destination routes into the router table (simple, predictable, low overhead for small networks).</li><li>Dynamic Routing: Routers automatically discover paths and exchange network routes using protocols like OSPF and RIP (automatically updates if a link fails).</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">The office has too few wired ports and weak Wi-Fi in a meeting room.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Virtual LAN (VLAN): Divides one physical switch into multiple separate logical broadcast domains (e.g., VLAN 10 for Students, VLAN 20 for Faculty).</li><li>Broadcast Isolation: Broadcast traffic (such as ARP and DHCP) stays confined inside its assigned VLAN, boosting performance and security.</li><li>Inter-VLAN Routing: Because devices in different VLANs cannot communicate directly, all inter-VLAN traffic must pass through a router or Layer 3 switch.</li><li>Static Routing: A network administrator manually enters fixed destination routes into the router table (simple, predictable, low overhead for small networks).</li><li>Dynamic Routing: Routers automatically discover paths and exchange network routes using protocols like OSPF and RIP (automatically updates if a link fails).</li><li>VLANs replace the need to buy separate physical switches for each school department, saving hardware costs while enforcing security.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of vlan concepts and routing principles.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Virtual LANs divide a single physical switch into isolated logical broadcast domains, while routers connect them using static or dynamic routing rules.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 19 of 22</span>
+        <h2 class="slide-title">Network Device Functions Explorer</h2>
+        <span class="type-tag demo">Simulation</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Device functions explain how traffic moves through a network. A hub repeats incoming bits, a switch forwards local frames, and a router forwards packets between networks.</p>
+        
+      <div class="demo-badge">
+        <b>Interactive Demonstration:</b> <code>devices</code> — Use on-screen controls to step through or demonstrate the concept visually.
+      </div>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">The office has too few wired ports and weak Wi-Fi in a meeting room.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Conceptual device gallery • inspect labeled interfaces and compare a hub, switch, and router.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of network device functions explorer.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Device functions explain how traffic moves through a network. A hub repeats incoming bits, a switch forwards local frames, and a router forwards packets between networks.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 20 of 22</span>
+        <h2 class="slide-title">Expand a small office</h2>
+        <span class="type-tag application">application</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">Additional wired endpoints need enough switch ports, while weak wireless coverage may need a better-placed access point. Adding the right function is more useful than adding another box without checking the existing network.</p>
+        
+      <ul class="content-bullets">
+        <li>Add a suitable switch for Ethernet ports and an Access Point (AP) with a wired uplink for wireless coverage.</li><li>Use a router for traffic between networks, rather than buying another hub.</li><li>Check existing gateway features before adding duplicate Dynamic Host Configuration Protocol (DHCP) servers.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">The office has too few wired ports and weak Wi-Fi in a meeting room.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>Add a suitable switch for Ethernet ports and an AP with a wired uplink for wireless coverage.</li><li>Use a router for traffic between networks, rather than buying another hub.</li><li>Check existing gateway features before adding duplicate DHCP servers.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of expand a small office.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> Additional wired endpoints need enough switch ports, while weak wireless coverage may need a better-placed access point. Adding the right function is more useful than adding another box without checking the existing network.
+        </div>
+      </div>
+    </div>
+  
+    <div class="slide-card">
+      <div class="card-header">
+        <span class="slide-pill">Slide 21 of 22</span>
+        <h2 class="slide-title">Device Roles Along a Network Path</h2>
+        <span class="type-tag walkthrough">walkthrough</span>
+      </div>
+
+      <div class="reading-box">
+        <div class="box-label">📖 What to Read & Display on Screen</div>
+        <p class="lead-text">A request can pass through several devices, each performing a different job. Interfaces, switching, routing, and provider access work together without being interchangeable functions.</p>
+        
+      <ul class="content-bullets">
+        <li>The Personal Computer (PC) Network Interface Card (NIC) sends a frame through an Ethernet port to a switch. Link indicators show link detection, not proof of Internet Protocol (IP) or Internet access.</li><li>The switch forwards a known local unicast toward its learned destination port. A hub would repeat incoming bits to other ports.</li><li>For a remote Internet Protocol (IP) network, a router selects the next hop. Its Local Area Network (LAN) and Wide Area Network (WAN) interfaces face different network roles.</li><li>A home gateway may also contain an Access Point (AP), switch, Dynamic Host Configuration Protocol (DHCP) service, Network Address Translation (NAT), and firewall. A modem or optical terminal serves the provider access technology.</li>
+      </ul>
+    
+      </div>
+
+      <div class="teacher-guide-box">
+        <div class="guide-header">
+          <span class="guide-icon">💡</span>
+          <span class="guide-title">Brief Explanation After Reading (Teacher's Discussion Notes)</span>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🌟 Real-World Analogy / Intuition</h4>
+          <p class="analogy-text">The office has too few wired ports and weak Wi-Fi in a meeting room.</p>
+        </div>
+
+        <div class="guide-section">
+          <h4 class="section-title">🗣️ How to Explain It (Talking Points)</h4>
+          <ul class="talking-points">
+            <li>The PC NIC sends a frame through an Ethernet port to a switch.</li><li>Link indicators show link detection, not proof of IP or Internet access.</li><li>The switch forwards a known local unicast toward its learned destination port.</li><li>A hub would repeat incoming bits to other ports.</li><li>For a remote IP network, a router selects the next hop.</li><li>Its LAN and WAN interfaces face different network roles.</li><li>A home gateway may also contain an AP, switch, DHCP service, NAT, and firewall.</li><li>A modem or optical terminal serves the provider access technology.</li>
+          </ul>
+        </div>
+
+        <div class="guide-section q-and-a">
+          <h4 class="section-title">❓ Quick Check for Understanding (Ask the Class)</h4>
+          <p class="question-text"><strong>Teacher Asks:</strong> "Ask the class: Why is this concept essential when setting up or troubleshooting a modern network?"</p>
+          <p class="answer-text"><strong>Expected Answer / Guidance:</strong> Encourages learners to explain the functional role and real-world impact of device roles along a network path.</p>
+        </div>
+
+        <div class="takeaway-banner">
+          <strong>Key Takeaway:</strong> A request can pass through several devices, each performing a different job. Interfaces, switching, routing, and provider access work together without being interchangeable functions.
+        </div>
+      </div>
+    </div>
+  
+
+</body>
+</html>
+  

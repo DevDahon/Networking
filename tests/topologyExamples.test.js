@@ -8,7 +8,7 @@ const topologyTopic=topics.find(t=>t.id==='03-network-topologies');
 it('provides independent visible examples for all six topologies',()=>{
  const examples=topologyTopic.slides.filter(s=>s.kind==='example');
  expect(examples.map(s=>s.title)).toEqual(['Star Topology','Bus Topology','Ring Topology','Mesh Topology','Tree Topology','Hybrid Topology']);
- expect(topologyTopic.slides).toHaveLength(15);
+ expect(topologyTopic.slides).toHaveLength(13);
  expect(topologyTopic.slides.slice(4,10).every(s=>s.kind==='example')).toBe(true);
  expect(topologyTopic.slides.some(s=>s.kind==='walkthrough')).toBe(false);
  for(const slide of examples){expect(slide.exampleTitle).toMatch(/^Example:/);expect(slide.lead).toBeTruthy();}

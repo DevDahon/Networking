@@ -37,7 +37,7 @@ export function expandAbbreviations(text){
 export function expandLessonTerms(topic){
  return {...topic,objectives:topic.objectives.map(expandAbbreviations),slides:topic.slides.map(slide=>{
   const expanded={...slide};
-  for(const field of ['title','lead','footnote'])if(expanded[field])expanded[field]=expandAbbreviations(expanded[field]);
+  for(const field of ['lead','footnote'])if(expanded[field])expanded[field]=expandAbbreviations(expanded[field]);
   if(expanded.items)expanded.items=expanded.items.map(expandAbbreviations);
   return expanded;
  })};
