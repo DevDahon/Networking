@@ -1371,13 +1371,26 @@ th {
         font-size: 17px
     }
 
-    .header-right .button {
+    .header-right {
+        gap: 6px;
+    }
+
+    .header-right .button,
+    .header-right button {
         font-size: 11px;
-        padding: 9px
+        padding: 8px 10px;
+    }
+
+    #btn-fullscreen {
+        display: none;
+    }
+
+    .header-right .back-text {
+        display: none;
     }
 
     .header-right .button svg {
-        display: none
+        display: inline-block;
     }
 
     .media-section {
@@ -3097,6 +3110,51 @@ html.dark .slide-kicker {
 
 html.dark .slide-lead {
     color: #94a3b8
+}
+
+html.dark .eyebrow {
+    color: #2dd4bf;
+}
+
+html.dark .dashboard-intro p,
+html.dark .intro-actions > span,
+html.dark .section-heading > p,
+html.dark .topic-card > p {
+    color: #94a3b8;
+}
+
+html.dark .topic-number {
+    color: #cbd5e1;
+}
+
+html.dark .card-resume {
+    color: #60a5fa;
+}
+
+/* SVG Text & Element Visibility in Dark Mode */
+html.dark svg text[fill="#0f172a"] {
+    fill: #f1f5f9;
+}
+
+html.dark svg text[fill="#334155"],
+html.dark svg text[fill="#475569"] {
+    fill: #94a3b8;
+}
+
+html.dark svg rect[fill="white"] {
+    fill: #1e293b;
+}
+
+html.dark svg rect[stroke="#cbd5e1"] {
+    stroke: #334155;
+}
+
+html.dark .network-diagram text {
+    fill: #f1f5f9;
+}
+
+html.dark .diagram-caption {
+    color: #94a3b8;
 }
 
 html.dark .topic-card {

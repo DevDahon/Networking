@@ -71,7 +71,7 @@ it('cancels automatic example playback on app navigation',()=>{
  vi.advanceTimersByTime(2000);expect(root.querySelector('[data-example-packet]')).not.toBeNull();
  expect(vi.getTimerCount()).toBeGreaterThan(0);
  history.replaceState(null,'','/#/');window.dispatchEvent(new HashChangeEvent('hashchange'));
- vi.advanceTimersByTime(0);expect(vi.getTimerCount()).toBe(0);expect(root.querySelectorAll('.topic-card')).toHaveLength(13);
+ vi.advanceTimersByTime(0);expect(vi.getTimerCount()).toBe(0);expect(root.querySelectorAll('.topic-card')).toHaveLength(14);
 });
 
 it('honors reduced motion and still allows manual stepping',()=>{

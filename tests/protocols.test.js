@@ -12,8 +12,8 @@ afterEach(()=>{dispose?.();dispose=null;vi.useRealTimers();vi.restoreAllMocks();
 const click=a=>root.querySelector(`[data-action="${a}"]`).click();
 const change=(name,value)=>{const e=root.querySelector(`[name="${name}"]`);e.value=value;e.dispatchEvent(new Event('change',{bubbles:true}));};
 it('inserts the new topic at 9, with the old lessons retaining their routes',()=>{
- expect(topics).toHaveLength(13);expect(topics[8]).toBe(topic);expect(topic.number).toBe(9);
- expect(topics.slice(9).map(t=>[t.number,t.id])).toEqual([[10,'11-dhcp'],[11,'12-router-wireless'],[12,'13-file-printer-sharing'],[13,'14-network-troubleshooting']]);
+ expect(topics).toHaveLength(14);expect(topics[8]).toBe(topic);expect(topic.number).toBe(9);
+ expect(topics.slice(9).map(t=>[t.number,t.id])).toEqual([[10,'11-dhcp'],[11,'12-router-wireless'],[12,'13-file-printer-sharing'],[13,'14-network-troubleshooting'],[14,'15-network-security']]);
  expect(topic.slides).toHaveLength(22);expect(topic.slides[0]).toMatchObject({kind:'title',title:topic.title});expect(topic.slides[1].title).toBe('Learning Objectives');expect(topic.slides.at(-1).title).toBe('Summary of the Discussion');
 });
 it('covers all ten core requested protocols with explicit purpose, application, and layer guidance',()=>{

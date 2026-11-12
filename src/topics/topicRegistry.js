@@ -15,7 +15,8 @@ import t11 from './11-dhcp.js';
 import t12 from './12-router-wireless.js';
 import t13 from './13-file-printer-sharing.js';
 import t14 from './14-network-troubleshooting.js';
+import t15 from './15-network-security.js';
 import {withAdditionalDemo} from './additionalDemos.js';
 
 // IDs are permanent route/storage identities. Numbers describe curriculum order.
-export const topics=[t01,t03,t04,osi,t06,t07,t08,t10,protocols,t11,t12,t13,t14].map((topic,index)=>({...expandLessonTerms(clarifyTopic(sequenceTopic(withVisualExamples(withAdditionalDemo(topic))))),number:index+1}));
+export const topics=[t01,t03,t04,osi,t06,t07,t08,t10,protocols,t11,t12,t13,t14,t15].map((topic,index)=>({...expandLessonTerms(clarifyTopic(sequenceTopic(withVisualExamples(withAdditionalDemo(topic))))),number:index+1}));

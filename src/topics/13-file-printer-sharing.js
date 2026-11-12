@@ -14,9 +14,9 @@ export default topic({
       "title": "A host provides a shared resource",
       "lead": "A shared folder or printer is available over a network from a device providing that service.",
       "items": [
-        "In peer-to-peer sharing, a normal PC may host the resource; it must stay on and reachable.",
-        "A dedicated file/print server centralizes resource management and availability.",
-        "Windows discovery helps find hosts but direct paths such as \\\\LAB-PC\\ClassFiles may work even when browsing does not. DNS or other name resolution must resolve the host name."
+        "In peer-to-peer sharing, devices use Workgroup names and Computer Hostnames to identify peers; the host must stay powered on and reachable.",
+        "A dedicated file/print server centralizes resource management, access credentials, and continuous availability.",
+        "Universal Naming Convention (UNC) paths (e.g. \\\\HOST\\Share) directly locate shared resources; Windows Network Discovery helps browse hosts on private network profiles, and Map Network Drive assigns a persistent drive letter (such as Z:)."
       ]
     },
     {

@@ -24,11 +24,11 @@ export default topic({
     },
     {
       "title": "Everyday Uses of Networks",
-      "lead": "Networks support familiar tasks by connecting people, applications, and shared resources.",
+      "lead": "Networks support familiar tasks by connecting people, applications, and shared resources across private and public environments.",
       "items": [
-        "Messaging: a phone sends a message to another person through a connected service.",
-        "Online learning: a student accesses course materials hosted by a school or Internet service.",
-        "Shared resources: several computers use the same printer or store files on a shared host."
+        "Communication and learning: phones and computers exchange messages and access course materials through local and cloud services.",
+        "Network boundaries: an Intranet is private to an organization, an Extranet allows trusted external partners access, and the Internet connects public networks worldwide.",
+        "Small Office / Home Office (SOHO): compact networks connecting computers, phones, and printers to an Internet service provider via a single multifunction gateway router."
       ]
     },
     {
@@ -102,7 +102,7 @@ export default topic({
       "lead": "Coverage describes the geographic scope, rather than a strict distance limit.",
       "items": [
         "Personal Area Network (PAN): devices around a person, such as a phone and Bluetooth headset.",
-        "Local Area Network (LAN): a room, building, or local campus network, including a wireless Local Area Network (LAN).",
+        "Local Area Network (LAN): a room, building, or local campus network, including a Wireless LAN (WLAN).",
         "Metropolitan Area Network (MAN): interconnects sites across a metropolitan area.",
         "Wide Area Network (WAN): spans wider regions, often using carrier links. The Internet interconnects many networks."
       ],

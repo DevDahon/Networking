@@ -1,7 +1,7 @@
 import {mountPenTool} from './components/penTool.js';
 import {createSlideGrid} from './components/slideGrid.js';
 import {createSearchModal} from './components/searchModal.js';
-import {createIcons,Network,Globe,Workflow,Router,Layers,Cable,PlugZap,Binary,Split,MonitorCog,RefreshCw,Wifi,FolderOpen,Stethoscope,ArrowUpRight,ArrowLeft,ArrowRight,BookOpen,LayoutGrid,Search,Moon,Sun,Maximize2,Check,HelpCircle} from 'lucide';
+import {createIcons,Network,Globe,Workflow,Router,Layers,Cable,PlugZap,Binary,Split,MonitorCog,RefreshCw,Wifi,FolderOpen,Stethoscope,Shield,ArrowUpRight,ArrowLeft,ArrowRight,BookOpen,LayoutGrid,Search,Moon,Sun,Maximize2,Check,HelpCircle} from 'lucide';
 import {topics} from './topics/topicRegistry.js';
 import {esc,formatItemText,button,networkSVG,wire} from './components/ui.js';
 import {titleVisual} from './components/titleVisual.js';
@@ -14,7 +14,7 @@ import {connectorOrientationSVG,rj45PlugColorSVG,straightVsCrossoverVisualSVG} f
 import {renderDeviceSlideVisual, deviceMetadata} from './components/deviceIllustrations.js';
 import {renderHorizontalToolsSlide, toolsMetadata} from './components/toolsVisuals.js';
 
-const icons={Network,Globe,Workflow,Router,Layers,Cable,PlugZap,Binary,Split,MonitorCog,RefreshCw,Wifi,FolderOpen,Stethoscope,ArrowUpRight,ArrowLeft,ArrowRight,BookOpen,LayoutGrid,Search,Moon,Sun,Maximize2,Check,HelpCircle};
+const icons={Network,Globe,Workflow,Router,Layers,Cable,PlugZap,Binary,Split,MonitorCog,RefreshCw,Wifi,FolderOpen,Stethoscope,Shield,ArrowUpRight,ArrowLeft,ArrowRight,BookOpen,LayoutGrid,Search,Moon,Sun,Maximize2,Check,HelpCircle};
 const icon=n=>`<i data-lucide="${n.replace(/([a-z0-9])([A-Z])/g,'$1-$2').toLowerCase()}" aria-hidden="true"></i>`;
 
 export function startApp(root){
@@ -50,8 +50,8 @@ export function startApp(root){
   const headerRight=route.kind==='dashboard'
    ?`<button type="button" class="button quiet" id="btn-search" title="Search curriculum (Ctrl+K)">${icon('Search')}</button><button type="button" class="button quiet" id="btn-theme-toggle" title="Toggle dark/light mode">${icon(themeIcon)}</button>${button('Reset positions','reset','quiet')}`
    :route.kind==='topic'
-   ?`<button type="button" class="button quiet" id="btn-fullscreen" title="Fullscreen (F)">${icon('Maximize2')}</button><button type="button" class="button quiet" id="btn-search" title="Search curriculum (Ctrl+K)">${icon('Search')}</button><button type="button" class="button quiet" id="btn-theme-toggle" title="Toggle dark/light mode">${icon(themeIcon)}</button><a class="button quiet" href="#/">${icon('LayoutGrid')} Back to Topics</a>`
-   :`<a class="button quiet" href="#/">${icon('LayoutGrid')} Back to Topics</a>`;
+   ?`<button type="button" class="button quiet" id="btn-fullscreen" title="Fullscreen (F)">${icon('Maximize2')}</button><button type="button" class="button quiet" id="btn-search" title="Search curriculum (Ctrl+K)">${icon('Search')}</button><button type="button" class="button quiet" id="btn-theme-toggle" title="Toggle dark/light mode">${icon(themeIcon)}</button><a class="button quiet" href="#/">${icon('LayoutGrid')}<span class="back-text"> Back to Topics</span></a>`
+   :`<a class="button quiet" href="#/">${icon('LayoutGrid')}<span class="back-text"> Back to Topics</span></a>`;
 
   root.innerHTML=`<header class="app-header"><a class="brand" href="#/">${icon('Network')}<span>NETWORKING <b>1</b></span></a><div class="header-right">${headerRight}</div></header>${storageWarning?'<p role="status" class="storage-warning">Browser storage is unavailable; slide positions will last only for this session.</p>':''}<main id="main" tabindex="-1"></main><footer class="site-footer"><span>Networking 1 · Learn it. Model it. Explain it.</span><span>Competency-inspired learning · Not an accredited certification course</span></footer>`;
 

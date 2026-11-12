@@ -16,18 +16,17 @@ Open a presentation and select **Pen tool** in the header. Draw with a mouse, to
 
 Topic 5 uses a school webpage example and seven focused responsibility demonstrations. Each answers a simple question before introducing technical detail. Automatic playback can be paused and stepped manually. The Session-layer illustration is conceptual, while the Presentation demonstration performs actual text encoding. TCP/IP mapping appears on the dedicated comparison slide.
 
-Sixteen independently accessible presentations in the existing `Networking` repository. The course has **225 slides** across topic-appropriate discussions, including a eighteen-slide OSI Reference Model presentation. Each follows:
+Fourteen independently accessible presentations in the existing `Networking` repository. The course has **214 slides** across topic-appropriate discussions, including the seventeen-slide OSI Reference Model presentation and the comprehensive Network Security module. Each follows:
 
 **Topic Title → Learning Objectives → Main Discussion and Demonstrations → Summary of the Discussion**
 
-Title slides contain only the topic heading and a relevant visual. Every second slide is **Learning Objectives** with 3–6 concise outcomes; every final slide is **Summary of the Discussion** with 4–7 technical takeaways. There are no quizzes, scored questions, student laboratory tasks, completion requirements, or assessment result screens. Practical procedures use student-facing technical explanations.
+Title slides contain only the topic heading and a relevant visual. Every second slide is **Learning Objectives** with 3–6 concise outcomes; every final slide is **Summary of the Discussion** with technical takeaways. There are no quizzes, scored questions, student laboratory tasks, completion requirements, or assessment result screens. Practical procedures use student-facing technical explanations.
 
 ## Run and verify
 
 Use Node.js 22.12 or later (verified with Node 22.22.2) and npm.
 
 ```powershell
-cd C:\Projects\Module\Networking
 npm install
 npm run dev
 ```
@@ -47,22 +46,20 @@ The production build is in `dist/`. Serve it through HTTP rather than opening in
 
 | Display topic | Stable route | Preserved teaching demonstrations |
 |---|---|---|
-| 01 Introduction to Networking | `/#/topic/01-introduction-to-networking` | Automatic/manual message delivery, selectable medium, synchronized signal illustration |
-| 02 Types of Networks and Network Architecture | `/#/topic/02-network-types-architecture` | Independent coverage and service-architecture viewers |
-| 03 Network Topologies and Basic Network Design | `/#/topic/03-network-topologies` | Six topologies, modeled link/device failures, abstract connection builder |
-| 04 Network Devices and Components | `/#/topic/04-network-devices` | Device functions, labeled ports, switching/routing comparison |
-| 05 OSI Reference Model | `/#/topic/osi-reference-model` | Seven-layer viewer and individual examples, encapsulation playback, TCP/IP mapping, device-function explorer, explained diagnostic scenarios |
-| 06 Network Communication Fundamentals | `/#/topic/05-network-communication` | Layer viewer, wrapping journey, TCP/UDP loss comparison |
-| 07 Network Cables, Media, and Tools | `/#/topic/06-network-cables-media` | Cable cross-sections and tool walkthrough |
-| 08 RJ45 Crimping, Color Coding, and Cable Testing | `/#/topic/07-rj45-crimping` | Both eight-pin ends, T568A/B references, conductor validation, calculated wire mapping and faults |
-| 09 IP Addressing Fundamentals | `/#/topic/08-ip-addressing` | Range classification, network/host boundary, binary octet controls |
-| 10 Basic IP Subnetting | `/#/topic/09-basic-subnetting` | Genuine IPv4/CIDR calculator, binary boundaries, explained calculations and worked examples |
-| 11 Network Protocols and Services | `/#/topic/network-protocols-services` | 28 slides, 17-protocol/port directory, ARP next-hop journey, web and mail playback, reused TCP/UDP and DHCP demonstrations |
-| 12 Static IP Configuration | `/#/topic/10-static-ip` | Editable PCs, link/routing conditions, address validation and reachability |
-| 13 Dynamic IP Configuration (DHCP) | `/#/topic/11-dhcp` | Automatic/manual DORA, pool/leases, backward stepping, release/renewal/expiry/exhaustion |
-| 14 Router and Wireless Network Configuration | `/#/topic/12-router-wireless` | LAN, pool, SSID, security, wired/wireless clients and address assignment |
-| 15 Network File and Printer Sharing | `/#/topic/13-file-printer-sharing` | Host/client, shared resource, dual permission layers, read/write/print outcomes |
-| 16 Network Testing and Troubleshooting | `/#/topic/14-network-troubleshooting` | Nine named faults, state-derived commands, direct targeted repair and retesting |
+| 01 Introduction to Networking and Network Architecture | `/#/topic/01-introduction-to-networking` | Connection types, local network vs Internet, simple data exchange, resource availability |
+| 02 Network Topologies and Basic Network Design | `/#/topic/03-network-topologies` | Six topologies, modeled link/device failures, interactive network topology builder |
+| 03 Network Devices and Components | `/#/topic/04-network-devices` | Device functions, interactive hardware explorer, switching/routing comparison, MAC learning |
+| 04 OSI Reference Model | `/#/topic/osi-reference-model` | Seven-layer viewer, encapsulation playback, TCP/IP mapping, device-function explorer, diagnostic scenarios |
+| 05 Network Cable Types and Media | `/#/topic/06-network-cables-media` | Cable cross-sections, tool walkthrough, attenuation/budget simulator |
+| 06 RJ45 Crimping, Color Coding, and Cable Testing | `/#/topic/07-rj45-crimping` | Eight-pin ends, T568A/B references, conductor validation, wire mapping and continuity fault simulator |
+| 07 IP Addressing and Subnet Basics | `/#/topic/08-ip-addressing` | IPv4 address structure, classes, binary-to-decimal conversion, subnet masks, bitwise AND workbench |
+| 08 Static IP Configuration | `/#/topic/10-static-ip` | Manual IPv4 settings, Windows adapter config, interactive terminal prompt (ipconfig, ping), asymmetric routing |
+| 09 Network Protocols and Services | `/#/topic/network-protocols-services` | 17-protocol/port directory, ARP next-hop journey, web/HTTP(S) playback, DNS cache inspection |
+| 10 Dynamic IP Configuration (DHCP) | `/#/topic/11-dhcp` | Automatic/manual DORA simulation, lease lifecycle, pool reservation and exclusion inspector |
+| 11 Router and Wireless Network Configuration | `/#/topic/12-router-wireless` | LAN/WAN ports, SSID/WPA2/WPA3 security, Wi-Fi bands (2.4/5/6 GHz), guest isolation demo |
+| 12 Network File and Printer Sharing | `/#/topic/13-file-printer-sharing` | Dual-layer share and NTFS permissions, UNC paths, mapped network drives, print queue simulator |
+| 13 Network Testing and Troubleshooting | `/#/topic/14-network-troubleshooting` | Diagnostic workbench (ipconfig, ping, tracert, nslookup, arp), 9 fault scenarios, network documentation |
+| 14 Introduction to Network Security | `/#/topic/15-network-security` | CIA triad, malware/phishing/DoS defense workbench, stateful firewall packet inspection engine |
 
 Original numeric route IDs remain permanent identities even when display numbers differ. For example, `05-network-communication` still opens Network Communication Fundamentals, now display Topic 6. The registry's `number` field controls presentation numbering. Existing bookmarks and localStorage topic keys remain compatible.
 

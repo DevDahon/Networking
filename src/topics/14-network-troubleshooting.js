@@ -38,7 +38,7 @@ export default topic({
       "items": [
         "169.254.x.x suggests link-local configuration; check DHCP reachability rather than guessing a public address.",
         "A wrong gateway can break remote access while local peers still work. A DNS fault can leave numeric connectivity intact.",
-        "Document the original state, corrective action, and successful retest. Escalate unfamiliar equipment faults instead of making uncontrolled changes."
+        "Network documentation and repair verification: record physical/logical topology diagrams, IP address allocation tables, device inventories, configuration backups, and change logs to systematically verify repairs."
       ]
     },
     {

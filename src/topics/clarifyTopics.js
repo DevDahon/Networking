@@ -189,6 +189,18 @@ const copy = {
     ['A fault-to-repair demonstration', 'Troubleshooting Workflow: Symptom to Fix', 'A complete investigation connects the reported symptom to observations, a likely cause, and a targeted correction. The final retest checks whether the user’s original operation now succeeds.'],
     ['@troubleshoot', 'Diagnosing Network Faults Workbench', 'Different command results expose different parts of the network state. Comparing them supports a targeted repair rather than unrelated configuration changes.'],
     ['“The network is down”', 'Local LAN vs Internet vs DNS', 'Reaching a local gateway does not prove that remote routes, name resolution, or a website work. Separate tests identify which stage succeeds and which still needs investigation.']
+  ],
+  '15-network-security': [
+    ['Network security and the CIA triad', 'The CIA Triad: Confidentiality, Integrity, Availability', 'Network security protects data, systems, and communication channels against unauthorized intrusion and disruption. Defense-in-depth combines multiple security layers to protect the network.'],
+    ['Four common network security threats', null, 'Malware, phishing, unauthorized access, and Denial-of-Service attacks target different points in a network. Recognizing these threat vectors is essential for implementing effective defenses.'],
+    ['Network Firewalls and Boundary Defense', null, 'Firewalls inspect traffic at network perimeters and host boundaries using access control lists and stateful inspection. Unauthorized probes and unsolicited connection requests are dropped.'],
+    ['@securityFirewall', 'Stateful Firewall Packet Inspection', 'Firewalls evaluate packet headers against an ordered rule list and connection state table. Inbound packets without an existing connection state are dropped by default.'],
+    ['Endpoint Protection and Security Updates', null, 'Endpoint security tools identify and neutralize malicious software on client workstations and servers. Applying regular security patches repairs known software flaws before attackers exploit them.'],
+    ['HTTPS, TLS, and Secure Data in Transit', null, 'Transport Layer Security encrypts application data traveling across networks into unreadable ciphertext. Digital certificates authenticate servers to prevent eavesdropping and data tampering.'],
+    ['Three habits for responsible network use', null, 'Disciplined user habits provide vital frontline protection against social engineering and credential theft. Multi-factor authentication, complex unique passwords, and vigilant link verification prevent intrusions.'],
+    ['@security', 'Network Security Defense Workbench', 'Different security controls stop different attack vectors. Test firewall packet dropping, phishing URL interception, TLS ciphertext encryption, DoS mitigation, and MFA authentication.'],
+    ['Secure a small office workstation and network', 'Hardening a Classroom or Small-Office Workstation', 'Hardening an endpoint involves enabling local firewalls, verifying automated update schedules, and enforcing multi-factor authentication. Strong baseline policies reduce security exposure across the local network.'],
+    ['Layered defense in practice', 'Applying Defense in Depth Step by Step', 'Effective defense combines perimeter filtering, host protection, transmission encryption, and credential discipline. Layered security ensures that if one barrier is bypassed, subsequent controls protect network assets.']
   ]
 };
 

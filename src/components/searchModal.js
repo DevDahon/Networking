@@ -115,7 +115,7 @@ export function createSearchModal(root,topics,onNavigate){
    <div class="search-modal-container">
     <div class="search-input-wrapper">
      <span class="search-icon">&#128269;</span>
-     <input type="text" class="search-input" placeholder="Search 16 topics, 225+ slides, or acronyms (e.g., DNS, /26, OSI)..." aria-label="Search curriculum">
+     <input type="text" class="search-input" placeholder="Search 14 topics, 214 slides, or acronyms (e.g., DNS, /26, OSI, Firewall)..." aria-label="Search curriculum">
      <button type="button" class="search-close-btn" aria-label="Close search (Esc)">&times;</button>
     </div>
     <div class="search-results-list"></div>

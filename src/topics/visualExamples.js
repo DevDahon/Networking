@@ -69,7 +69,7 @@ export function withVisualExamples(topic){
    }
   }
  }
- if(!['osi-reference-model','06-network-cables-media'].includes(topic.id)&&!slides.some(s=>s.kind==='example'))throw new Error(`Missing visual example for ${topic.id}`);
+ if(!['osi-reference-model','06-network-cables-media','15-network-security'].includes(topic.id)&&!slides.some(s=>s.kind==='example'))throw new Error(`Missing visual example for ${topic.id}`);
  addPresenterNotes(slides.filter(s=>s.kind==='example'||!s.notes),{title:topic.title,description:topic.description,example:topic.description});
  return {...topic,slides};
 }

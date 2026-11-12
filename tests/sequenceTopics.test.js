@@ -25,8 +25,8 @@ it.each(constraints)('keeps the prerequisite beside its demonstration in topic %
 });
 
 it('reviews every topic and retains all slide content, boundaries, and simulation counts',()=>{
- expect(Object.keys(sequenceMoves)).toHaveLength(13);
- expect(topics.reduce((sum,t)=>sum+t.slides.length,0)).toBe(201);
+ expect(Object.keys(sequenceMoves)).toHaveLength(14);
+ expect(topics.reduce((sum,t)=>sum+t.slides.length,0)).toBe(214);
  for(const topic of topics){
   expect(topic.slides[0].kind).toBe('title');expect(topic.slides[1].kind).toBe('objectives');expect(topic.slides.at(-1).kind).toBe('summary');
   if(topic.id!=='06-network-cables-media')expect(topic.slides.filter(s=>s.type||s.kind==='example').length).toBeGreaterThanOrEqual(2);

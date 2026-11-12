@@ -43,7 +43,8 @@ export const sequenceMoves={
   ['Nine modeled network faults','before','Example: numeric access works but a name fails'],
   ['@ttlTraceDemo','after','Example: numeric access works but a name fails'],
   ['A fault-to-repair demonstration','before','@troubleshoot']
- ]
+ ],
+ '15-network-security':[]
 };
 
 export function sequenceTopic(topic){
