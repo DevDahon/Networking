@@ -102,7 +102,8 @@ export function startApp(root){
   root.querySelector('main').innerHTML=`<div class="slide-stage"><article class="slide slide-${s.kind}"><div class="slide-kicker"><span>NETWORKING 1 / ${String(t.number).padStart(2,'0')}</span><span>${String(index+1).padStart(2,'0')} / ${total}</span></div><div class="slide-body">${contextPill}<h2>${esc(s.title)}</h2>${s.lead?`<p class="slide-lead">${esc(s.lead)}</p>`:''}<div id="slide-content" class="${s.type?'simulation-container':''}"></div></div></article></div><div class="slide-navigation"><div><button type="button" class="button quiet" id="btn-slide-grid" title="Slide Grid (G)">${icon('LayoutGrid')} Grid</button><span class="slide-count">${index+1} of ${total}</span></div><div>${button(icon('ArrowLeft')+' Previous','prev')}${index<total-1?button(nextLabel+icon('ArrowRight'),'next','primary'):`<a class="button primary" href="#/">Back to Topics ${icon('LayoutGrid')}</a>`}</div></div><div class="lesson-progress"><span style="width:${(index+1)/total*100}%"></span></div><p id="fullscreen-status" role="status">${esc(fullscreenError)}</p>`;
   root.querySelector('[data-action="prev"]').disabled=index===0;
   const content=root.querySelector('#slide-content');
-  if((root.querySelector('.slide-stage')?.clientWidth||window.innerWidth)>=768)root.querySelector('.slide-body').style.width='1280px';
+  const stageWidth=root.querySelector('.slide-stage')?.clientWidth||window.innerWidth;
+  if(stageWidth>=768)root.querySelector('.slide-body').style.width=`${stageWidth>1280?Math.min(Math.round(stageWidth),1920):1280}px`;
   if(s.kind==='title')content.innerHTML=titleVisual(t);
   else if(s.kind==='example')releaseSimulation=automaticExample(content,s,t.id);
   else if(s.type){const dispose=simulations[s.type](content,s);if(typeof dispose==='function')releaseSimulation=dispose;}
@@ -146,7 +147,7 @@ export function startApp(root){
     else if(s.title.startsWith('T568B:'))extraVisual=rj45PlugColorSVG('B');
     else if(s.title.includes('Straight-through and crossover'))extraVisual=straightVsCrossoverVisualSVG();
    }
-   const isGrid = !extraVisual && (s.expectedCount >= 4 || s.items.length >= 4 || s.visualKey === 'performanceMeasures');
+   const isGrid = !extraVisual && (s.expectedCount >= 4 || s.items.length >= 4 || (s.kind === 'concept' && s.expectedCount === 2) || s.visualKey === 'performanceMeasures');
    const gridClass = !extraVisual && (s.expectedCount >= 7 || s.items.length >= 7) ? 'counted-grid-3' : (isGrid ? 'counted-grid' : '');
    const visualPanel = s.visualKey === 'performanceMeasures' ? performanceExamplesVisual() : '';
    const listHtml=`<${s.kind==='objectives'?'ol':'ul'} class="teaching-points ${gridClass}"${s.expectedCount?` data-item-count="${s.expectedCount}"`: ''}>${s.items.map((item,i)=>`<li><span class="point-index">${esc(s.itemLabels?.[i]??String(i+1).padStart(2,'0'))}</span><p>${formatItemText(item)}</p></li>`).join('')}</${s.kind==='objectives'?'ol':'ul'}>${visualPanel}${s.footnote?`<p class="list-explanation">${esc(s.footnote)}</p>`:''}`;

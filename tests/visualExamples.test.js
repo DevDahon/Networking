@@ -48,3 +48,15 @@ it('follows the four-type overview with four examples and connects exactly five 
  expect(local.diagram.edges.every(([a])=>local.diagram.nodes[a].kind==='switch')).toBe(true);
  expect(topic.slides.filter(slide=>slide.kind==='example')).toHaveLength(4);
 });
+
+it('centers linear three-node examples symmetrically and trims empty vertical SVG space on single-row diagrams',()=>{
+ const topic=topics.find(t=>t.id==='01-introduction-to-networking');
+ const wan=topic.slides.find(s=>s.title==='Wide Area Network (WAN)');
+ const lan=topic.slides.find(s=>s.title==='Local Area Network (LAN)');
+ expect(wan.diagram.nodes.map(n=>n.x)).toEqual([150,500,850]);
+ const root=document.createElement('div');
+ root.innerHTML=classroomExample(wan);
+ expect(root.querySelector('svg.classroom-example').getAttribute('viewBox')).toBe('0 90 1000 160');
+ root.innerHTML=classroomExample(lan);
+ expect(root.querySelector('svg.classroom-example').getAttribute('viewBox')).toBe('0 0 1000 365');
+});

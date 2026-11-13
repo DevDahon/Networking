@@ -16,14 +16,18 @@ export function fitSlide(stage){
     if(frame.clientWidth<768){
       if(body.style.width)body.style.width='';
       if(body.style.transform)body.style.transform='';
+      if(body.style.top)body.style.top='';
       return;
     }
-    const width=1280;
+    const width=frame.clientWidth>1280?Math.min(Math.round(frame.clientWidth),1920):1280;
     body.style.width=`${width}px`;
     const measured=Math.max(body.offsetHeight,body.scrollHeight+2);
     maxHeight=reset?measured:Math.max(maxHeight,measured);
     const height=maxHeight;
     const scale=slideScale(frame.clientWidth,frame.clientHeight,width,height);
+    const slack=Math.max(0,frame.clientHeight-height*scale);
+    const nextTop=slack>24?`${Math.round(slack*0.35)}px`:'0px';
+    if(body.style.top!==nextTop)body.style.top=nextTop;
     const transform=`translateX(-50%) scale(${scale})`;
     if(body.style.transform!==transform)body.style.transform=transform;
   }

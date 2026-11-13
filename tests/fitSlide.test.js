@@ -37,3 +37,16 @@ it('keeps the outer card unchanged while short and tall content fit the same fra
  expect(body.style.transform).toBe('translateX(-50%) scale(1)');
  dispose();width.mockRestore();height.mockRestore();
 });
+
+it('expands presentation width proportionally on wide frames and centers vertically without cropping',()=>{
+ document.body.innerHTML='<div class="slide-stage"><article class="slide"><div class="slide-body"><p>Wide presentation slide</p></div></article></div>';
+ const stage=document.querySelector('.slide-stage'),body=stage.querySelector('.slide-body');
+ const width=vi.spyOn(HTMLElement.prototype,'clientWidth','get').mockImplementation(function(){return this.classList.contains('slide-body-frame')?1880:0;});
+ const height=vi.spyOn(HTMLElement.prototype,'clientHeight','get').mockImplementation(function(){return this.classList.contains('slide-body-frame')?720:0;});
+ Object.defineProperties(body,{offsetHeight:{get:()=>520},scrollHeight:{get:()=>518}});
+ const dispose=fitSlide(stage);
+ expect(body.style.width).toBe('1880px');
+ expect(body.style.transform).toBe('translateX(-50%) scale(1)');
+ expect(body.style.top).toBe('70px');
+ dispose();width.mockRestore();height.mockRestore();
+});

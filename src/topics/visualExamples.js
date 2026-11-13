@@ -1,7 +1,7 @@
 import {moreTopologyExamples} from './topologyExamples.js';
 import {addPresenterNotes} from './createTopic.js';
 const node=(label,x,y,detail='',kind='computer')=>({label,x,y,detail,kind});
-const chain=(labels,details=[])=>({nodes:labels.map((label,i)=>node(label,130+i*240,145,details[i]||'',i===1?'network':'computer')),edges:labels.slice(1).map((_,i)=>[i,i+1])});
+const chain=(labels,details=[])=>{const step=labels.length>1?700/(labels.length-1):0;return {nodes:labels.map((label,i)=>node(label,Math.round(150+i*step),145,details[i]||'',i===1?'network':'computer')),edges:labels.slice(1).map((_,i)=>[i,i+1])};};
 const example=(title,lead,diagram,items)=>({kind:'example',title,lead,diagram,items});
 export const localClassroom={nodes:[node('Switch',500,165,'Six occupied ports','switch'),...Array.from({length:5},(_,i)=>node(`Computer ${i+1}`,100+i*200,45)),node('Network printer',500,285,'Shared by five computers','printer')],edges:Array.from({length:6},(_,i)=>[0,i+1])};
 const coverageDescriptions={

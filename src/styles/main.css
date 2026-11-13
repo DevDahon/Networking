@@ -1587,7 +1587,8 @@ body.presentation-mode {
 }
 
 .presentation-mode .slide-kicker {
-    flex: none
+    flex: none;
+    padding: 16px 36px
 }
 
 .presentation-mode .slide-body-frame {
@@ -1606,13 +1607,13 @@ body.presentation-mode {
 }
 
 .presentation-mode .slide-body {
-    padding: 20px 36px 20px;
+    padding: 20px 36px 24px;
 }
 
 .presentation-mode .slide-body>h2 {
     font-size: 34px;
     margin: 0 0 12px;
-    max-width: 1200px;
+    max-width: none;
 }
 
 .presentation-mode .slide-title .slide-body>h2 {
@@ -1623,7 +1624,7 @@ body.presentation-mode {
     font-size: 18px;
     line-height: 1.5;
     margin: 0 0 16px;
-    max-width: 1200px;
+    max-width: none;
 }
 
 .presentation-mode .osi-grid {
@@ -2488,7 +2489,8 @@ body.presentation-mode {
 .classroom-example {
     display: block;
     width: 100%;
-    height: 340px;
+    height: auto;
+    max-height: 340px;
     margin: 4px 0 12px
 }
 
@@ -2509,8 +2511,19 @@ body.presentation-mode {
 }
 
 .automatic-example .classroom-example {
-    height: 275px;
-    margin: 0 0 6px
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    margin: 6px 0 8px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 8px 16px;
+    box-sizing: border-box
+}
+
+.automatic-example .classroom-example rect[fill="white"] {
+    fill: #f8fafc
 }
 
 .automatic-example .example-explanation {
@@ -2518,12 +2531,12 @@ body.presentation-mode {
 }
 
 .automatic-example .example-heading {
-    font-size: 20px;
-    margin: 4px 0 2px
+    font-size: 21px;
+    margin: 6px 0 4px
 }
 
 .automatic-example .control-row {
-    margin: 6px 0;
+    margin: 10px 0 0;
     gap: 10px 16px;
     align-items: center
 }
@@ -5819,6 +5832,43 @@ html.dark .list-explanation {
     background: rgba(19, 78, 74, 0.35);
     color: #e2e8f0;
     border-left-color: #14b8a6;
+}
+
+html.dark .automatic-example .classroom-example {
+    background: #0f172a;
+    border-color: #334155;
+}
+
+html.dark .automatic-example .classroom-example rect[fill="white"],
+html.dark .classroom-example rect[fill="white"] {
+    fill: #0f172a;
+}
+
+html.dark .classroom-example text[fill="#0f172a"] {
+    fill: #f8fafc;
+}
+
+html.dark .classroom-example text[fill="#475569"] {
+    fill: #94a3b8;
+}
+
+html.dark .example-current {
+    background: #1e293b;
+    border-color: #334155;
+    color: #f1f5f9;
+}
+
+html.dark .example-current>b {
+    color: #5eead4;
+}
+
+html.dark .example-stopped {
+    background: rgba(124, 45, 18, 0.28);
+    border-color: #c2410c;
+}
+
+html.dark .example-heading {
+    color: #93c5fd;
 }
 
 @media(max-width:767px) {
