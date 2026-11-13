@@ -586,10 +586,11 @@ main:focus {
 
 .teaching-points {
     list-style: none;
-    margin: 22px 0 0;
+    margin: 16px 0 0;
     padding: 0;
     display: grid;
-    gap: 17px
+    grid-template-columns: 1fr;
+    gap: 14px
 }
 
 .teaching-points li {
@@ -2223,37 +2224,38 @@ body.presentation-mode {
 }
 
 .presentation-mode .slide-walkthrough .teaching-points {
-    grid-template-columns: 1fr 1fr;
-    align-items: stretch
+    grid-template-columns: 1fr;
+    align-items: stretch;
+    gap: 12px
 }
 
 .presentation-mode .slide-walkthrough .teaching-points p {
-    font-size: 19px;
-    line-height: 1.55
+    font-size: 18px;
+    line-height: 1.5
 }
 
 .presentation-mode .slide-walkthrough .teaching-points li {
-    padding: 14px 16px;
+    padding: 12px 18px;
     gap: 14px
 }
 
-/* Counted teaching lists keep one entry per concept, pin, command, or range. */
+/* Counted teaching lists keep every numbered item on its own sequential row. */
 .teaching-points.counted-grid,
 .presentation-mode .teaching-points.counted-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 14px;
+    grid-template-columns: 1fr;
+    gap: 11px;
 }
 
 .teaching-points.counted-grid-3,
 .presentation-mode .teaching-points.counted-grid-3 {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
+    grid-template-columns: 1fr;
+    gap: 8px;
 }
 
 .counted-grid li,
 .presentation-mode .counted-grid li {
-    padding: 12px 16px;
-    gap: 12px;
+    padding: 12px 18px;
+    gap: 16px;
 }
 
 .counted-grid p,
@@ -2264,20 +2266,24 @@ body.presentation-mode {
 
 .counted-grid-3 li,
 .presentation-mode .counted-grid-3 li {
-    padding: 10px 14px;
-    gap: 10px;
+    padding: 9px 16px;
+    gap: 14px;
 }
 
 .counted-grid-3 p,
 .presentation-mode .counted-grid-3 p {
-    font-size: 14.5px;
-    line-height: 1.42;
+    font-size: 15.5px;
+    line-height: 1.4;
 }
 
 .counted-grid .point-index,
 .counted-grid-3 .point-index {
     min-width: 24px;
     flex-shrink: 0;
+    padding-top: 3px;
+}
+
+.counted-grid-3 .point-index {
     padding-top: 2px;
 }
 
@@ -5884,9 +5890,7 @@ html.dark .example-heading {
 }
 
 @media(max-width:767px) {
-    .perf-examples-grid,
-    .teaching-points.counted-grid,
-    .presentation-mode .teaching-points.counted-grid {
+    .perf-examples-grid {
         grid-template-columns: 1fr;
     }
 }

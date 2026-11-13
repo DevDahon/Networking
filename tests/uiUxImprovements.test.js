@@ -80,5 +80,12 @@ describe('UI/UX and Accessibility Improvements',()=>{
   expect(css).toMatch(/\.presentation-mode \.control-row label:has\(select\)[\s\S]*max-width:\s*100%/);
   expect(css).toMatch(/\.automatic-example \.example-settings label[\s\S]*flex:\s*0 1 auto[\s\S]*min-width:\s*0[\s\S]*max-width:\s*100%/);
  });
+
+ it('keeps all numbered and ordered teaching lists in a single vertical row stack',()=>{
+  const css=readFileSync(resolve(process.cwd(),'src/styles/main.css'),'utf8');
+  expect(css).toMatch(/\.slide-walkthrough \.teaching-points\s*\{[^}]*grid-template-columns:\s*1fr;/);
+  expect(css).toMatch(/\.teaching-points\.counted-grid\s*\{[^}]*grid-template-columns:\s*1fr;/);
+  expect(css).toMatch(/\.teaching-points\.counted-grid-3\s*\{[^}]*grid-template-columns:\s*1fr;/);
+ });
 });
 
