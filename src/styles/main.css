@@ -2770,7 +2770,9 @@ body.presentation-mode {
     box-shadow: 0 4px 16px #0f172a15
 }
 
-.pen-toolbar[hidden] {
+.pen-toolbar[hidden],
+.header-right .pen-toggle[hidden],
+.pen-toggle[hidden] {
     display: none
 }
 
