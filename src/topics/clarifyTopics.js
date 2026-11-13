@@ -58,6 +58,7 @@ const copy = {
     ['@osiIntroduction', 'What Is the OSI Reference Model?', 'Think of OSI as a troubleshooting map that splits networking into 7 clear jobs—from clicking a webpage (Layer 7) down to cable or Wi-Fi signals (Layer 1).'],
     ['Seven OSI layer responsibilities', null, 'Each OSI layer owns one clear duty—from user apps at Layer 7 down to physical bits at Layer 1.'],
     ['Wrap the data, then unwrap it', 'What Is Encapsulation?', 'Like placing a letter inside nested envelopes, encapsulation wraps data with delivery headers when sending and unwraps them when receiving.'],
+    ['Five OSI Protocol Data Units (PDUs)', null, 'Each OSI layer names the data unit by the control information added at that step: Data, Segment or Datagram, Packet, Frame, and Bits.'],
     ['Two transport services: TCP and UDP', null, 'TCP checks and resends lost pieces for complete accuracy, while UDP sends packets immediately for live speed.'],
     ['Four layers in the TCP/IP model', null, 'While OSI teaches 7 detailed boxes, real networks use the 4-layer TCP/IP model: Application, Transport, Internet, and Link.'],
     ['@osiComparison', 'Comparing the OSI and TCP/IP Models', 'Compare how the 7 conceptual OSI layers group together inside the 4 practical TCP/IP layers.']

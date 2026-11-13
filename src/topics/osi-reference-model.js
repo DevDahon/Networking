@@ -40,6 +40,20 @@ const slides=[
  },
  {
   kind:'concept',
+  title:'Five OSI Protocol Data Units (PDUs)',
+  lead:'Each OSI layer gives the message a specific PDU name as delivery headers and trailers are added.',
+  items:[
+   'Data (Layers 7–5): Original application message prepared for sending.',
+   'Segment or Datagram (Layer 4): Adds source and destination TCP or UDP port numbers.',
+   'Packet (Layer 3): Adds logical source and destination IP addresses for routing.',
+   'Frame (Layer 2): Adds local MAC addresses plus a Frame Check Sequence (FCS) trailer.',
+   'Bits (Layer 1): Raw 1s and 0s transmitted as electrical pulses, light flashes, or radio waves.'
+  ],
+  expectedCount:5,
+  itemLabels:['7–5','4','3','2','1']
+ },
+ {
+  kind:'concept',
   title:'Two transport services: TCP and UDP',
   items:[
    'TCP (Reliable, Ordered): Numbers segments, confirms delivery, and resends lost pieces—used for web pages, files, and email.',

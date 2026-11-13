@@ -2278,7 +2278,7 @@ body.presentation-mode {
 
 .counted-grid .point-index,
 .counted-grid-3 .point-index {
-    min-width: 24px;
+    min-width: 28px;
     flex-shrink: 0;
     padding-top: 3px;
 }
