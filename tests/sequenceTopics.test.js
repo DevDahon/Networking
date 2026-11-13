@@ -3,7 +3,6 @@ import { topics } from '../src/topics/topicRegistry.js';
 import { sequenceTopic, sequenceMoves } from '../src/topics/sequenceTopics.js';
 
 const constraints=[
- [1,'Two network service architectures','@availabilityDemo'],
  [2,'@topology','Choosing a Network Topology'],
  [3,'How Interfaces and Switches Connect Local Devices','@macLearningDemo'],
  [4,'Seven OSI layer responsibilities','What Is Encapsulation?'],
@@ -26,7 +25,7 @@ it.each(constraints)('keeps the prerequisite beside its demonstration in topic %
 
 it('reviews every topic and retains all slide content, boundaries, and simulation counts',()=>{
  expect(Object.keys(sequenceMoves)).toHaveLength(14);
- expect(topics.reduce((sum,t)=>sum+t.slides.length,0)).toBe(213);
+ expect(topics.reduce((sum,t)=>sum+t.slides.length,0)).toBe(212);
  for(const topic of topics){
   expect(topic.slides[0].kind).toBe('title');expect(topic.slides[1].kind).toBe('objectives');expect(topic.slides.at(-1).kind).toBe('summary');
   if(topic.id!=='06-network-cables-media')expect(topic.slides.filter(s=>s.type||s.kind==='example').length).toBeGreaterThanOrEqual(2);
@@ -36,12 +35,12 @@ it('reviews every topic and retains all slide content, boundaries, and simulatio
 });
 
 it('rejects stale ordering targets rather than silently omitting a demonstration', () => {
-    expect(() => sequenceTopic({ id: '01-introduction-to-networking', slides: [] })).toThrow('expected one sequence target');
+    expect(() => sequenceTopic({ id: '03-network-topologies', slides: [] })).toThrow('expected one sequence target');
 });
 
 it('keeps the introduction concise without redundant simulations or empty walkthroughs', () => {
     const intro = topics[0];
-    expect(intro.slides).toHaveLength(21);
+    expect(intro.slides).toHaveLength(20);
     expect(intro.slides.some(s => s.type === 'communication' || s.kind === 'walkthrough')).toBe(false);
     expect(intro.slides.filter(s => s.kind === 'example')).toHaveLength(4);
     expect(intro.slides.some(s => s.type === 'transferDemo')).toBe(false);

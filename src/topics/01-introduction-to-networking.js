@@ -122,12 +122,6 @@ export default topic({
       "expectedCount": 2
     },
     {
-      "title": "Resource availability in peer and server networks",
-      "kind": "demo",
-      "lead": "Compare the same shared files when a peer or the central server goes offline.",
-      "type": "availabilityDemo"
-    },
-    {
       "title": "Two link choices: wired and wireless",
       "lead": "A single network often combines multiple transmission media.",
       "items": [

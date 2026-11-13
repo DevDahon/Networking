@@ -1,9 +1,7 @@
 // Apply sequencing after examples are inserted, before display wording expands.
 // @ selectors identify simulations; other selectors are topic-owned titles.
 export const sequenceMoves={
- '01-introduction-to-networking':[
-  ['@availabilityDemo','after','Two network service architectures']
- ],
+ '01-introduction-to-networking':[],
  '03-network-topologies':[
   ['Choose a topology for the task','after','@topology']
  ],

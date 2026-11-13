@@ -19,7 +19,6 @@ const copy = {
     ['Metropolitan Area Network (MAN)', null, 'A Metropolitan Area Network connects networks across a city or metropolitan area. It can link sites such as library branches, municipal offices, or campuses within that area.'],
     ['Wide Area Network (WAN)', null, 'A Wide Area Network connects networks across large geographic areas, such as regions or countries. Organizations commonly use provider services to link their distant sites.'],
     ['Two network service architectures', null, 'Network architecture defines whether devices share resources directly as equals (peer-to-peer) or through a dedicated server (client-server).'],
-    ['@availabilityDemo', 'P2P vs Client-Server Availability', 'Shared files and printers are only reachable while the device hosting them is powered on and connected.'],
     ['Two link choices: wired and wireless', null, 'Wired cables offer steady speed and reliability, while wireless links provide convenient mobility.']
   ],
   '03-network-topologies': [
