@@ -8,7 +8,6 @@ const constraints=[
  [4,'Seven OSI layer responsibilities','Layer 7: Application Layer'],
  [4,'Layer 1: Physical Layer','What Is Encapsulation?'],
  [4,'What Is Encapsulation?','Five OSI Protocol Data Units (PDUs)'],
- [4,'Four layers in the TCP/IP model','@osiComparison'],
  [7,'The Subnet Mask: The Dividing Boundary','@bitwiseDemo'],
  [8,'Example: two manually configured classroom computers','@asymmetricDemo'],
  [8,'Windows Static Address Configuration Procedure','@static'],
@@ -28,10 +27,10 @@ it.each(constraints)('keeps the prerequisite beside its demonstration in topic %
 
 it('reviews every topic and retains all slide content, boundaries, and simulation counts',()=>{
  expect(Object.keys(sequenceMoves)).toHaveLength(14);
- expect(topics.reduce((sum,t)=>sum+t.slides.length,0)).toBe(211);
+ expect(topics.reduce((sum,t)=>sum+t.slides.length,0)).toBe(209);
  for(const topic of topics){
   expect(topic.slides[0].kind).toBe('title');expect(topic.slides[1].kind).toBe('objectives');expect(topic.slides.at(-1).kind).toBe('summary');
-  if(topic.id!=='06-network-cables-media')expect(topic.slides.filter(s=>s.type||s.kind==='example').length).toBeGreaterThanOrEqual(2);
+  if(!['06-network-cables-media','osi-reference-model'].includes(topic.id))expect(topic.slides.filter(s=>s.type||s.kind==='example').length).toBeGreaterThanOrEqual(2);
   expect(topic.slides.every(s=>s.notes.transition.length>20)).toBe(true);
  }
  expect(topics[0].slides.some(s => s.type === 'transferDemo')).toBe(false);

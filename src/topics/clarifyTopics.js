@@ -65,9 +65,7 @@ const copy = {
     ['Layer 2: Data Link Layer', null, 'Layer 2 wraps packets into frames with local hardware MAC addresses and an error check for switches and NICs.'],
     ['Layer 1: Physical Layer', null, 'Layer 1 turns every frame into raw electrical, light, or wireless signals carrying 1s and 0s across the physical link.'],
     ['Wrap the data, then unwrap it', 'What Is Encapsulation?', 'When Computer 1 sends a message to Computer 2, encapsulation wraps it down the layers (7 → 1) and decapsulation unwraps it back up (1 → 7).'],
-    ['Five OSI Protocol Data Units (PDUs)', null, 'Each OSI layer names the data unit by the control information added at that step: Data, Segment, Packet, Frame, and Bits.'],
-    ['Four layers in the TCP/IP model', null, 'While OSI teaches 7 detailed boxes, real networks use the 4-layer TCP/IP model: Application, Transport, Internet, and Link.'],
-    ['@osiComparison', 'Comparing the OSI and TCP/IP Models', 'Compare how the 7 conceptual OSI layers group together inside the 4 practical TCP/IP layers.']
+    ['Five OSI Protocol Data Units (PDUs)', null, 'Each OSI layer names the data unit by the control information added at that step: Data, Segment, Packet, Frame, and Bits.']
   ],
   '06-network-cables-media': [
     ['Five network media choices', null, 'Network links use copper cables, fiber-optic glass, or wireless radio depending on distance, speed, and interference.'],

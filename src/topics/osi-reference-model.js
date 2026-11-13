@@ -5,7 +5,7 @@ const objectives=[
  'Distinguish OSI protocol data units: data, segments, packets, frames, and bits.',
  'Follow encapsulation and decapsulation as data moves through the protocol stack.',
  'Identify the protocol data unit and headers added at each communication layer.',
- 'Compare the seven-layer OSI model with the four-layer TCP/IP model.'
+ 'Distinguish upper creation layers (7–5) from lower travel layers (4–1) when tracing real network communication.'
 ];
 
 const deepLayerSlides=[
@@ -126,30 +126,18 @@ const slides=[
   expectedCount:5,
   itemLabels:['7–5','4','3','2','1']
  },
- {
-  kind:'concept',
-  title:'Four layers in the TCP/IP model',
-  items:[
-   'Application (OSI 7–5): Handles user-facing protocols, data formatting, and session control (HTTP, DNS, SMTP).',
-   'Transport (OSI 4): Delivers data between apps using port numbers and delivery control.',
-   'Internet (OSI 3): Handles logical IP addressing and routing across networks.',
-   'Link (OSI 2–1): Handles local MAC framing, switches, cables, and physical signals.'
-  ],
-  expectedCount:4
- },
- {kind:'demo',title:'OSI and TCP/IP: two useful views',lead:'The common four-layer TCP/IP model groups responsibilities differently. These mappings are approximate.',type:'osiComparison',ask:'Where do OSI Presentation and Session responsibilities appear in this TCP/IP view?',emphasis:'OSI 7–5 map to Application, 4 to Transport, 3 to Internet, and 2–1 to Network Access / Link.',demo:'Select each TCP/IP group and trace its highlighted OSI rows. Explain that protocols and implementation boundaries do not always fit one box.'},
  {kind:'summary',title:'Summary of the Discussion',items:[
-  '7 OSI Layers (7 → 1): Upper layers (7–5) create data; lower layers (4–1) handle how data travels.',
-  'Encapsulation & Decapsulation: Computer 1 wraps data going down (7 → 1); Computer 2 unwraps it going up (1 → 7).',
-  'Data Units (PDUs): Data (L7–5) → Segment (L4 · Ports) → Packet (L3 · IP) → Frame (L2 · MAC) → Bits (L1 · Signals).',
-  'OSI vs. TCP/IP: Real networks combine OSI Layers 7–5 into Application and Layers 2–1 into Link.',
-  'Troubleshooting Tip: Check bottom-up—cable & link (L1–2) → IP & gateway (L3) → ports & service (L4–7).'
+  'Upper Layers (7–5 · How Data Is Created): Application, Presentation, and Session prepare app services, formatting/encryption, and ongoing conversations.',
+  'Lower Layers (4–1 · How Data Travels): Transport, Network, Data Link, and Physical handle app ports, IP routing, local MAC frames, and link signals.',
+  'Encapsulation & Decapsulation: Computer 1 wraps data down from Layer 7 to 1 when sending; Computer 2 unwraps wrappers up from Layer 1 to 7.',
+  'OSI Data Units (PDUs): Data (L7–5) → Segment (L4 · Ports) → Packet (L3 · IP) → Frame (L2 · MAC) → Bits (L1 · Signals).',
+  'Layered Troubleshooting Tip: Locate faults step by step—cables & link signals (L1) → MAC frames & switches (L2) → IP & gateway (L3) → ports & apps (L4–7).'
  ]}
 ];
 
 addPresenterNotes(slides,{
  title:'Open Systems Interconnection (OSI) Reference Model and Network Communication',
- description:'Seven conceptual communication layers, encapsulation, and the TCP/IP model.',
+ description:'Seven conceptual OSI communication layers, protocol data units, and encapsulation.',
  taglish:'Tingnan ang responsibility ng bawat layer at encapsulation sa kasalukuyang demonstration.',
  example:'A user sends a message; the exchange depends on signals, framing, routing, transport, and an available application service.'
 });
@@ -158,7 +146,7 @@ export default {
  id:'osi-reference-model',
  title:'Open Systems Interconnection (OSI) Reference Model and Network Communication',
  icon:'Layers',
- description:'Explore the seven communication layers, follow data encapsulation, and compare OSI with the TCP/IP model.',
+ description:'Explore all seven OSI communication layers, distinguish upper creation and lower travel roles, and follow encapsulation and decapsulation.',
  objectives,
  slides
 };
