@@ -40,3 +40,11 @@ it('renders concrete encapsulation and decapsulation visual cards below the conc
  expect(root.querySelector('#slide-content .control-row')).toBeNull();
  expect(root.querySelector('#slide-content .list-explanation')).toBeNull();
 });
+it('presents a concise beginner-friendly example on What Is the OSI Reference Model?',()=>{
+ mount(3);
+ expect(root.querySelector('#slide-content').textContent).toContain('Your laptop');
+ expect(root.querySelector('#slide-content').textContent).toContain('1. Your Goal');
+ expect(root.querySelector('#slide-content').textContent).toContain('2. Behind One Click');
+ expect(root.querySelector('#slide-content').textContent).toContain('3. Why 7 Layers Help');
+ expect(root.querySelector('#slide-content .callout')).toBeNull();
+});

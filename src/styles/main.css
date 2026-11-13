@@ -1920,8 +1920,27 @@ body.presentation-mode {
 .osi-intro-points {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    font-size: 18px
+    gap: 16px;
+    margin-top: 12px;
+    font-size: 16px
+}
+
+.osi-intro-points p {
+    margin: 0;
+    padding: 14px 18px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    line-height: 1.5;
+    color: #334155
+}
+
+.osi-intro-points b {
+    font-size: 15px;
+    color: #0f172a
 }
 
 .osi-layer-primer {
@@ -5956,6 +5975,16 @@ html.dark .encap-chip-bits {
 
 html.dark .encap-step-note {
     color: #94a3b8;
+}
+
+html.dark .osi-intro-points p {
+    background: #1e293b;
+    border-color: #334155;
+    color: #cbd5e1;
+}
+
+html.dark .osi-intro-points b {
+    color: #f8fafc;
 }
 
 html.dark .automatic-example .classroom-example {

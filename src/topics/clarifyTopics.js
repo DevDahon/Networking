@@ -55,7 +55,7 @@ const copy = {
     ['Read the interfaces along a network path', 'Device Roles Along a Network Path', 'Follow how a computer, switch, router, and modem work together to deliver a network request.']
   ],
   'osi-reference-model': [
-    ['@osiIntroduction', 'What Is the OSI Reference Model?', 'Think of OSI as a troubleshooting map that splits networking into 7 clear jobs—from clicking a webpage (Layer 7) down to cable or Wi-Fi signals (Layer 1).'],
+    ['@osiIntroduction', 'What Is the OSI Reference Model?', 'OSI splits network communication into 7 clear steps—from opening an app down to sending signals over cables or Wi-Fi.'],
     ['Seven OSI layer responsibilities', null, 'Each OSI layer owns one clear duty—from user apps at Layer 7 down to physical bits at Layer 1.'],
     ['Wrap the data, then unwrap it', 'What Is Encapsulation?', 'Like placing a letter inside nested envelopes, encapsulation wraps data with delivery headers when sending and unwraps them when receiving.'],
     ['Five OSI Protocol Data Units (PDUs)', null, 'Each OSI layer names the data unit by the control information added at that step: Data, Segment or Datagram, Packet, Frame, and Bits.'],
