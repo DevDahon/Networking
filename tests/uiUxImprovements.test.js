@@ -1,4 +1,6 @@
 import {describe,it,expect,beforeEach,afterEach,vi} from 'vitest';
+import {readFileSync} from 'node:fs';
+import {resolve} from 'node:path';
 import {topics} from '../src/topics/topicRegistry.js';
 import {startApp} from '../src/app.js';
 import {shouldHandleKey} from '../src/router.js';
@@ -70,6 +72,13 @@ describe('UI/UX and Accessibility Improvements',()=>{
   container.querySelector('[data-prefix="31"]').click();
   expect(container.querySelector('.small').textContent).toContain('1 host bit');
   expect(container.querySelector('.small').textContent).not.toContain('1 host bits');
+ });
+
+ it('simulation dropdown CSS overrides fixed 290px label cap to prevent overlapping text',()=>{
+  const css=readFileSync(resolve(process.cwd(),'src/styles/main.css'),'utf8');
+  expect(css).toMatch(/\.control-row label:has\(select\)[\s\S]*max-width:\s*100%/);
+  expect(css).toMatch(/\.presentation-mode \.control-row label:has\(select\)[\s\S]*max-width:\s*100%/);
+  expect(css).toMatch(/\.automatic-example \.example-settings label[\s\S]*flex:\s*0 1 auto[\s\S]*min-width:\s*0[\s\S]*max-width:\s*100%/);
  });
 });
 

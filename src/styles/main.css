@@ -722,6 +722,18 @@ main:focus {
     max-width: 290px
 }
 
+.control-row label:has(select) {
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: 100%
+}
+
+.control-row label:has(select) select {
+    width: auto;
+    max-width: 100%;
+    text-overflow: ellipsis
+}
+
 .control-row button {
     flex-shrink: 0
 }
@@ -938,7 +950,7 @@ main:focus {
 
 .pin select {
     font-size: 11px;
-    padding: 7px 2px;
+    padding: 7px 4px;
     width: 100%
 }
 
@@ -1311,8 +1323,9 @@ th {
     }
 
     .connector {
-        padding: 8px;
-        gap: 3px
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        padding: 10px;
+        gap: 8px
     }
 
     .cable-ends fieldset {
@@ -1320,7 +1333,8 @@ th {
     }
 
     .pin select {
-        font-size: 9px
+        font-size: 11px;
+        padding: 7px 4px
     }
 
     .pin b {
@@ -1636,6 +1650,18 @@ body.presentation-mode {
     flex: 1;
     min-width: 145px;
     max-width: 290px
+}
+
+.presentation-mode .control-row label:has(select) {
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: 100%
+}
+
+.presentation-mode .control-row label:has(select) select {
+    width: auto;
+    max-width: 100%;
+    text-overflow: ellipsis
 }
 
 .presentation-mode .terminal {
@@ -2388,6 +2414,12 @@ body.presentation-mode {
     max-width: 270px
 }
 
+.extra-config label:has(select) {
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: 100%
+}
+
 .extra-scene table td {
     overflow-wrap: anywhere
 }
@@ -2492,27 +2524,36 @@ body.presentation-mode {
 
 .automatic-example .control-row {
     margin: 6px 0;
-    gap: 10px;
+    gap: 10px 16px;
     align-items: center
 }
 
+.presentation-mode .automatic-example .example-settings label,
+.presentation-mode .automatic-example .example-controls label,
 .automatic-example .example-settings label,
 .automatic-example .example-controls label {
     display: inline-flex;
     flex-direction: row;
     align-items: center;
-    gap: 8px;
+    flex: 0 1 auto;
+    min-width: 0;
+    max-width: 100%;
     width: auto;
     margin: 0;
-    font-size: 14px
+    gap: 8px;
+    font-size: 14px;
+    line-height: 1.3
 }
 
 .automatic-example .example-settings select,
 .automatic-example .example-controls select {
+    flex: 0 1 auto;
     width: auto;
-    min-width: 110px;
-    padding: 6px 10px;
-    font-size: 14px
+    min-width: 88px;
+    max-width: 100%;
+    padding: 8px 12px;
+    font-size: 14px;
+    text-overflow: ellipsis
 }
 
 .example-current {
@@ -5526,6 +5567,77 @@ html.dark .slide-example .slide-context-pill {
     background: rgba(6, 95, 70, 0.45);
     color: #6ee7b7;
     border-color: #065f46;
+}
+
+/* Responsive Simulation & Dropdown Overlap Safeguards */
+@media(max-width:767px) {
+    .presentation-mode .control-row label:has(select),
+    .control-row label:has(select),
+    .extra-config label:has(select) {
+        flex: 1 1 100%;
+        max-width: 100%
+    }
+
+    .presentation-mode .control-row label:has(select) select,
+    .control-row label:has(select) select,
+    .extra-config label:has(select) select {
+        width: 100%
+    }
+
+    .presentation-mode .automatic-example .example-settings label,
+    .automatic-example .example-settings label {
+        flex-direction: column;
+        align-items: stretch;
+        flex: 1 1 100%;
+        width: 100%
+    }
+
+    .automatic-example .example-settings select {
+        width: 100%
+    }
+
+    .presentation-mode .automatic-example .example-controls label,
+    .automatic-example .example-controls label {
+        flex: 0 1 auto;
+        max-width: 100%
+    }
+
+    .presentation-mode .automatic-example .example-controls select,
+    .automatic-example .example-controls select {
+        width: auto
+    }
+
+    .extra-subnets {
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+    }
+
+    .osi-example-line {
+        white-space: normal
+    }
+
+    .osi-layer-primer {
+        flex-wrap: wrap
+    }
+
+    .osi-layer-primer > span {
+        flex: 1 1 100%
+    }
+
+    .osi-intro-points {
+        grid-template-columns: 1fr
+    }
+}
+
+@media(max-width:480px) {
+    .connector {
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+    }
+
+    .pin select {
+        min-height: 44px;
+        font-size: 12px;
+        padding: 8px 6px
+    }
 }
 
 
