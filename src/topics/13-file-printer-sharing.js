@@ -26,8 +26,7 @@ export default topic({
         "Share permissions: Controls who can enter the folder over the network.",
         "File-system permissions: NTFS rules that control local and remote file access."
       ],
-      "expectedCount": 2,
-      "footnote": "When Share and NTFS permissions differ, the most restrictive rule always wins."
+      "expectedCount": 2
     },
     {
       "title": "Share safely on trusted networks",

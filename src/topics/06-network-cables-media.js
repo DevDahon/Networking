@@ -31,8 +31,7 @@ export default topic({
         "Cat 6: Supports 1 Gbps up to 100 m, and 10 Gbps up to 55 m.",
         "Cat 6A: Supports a full 10 Gbps up to 100 meters."
       ],
-      "expectedCount": 3,
-      "footnote": "Standard copper Ethernet has a maximum total distance of 100 meters (90 m wall run + 10 m patch cords)."
+      "expectedCount": 3
     },
     {
       "title": "Fiber-Optic Cable Construction",
@@ -42,8 +41,7 @@ export default topic({
         "Single-Mode Fiber (SMF): Tiny 9-micron core using laser light to span many kilometers.",
         "Multi-Mode Fiber (MMF): Wider 50/62.5-micron core using LED/VCSEL light for up to 550 meters.",
         "Zero EMI: Immune to electrical noise, motors, and lightning strikes."
-      ],
-      "footnote": "Safety rule: Never look directly into an active fiber port—invisible laser light can damage your eyes."
+      ]
     },
     {
       "title": "Coaxial Cable and Shielding",
@@ -53,8 +51,7 @@ export default topic({
         "Dielectric Insulator: Foam layer that keeps the core separated from the shield.",
         "Braided Metal Shield: Blocks outside interference and grounds the cable.",
         "Common Uses: Cable broadband modems (DOCSIS), CCTV, and TV antennas."
-      ],
-      "footnote": "Coaxial cables usually use screw-on F-connectors or twist-lock BNC connectors."
+      ]
     },
     {
       "title": "Unguided Media and Wireless Radio",
@@ -64,8 +61,7 @@ export default topic({
         "Shared Airspace: All nearby Wi-Fi devices share the same radio channel capacity.",
         "Signal Obstacles: Concrete walls, metal, and distance weaken wireless signals.",
         "Mobility vs. Stability: Wi-Fi gives freedom to move, while Ethernet gives steady speed."
-      ],
-      "footnote": "Wireless access points still plug into the main network using wired Ethernet cables."
+      ]
     }
   ],
   "demo": {

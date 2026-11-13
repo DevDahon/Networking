@@ -96,7 +96,6 @@ export default topic({
         "Bandwidth: the capacity of a link, usually measured in bits per second (Mbps or Gbps).",
         "Latency: the time delay in communication, measured in milliseconds (ms). A high-capacity link may still have high delay."
       ],
-      "footnote": "Highway analogy: Bandwidth is the number of lanes carrying traffic per minute; latency is how long one car takes to travel the road.",
       "expectedCount": 2
     },
     {
@@ -118,7 +117,6 @@ export default topic({
         "Client-server: clients request services from dedicated service providers, such as a school file server."
       ],
       "ask": "Can a Local Area Network (LAN) use client-server architecture? Why?",
-      "footnote": "One Local Area Network (LAN) can use both architectures. A server is a role, not simply a large or expensive computer.",
       "expectedCount": 2
     },
     {
@@ -128,7 +126,6 @@ export default topic({
         "Wired (Ethernet cable): Delivers fast, consistent speeds with minimal interference, but each device must plug into a network port.",
         "Wireless (Wi-Fi radio): Lets laptops and mobile devices connect without cables, though walls, distance, and congestion can slow the signal."
       ],
-      "footnote": "Most networks combine both: desktops and switches use wired Ethernet, while mobile devices use Wi-Fi—and both still require security controls.",
       "expectedCount": 2
     }
   ],

@@ -29,8 +29,7 @@ export default topic({
         "Hybrid: Combines two or more topologies, such as star networks joined by a backbone."
       ],
       "expectedCount": 6,
-      "lead": "Connection patterns have different costs and failure behavior.",
-      "footnote": "Redundancy improves availability but increases cabling cost."
+      "lead": "Connection patterns have different costs and failure behavior."
     },
     {
       "title": "Choose a topology for the task",

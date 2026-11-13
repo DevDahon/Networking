@@ -110,7 +110,7 @@ export function startApp(root){
   else if(s.deviceKey && deviceMetadata[s.deviceKey]){
    const meta=deviceMetadata[s.deviceKey];
    const roleHtml=`<div class="device-role-card"><h4 class="role-title">${esc(meta.name)}</h4><p class="role-desc">${esc(meta.desc)}</p></div>`;
-   const listHtml=`<ul class="teaching-points">${s.items.map((item,i)=>`<li><span class="point-index">${esc(s.itemLabels?.[i]??String(i+1).padStart(2,'0'))}</span><p>${formatItemText(item)}</p></li>`).join('')}</ul>${s.footnote?`<p class="list-explanation">${esc(s.footnote)}</p>`:''}`;
+   const listHtml=`<ul class="teaching-points">${s.items.map((item,i)=>`<li><span class="point-index">${esc(s.itemLabels?.[i]??String(i+1).padStart(2,'0'))}</span><p>${formatItemText(item)}</p></li>`).join('')}</ul>`;
    content.innerHTML=`<div class="device-slide-grid"><div class="device-visuals-col">${renderDeviceSlideVisual(s.deviceKey)}</div><div class="device-content-col">${roleHtml}${listHtml}</div></div>`;
    content.querySelectorAll('.device-tab-btn').forEach(btn => {
      btn.addEventListener('click', () => {
@@ -137,7 +137,7 @@ export function startApp(root){
    });
   }
   else if(s.toolKey && toolsMetadata[s.toolKey]){
-   content.innerHTML=renderHorizontalToolsSlide(s.toolKey, s.footnote);
+   content.innerHTML=renderHorizontalToolsSlide(s.toolKey);
   }
   else {
    let extraVisual='';
@@ -150,7 +150,7 @@ export function startApp(root){
    const isGrid = !extraVisual && (s.expectedCount >= 4 || s.items.length >= 4 || (s.kind === 'concept' && s.expectedCount === 2) || s.visualKey === 'performanceMeasures');
    const gridClass = !extraVisual && (s.expectedCount >= 7 || s.items.length >= 7) ? 'counted-grid-3' : (isGrid ? 'counted-grid' : '');
    const visualPanel = s.visualKey === 'performanceMeasures' ? performanceExamplesVisual() : '';
-   const listHtml=`<${s.kind==='objectives'?'ol':'ul'} class="teaching-points ${gridClass}"${s.expectedCount?` data-item-count="${s.expectedCount}"`: ''}>${s.items.map((item,i)=>`<li><span class="point-index">${esc(s.itemLabels?.[i]??String(i+1).padStart(2,'0'))}</span><p>${formatItemText(item)}</p></li>`).join('')}</${s.kind==='objectives'?'ol':'ul'}>${visualPanel}${s.footnote?`<p class="list-explanation">${esc(s.footnote)}</p>`:''}`;
+   const listHtml=`<${s.kind==='objectives'?'ol':'ul'} class="teaching-points ${gridClass}"${s.expectedCount?` data-item-count="${s.expectedCount}"`: ''}>${s.items.map((item,i)=>`<li><span class="point-index">${esc(s.itemLabels?.[i]??String(i+1).padStart(2,'0'))}</span><p>${formatItemText(item)}</p></li>`).join('')}</${s.kind==='objectives'?'ol':'ul'}>${visualPanel}`;
    content.innerHTML=extraVisual?`<div class="rj45-slide-grid">${extraVisual}<div class="rj45-slide-content">${listHtml}</div></div>`:listHtml;
   }
  }

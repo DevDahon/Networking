@@ -28,8 +28,7 @@ export default topic({
         "Request: Client asks to use the offered IP address.",
         "Acknowledgment (ACK): Server confirms the lease so the client can start using the IP."
       ],
-      "expectedCount": 4,
-      "footnote": "Remember DORA: Discover, Offer, Request, Acknowledgment."
+      "expectedCount": 4
     },
     {
       "title": "Five lease lifecycle and failure events",

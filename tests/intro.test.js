@@ -121,6 +121,6 @@ it('displays concrete real-world examples for bandwidth and latency without simu
  expect(content.textContent).toContain('~8 sec');
  expect(content.textContent).toContain('~15 ms');
  expect(content.textContent).toContain('~600 ms');
- expect(content.querySelector('.list-explanation').textContent).toContain('Highway analogy');
+ expect(content.querySelector('.list-explanation')).toBeNull();
  expect(vi.getTimerCount()).toBe(0);
 });

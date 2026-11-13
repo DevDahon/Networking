@@ -18,7 +18,6 @@ export default topic({
         "WAN interface: Connects the router to the Internet Service Provider.",
         "NAT: Translates private LAN IPs into one public WAN IP for Internet access."
       ],
-      "footnote": "NAT shares one public IP; a firewall still controls which traffic is allowed.",
       "expectedCount": 3
     },
     {
@@ -39,8 +38,7 @@ export default topic({
         "Wi-Fi 4 (802.11n): Dual-band standard supporting speeds up to 600 Mbps.",
         "Wi-Fi 5 (802.11ac): High-speed 5 GHz standard delivering gigabit wireless speeds.",
         "Wi-Fi 6 (802.11ax): Modern standard across 2.4/5/6 GHz built for crowded schools and offices."
-      ],
-      "footnote": "Dual-band routers broadcast both 2.4 GHz and 5 GHz so devices can pick the best signal."
+      ]
     },
     {
       "title": "Two protected Wi-Fi security options",

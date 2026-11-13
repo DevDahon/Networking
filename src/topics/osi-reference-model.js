@@ -55,8 +55,7 @@ const slides=[
   ],
   expectedCount:7,
   lead:'The Open Systems Interconnection (OSI) model divides network communication into seven functional layers.',
-  itemLabels:['7','6','5','4','3','2','1'],
-  footnote:'Each layer serves the layer above it—sending moves top-down (7 → 1), while receiving reads bottom-up (1 → 7).'
+  itemLabels:['7','6','5','4','3','2','1']
  },
  {
   kind:'concept',

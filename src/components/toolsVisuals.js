@@ -123,7 +123,7 @@ export const toolsMetadata = {
   }
 };
 
-export function renderHorizontalToolsSlide(toolKey, footnote = '') {
+export function renderHorizontalToolsSlide(toolKey) {
   const meta = toolsMetadata[toolKey];
   if (!meta) return '';
 
@@ -146,7 +146,6 @@ export function renderHorizontalToolsSlide(toolKey, footnote = '') {
           </div>
         `).join('')}
       </div>
-      ${footnote ? `<p class="list-explanation">${esc(footnote)}</p>` : ''}
     </div>
   `;
 }

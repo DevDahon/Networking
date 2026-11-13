@@ -40,8 +40,7 @@ export default topic({
         "Unshielded Twisted Pair (UTP) Cable: Four-pair copper Ethernet cable for patch cords.",
         "Flush Cutters / Snips: Trims untwisted, aligned wires straight and even before insertion.",
         "LAN Cable Tester: Two-piece tester that verifies all 8 pins connect in the right order."
-      ],
-      "footnote": "Always keep spare RJ45 plugs; once crimped, a plug cannot be reused."
+      ]
     },
     {
       "title": "Tools and Equipment for Keystone Jack Punch-Down",
@@ -54,8 +53,7 @@ export default topic({
         "Solid-Core UTP Cable: Stiff copper cable designed for permanent in-wall installations.",
         "Punch-Down Palm Tool / Stand: Holds the jack steady to protect your hand while punching down.",
         "IDC Dust Caps & Cable Tester: Caps lock wires in place; the tester verifies all 8 pins."
-      ],
-      "footnote": "Always face the punch-down tool's CUT blade toward the outside edge of the jack."
+      ]
     },
     {
       "title": "T568A: eight conductor positions",
@@ -103,8 +101,7 @@ export default topic({
         "Short: Two bare wires are accidentally touching each other.",
         "Miswire: A wire is placed in the wrong pin position at one end."
       ],
-      "expectedCount": 3,
-      "footnote": "A basic continuity pass does not prove high-speed signal quality."
+      "expectedCount": 3
     }
   ],
   "demo": {

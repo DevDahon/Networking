@@ -9,8 +9,8 @@ const objectives=[
  'Identify common server/client ports and compare protected and unprotected service options.',
  'Trace a modeled network exchange and relate its stages to OSI and TCP/IP.'
 ];
-const counted=(title,items,footnote)=>({kind:'concept',title,items,expectedCount:items.length,...(footnote?{footnote}:{})});
-const profile=id=>{const p=protocolCatalog.find(p=>p.id===id);return {kind:'concept',title:`${id}: ${p.name}`,lead:p.purpose,items:[`Practical application: ${p.use}`,p.detail,...p.ports.map(b=>`${b.transport} ${b.number}: ${b.role}.`)],footnote:p.layer};};
+const counted=(title,items)=>({kind:'concept',title,items,expectedCount:items.length});
+const profile=id=>{const p=protocolCatalog.find(p=>p.id===id);return {kind:'concept',title:`${id}: ${p.name}`,lead:p.purpose,items:[`Practical application: ${p.use}`,p.detail,...p.ports.map(b=>`${b.transport} ${b.number}: ${b.role}.`)]};};
 const demo=(title,type,lead,guidance,extra={})=>({kind:'demo',title,type,lead,demo:guidance,...extra});
 const slides=[
  {kind:'title',title},
@@ -19,17 +19,17 @@ const slides=[
   'Protocol: The agreed rules and format for messages (such as HTTP or DNS).',
   'Service: The running program that answers requests (such as a web server).',
   'Port: The numeric door (such as TCP 443) that directs traffic to the right app.'
- ],'A port number identifies the target application process, not a physical cable socket.'),
+ ]),
  counted('Four TCP/IP responsibility groups',[
   'Application (Layer 7): User and network services like HTTP, HTTPS, DNS, DHCP, and SSH.',
   'Transport (Layer 4): Process-to-process delivery using TCP and UDP port numbers.',
   'Internet (Layer 3): Logical IP addressing, routing, and ICMP diagnostic messages.',
   'Link (Layer 1–2): Local Ethernet framing and ARP MAC address resolution.'
- ],'Advanced enterprise protocols (SNMP, NTP, SMTP) build on these four groups in Networking II.'),
+ ]),
  counted('Two transport services: TCP and UDP',[
   'TCP: Reliable, ordered delivery that numbers bytes, acknowledges receipts, and resends lost data.',
   'UDP: Fast, low-overhead delivery without built-in acknowledgments or retransmission.'
- ],'Use TCP when every byte must arrive intact; use UDP for quick lookups or live media.'),
+ ]),
  demo('Transport delivery with and without loss','osiLayer','Compare TCP and UDP using the same modeled missing data unit.','Select TCP or UDP and a loss condition, then use the delivery steps. Explain ports, recovery, and the difference between transport delivery and application processing.',{layer:4}),
  profile('IP'),
  profile('ARP'),

@@ -37,8 +37,7 @@ export default topic({
         "Traffic control: Keeps broadcast traffic inside one group so other rooms stay fast.",
         "Security: Traffic between subnets must pass through a router where firewall rules apply.",
         "Efficiency: Assigns right-sized address blocks without wasting IPs."
-      ],
-      "footnote": "Subnetting is a logical division created by the subnet mask."
+      ]
     },
     {
       "title": "The subnet mask separates network and host",
@@ -48,8 +47,7 @@ export default topic({
         "Dotted decimal: 24 ones is written as 255.255.255.0.",
         "CIDR shorthand: Counting 24 network ones is written as /24.",
         "Common LAN size: A /24 subnet provides 254 usable host addresses."
-      ],
-      "footnote": "A valid subnet mask always has unbroken 1s followed by unbroken 0s."
+      ]
     },
     {
       "title": "Inside every subnet: network, hosts, and broadcast",
@@ -59,8 +57,7 @@ export default topic({
         "Broadcast IP (Last IP): Sends traffic to every device in the subnet (e.g., 192.168.1.255).",
         "Usable Host IPs (Middle): Assigned to computers, phones, and routers (e.g., .1 to .254).",
         "Total Minus 2 Rule: Subtract 2 reserved addresses (Network and Broadcast) to find usable hosts."
-      ],
-      "footnote": "In a /24 subnet (256 total IPs), 256 − 2 = 254 usable host addresses."
+      ]
     },
     {
       "title": "Subnet Calculator and Boundaries",
@@ -108,8 +105,7 @@ export default topic({
         "224.0.0.0/4: multicast.",
         "240.0.0.0/4: reserved space, including limited broadcast at 255.255.255.255."
       ],
-      "expectedCount": 8,
-      "footnote": "This is not an exhaustive registry. A non-private address is not automatically ordinary globally routable unicast."
+      "expectedCount": 8
     },
     {
       "title": "Introduction to IPv6 Basics",
@@ -119,8 +115,7 @@ export default topic({
         "128-Bit Hexadecimal: Written as 8 groups of 4 hex digits separated by colons (e.g., 2001:db8::1).",
         "Zero Compression (::): A double colon replaces one contiguous block of all-zero groups.",
         "No Broadcasts: Uses Unicast, Multicast, and Anycast instead of noisy broadcast traffic."
-      ],
-      "footnote": "IPv6's 128-bit space allows every device to have a globally unique address."
+      ]
     }
   ],
   "application": {

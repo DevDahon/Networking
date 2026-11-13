@@ -152,8 +152,7 @@ export default topic({
         "Inter-VLAN Routing: Traffic between different VLANs must pass through a router.",
         "Static Routing: Admin manually enters fixed routes—ideal for small, simple networks.",
         "Dynamic Routing: Routers automatically share paths (OSPF/RIP) and route around failures."
-      ],
-      "footnote": "VLANs let one switch securely separate departments without buying extra hardware."
+      ]
     }
   ],
   "demo": {

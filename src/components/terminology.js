@@ -42,7 +42,7 @@ export function expandLessonTerms(topic){
  const objectives = topic.objectives.map(expand);
  return {...topic,objectives,slides:topic.slides.map(slide=>{
   const expanded={...slide};
-  for(const field of ['lead','footnote'])if(expanded[field])expanded[field]=expand(expanded[field]);
+  for(const field of ['lead'])if(expanded[field])expanded[field]=expand(expanded[field]);
   if(expanded.items)expanded.items=slide.kind==='objectives'?[...objectives]:expanded.items.map(expand);
   return expanded;
  })};

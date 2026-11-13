@@ -19,7 +19,7 @@ it.each(counted.map(c=>[`${c.topic.number}: ${c.slide.title}`,c]))('renders the 
  expect(rows).toHaveLength(count);
  expect(rows.map(row=>row.querySelector('.point-index').textContent)).toEqual(slide.itemLabels||Array.from({length:count},(_,i)=>String(i+1).padStart(2,'0')));
  expect(new Set(rows.map(row=>row.textContent)).size).toBe(count);
- if(slide.footnote)expect(document.querySelector('.list-explanation').textContent).toBe(slide.footnote);
+ expect(document.querySelector('.list-explanation')).toBeNull();
 });
 it('rejects lesson data that groups a claimed count into too few entries',()=>{
  expect(()=>addPresenterNotes([{title:'Five parts',expectedCount:5,items:['Sender + receiver','Message + medium','Protocol']}],{title:'Example',description:'Example',example:'Example'})).toThrow('must display 5 separate items');

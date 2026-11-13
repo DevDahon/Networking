@@ -7,7 +7,7 @@ export function addPresenterNotes(slides,{title,description,example,taglish}){
   const existing=s.notes||{};
   s.notes={
    opening:s.kind==='title'?`Introduce ${title}. Use the visual to establish the subject, then move to the learning objectives.`:s.kind==='objectives'?`Explain the intended outcomes of the discussion: ${s.items.join(' ')}`:`Explain ${s.title.toLowerCase()}: ${s.lead||s.items?.[0]||description}`,
-   emphasize:s.items?[...s.items,s.footnote||''].join(' ').trim():s.emphasis||s.lead||description,
+   emphasize:s.items?s.items.join(' ').trim():s.emphasis||s.lead||description,
    diagram:s.type?(simulationGuidance[s.type]||s.demo||s.lead||description):`Relate the labeled devices, connections, or example to ${title.toLowerCase()}. Distinguish the diagram from real equipment behavior.`,
    example:existing.example||example,
    demonstrate:s.type?(simulationGuidance[s.type]||s.demo||s.lead||description):s.kind==='title'?'Introduce the title without beginning a separate task; advance to Learning Objectives.':s.kind==='summary'?'Reinforce the stated takeaways, then use Restart Presentation or Back to Topics as needed.':'Explain each point in order. Where useful, return to the topic demonstration and change one configuration to illustrate the explanation.',

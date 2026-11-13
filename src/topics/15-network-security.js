@@ -18,8 +18,7 @@ export default topic({
         "Confidentiality: Only authorized users can read data, enforced by encryption and access controls.",
         "Integrity: Data stays accurate and unaltered, verified by cryptographic hashes.",
         "Availability: Network services and data remain online and ready for authorized users."
-      ],
-      "footnote": "Defense-in-depth uses multiple security layers so no single failure exposes the network."
+      ]
     },
     {
       "title": "Four common network security threats",
@@ -62,8 +61,7 @@ export default topic({
         "Cleartext risk: Plain HTTP and Telnet send passwords and data as readable text.",
         "TLS encryption: Scrambles traffic between client and server into unreadable ciphertext.",
         "Digital certificates: Verify that a website is genuine and not an impostor."
-      ],
-      "footnote": "Always check for HTTPS before entering passwords or sensitive data."
+      ]
     },
     {
       "title": "Three habits for responsible network use",

@@ -2287,17 +2287,6 @@ body.presentation-mode {
     padding-top: 2px;
 }
 
-.list-explanation {
-    font-size: 14.5px;
-    line-height: 1.5;
-    color: #475569;
-    margin: 14px 0 0;
-    padding: 10px 16px;
-    border-left: 3px solid #0d9488;
-    background: #f0fdfa;
-    border-radius: 0 8px 8px 0;
-}
-
 .presentation-mode .point-index {
     display: inline-block
 }
@@ -3719,13 +3708,6 @@ html.dark .device-photo-specs {
     display: flex;
     flex-direction: column;
     gap: 12px;
-}
-
-.tools-horizontal-layout .list-explanation {
-    margin: 8px 0 0;
-    padding: 10px 14px;
-    font-size: 13px;
-    line-height: 1.45;
 }
 
 .tools-horizontal-grid {
@@ -5844,12 +5826,6 @@ html.dark .perf-meter-track {
 
 html.dark .perf-card-note {
     color: #cbd5e1;
-}
-
-html.dark .list-explanation {
-    background: rgba(19, 78, 74, 0.35);
-    color: #e2e8f0;
-    border-left-color: #14b8a6;
 }
 
 html.dark .automatic-example .classroom-example {

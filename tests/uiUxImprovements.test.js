@@ -8,6 +8,7 @@ import {saveProgress} from '../src/utils/progress.js';
 import {fitSlide} from '../src/components/fitSlide.js';
 import {select,input} from '../src/components/ui.js';
 import {addressExplorer} from '../src/simulations/addressing.js';
+import {simulations} from '../src/simulations/index.js';
 
 let cleanup;
 beforeEach(()=>{
@@ -86,6 +87,17 @@ describe('UI/UX and Accessibility Improvements',()=>{
   expect(css).toMatch(/\.slide-walkthrough \.teaching-points\s*\{[^}]*grid-template-columns:\s*1fr;/);
   expect(css).toMatch(/\.teaching-points\.counted-grid\s*\{[^}]*grid-template-columns:\s*1fr;/);
   expect(css).toMatch(/\.teaching-points\.counted-grid-3\s*\{[^}]*grid-template-columns:\s*1fr;/);
+ });
+
+ it('omits static AI-style footnote and takeaway callout banners across topics and simulations',()=>{
+  expect(topics.every(topic=>topic.slides.every(slide=>!('footnote' in slide)))).toBe(true);
+
+  const stage=document.createElement('div');
+  for(const key of ['osiIntroduction','osiDevices','osi','media']){
+   stage.innerHTML='';
+   simulations[key](stage);
+   expect(stage.querySelector('.callout')).toBeNull();
+  }
  });
 });
 
