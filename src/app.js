@@ -14,7 +14,10 @@ import {connectorOrientationSVG,rj45PlugColorSVG,straightVsCrossoverVisualSVG} f
 import {renderDeviceSlideVisual, deviceMetadata} from './components/deviceIllustrations.js';
 import {renderHorizontalToolsSlide, toolsMetadata} from './components/toolsVisuals.js';
 import {performanceExamplesVisual} from './components/performanceVisual.js';
+import {encapsulationExampleVisual} from './components/encapsulationVisual.js';
 import {renderCourseOutline} from './components/courseOutline.js';
+
+const visualPanels={performanceMeasures:performanceExamplesVisual,encapsulationExample:encapsulationExampleVisual};
 
 const icons={Network,Globe,Workflow,Router,Layers,Cable,PlugZap,Binary,Split,MonitorCog,RefreshCw,Wifi,FolderOpen,Stethoscope,Shield,ArrowUpRight,ArrowLeft,ArrowRight,BookOpen,LayoutGrid,Search,Moon,Sun,Maximize2,Check,HelpCircle};
 const icon=n=>`<i data-lucide="${n.replace(/([a-z0-9])([A-Z])/g,'$1-$2').toLowerCase()}" aria-hidden="true"></i>`;
@@ -147,9 +150,9 @@ export function startApp(root){
     else if(s.title.startsWith('T568B:'))extraVisual=rj45PlugColorSVG('B');
     else if(s.title.includes('Straight-through and crossover'))extraVisual=straightVsCrossoverVisualSVG();
    }
-   const isGrid = !extraVisual && (s.expectedCount >= 4 || s.items.length >= 4 || (s.kind === 'concept' && s.expectedCount === 2) || s.visualKey === 'performanceMeasures');
+   const isGrid = !extraVisual && (s.expectedCount >= 4 || s.items.length >= 4 || (s.kind === 'concept' && s.expectedCount === 2) || Boolean(visualPanels[s.visualKey]));
    const gridClass = !extraVisual && (s.expectedCount >= 7 || s.items.length >= 7) ? 'counted-grid-3' : (isGrid ? 'counted-grid' : '');
-   const visualPanel = s.visualKey === 'performanceMeasures' ? performanceExamplesVisual() : '';
+   const visualPanel = visualPanels[s.visualKey]?.() || '';
    const listHtml=`<${s.kind==='objectives'?'ol':'ul'} class="teaching-points ${gridClass}"${s.expectedCount?` data-item-count="${s.expectedCount}"`: ''}>${s.items.map((item,i)=>`<li><span class="point-index">${esc(s.itemLabels?.[i]??String(i+1).padStart(2,'0'))}</span><p>${formatItemText(item)}</p></li>`).join('')}</${s.kind==='objectives'?'ol':'ul'}>${visualPanel}`;
    content.innerHTML=extraVisual?`<div class="rj45-slide-grid">${extraVisual}<div class="rj45-slide-content">${listHtml}</div></div>`:listHtml;
   }

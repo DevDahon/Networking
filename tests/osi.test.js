@@ -28,3 +28,15 @@ it('frame forwarding distinguishes learned and unknown MAC destinations',()=>{os
 it('archived ten-question scores survive without assessment rendering',()=>{saveProgress({version:1,topics:{[topic.id]:{slide:9,quizScore:10,quizTotal:10}}});mount(10);expect(loadProgress().topics[topic.id]).toMatchObject({quizScore:10,quizTotal:10});expect(root.querySelector('.quiz-result')).toBeNull();expect(root.querySelector('#slide-content').textContent).not.toContain('10 / 10');});
 it('preserves old bookmarks and scores while presenting the new display numbers',()=>{saveProgress({version:1,lastTopic:'05-network-communication',topics:{'05-network-communication':{slide:3,quizScore:4,completed:true},'11-dhcp':{slide:4,quizScore:4}}});const stored=loadProgress();expect(parseRoute('#/topic/05-network-communication',topics,stored)).toMatchObject({index:3,topic:{number:4}});expect(parseRoute('#/topic/11-dhcp',topics,stored)).toMatchObject({index:4,topic:{number:10}});mount(1);expect(loadProgress().topics['05-network-communication']).toMatchObject({slide:3,quizScore:4,completed:true});expect(loadProgress().topics[topic.id].quizScore).toBeUndefined();});
 it('all ten slides use the existing navigation and fit without exposing notes',()=>{mount(1);for(let i=0;i<topic.slides.length;i++){history.replaceState(null,'',`/#/topic/osi-reference-model/slide/${i+1}`);window.dispatchEvent(new HashChangeEvent('hashchange'));expect(root.querySelector('.slide-count').textContent).toBe(`${i+1} of ${topic.slides.length}`);expect(root.querySelector('.notes-panel')).toBeNull();expect(root.querySelector('.slide-stage')).not.toBeNull();}});
+it('renders concrete encapsulation and decapsulation visual cards below the concept points without simulation controls',()=>{
+ mount(5);
+ const visual=root.querySelector('#slide-content .encap-examples-grid');
+ expect(visual).not.toBeNull();
+ expect(visual.textContent).toContain('SENDER · ENCAPSULATION (7 → 1)');
+ expect(visual.textContent).toContain('RECEIVER · DECAPSULATION (1 → 7)');
+ expect(visual.textContent).toContain('+ TCP :443');
+ expect(visual.textContent).toContain('+ MAC A→B');
+ expect(visual.textContent).toContain('− TCP :443 ✓');
+ expect(root.querySelector('#slide-content .control-row')).toBeNull();
+ expect(root.querySelector('#slide-content .list-explanation')).toBeNull();
+});

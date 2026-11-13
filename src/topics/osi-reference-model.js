@@ -35,7 +35,8 @@ const slides=[
   items:[
    'Encapsulation (Sender, 7 → 1): Wraps the message like nested envelopes—Data → Segment/Datagram (ports) → Packet (IPs) → Frame (MACs) → Bits.',
    'Decapsulation (Receiver, 1 → 7): Verifies and removes each outer wrapper from the bottom up until only the app message remains.'
-  ]
+  ],
+  visualKey:'encapsulationExample'
  },
  {
   kind:'concept',

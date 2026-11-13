@@ -5783,6 +5783,93 @@ html.dark .slide-example .slide-context-pill {
     color: #475569;
 }
 
+/* Encapsulation & Decapsulation Static Visual Example */
+.encap-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.encap-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 10px;
+    border-radius: 8px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.encap-layer-label {
+    min-width: 96px;
+    flex-shrink: 0;
+    font-size: 12px;
+    font-weight: 700;
+    color: #334155;
+}
+
+.encap-chips {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px;
+    flex: 1;
+    min-width: 0;
+}
+
+.encap-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 7px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.35;
+    white-space: nowrap;
+}
+
+.encap-chip-data {
+    background: #ecfdf5;
+    color: #065f46;
+    border: 1px solid #6ee7b7;
+    font-weight: 700;
+}
+
+.encap-chip-added {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #93c5fd;
+}
+
+.encap-chip-removed {
+    background: #f0fdfa;
+    color: #0f766e;
+    border: 1px dashed #5eead4;
+}
+
+.encap-chip-inner {
+    background: #ffffff;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+}
+
+.encap-chip-bits {
+    background: #f1f5f9;
+    color: #1e293b;
+    border: 1px solid #cbd5e1;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 11.5px;
+}
+
+.encap-step-note {
+    font-size: 12px;
+    color: #64748b;
+    margin-left: auto;
+}
+
 html.dark .perf-example-card {
     background: #0f172a;
     border-color: #334155;
@@ -5828,6 +5915,49 @@ html.dark .perf-card-note {
     color: #cbd5e1;
 }
 
+html.dark .encap-step {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+html.dark .encap-layer-label {
+    color: #e2e8f0;
+}
+
+html.dark .encap-chip-data {
+    background: rgba(6, 95, 70, 0.45);
+    color: #6ee7b7;
+    border-color: #10b981;
+}
+
+html.dark .encap-chip-added {
+    background: rgba(30, 58, 138, 0.55);
+    color: #93c5fd;
+    border-color: #3b82f6;
+}
+
+html.dark .encap-chip-removed {
+    background: rgba(19, 78, 74, 0.5);
+    color: #5eead4;
+    border-color: #14b8a6;
+}
+
+html.dark .encap-chip-inner {
+    background: #0f172a;
+    color: #cbd5e1;
+    border-color: #475569;
+}
+
+html.dark .encap-chip-bits {
+    background: #0f172a;
+    color: #e2e8f0;
+    border-color: #475569;
+}
+
+html.dark .encap-step-note {
+    color: #94a3b8;
+}
+
 html.dark .automatic-example .classroom-example {
     background: #0f172a;
     border-color: #334155;
@@ -5868,6 +5998,16 @@ html.dark .example-heading {
 @media(max-width:767px) {
     .perf-examples-grid {
         grid-template-columns: 1fr;
+    }
+
+    .encap-step {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .encap-step-note {
+        margin-left: 0;
     }
 }
 
