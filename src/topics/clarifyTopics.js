@@ -56,10 +56,9 @@ const copy = {
   ],
   'osi-reference-model': [
     ['@osiIntroduction', 'What Is the OSI Reference Model?', 'OSI splits network communication into 7 clear steps—from opening an app down to sending signals over cables or Wi-Fi.'],
-    ['Seven OSI layer responsibilities', null, 'Each OSI layer owns one clear duty—from user apps at Layer 7 down to physical bits at Layer 1.'],
-    ['Wrap the data, then unwrap it', 'What Is Encapsulation?', 'Like placing a letter inside nested envelopes, encapsulation wraps data with delivery headers when sending and unwraps them when receiving.'],
-    ['Five OSI Protocol Data Units (PDUs)', null, 'Each OSI layer names the data unit by the control information added at that step: Data, Segment or Datagram, Packet, Frame, and Bits.'],
-    ['Two transport services: TCP and UDP', null, 'TCP checks and resends lost pieces for complete accuracy, while UDP sends packets immediately for live speed.'],
+    ['Seven OSI layer responsibilities', null, 'Each OSI layer owns one clear duty—the 3 upper layers (7–5) prepare how data is created, while the 4 lower layers (4–1) handle how data travels.'],
+    ['Wrap the data, then unwrap it', 'What Is Encapsulation?', 'When Computer 1 sends a message to Computer 2, encapsulation wraps it down the layers (7 → 1) and decapsulation unwraps it back up (1 → 7).'],
+    ['Five OSI Protocol Data Units (PDUs)', null, 'Each OSI layer names the data unit by the control information added at that step: Data, Segment, Packet, Frame, and Bits.'],
     ['Four layers in the TCP/IP model', null, 'While OSI teaches 7 detailed boxes, real networks use the 4-layer TCP/IP model: Application, Transport, Internet, and Link.'],
     ['@osiComparison', 'Comparing the OSI and TCP/IP Models', 'Compare how the 7 conceptual OSI layers group together inside the 4 practical TCP/IP layers.']
   ],

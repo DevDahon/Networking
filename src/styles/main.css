@@ -5803,27 +5803,124 @@ html.dark .slide-example .slide-context-pill {
 }
 
 /* Encapsulation & Decapsulation Static Visual Example */
+.encap-scenario-wrap {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.encap-examples-grid {
+    margin-top: 0;
+}
+
+.encap-scenario-flow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 9px 14px;
+    border-radius: 10px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    font-size: 13.5px;
+    color: #334155;
+    flex-wrap: wrap;
+}
+
+.encap-host b {
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.encap-host em {
+    font-style: normal;
+    font-weight: 700;
+    color: #065f46;
+}
+
+.encap-flow-arrow {
+    font-size: 12px;
+    font-weight: 700;
+    color: #0f766e;
+    letter-spacing: 0.03em;
+}
+
+.encap-zones {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.encap-zone {
+    border-radius: 10px;
+    padding: 8px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.encap-zone-create {
+    background: #f0f6ff;
+    border: 1px solid #bfdbfe;
+}
+
+.encap-zone-travel {
+    background: #f0fdfa;
+    border: 1px solid #99f6e4;
+}
+
+.encap-zone-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 0 2px;
+    flex-wrap: wrap;
+}
+
+.encap-zone-title {
+    font-size: 11.5px;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.encap-zone-create .encap-zone-title {
+    color: #1d4ed8;
+}
+
+.encap-zone-travel .encap-zone-title {
+    color: #0f766e;
+}
+
+.encap-zone-sub {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #475569;
+}
+
 .encap-steps {
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 7px;
+    gap: 5px;
 }
 
 .encap-step {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 7px 10px;
-    border-radius: 8px;
-    background: #f8fafc;
+    padding: 5px 9px;
+    border-radius: 7px;
+    background: #ffffff;
     border: 1px solid #e2e8f0;
 }
 
 .encap-layer-label {
-    min-width: 96px;
+    min-width: 112px;
     flex-shrink: 0;
     font-size: 12px;
     font-weight: 700;
@@ -5885,7 +5982,7 @@ html.dark .slide-example .slide-context-pill {
 
 .encap-step-note {
     font-size: 12px;
-    color: #64748b;
+    color: #475569;
     margin-left: auto;
 }
 
@@ -5973,8 +6070,48 @@ html.dark .encap-chip-bits {
     border-color: #475569;
 }
 
+html.dark .encap-scenario-flow {
+    background: #1e293b;
+    border-color: #334155;
+    color: #cbd5e1;
+}
+
+html.dark .encap-host b {
+    color: #f8fafc;
+}
+
+html.dark .encap-host em {
+    color: #6ee7b7;
+}
+
+html.dark .encap-flow-arrow {
+    color: #5eead4;
+}
+
+html.dark .encap-zone-create {
+    background: rgba(30, 58, 138, 0.24);
+    border-color: #1e40af;
+}
+
+html.dark .encap-zone-travel {
+    background: rgba(19, 78, 74, 0.26);
+    border-color: #115e59;
+}
+
+html.dark .encap-zone-create .encap-zone-title {
+    color: #93c5fd;
+}
+
+html.dark .encap-zone-travel .encap-zone-title {
+    color: #5eead4;
+}
+
+html.dark .encap-zone-sub {
+    color: #cbd5e1;
+}
+
 html.dark .encap-step-note {
-    color: #94a3b8;
+    color: #cbd5e1;
 }
 
 html.dark .osi-intro-points p {
@@ -6029,10 +6166,20 @@ html.dark .example-heading {
         grid-template-columns: 1fr;
     }
 
+    .encap-scenario-flow {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
     .encap-step {
         flex-direction: column;
         align-items: flex-start;
         gap: 5px;
+    }
+
+    .encap-layer-label {
+        min-width: 0;
     }
 
     .encap-step-note {
