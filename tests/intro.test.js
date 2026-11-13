@@ -1,5 +1,6 @@
 import {it,expect,vi,beforeEach,afterEach} from 'vitest';
 import {topics} from '../src/topics/topicRegistry.js';
+import {startApp} from '../src/app.js';
 import {introDiagrams,introConnectivity,introExchange,introConnections} from '../src/simulations/intro.js';
 import {examplePlan} from '../src/simulations/exampleModels.js';
 let root,dispose;
@@ -100,4 +101,25 @@ it('illustrates separate wired and wireless links without configuration controls
  expect(root.querySelectorAll('svg>g:first-child path')).toHaveLength(2);
  expect(root.querySelector('path[stroke-dasharray="10 8"]')).not.toBeNull();
  expect(root.querySelector('input,select,button')).toBeNull();
+});
+
+it('displays concrete real-world examples for bandwidth and latency without simulation controls',()=>{
+ const perfIndex=topics[0].slides.findIndex(s=>s.visualKey==='performanceMeasures');
+ expect(perfIndex).toBeGreaterThan(-1);
+ expect(topics[0].slides[perfIndex].kind).toBe('concept');
+ history.replaceState(null,'',`/#/topic/${topics[0].id}/slide/${perfIndex+1}`);
+ dispose=startApp(root);
+ const content=root.querySelector('#slide-content');
+ expect(content.classList.contains('simulation-container')).toBe(false);
+ expect(content.querySelectorAll('.perf-example-card')).toHaveLength(2);
+ expect(content.querySelector('button,select,input')).toBeNull();
+ expect(content.textContent).toContain('100 MB (800 Mb)');
+ expect(content.textContent).toContain('20 Mbps');
+ expect(content.textContent).toContain('~40 sec');
+ expect(content.textContent).toContain('100 Mbps');
+ expect(content.textContent).toContain('~8 sec');
+ expect(content.textContent).toContain('~15 ms');
+ expect(content.textContent).toContain('~600 ms');
+ expect(content.querySelector('.list-explanation').textContent).toContain('Highway analogy');
+ expect(vi.getTimerCount()).toBe(0);
 });

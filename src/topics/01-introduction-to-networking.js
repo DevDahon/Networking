@@ -91,10 +91,12 @@ export default topic({
     },
     {
       "title": "Two performance measures",
+      "visualKey": "performanceMeasures",
       "items": [
-        "Bandwidth: the capacity of a link, usually measured in bits per second.",
-        "Latency: the time delay in communication. A high-capacity link may still have high delay."
+        "Bandwidth: the capacity of a link, usually measured in bits per second (Mbps or Gbps).",
+        "Latency: the time delay in communication, measured in milliseconds (ms). A high-capacity link may still have high delay."
       ],
+      "footnote": "Highway analogy: Bandwidth is the number of lanes carrying traffic per minute; latency is how long one car takes to travel the road.",
       "expectedCount": 2
     },
     {

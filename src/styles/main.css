@@ -5640,4 +5640,193 @@ html.dark .slide-example .slide-context-pill {
     }
 }
 
+/* Bandwidth vs Latency Actual Examples (Static Comparison Visual) */
+.perf-examples-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.perf-example-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+}
+
+.perf-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.perf-card-tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.perf-tag-bandwidth {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+}
+
+.perf-tag-latency {
+    background: #f0fdfa;
+    color: #0f766e;
+    border: 1px solid #99f6e4;
+}
+
+.perf-card-title {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1.35;
+}
+
+.perf-meters {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.perf-meter-row {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.perf-meter-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+    font-size: 14.5px;
+}
+
+.perf-meter-name {
+    color: #334155;
+    font-weight: 600;
+}
+
+.perf-meter-stat {
+    color: #475569;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.perf-stat-good {
+    color: #0f766e;
+}
+
+.perf-stat-warn {
+    color: #b45309;
+}
+
+.perf-meter-track {
+    height: 10px;
+    background: #e2e8f0;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.perf-meter-fill {
+    height: 100%;
+    min-width: 10px;
+    border-radius: 999px;
+}
+
+.perf-fill-muted {
+    background: #94a3b8;
+}
+
+.perf-fill-blue {
+    background: #2563eb;
+}
+
+.perf-fill-teal {
+    background: #0d9488;
+}
+
+.perf-fill-amber {
+    background: #d97706;
+}
+
+.perf-card-note {
+    margin: 2px 0 0;
+    font-size: 14px;
+    line-height: 1.48;
+    color: #475569;
+}
+
+html.dark .perf-example-card {
+    background: #0f172a;
+    border-color: #334155;
+}
+
+html.dark .perf-tag-bandwidth {
+    background: rgba(30, 58, 138, 0.45);
+    color: #93c5fd;
+    border-color: #1e40af;
+}
+
+html.dark .perf-tag-latency {
+    background: rgba(19, 78, 74, 0.5);
+    color: #5eead4;
+    border-color: #115e59;
+}
+
+html.dark .perf-card-title {
+    color: #f8fafc;
+}
+
+html.dark .perf-meter-name {
+    color: #e2e8f0;
+}
+
+html.dark .perf-meter-stat {
+    color: #cbd5e1;
+}
+
+html.dark .perf-stat-good {
+    color: #5eead4;
+}
+
+html.dark .perf-stat-warn {
+    color: #fbbf24;
+}
+
+html.dark .perf-meter-track {
+    background: #1e293b;
+}
+
+html.dark .perf-card-note {
+    color: #cbd5e1;
+}
+
+html.dark .list-explanation {
+    background: rgba(19, 78, 74, 0.35);
+    color: #e2e8f0;
+    border-left-color: #14b8a6;
+}
+
+@media(max-width:767px) {
+    .perf-examples-grid,
+    .teaching-points.counted-grid,
+    .presentation-mode .teaching-points.counted-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 
