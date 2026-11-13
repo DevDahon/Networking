@@ -6,6 +6,7 @@ const topicAliases={
 export function parseRoute(hash,topics,progress={topics:{}}){
  const parts=hash.replace(/^#\/?/,'').split('/').filter(Boolean);
  if(!parts.length||parts[0]==='main')return {kind:'dashboard'};
+ if(parts[0]==='outline'||parts[0]==='course-outline')return {kind:'outline'};
  const resolvedId=topicAliases[parts[1]]||parts[1];
  const topic=topics.find(t=>t.id===resolvedId);
  if(parts[0]!=='topic'||!topic)return {kind:'notfound'};

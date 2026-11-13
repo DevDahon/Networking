@@ -16,20 +16,20 @@ const slides=[
  {kind:'title',title},
  {kind:'objectives',title:'Learning Objectives',lead:'At the end of this discussion, students should be able to:',items:objectives},
  counted('Three different ideas: protocol, service, and port',[
-  'Protocol: agreed message formats and behavior, such as DNS queries and replies.',
-  'Service: a useful function provided by a running system, such as a DNS resolver answering names.',
-  'Port: a TCP or UDP endpoint number used to direct traffic to a process; it is not a physical Ethernet socket.'
- ],'A familiar port suggests a convention; it does not prove which program is listening or whether that program is safe.'),
+  'Protocol: The agreed rules and format for messages (such as HTTP or DNS).',
+  'Service: The running program that answers requests (such as a web server).',
+  'Port: The numeric door (such as TCP 443) that directs traffic to the right app.'
+ ],'A port number identifies the target application process, not a physical cable socket.'),
  counted('Four TCP/IP responsibility groups',[
-  'Application: DHCP, DNS, HTTP, HTTPS, and SSH provide user-facing and network configuration services; commonly associated with OSI 7.',
-  'Transport: TCP and UDP use process ports; commonly associated with OSI 4.',
-  'Internet: IP supplies logical delivery and ICMP supplies related diagnostics; commonly associated with OSI 3.',
-  'Link: local framing and physical transmission; ARP supports IPv4 neighbor resolution at this local-link boundary.'
- ],'OSI/TCP-IP mappings are approximate. Advanced enterprise protocols like SNMP, NTP, and dedicated mail servers are studied in Networking II.'),
+  'Application (Layer 7): User and network services like HTTP, HTTPS, DNS, DHCP, and SSH.',
+  'Transport (Layer 4): Process-to-process delivery using TCP and UDP port numbers.',
+  'Internet (Layer 3): Logical IP addressing, routing, and ICMP diagnostic messages.',
+  'Link (Layer 1–2): Local Ethernet framing and ARP MAC address resolution.'
+ ],'Advanced enterprise protocols (SNMP, NTP, SMTP) build on these four groups in Networking II.'),
  counted('Two transport services: TCP and UDP',[
-  'TCP: connection-oriented, ordered reliable bytes, with acknowledgments and retransmission. Useful when the application needs this stream service.',
-  'UDP: connectionless datagrams without built-in delivery or ordering guarantees. Useful when a small exchange or application-controlled behavior fits the task.'
- ],'Neither “UDP is always faster” nor “TCP proves the application processed the request” is a reliable conclusion. Application protocols can add recovery above UDP.'),
+  'TCP: Reliable, ordered delivery that numbers bytes, acknowledges receipts, and resends lost data.',
+  'UDP: Fast, low-overhead delivery without built-in acknowledgments or retransmission.'
+ ],'Use TCP when every byte must arrive intact; use UDP for quick lookups or live media.'),
  demo('Transport delivery with and without loss','osiLayer','Compare TCP and UDP using the same modeled missing data unit.','Select TCP or UDP and a loss condition, then use the delivery steps. Explain ports, recovery, and the difference between transport delivery and application processing.',{layer:4}),
  profile('IP'),
  profile('ARP'),
@@ -44,18 +44,15 @@ const slides=[
  profile('SSH'),
  demo('Protocol functions and common port directory','protocolDirectory','Inspect all ten core protocols individually, including transport and layer relationships.','Select each protocol and each port binding. Distinguish TCP/UDP port numbers from ICMP protocol identifiers and Ethernet ARP identifiers. Explain SSH remote administration versus web delivery.'),
  {kind:'concept',title:'Read both endpoints, not just one number',items:[
-  'A normal client often uses a temporary source port, such as TCP 53001, to contact a server listening on TCP 443. The response returns to that client endpoint.',
-  'The connection context includes transport plus source/destination addresses and ports. TCP and UDP can use the same numeric port independently.',
-  'System ports are 0–1023, user/registered ports 1024–49151, and dynamic/private ports 49152–65535. Port 0 is reserved; operating systems may choose temporary ports from implementation-specific ranges.',
-  'A reachable IP, an open transport endpoint, TLS validation, and a working application are separate observations. Testing one does not prove all the others.'
+  'Source & destination ports: A client uses a random high port (e.g., 53001) to reach a server port (e.g., 443).',
+  'Port ranges: System ports (0–1023), registered ports (1024–49151), and dynamic client ports (49152–65535).',
+  'Separate checks: A working ping proves IP reachability, not that the web server port is open.'
  ]},
  {kind:'summary',title:'Summary of the Discussion',items:[
-  'A protocol defines exchange rules; a running service provides a function; TCP/UDP ports identify process endpoints.',
-  'TCP supplies ordered reliable bytes; UDP supplies datagrams without its own delivery guarantee.',
-  'IP handles logical delivery, ARP resolves a local IPv4 next-hop MAC, and ICMP carries IP-related diagnostics.',
-  'DHCP supplies configuration and DNS resolves names; common ports must be read together with their transports.',
-  'HTTP and HTTPS power web services; SSH provides encrypted remote CLI administration on TCP 22.',
-  'Specialized enterprise protocols (SNMP, NTP, SMTP, IMAP/POP3, and file-sharing) build on these foundations in Networking II.'
+  'Protocols, Services & Ports: Protocols set rules, services run apps, and ports direct traffic to the right process.',
+  'TCP vs. UDP: TCP guarantees reliable, ordered delivery; UDP sends fast, low-overhead datagrams.',
+  'Core Infrastructure: IP routes packets, ARP finds local MAC addresses, DNS resolves names, and DHCP assigns IPs.',
+  'Secure Services: Prefer encrypted HTTPS (443) and SSH (22) over cleartext HTTP (80) and Telnet (23).'
  ]}
 ];
 addPresenterNotes(slides,{title,description:'Common protocols cooperate across layers to provide useful network services.',example:'A classroom laptop obtains configuration, looks up the school server, downloads a protected handout, and connects securely via SSH.'});

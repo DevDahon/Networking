@@ -1,5 +1,6 @@
 import {reserveSimulationSpace} from '../components/simulationSpace.js';
 import {esc,button,select,result,wire,read,networkSVG} from '../components/ui.js';
+import {createStepPlayback} from './playback.js';
 
 export const securityScenarios = [
   {
@@ -47,12 +48,23 @@ export const securityScenarios = [
 export function security(root) {
   let selected = 0;
   let defenseActive = 'enabled';
-  let simulationState = 'idle'; // 'idle', 'simulating', 'resolved'
-  let log = 'Select a security scenario and test defense mechanisms against common threats.';
+  let step = 0;
+
+  const player = createStepPlayback({
+    length: () => 3,
+    getIndex: () => step,
+    setIndex: v => { step = v; },
+    render: draw
+  });
 
   function draw() {
     const sc = securityScenarios[selected];
     const isProtected = defenseActive === 'enabled';
+
+    let activeNode = 2;
+    if (step === 0) activeNode = 2;
+    else if (step === 1) activeNode = 1;
+    else activeNode = isProtected ? 1 : 0;
 
     let detailHtml = '';
     if (sc.id === 'https') {
@@ -87,16 +99,47 @@ export function security(root) {
         </div>`;
     }
 
+    const stepTitles = [
+      '1. Threat Event Triggered',
+      '2. Threat Encounters Defense Perimeter',
+      isProtected ? '3. Threat Mitigated (Protected)' : '3. Security Compromise (Breached)'
+    ];
+
+    const stepTexts = [
+      `Threat: ${sc.threat}`,
+      `Defense State: ${isProtected ? 'Active Protection Engaged' : 'Protective Controls Inactive'}. The event is inspected at the security boundary.`,
+      isProtected ? `[DEFENSE SUCCESS] ${sc.defenseOn}` : `[THREAT DETECTED - BREACH] ${sc.threat} ${sc.defenseOff}`
+    ];
+
     root.innerHTML = `
       <div class="control-row">
         ${select('Security scenario', 'scenario', securityScenarios.map((s, i) => [i, s.name]), selected)}
         ${select('Security defense state', 'defense', [['enabled', 'Defenses Active (Protected)'], ['disabled', 'Defenses Disabled (Vulnerable)']], defenseActive)}
-        ${button('Simulate Threat Event', 'simulate', 'primary')}
+        ${button(player.running ? 'Pause simulation' : 'Simulate Threat Event', 'simulate', 'primary')}
+        ${button('Previous step', 'previous')}
+        ${button('Next step', 'advance')}
         ${button('Reset Scenario', 'reset')}
+        ${select('Speed', 'speed', [['0.5', '0.5×'], ['1', '1×'], ['2', '2×']], player.speed)}
       </div>
-      ${networkSVG(sc.labels, simulationState === 'idle' ? 0 : simulationState === 'simulating' ? 1 : isProtected ? 1 : 0)}
+      ${networkSVG(sc.labels, activeNode, null, activeNode > 0 ? activeNode - 1 : 0, {
+        direction: 'reverse',
+        badge: step === 0 ? 'Threat Origin' : step === 1 ? 'Inspecting...' : (isProtected ? 'BLOCKED ✓' : 'BREACH !'),
+        fault: step === 2 && isProtected
+      })}
       ${detailHtml}
-      ${result(log, isProtected || simulationState === 'idle')}
+      <div class="step-scrubber" role="tablist" aria-label="Simulation steps">
+        ${stepTitles.map((title, idx) => `
+          <button type="button" class="scrubber-pill ${idx === step ? 'active' : idx < step ? 'completed' : ''}" data-step-jump="${idx}" aria-selected="${idx === step}">
+            <span class="scrubber-num">${idx + 1}</span>
+            <span class="scrubber-label">${esc(title.replace(/^\d+\.\s*/, ''))}</span>
+          </button>
+        `).join('')}
+      </div>
+      <div class="step-card" aria-live="polite">
+        <b>Step ${step + 1} / 3 · ${esc(stepTitles[step])} · ${player.status}</b>
+        <p>${esc(stepTexts[step])}</p>
+      </div>
+      ${result(stepTexts[step], isProtected || step < 2)}
       <p class="small">
         <b>Threat:</b> ${esc(sc.threat)}<br>
         <b>Outcome:</b> ${isProtected ? esc(sc.defenseOn) : esc(sc.defenseOff)}
@@ -106,41 +149,60 @@ export function security(root) {
 
     root.querySelector('[name="scenario"]').onchange = e => {
       selected = Number(e.target.value);
-      simulationState = 'idle';
-      log = `Scenario changed to "${securityScenarios[selected].name}". Test threat with defense active or disabled.`;
+      player.reset();
       draw();
     };
 
     root.querySelector('[name="defense"]').onchange = e => {
       defenseActive = e.target.value;
-      simulationState = 'idle';
-      log = `Defense state updated: ${defenseActive === 'enabled' ? 'Protected' : 'Vulnerable'}.`;
+      player.reset();
       draw();
     };
 
+    root.querySelector('[name="speed"]').onchange = e => {
+      player.setSpeed(e.target.value);
+    };
+
+    root.querySelectorAll('[data-step-jump]').forEach(btn => {
+      btn.onclick = () => {
+        player.pause();
+        step = Number(btn.dataset.stepJump);
+        draw();
+      };
+    });
+
+    root.querySelector('[data-action="previous"]').disabled = step === 0;
+    root.querySelector('[data-action="advance"]').disabled = step === 2;
+
     wire(root, {
       simulate: () => {
-        simulationState = 'resolved';
-        if (isProtected) {
-          log = `[DEFENSE SUCCESS] ${sc.defenseOn}`;
+        if (player.running) {
+          player.pause();
+          draw();
         } else {
-          log = `[THREAT DETECTED - BREACH] ${sc.threat} ${sc.defenseOff}`;
+          player.replay();
         }
+      },
+      previous: () => {
+        player.previous();
+        draw();
+      },
+      advance: () => {
+        player.next();
         draw();
       },
       reset: () => {
-        simulationState = 'idle';
-        log = 'Scenario reset. Choose a scenario or toggle defense state.';
+        player.reset();
         draw();
       }
     });
   }
 
   draw();
-  return () => {};
+  return () => { player.dispose(); };
 }
 
-const firewallPackets = [
+export const firewallPackets = [
   {
     id: 'out_web',
     name: 'Outbound HTTPS Request (LAN Host -> Web Server)',
@@ -217,7 +279,14 @@ const firewallPackets = [
 export function securityFirewall(root) {
   let selected = 0;
   let mode = 'stateful';
-  let evaluated = false;
+  let step = 0;
+
+  const player = createStepPlayback({
+    length: () => 4,
+    getIndex: () => step,
+    setIndex: v => { step = v; },
+    render: draw
+  });
 
   function draw() {
     const pkt = firewallPackets[selected];
@@ -226,51 +295,80 @@ export function securityFirewall(root) {
       : (pkt.allowed !== undefined ? pkt.allowed : pkt.allowedStateless);
 
     let activeNode = 1;
-    if (!evaluated) {
+    if (step === 0) {
       activeNode = pkt.direction === 'outbound' ? 2 : 0;
+    } else if (step === 1 || step === 2) {
+      activeNode = 1;
     } else {
-      if (isAllowed) {
-        activeNode = pkt.direction === 'outbound' ? 0 : 2;
-      } else {
-        activeNode = 1;
-      }
+      activeNode = isAllowed ? (pkt.direction === 'outbound' ? 0 : 2) : 1;
     }
 
     const labels = ['External / Internet', 'Stateful Firewall', 'Internal Protected Host'];
+
+    const stepTitles = [
+      '1. Packet Generated at Origin',
+      '2. Arrival at Security Perimeter',
+      '3. Sequential Rule Inspection',
+      isAllowed ? '4. Action: PERMIT & FORWARD' : '4. Action: DENY & DROP'
+    ];
+
+    const stepTexts = [
+      pkt.direction === 'outbound'
+        ? `Protected host initiates an outbound ${pkt.proto} packet (${pkt.src} → ${pkt.dst}).`
+        : `External source generates an inbound ${pkt.proto} packet (${pkt.src} → ${pkt.dst}) targeting the network.`,
+      `Packet arrives at the firewall interface. Headers (IP, protocol, port) are extracted for stateful inspection.`,
+      `Evaluating rules top-to-bottom. Matched rule: "${pkt.matchedRule}". Mode: ${mode === 'stateful' ? 'Stateful table checked for established connection' : 'Stateless ACL match only'}.`,
+      isAllowed
+        ? `[FIREWALL: PERMIT] ${pkt.name} is ALLOWED. ${mode === 'stateful' ? pkt.statefulStatus : pkt.statelessStatus}`
+        : `[FIREWALL: DROP] ${pkt.name} is DROPPED. ${mode === 'stateful' ? pkt.statefulStatus : pkt.statelessStatus}`
+    ];
 
     const rulesHtml = `
       <div class="result-grid" style="margin: 12px 0; font-size: 13px;">
         <div style="grid-column: 1 / -1;">
           <b>Active Firewall Ruleset (Evaluated Top-to-Bottom):</b>
           <div style="font-family: monospace; background: var(--bg-surface, #f8fafc); padding: 8px; border-radius: 6px; margin-top: 4px; line-height: 1.5;">
-            <div>1. [ALLOW] Outbound LAN -> WAN Any</div>
-            <div>2. [ALLOW] Inbound Established & Related State</div>
-            <div>3. [ALLOW] Inbound TCP 443 -> DMZ Web Server</div>
-            <div>4. [DENY]  Inbound TCP 22, 3389 (Remote Management)</div>
-            <div>5. [DROP]  Inbound Default Deny (Implicit Drop)</div>
+            <div style="${step >= 2 && pkt.matchedRule.includes('Rule 1') ? 'color: #16a34a; font-weight: 700; background: #dcfce7; padding: 2px 4px; border-radius: 4px;' : ''}">1. [ALLOW] Outbound LAN -> WAN Any</div>
+            <div style="${step >= 2 && pkt.matchedRule.includes('Rule 2') ? 'color: #16a34a; font-weight: 700; background: #dcfce7; padding: 2px 4px; border-radius: 4px;' : ''}">2. [ALLOW] Inbound Established & Related State</div>
+            <div style="${step >= 2 && pkt.matchedRule.includes('Rule 3') ? 'color: #16a34a; font-weight: 700; background: #dcfce7; padding: 2px 4px; border-radius: 4px;' : ''}">3. [ALLOW] Inbound TCP 443 -> DMZ Web Server</div>
+            <div style="${step >= 2 && pkt.matchedRule.includes('Rule 4') ? 'color: #dc2626; font-weight: 700; background: #fee2e2; padding: 2px 4px; border-radius: 4px;' : ''}">4. [DENY]  Inbound TCP 22, 3389 (Remote Management)</div>
+            <div style="${step >= 2 && pkt.matchedRule.includes('Rule 5') ? 'color: #dc2626; font-weight: 700; background: #fee2e2; padding: 2px 4px; border-radius: 4px;' : ''}">5. [DROP]  Inbound Default Deny (Implicit Drop)</div>
           </div>
         </div>
         <div><b>Evaluated Packet:</b><br>${esc(pkt.proto)} ${esc(pkt.src)} &rarr; ${esc(pkt.dst)}</div>
-        <div><b>Matched Rule:</b><br>${evaluated ? esc(pkt.matchedRule) : 'Awaiting inspection...'}</div>
+        <div><b>Matched Rule:</b><br>${step >= 2 ? esc(pkt.matchedRule) : 'Awaiting inspection...'}</div>
       </div>
     `;
-
-    const statusText = evaluated
-      ? (isAllowed
-        ? `[FIREWALL: PERMIT] ${pkt.name} is ALLOWED. ${mode === 'stateful' ? pkt.statefulStatus : pkt.statelessStatus}`
-        : `[FIREWALL: DROP] ${pkt.name} is DROPPED. ${mode === 'stateful' ? pkt.statefulStatus : pkt.statelessStatus}`)
-      : `Select a packet and inspection mode, then click "Evaluate Firewall Rules".`;
 
     root.innerHTML = `
       <div class="control-row">
         ${select('Select test packet', 'packet', firewallPackets.map((p, i) => [i, p.name]), selected)}
         ${select('Firewall mode', 'mode', [['stateful', 'Stateful Inspection (Connection Tracking)'], ['stateless', 'Stateless Packet Filter (ACLs only)']], mode)}
-        ${button('Evaluate Firewall Rules', 'evaluate', 'primary')}
+        ${button(player.running ? 'Pause simulation' : 'Start Simulation', 'evaluate', 'primary')}
+        ${button('Previous step', 'previous')}
+        ${button('Next step', 'advance')}
         ${button('Reset', 'reset')}
+        ${select('Speed', 'speed', [['0.5', '0.5×'], ['1', '1×'], ['2', '2×']], player.speed)}
       </div>
-      ${networkSVG(labels, activeNode)}
+      ${networkSVG(labels, activeNode, null, activeNode > 0 ? activeNode - 1 : 0, {
+        direction: pkt.direction === 'outbound' ? 'reverse' : 'forward',
+        badge: `${pkt.proto} ${step === 3 ? (isAllowed ? 'PERMIT ✓' : 'DROP ✕') : ''}`,
+        fault: step === 3 && !isAllowed
+      })}
       ${rulesHtml}
-      ${result(statusText, !evaluated || isAllowed)}
+      <div class="step-scrubber" role="tablist" aria-label="Firewall inspection steps">
+        ${stepTitles.map((title, idx) => `
+          <button type="button" class="scrubber-pill ${idx === step ? 'active' : idx < step ? 'completed' : ''}" data-step-jump="${idx}" aria-selected="${idx === step}">
+            <span class="scrubber-num">${idx + 1}</span>
+            <span class="scrubber-label">${esc(title.replace(/^\d+\.\s*/, ''))}</span>
+          </button>
+        `).join('')}
+      </div>
+      <div class="step-card" aria-live="polite">
+        <b>Step ${step + 1} / 4 · ${esc(stepTitles[step])} · ${player.status}</b>
+        <p>${esc(stepTexts[step])}</p>
+      </div>
+      ${result(stepTexts[step], step < 3 || isAllowed)}
       <p class="small">
         <b>Packet Details:</b> ${esc(pkt.description)}<br>
         <b>Inspection Insight:</b> ${mode === 'stateful'
@@ -282,28 +380,55 @@ export function securityFirewall(root) {
 
     root.querySelector('[name="packet"]').onchange = e => {
       selected = Number(e.target.value);
-      evaluated = false;
+      player.reset();
       draw();
     };
 
     root.querySelector('[name="mode"]').onchange = e => {
       mode = e.target.value;
-      evaluated = false;
+      player.reset();
       draw();
     };
 
+    root.querySelector('[name="speed"]').onchange = e => {
+      player.setSpeed(e.target.value);
+    };
+
+    root.querySelectorAll('[data-step-jump]').forEach(btn => {
+      btn.onclick = () => {
+        player.pause();
+        step = Number(btn.dataset.stepJump);
+        draw();
+      };
+    });
+
+    root.querySelector('[data-action="previous"]').disabled = step === 0;
+    root.querySelector('[data-action="advance"]').disabled = step === 3;
+
     wire(root, {
       evaluate: () => {
-        evaluated = true;
+        if (player.running) {
+          player.pause();
+          draw();
+        } else {
+          player.replay();
+        }
+      },
+      previous: () => {
+        player.previous();
+        draw();
+      },
+      advance: () => {
+        player.next();
         draw();
       },
       reset: () => {
-        evaluated = false;
+        player.reset();
         draw();
       }
     });
   }
 
   draw();
-  return () => {};
+  return () => { player.dispose(); };
 }

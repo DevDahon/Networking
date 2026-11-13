@@ -14,32 +14,32 @@ export default topic({
       "title": "A lease supplies configuration",
       "lead": "DHCP lets a client obtain configuration automatically from an authorized server rather than entering each value manually.",
       "items": [
-        "A pool is the set of available addresses. Exclusions and reservations keep infrastructure addresses under control.",
-        "A lease grants temporary use; DHCP also supplies options such as subnet mask, gateway, and DNS.",
-        "A server must avoid duplicate active assignments. Clients and servers also use conflict detection in real deployments."
+        "Address pool: Range of usable IPs ready to hand out, excluding reserved server IPs.",
+        "Temporary lease: Assigns an IP for a set time along with mask, gateway, and DNS.",
+        "Conflict prevention: Tracks active leases so two devices never get the same IP."
       ]
     },
     {
       "title": "Four messages in the initial DHCP exchange",
       "lead": "An unconfigured IPv4 client starts by discovering a server on its local network (or through a configured relay).",
       "items": [
-        "Discover: the client seeks DHCP servers.",
-        "Offer: a server proposes an available address and configuration options.",
-        "Request: the client identifies the chosen offer and requests its configuration.",
-        "Acknowledgment (ACK): the server confirms the lease, after which the client can use the configuration."
+        "Discover: Client broadcasts to find an available DHCP server.",
+        "Offer: Server proposes an available IP address and settings.",
+        "Request: Client asks to use the offered IP address.",
+        "Acknowledgment (ACK): Server confirms the lease so the client can start using the IP."
       ],
       "expectedCount": 4,
-      "footnote": "Initial discovery uses broadcast. Some replies can be unicast depending on client state; DORA is an introduction to a richer state machine."
+      "footnote": "Remember DORA: Discover, Offer, Request, Acknowledgment."
     },
     {
       "title": "Five lease lifecycle and failure events",
       "lead": "Leases have lifetimes; a client should renew before expiry rather than keep an address forever.",
       "items": [
-        "Renewal: requests an extension from the existing server; it need not repeat the initial full DORA exchange.",
-        "Release: returns the address to the server.",
-        "Expiry: makes an unrenewed lease available again.",
-        "Pool exhaustion: no unused address is available for another client.",
-        "Server unavailable: a client may eventually self-assign link-local configuration without ordinary routed access."
+        "Renewal: Client extends its current lease before time runs out.",
+        "Release: Client gives its IP address back to the server early.",
+        "Expiry: Lease time ends and the IP returns to the available pool.",
+        "Pool exhaustion: All IPs are taken, so new devices cannot join.",
+        "Server unavailable: Client falls back to a 169.254.x.x self-assigned address with no Internet."
       ],
       "expectedCount": 5
     }

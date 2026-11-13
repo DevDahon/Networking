@@ -15,14 +15,24 @@ export function createSearchModal(root,topics,onNavigate){
   query:`${abbr.toLowerCase()} ${full.toLowerCase()}`
  }));
 
- const topicEntries=topics.map(t=>({
-  type:'topic',
-  title:`Topic ${String(t.number).padStart(2,'0')}: ${t.title}`,
-  subtitle:t.description,
-  id:t.id,
-  hash:`#/topic/${t.id}/slide/1`,
-  query:`topic ${t.number} ${t.title.toLowerCase()} ${t.description.toLowerCase()}`
- }));
+ const topicEntries=[
+  {
+   type:'topic',
+   title:'Networking 1 – Course Outline',
+   subtitle:'Official course roadmap, weekly coverage, syllabus outcomes, and practical skills',
+   id:'outline',
+   hash:'#/outline',
+   query:'course outline syllabus roadmap schedule weeks competencies learning outcomes'
+  },
+  ...topics.map(t=>({
+   type:'topic',
+   title:`Topic ${String(t.number).padStart(2,'0')}: ${t.title}`,
+   subtitle:t.description,
+   id:t.id,
+   hash:`#/topic/${t.id}/slide/1`,
+   query:`topic ${t.number} ${t.title.toLowerCase()} ${t.description.toLowerCase()}`
+  }))
+ ];
 
  const slideEntries=[];
  topics.forEach(t=>{

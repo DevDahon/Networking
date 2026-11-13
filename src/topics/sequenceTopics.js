@@ -8,14 +8,21 @@ export const sequenceMoves={
   ['Choose a topology for the task','after','@topology']
  ],
  '04-network-devices':[
-  ['@macLearningDemo','after','Connecting a device to a LAN']
+  ['@macLearningDemo','after','Connecting a device to a LAN'],
+  ['Read the interfaces along a network path','before','@devices']
  ],
  'osi-reference-model':[],
- '06-network-cables-media':[],
- '07-rj45-crimping':[],
+ '06-network-cables-media':[
+  ['Select media for a campus installation','before','@media']
+ ],
+ '07-rj45-crimping':[
+  ['Termination sequence: inspect before crimping','before','@cable']
+ ],
  '08-ip-addressing':[
   ['@bitwiseDemo','after','The subnet mask separates network and host'],
-  ['Interpret an IPv4 configuration','after','@bitwiseDemo']
+  ['Understanding CIDR prefix notation','after','@bitwiseDemo'],
+  ['Example: read one classroom address','after','Understanding CIDR prefix notation'],
+  ['Interpret an IPv4 configuration','before','@subnet']
  ],
  '10-static-ip':[
   ['@asymmetricDemo','after','Example: two manually configured classroom computers'],
@@ -31,6 +38,7 @@ export const sequenceMoves={
   ['@reservedPoolDemo','after','@dhcp']
  ],
  '12-router-wireless':[
+  ['Wi-Fi Frequencies and Standards','before','Wireless identity and protection'],
   ['Two protected Wi-Fi security options','before','Example: a laptop joins classroom Wi-Fi'],
   ['Router configuration sequence','before','@router'],
   ['@guestIsolationDemo','after','@router']
@@ -40,11 +48,14 @@ export const sequenceMoves={
   ['@printQueueDemo','after','@sharing']
  ],
  '14-network-troubleshooting':[
+  ['Test the theory and verify the repair','after','Six Windows diagnostic commands'],
   ['Nine modeled network faults','before','Example: numeric access works but a name fails'],
   ['@ttlTraceDemo','after','Example: numeric access works but a name fails'],
   ['A fault-to-repair demonstration','before','@troubleshoot']
  ],
- '15-network-security':[]
+ '15-network-security':[
+  ['Layered defense in practice','before','@security']
+ ]
 };
 
 export function sequenceTopic(topic){

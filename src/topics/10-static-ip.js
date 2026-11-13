@@ -31,18 +31,18 @@ export default topic({
       "title": "Give a device a stable address",
       "lead": "Static addressing is manually configured and remains until changed. It is useful for infrastructure and predictable service endpoints.",
       "items": [
-        "Record address, mask, gateway, and DNS before changing anything. A DHCP reservation is a different way to provide a stable address.",
-        "Choose a unique usable address in the intended subnet and coordinate it with the administrator’s addressing plan.",
-        "Avoid unmanaged overlap with DHCP pools. Duplicate addresses cause conflicts even when each individual address is syntactically valid."
+        "Document first: Record the current IP, mask, gateway, and DNS before making changes.",
+        "Pick a unique IP: Choose an unused host address inside the correct subnet.",
+        "Avoid DHCP pools: Never assign a static IP from the router's automatic DHCP range."
       ]
     },
     {
       "title": "Four IPv4 configuration fields",
       "items": [
-        "IP address: a unique usable address assigned to the interface.",
-        "Subnet mask: identifies which address bits describe the local network.",
-        "Default gateway: a local router for destinations needing a remote route.",
-        "DNS server: a resolver for names; not needed for numeric-IP local tests."
+        "IP address: Unique host address for this device on the subnet.",
+        "Subnet mask: Defines which part of the IP is the local network.",
+        "Default gateway: Local router IP used to reach outside networks.",
+        "DNS server: Translates website names into IP addresses."
       ],
       "expectedCount": 4
     },
@@ -50,9 +50,9 @@ export default topic({
       "title": "Same subnet is a two-sided decision",
       "lead": "With /24 masks, 192.168.1.10 and 192.168.1.20 are local to each other.",
       "items": [
-        "They can communicate by IP on a correctly connected LAN without a default gateway.",
-        "192.168.1.10/24 and 192.168.2.20/24 need appropriate routing between the two subnets.",
-        "Mismatched masks can make one host consider a destination local while the other sends through a gateway. Test both directions."
+        "Same subnet: Devices talk directly through the switch without a gateway.",
+        "Different subnets: Devices must send traffic through a router.",
+        "Mismatched masks: One PC may think a peer is local while the other thinks it is remote."
       ]
     },
     {
@@ -65,9 +65,9 @@ export default topic({
       "title": "Windows configuration and verification",
       "lead": "Interface labels vary by Windows version; the classic adapter IPv4 properties remain useful for a supervised lab.",
       "items": [
-        "Open Settings → Network & Internet → Advanced network settings → More network adapter options (or run ncpa.cpl).",
-        "Open the intended adapter’s Properties → Internet Protocol Version 4 (TCP/IPv4) → Properties. Enter the approved values, then confirm.",
-        "Use ipconfig /all and ping the peer’s numeric address. Record results; restore “Obtain an IP address automatically” and automatic DNS if that was the original setup."
+        "Open adapter settings: Run ncpa.cpl or open Network & Internet → Adapter options.",
+        "Enter IPv4 settings: Open TCP/IPv4 Properties, enter the IP, mask, gateway, and DNS, then click OK.",
+        "Verify with CLI: Run ipconfig /all and ping the peer IP to confirm connectivity."
       ]
     }
   ],

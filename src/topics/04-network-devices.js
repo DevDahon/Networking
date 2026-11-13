@@ -31,9 +31,9 @@ export default topic({
       "deviceKey": "nic",
       "lead": "A Network Interface Card (NIC) connects a computer or host device to the network medium.",
       "items": [
-        "Physical connection: Houses the physical port (such as RJ45 or Wi-Fi radio) and controller chip for host communication.",
-        "Unique hardware identity: Permanently assigned a factory-burned 48-bit Media Access Control (MAC) address for local link delivery.",
-        "Data transmission: Converts host memory data into electrical or radio bitstreams, framing data with MAC addresses and CRC checksums."
+        "Physical Port: Connects the device to an Ethernet cable (RJ45) or Wi-Fi radio.",
+        "MAC Identity: Stores a unique 48-bit factory hardware MAC address.",
+        "Signal Conversion: Turns computer data into electrical, optical, or radio signals."
       ]
     },
     {
@@ -41,9 +41,9 @@ export default topic({
       "deviceKey": "hub",
       "lead": "A network hub is a legacy Layer 1 physical device that repeats electrical signals to all connected ports.",
       "items": [
-        "Multiport repeater: Connects multiple twisted-pair Ethernet cables in a single shared electrical bus.",
-        "No address awareness: Operates purely at Layer 1; it cannot read MAC addresses, IP packets, or inspect frames.",
-        "Broadcast behavior: Any electrical bit received on one port is broadcast out to every other port, creating a single shared collision domain."
+        "Layer 1 Repeater: Shares one electrical bus across all connected ports.",
+        "No Address Reading: Cannot inspect MAC or IP addresses.",
+        "Floods Everything: Copies incoming bits to every other port, causing collisions."
       ]
     },
     {
@@ -51,9 +51,9 @@ export default topic({
       "deviceKey": "switch",
       "lead": "A network switch is an intelligent Layer 2 device that forwards frames using learned MAC addresses.",
       "items": [
-        "Dedicated bandwidth: Connects local hosts with dedicated point-to-point links, eliminating collisions between ports.",
-        "MAC address table: Dynamically inspects the source MAC of incoming frames and maps each address to its incoming physical port.",
-        "Forwarding decision: When a frame arrives, the switch forwards known unicast directly to the target port; only unknown destinations are flooded."
+        "No Collisions: Gives every connected port its own dedicated full-speed link.",
+        "MAC Address Table: Learns which device MAC address is plugged into each port.",
+        "Smart Forwarding: Sends known frames only to the target port; floods unknown ones."
       ]
     },
     {
@@ -61,9 +61,9 @@ export default topic({
       "deviceKey": "router",
       "lead": "A router is a Layer 3 internetworking device that forwards packets between different logical networks.",
       "items": [
-        "Network boundary: Separates distinct broadcast domains and connects local subnets to WANs or the global Internet.",
-        "Routing table: Maintains a table of network destination prefixes, next-hop IP addresses, and outgoing interfaces.",
-        "Packet forwarding: Reads destination IP headers, decrements the TTL, determines the best path, rewrites the Layer 2 frame, and forwards."
+        "Connects Networks: Links your local LAN to outside WANs or the Internet.",
+        "Routing Table: Looks up destination IP prefixes to pick the best next hop.",
+        "Stops Broadcasts: Keeps local LAN broadcast traffic from leaking outside."
       ]
     },
     {
@@ -71,9 +71,9 @@ export default topic({
       "deviceKey": "modem",
       "lead": "A modem converts digital computer data into analog signals suitable for transmission over provider media.",
       "items": [
-        "Media adaptation: Bridges home or office Ethernet to provider infrastructures like telephone lines (DSL), cable (DOCSIS), or fiber (ONT).",
-        "Modulation & demodulation: Modulates outgoing digital square waves into analog carrier frequencies and demodulates incoming analog waves back to bits.",
-        "Signal conversion: LAN Ethernet packets enter the modem, are modulated onto high-frequency RF carriers over coaxial or copper cables, and reach the ISP headend."
+        "ISP Bridge: Connects home or office networks to DSL, coax cable, or fiber lines.",
+        "Modulate (Send): Converts digital bits into provider line signals.",
+        "Demodulate (Receive): Converts incoming provider signals back into digital Ethernet."
       ]
     },
     {
@@ -81,9 +81,9 @@ export default topic({
       "deviceKey": "ap",
       "lead": "A wireless access point (AP) connects Wi-Fi stations to a wired local area network.",
       "items": [
-        "Radio transceiver: Transmits and receives radio waves across 2.4 GHz, 5 GHz, or 6 GHz frequency bands.",
-        "Layer 2 bridge: Bridges IEEE 802.11 wireless frames into IEEE 802.3 wired Ethernet frames without changing IP addresses.",
-        "Client bridging: Broadcasts an SSID beacon, authenticates wireless client devices, and transparently forwards their traffic to the wired switch via PoE uplink."
+        "Wi-Fi Radio: Broadcasts 2.4 GHz, 5 GHz, or 6 GHz wireless signals.",
+        "Layer 2 Bridge: Connects wireless devices directly onto the wired Ethernet LAN.",
+        "Easy Expansion: Usually powered by a single PoE (Power over Ethernet) switch cable."
       ]
     },
     {
@@ -91,9 +91,9 @@ export default topic({
       "deviceKey": "repeater",
       "lead": "A repeater regenerates and amplifies electrical, optical, or radio signals to extend transmission distance.",
       "items": [
-        "Overcoming attenuation: Counteracts signal loss and cable resistance that degrade data beyond standard maximum run lengths.",
-        "Signal regeneration: Rather than merely amplifying noise, a digital repeater reconstructs clean, full-voltage digital pulses.",
-        "Signal restoration: Listens on an input interface, cleans and retimes the incoming waveform, and retransmits it at full strength across the extended medium segment."
+        "Fixes Signal Loss: Overcomes cable attenuation over long distances.",
+        "Clean Regeneration: Rebuilds crisp digital pulses instead of boosting noise.",
+        "Extends Reach: Pushes signals past standard cable or Wi-Fi distance limits."
       ]
     },
     {
@@ -101,9 +101,9 @@ export default topic({
       "deviceKey": "bridge",
       "lead": "A network bridge connects two or more separate LAN segments at Layer 2 to segment traffic and reduce congestion.",
       "items": [
-        "Traffic segmentation: Divides a busy network into two smaller collision domains while keeping them in the same subnet.",
-        "Filtering table: Maintains a list of MAC addresses on Segment A and Segment B to decide whether traffic needs to cross.",
-        "Frame filtering: If sender and receiver are on Segment A, the bridge filters (drops) the frame from crossing; if the target is on Segment B, it forwards it across."
+        "Splits Collision Domains: Divides one busy LAN into two quieter segments.",
+        "Tracks MACs: Learns which MAC addresses live on Side A vs. Side B.",
+        "Filters Local Traffic: Only forwards frames that actually need to cross segments."
       ]
     },
     {
@@ -111,49 +111,49 @@ export default topic({
       "deviceKey": "firewall",
       "lead": "A firewall monitors and filters incoming and outgoing network traffic based on configured security policies.",
       "items": [
-        "Security perimeter: Sits at network boundaries (e.g. between LAN and Internet) or as host software to defend against unauthorized access.",
-        "Inspection methods: Uses packet filtering (IP/ports), stateful inspection (tracking active connections), or deep packet inspection (DPI).",
-        "Policy enforcement: Inspects packet headers against security rules; permitted traffic (e.g. outbound web) is passed, while unauthorized packets are dropped or rejected."
+        "Boundary Guard: Protects the border between your trusted LAN and the Internet.",
+        "Stateful Tracking: Allows replies to your requests while blocking outside attacks.",
+        "Rule Filtering: Permits or drops packets based on IP address, protocol, and port."
       ]
     },
     {
       "title": "Connecting a device to a LAN",
       "lead": "A network interface card (NIC) provides a device’s network interface; an Ethernet port is a physical connection point.",
       "items": [
-        "A hub repeats incoming bits out its other ports; it does not learn destination MAC addresses.",
-        "A switch learns source MAC addresses and forwards known unicast frames toward the learned destination port. Unknown destinations are flooded within the VLAN.",
-        "A bridge joins LAN segments at layer 2. A switch is effectively a multiport bridge."
+        "Hub (Layer 1): Blindly repeats every bit to all ports without checking MAC addresses.",
+        "Switch (Layer 2): Learns source MAC addresses and sends frames directly to the target port.",
+        "Bridge (Layer 2): Connects two LAN segments; a switch acts as a multi-port bridge."
       ]
     },
     {
       "title": "Joining networks and media",
       "lead": "A router forwards IP packets between networks using a routing table.",
       "items": [
-        "A modem adapts signals for a provider access technology, such as cable or DSL. An optical network terminal serves a fiber access role.",
-        "A wireless access point bridges Wi-Fi clients onto a LAN. An AP alone is not necessarily a router.",
-        "A repeater regenerates or retransmits signals. It does not choose IP routes. Home gateways often combine router, switch, AP, DHCP, and firewall functions."
+        "Modem / ONT: Converts signals for your ISP’s coaxial, phone, or fiber line.",
+        "Access Point (AP): Connects Wi-Fi devices to the wired switch.",
+        "Home Gateway: Combines a router, switch, AP, DHCP server, and firewall in one box."
       ]
     },
     {
       "title": "Ports and protection",
       "lead": "Device roles explain behavior better than the shape of the box.",
       "items": [
-        "LAN ports usually connect local clients; a WAN interface connects toward another network/provider. Check the actual model’s labels.",
-        "A firewall permits or blocks traffic according to policy. It is not a guarantee that all allowed traffic is safe.",
-        "Link lights show physical/link status, not proof of correct IP settings, DNS, or Internet service."
+        "LAN vs. WAN Ports: LAN ports connect local PCs; the WAN port connects to the ISP.",
+        "Firewall Rules: Block unwanted network traffic based on security policies.",
+        "Link Lights: Confirm a working cable connection, not valid IP or Internet access."
       ]
     },
     {
       "title": "Virtual LANs and Routing Principles",
       "lead": "VLANs split a physical switch into isolated virtual networks, while routers use static or dynamic routes to connect them.",
       "items": [
-        "Virtual LAN (VLAN): Divides one physical switch into multiple separate logical broadcast domains (e.g., VLAN 10 for Students, VLAN 20 for Faculty).",
-        "Broadcast Isolation: Broadcast traffic (such as ARP and DHCP) stays confined inside its assigned VLAN, boosting performance and security.",
-        "Inter-VLAN Routing: Because devices in different VLANs cannot communicate directly, all inter-VLAN traffic must pass through a router or Layer 3 switch.",
-        "Static Routing: A network administrator manually enters fixed destination routes into the router table (simple, predictable, low overhead for small networks).",
-        "Dynamic Routing: Routers automatically discover paths and exchange network routes using protocols like OSPF and RIP (automatically updates if a link fails)."
+        "Virtual LAN (VLAN): Splits one switch into separate logical groups (e.g., Students vs. Staff).",
+        "Broadcast Isolation: Keeps broadcast traffic inside its own VLAN for better speed and security.",
+        "Inter-VLAN Routing: Traffic between different VLANs must pass through a router.",
+        "Static Routing: Admin manually enters fixed routes—ideal for small, simple networks.",
+        "Dynamic Routing: Routers automatically share paths (OSPF/RIP) and route around failures."
       ],
-      "footnote": "VLANs replace the need to buy separate physical switches for each school department, saving hardware costs while enforcing security."
+      "footnote": "VLANs let one switch securely separate departments without buying extra hardware."
     }
   ],
   "demo": {

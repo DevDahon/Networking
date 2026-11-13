@@ -90,6 +90,16 @@ export const deviceMetadata = {
     image: 'images/devices/firewall.jpg',
     photoCaption: 'Next-Gen Hardware Security Firewall Appliance',
     specs: 'Dedicated Interfaces: MGMT, WAN1/2, DMZ, Internal LAN • Inspection: Stateful Packet Filter'
+  },
+  server: {
+    name: 'Enterprise Server',
+    shortName: 'Server',
+    layer: 'Layers 4–7 (Transport to Application)',
+    role: 'Centralized Resource Provider & High-Availability Service Host',
+    desc: 'Provides centralized resources, files, applications, web services, or network identity to connected client nodes.',
+    image: 'images/devices/server.jpg',
+    photoCaption: '2U Rackmount Enterprise Dual-Socket Server',
+    specs: 'Dedicated Interfaces: 4× 10GbE SFP+ Teaming • Redundant 80-Plus Titanium PSUs • ECC RAM'
   }
 };
 
@@ -621,6 +631,71 @@ export function renderPhysicalDeviceSvg(deviceKey) {
         </g>
 
         <text x="260" y="145" font-size="10" fill="#dc2626" font-weight="700" text-anchor="middle">Stateful Packet Inspection: Permitted Sessions Pass • Probes & Attacks Dropped</text>
+      </svg>`;
+
+    case 'server':
+      return `
+      <svg class="device-hardware-svg" viewBox="0 0 520 160" role="img" aria-label="Physical 2U Rackmount Enterprise Dual-Socket Server">
+        <rect x="0" y="0" width="520" height="160" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+
+        <!-- Rackmount Ears with heavy bolts -->
+        <rect x="8" y="25" width="20" height="110" rx="2" fill="#94a3b8" stroke="#475569"/>
+        <circle cx="18" cy="38" r="3.5" fill="#334155"/>
+        <circle cx="18" cy="122" r="3.5" fill="#334155"/>
+        <rect x="492" y="25" width="20" height="110" rx="2" fill="#94a3b8" stroke="#475569"/>
+        <circle cx="502" cy="38" r="3.5" fill="#334155"/>
+        <circle cx="502" cy="122" r="3.5" fill="#334155"/>
+
+        <!-- 2U Server Chassis Faceplate -->
+        <rect x="28" y="28" width="464" height="104" rx="4" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+        <line x1="28" y1="36" x2="492" y2="36" stroke="#1e293b" stroke-width="1.5"/>
+
+        <!-- Left Bezel: Server Brand & System Status Indicators -->
+        <g transform="translate(36, 44)">
+          <text x="0" y="10" font-size="10" fill="#f8fafc" font-weight="800" letter-spacing="0.5">ENTERPRISE R740</text>
+          <text x="0" y="20" font-size="7.5" fill="#38bdf8" font-weight="700">2U Dual-Socket Xeon Server</text>
+          <!-- Power Button & Diagnostic Status -->
+          <circle cx="8" cy="34" r="5" fill="#15803d" stroke="#22c55e" stroke-width="1"/>
+          <text x="18" y="37" font-size="7" fill="#86efac" font-weight="700">POWER ON</text>
+          <circle cx="8" cy="48" r="3" fill="#22c55e"/>
+          <text x="18" y="51" font-size="6.5" fill="#cbd5e1">HEALTH: OPTIMAL</text>
+          <circle cx="8" cy="60" r="3" fill="#3b82f6"/>
+          <text x="18" y="63" font-size="6.5" fill="#93c5fd">ID / LOCATOR</text>
+        </g>
+
+        <!-- Center: 8 Hot-Swap Hard Drive Caddies (2.5" SAS/NVMe) -->
+        <g transform="translate(160, 42)">
+          ${Array.from({ length: 8 }, (_, i) => `
+            <g transform="translate(${(i % 4) * 58}, ${Math.floor(i / 4) * 40})">
+              <rect x="0" y="0" width="54" height="36" rx="2" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+              <!-- Drive caddy handle lever -->
+              <rect x="4" y="6" width="46" height="8" rx="1.5" fill="#334155"/>
+              <line x1="12" y1="10" x2="42" y2="10" stroke="#64748b" stroke-width="1"/>
+              <!-- Drive activity LED (blinking green) -->
+              <circle cx="10" cy="24" r="2.5" fill="#22c55e"/>
+              <circle cx="20" cy="24" r="2" fill="#3b82f6"/>
+              <text x="48" y="26" font-size="7" fill="#94a3b8" text-anchor="end" font-weight="700">BAY ${i + 1}</text>
+            </g>
+          `).join('')}
+        </g>
+
+        <!-- Right Side: Dual High-Speed 10GbE / Management Ports & USB -->
+        <g transform="translate(405, 42)">
+          <rect x="0" y="0" width="80" height="76" rx="3" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+          <text x="40" y="12" font-size="7" fill="#94a3b8" font-weight="700" text-anchor="middle">NIC TEAM (4× 10G)</text>
+          <g transform="translate(8, 18)">
+            ${Array.from({ length: 4 }, (_, i) => `
+              <g transform="translate(${(i % 2) * 34}, ${Math.floor(i / 2) * 26})">
+                <rect x="0" y="0" width="28" height="20" rx="1.5" fill="#0284c7" stroke="#38bdf8" stroke-width="1"/>
+                <circle cx="6" cy="4" r="1.5" fill="#22c55e"/>
+                <circle cx="12" cy="4" r="1.5" fill="#facc15"/>
+                <text x="14" y="14" font-size="6" fill="#ffffff" font-weight="800" text-anchor="middle">10G-${i + 1}</text>
+              </g>
+            `).join('')}
+          </g>
+        </g>
+
+        <text x="260" y="146" font-size="10" fill="#0284c7" font-weight="700" text-anchor="middle">Centralized Application Daemon &amp; High-Throughput Network Services (HTTP/DNS/DHCP/SMB)</text>
       </svg>`;
 
     default:
@@ -1200,6 +1275,70 @@ export function renderHowItWorksSvg(deviceKey) {
 
         <rect x="15" y="146" width="490" height="24" rx="4" fill="#f8fafc" stroke="#e2e8f0"/>
         <text x="260" y="162" font-size="9" fill="#0f172a" text-anchor="middle">Firewalls enforce access control at network perimeters and track session states to defend trusted hosts.</text>
+      </svg>`;
+
+    case 'server':
+      return `
+      <svg class="device-flow-svg" viewBox="0 0 520 180" role="img" aria-label="How a Server Works: Handling Concurrent Client Network Requests">
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 8 5 L 0 9 z" fill="#2563eb"/>
+          </marker>
+          <marker id="arrowGreen" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 1 L 8 5 L 0 9 z" fill="#16a34a"/>
+          </marker>
+        </defs>
+
+        <rect x="0" y="0" width="520" height="180" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+
+        <!-- Flow Title -->
+        <text x="20" y="22" font-size="11" fill="#0f172a" font-weight="800">HOW IT WORKS: Client Request → Socket Listener → Application Daemon → Return Response</text>
+
+        <!-- Step 1: Client Host -->
+        <g transform="translate(15, 38)">
+          <rect x="0" y="0" width="110" height="96" rx="5" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+          <text x="55" y="16" font-size="8.5" fill="#1d4ed8" font-weight="800" text-anchor="middle">1. CLIENT HOST</text>
+          <rect x="8" y="26" width="94" height="28" rx="2" fill="#ffffff" stroke="#93c5fd"/>
+          <text x="55" y="38" font-size="7.5" fill="#1e40af" text-anchor="middle">Browser / OS</text>
+          <text x="55" y="48" font-size="7" fill="#2563eb" font-weight="700" text-anchor="middle">Port 53000</text>
+          <text x="55" y="70" font-size="7" fill="#475569" text-anchor="middle">GET /index.html</text>
+          <text x="55" y="82" font-size="7" fill="#2563eb" font-weight="700" text-anchor="middle">TCP SYN → Connect</text>
+        </g>
+
+        <!-- Arrow 1 to 2 -->
+        <path d="M 125 86 H 148" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+        <!-- Step 2: Server Socket Listener -->
+        <g transform="translate(152, 38)">
+          <rect x="0" y="0" width="170" height="96" rx="5" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+          <text x="85" y="16" font-size="8.5" fill="#15803d" font-weight="800" text-anchor="middle">2. NETWORK PROTOCOL STACK</text>
+          <rect x="8" y="24" width="154" height="30" rx="2" fill="#ffffff" stroke="#86efac"/>
+          <text x="14" y="36" font-size="7" fill="#166534" font-weight="700">Listening Ports: 80 (HTTP), 443 (HTTPS)</text>
+          <text x="14" y="48" font-size="7" fill="#15803d" font-weight="800">Binds to IP: 192.168.1.100</text>
+
+          <rect x="8" y="58" width="154" height="28" rx="2" fill="#dcfce7" stroke="#22c55e"/>
+          <text x="14" y="70" font-size="7" fill="#15803d" font-weight="800">OS TCP Session Manager</text>
+          <text x="14" y="80" font-size="7" fill="#14532d">Passes byte stream to HTTP Daemon</text>
+        </g>
+
+        <!-- Arrow 2 to 3 -->
+        <path d="M 322 86 H 345" stroke="#16a34a" stroke-width="2.5" marker-end="url(#arrowGreen)"/>
+
+        <!-- Step 3: Application Server & Database Backend -->
+        <g transform="translate(350, 38)">
+          <rect x="0" y="0" width="155" height="96" rx="5" fill="#faf5ff" stroke="#a855f7" stroke-width="1.5"/>
+          <text x="77" y="16" font-size="8.5" fill="#6b21a8" font-weight="800" text-anchor="middle">3. APPLICATION SERVICE</text>
+          <rect x="8" y="24" width="139" height="30" rx="2" fill="#ffffff" stroke="#d8b4fe"/>
+          <text x="14" y="36" font-size="7" fill="#6b21a8" font-weight="700">Web Engine (Nginx / Apache)</text>
+          <text x="14" y="48" font-size="7" fill="#9333ea" font-weight="800">Queries database / file storage</text>
+
+          <rect x="8" y="58" width="139" height="28" rx="2" fill="#f3e8ff" stroke="#c084fc"/>
+          <text x="14" y="70" font-size="7" fill="#6b21a8" font-weight="800">Response: HTTP 200 OK</text>
+          <text x="14" y="80" font-size="7" fill="#475569">Transmits requested payload</text>
+        </g>
+
+        <rect x="15" y="146" width="490" height="24" rx="4" fill="#f8fafc" stroke="#e2e8f0"/>
+        <text x="260" y="162" font-size="9" fill="#0f172a" text-anchor="middle">Servers listen on known service ports (e.g. 80, 443, 53) to concurrently serve hundreds of client requests.</text>
       </svg>`;
 
     default:

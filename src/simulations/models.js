@@ -1,10 +1,58 @@
 export const layouts={
- Star:{nodes:['Switch','PC 1','PC 2','PC 3','PC 4'],edges:[[0,1],[0,2],[0,3],[0,4]],note:'Independent switched links; losing the central switch isolates all endpoints.'},
- Bus:{nodes:['PC 1','PC 2','PC 3','PC 4','PC 5'],edges:[[0,1],[1,2],[2,3],[3,4]],note:'Classic shared coax bus with required termination. A backbone break is modeled as disrupting the whole segment.'},
- Ring:{nodes:['PC 1','PC 2','PC 3','PC 4','PC 5'],edges:[[0,1],[1,2],[2,3],[3,4],[4,0]],note:'Unprotected single logical ring. Any break disrupts this ring; protected dual rings are outside the model.'},
- Mesh:{nodes:['PC 1','PC 2','PC 3','PC 4','PC 5'],edges:[[0,1],[0,2],[0,3],[0,4],[1,2],[1,3],[1,4],[2,3],[2,4],[3,4]],note:'Abstract routed graph with alternate paths; Ethernet loop-control behavior is outside this model.'},
- Tree:{nodes:['Core','Branch A','Branch B','PC A','PC B'],edges:[[0,1],[0,2],[1,3],[2,4]],note:'Hierarchical branches; an upstream break separates the downstream subtree.'},
- Hybrid:{nodes:['Switch A','PC A','Switch B','PC B','PC C'],edges:[[0,1],[0,2],[2,3],[2,4]],note:'Two stars joined by one backbone. Loss of the backbone separates the groups.'}
+ Star:{
+  nodes:['Switch','PC 1','PC 2','PC 3','PC 4'],
+  edges:[[0,1],[0,2],[0,3],[0,4]],
+  note:'Independent switched links; losing the central switch isolates all endpoints.',
+  dataFlow:'Centralized: Packets pass from sender into central switch, which forwards only to destination port.',
+  pros:'Fault isolation (one broken cable affects only that device); easy troubleshooting and expansion.',
+  cons:'Single point of failure at central switch; requires more cabling than a bus.',
+  example:'Standard modern office, campus, and home Ethernet LANs.'
+ },
+ Bus:{
+  nodes:['PC 1','PC 2','PC 3','PC 4','PC 5'],
+  edges:[[0,1],[1,2],[2,3],[3,4]],
+  note:'Classic shared coax bus with required termination. A backbone break is modeled as disrupting the whole segment.',
+  dataFlow:'Broadcast: Signals travel along single shared trunk in both directions; terminators absorb signals at ends.',
+  pros:'Minimal cabling required; simple and inexpensive for small, temporary setups.',
+  cons:'A break anywhere in backbone halts all communication; difficult fault isolation; collision-prone.',
+  example:'Early legacy 10BASE2/10BASE5 coaxial Ethernet and automotive sensor buses.'
+ },
+ Ring:{
+  nodes:['PC 1','PC 2','PC 3','PC 4','PC 5'],
+  edges:[[0,1],[1,2],[2,3],[3,4],[4,0]],
+  note:'Unprotected single logical ring. Any break disrupts this ring; protected dual rings are outside the model.',
+  dataFlow:'Unidirectional: Data travels around the closed ring from node to node; each device acts as a repeater.',
+  pros:'Predictable transmission timing; equal access for all nodes without collision overhead.',
+  cons:'Failure of any single device or link breaks communication for the entire ring.',
+  example:'Fiber Distributed Data Interface (FDDI) and SONET metro optical ring backbones.'
+ },
+ Mesh:{
+  nodes:['PC 1','PC 2','PC 3','PC 4','PC 5'],
+  edges:[[0,1],[0,2],[0,3],[0,4],[1,2],[1,3],[1,4],[2,3],[2,4],[3,4]],
+  note:'Abstract routed graph with alternate paths; Ethernet loop-control behavior is outside this model.',
+  dataFlow:'Multipath: Nodes interconnect with multiple paths, routing around failed links to reach destination.',
+  pros:'Maximum fault tolerance and redundancy; no single point of failure; high traffic capacity.',
+  cons:'Expensive cabling and port requirements; complex installation; difficult scalability.',
+  example:'Core Internet service provider backbones and mission-critical data center links.'
+ },
+ Tree:{
+  nodes:['Core','Branch A','Branch B','PC A','PC B'],
+  edges:[[0,1],[0,2],[1,3],[2,4]],
+  note:'Hierarchical branches; an upstream break separates the downstream subtree.',
+  dataFlow:'Hierarchical: Data travels up to core/distribution nodes and branches down to access leaf nodes.',
+  pros:'Highly scalable; clear hierarchical organization by department or floor; structured expansion.',
+  cons:'If an upstream distribution link or core switch fails, all downstream branches are cut off.',
+  example:'Enterprise multi-floor campus LANs and corporate structured cabling hierarchies.'
+ },
+ Hybrid:{
+  nodes:['Switch A','PC A','Switch B','PC B','PC C'],
+  edges:[[0,1],[0,2],[2,3],[2,4]],
+  note:'Two stars joined by one backbone. Loss of the backbone separates the groups.',
+  dataFlow:'Combined: Blends multiple topologies (e.g. Star-Bus) connected through backbone interconnects.',
+  pros:'Combines advantages of multiple topologies; highly adaptable to diverse building layouts.',
+  cons:'Complex network design; troubleshooting requires understanding multiple topologies.',
+  example:'University campus connecting separate departmental star LANs across a building backbone.'
+ }
 };
 export function reachable(nodes,edges,start,failed=-1,dead=-1,kind='Mesh') {
  if(start===dead)return [];

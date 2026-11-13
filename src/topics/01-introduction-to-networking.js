@@ -16,9 +16,9 @@ export default topic({
       "title": "What Is a Computer Network?",
       "lead": "A computer network is a system of two or more connected devices that exchange data and share resources. The devices communicate through wired or wireless links using agreed rules called protocols.",
       "items": [
-        "Connected devices: computers, phones, servers, and printers can all participate in a network; the devices do not have to be identical.",
-        "Communication: a device sends data through a connection, and another device receives and interprets it using compatible communication rules.",
-        "Shared access: connected users can exchange messages, use shared files, or send work to a network printer. A local network can provide these services without Internet access."
+        "Connected devices: Computers, phones, servers, and printers join together to communicate.",
+        "Communication: Devices send and interpret data using shared communication rules.",
+        "Shared access: Users share files, messages, and printers even without Internet access."
       ],
       "ask": "Can two computers share a file without Internet access?"
     },
@@ -26,18 +26,18 @@ export default topic({
       "title": "Everyday Uses of Networks",
       "lead": "Networks support familiar tasks by connecting people, applications, and shared resources across private and public environments.",
       "items": [
-        "Communication and learning: phones and computers exchange messages and access course materials through local and cloud services.",
-        "Network boundaries: an Intranet is private to an organization, an Extranet allows trusted external partners access, and the Internet connects public networks worldwide.",
-        "Small Office / Home Office (SOHO): compact networks connecting computers, phones, and printers to an Internet service provider via a single multifunction gateway router."
+        "Communication and learning: Devices exchange messages and open course materials.",
+        "Network boundaries: Intranet (private organization), Extranet (trusted partners), and Internet (public worldwide).",
+        "Small Office / Home Office (SOHO): Connects home or small office devices to an ISP through one gateway router."
       ]
     },
     {
       "title": "Basic Network Components",
       "lead": "Three broad groups work together to make a network useful.",
       "items": [
-        "End devices create or receive data: computers, phones, servers, and printers.",
-        "Connecting devices provide paths: a switch joins local wired devices, a wireless access point connects wireless devices, and a router joins networks.",
-        "Links carry signals: Ethernet cables, optical fiber, and wireless radio connect compatible interfaces."
+        "End devices: Computers, phones, servers, and printers that create or receive data.",
+        "Connecting devices: Switches (local wired), access points (wireless), and routers (between networks).",
+        "Links: Copper cables, fiber optics, and wireless radio signals."
       ]
     },
     {

@@ -14,39 +14,39 @@ export default topic({
       "title": "Three gateway interface and translation concepts",
       "lead": "A small-office gateway often combines routing, switching, wireless access, DHCP, NAT, and firewall policy.",
       "items": [
-        "LAN interface: faces local clients.",
-        "WAN interface: faces another network, usually the provider. Working Internet service also needs provider connectivity and routes.",
-        "NAT: translates addresses; a gateway commonly uses port translation so private clients can share a public IPv4 address."
+        "LAN interface: Connects and serves devices inside the local network.",
+        "WAN interface: Connects the router to the Internet Service Provider.",
+        "NAT: Translates private LAN IPs into one public WAN IP for Internet access."
       ],
-      "footnote": "NAT does not replace firewall policy. Local connectivity does not prove WAN or DNS service.",
+      "footnote": "NAT shares one public IP; a firewall still controls which traffic is allowed.",
       "expectedCount": 3
     },
     {
       "title": "Wireless identity and protection",
       "lead": "An SSID names a wireless network. Association and authentication come before useful IP connectivity.",
       "items": [
-        "Wireless security: avoid open networks, WEP, and obsolete WPA/TKIP. Choose a supported protected configuration.",
-        "Choose a long unique passphrase and protect router administrator credentials separately. Hiding an SSID is not a security control.",
-        "A guest network should be intentionally isolated from private LAN resources. Check the real product’s isolation behavior."
+        "Strong encryption: Always choose WPA3 or WPA2-AES; never use WEP or open Wi-Fi for private data.",
+        "Separate passwords: Use a strong Wi-Fi passphrase and a different router admin password.",
+        "Guest isolation: Place visitors on an isolated Guest Wi-Fi so they cannot access private LAN folders."
       ]
     },
     {
       "title": "Wi-Fi Frequencies and Standards",
       "lead": "Wireless networks operate over unlicensed radio frequencies using standardized IEEE 802.11 protocols.",
       "items": [
-        "2.4 GHz Frequency Band: Travels farther and penetrates walls well, but offers lower speeds and suffers high congestion from Bluetooth and microwaves.",
-        "5 GHz Frequency Band: Delivers much faster data speeds and less interference, but has a shorter range and struggles to pass through solid walls.",
-        "Wi-Fi 4 (802.11n): Introduced dual-band operation and MIMO antenna streams, reaching up to 600 Mbps.",
-        "Wi-Fi 5 (802.11ac): High-speed 5 GHz standard providing gigabit wireless speeds for modern laptops and mobile devices.",
-        "Wi-Fi 6 (802.11ax): Modern standard operating on 2.4 GHz, 5 GHz, and 6 GHz (Wi-Fi 6E), optimized for crowded environments like schools and stadiums."
+        "2.4 GHz Band: Longer range through walls, but slower and prone to interference.",
+        "5 GHz Band: Much faster with less interference, but shorter range through walls.",
+        "Wi-Fi 4 (802.11n): Dual-band standard supporting speeds up to 600 Mbps.",
+        "Wi-Fi 5 (802.11ac): High-speed 5 GHz standard delivering gigabit wireless speeds.",
+        "Wi-Fi 6 (802.11ax): Modern standard across 2.4/5/6 GHz built for crowded schools and offices."
       ],
-      "footnote": "Dual-band home and school routers broadcast on both 2.4 GHz and 5 GHz simultaneously under the same SSID so devices can choose the best connection."
+      "footnote": "Dual-band routers broadcast both 2.4 GHz and 5 GHz so devices can pick the best signal."
     },
     {
       "title": "Two protected Wi-Fi security options",
       "items": [
-        "WPA3-Personal: use when supported by the router and clients.",
-        "WPA2-Personal with AES: use for compatible devices that need this protected configuration."
+        "WPA3-Personal: Strongest modern Wi-Fi protection for supported devices.",
+        "WPA2-Personal (AES): Reliable standard protection compatible with most devices."
       ],
       "expectedCount": 2
     },
@@ -54,9 +54,9 @@ export default topic({
       "title": "Change settings in a safe order",
       "lead": "Record the current configuration and use authorized administrative access on a dedicated lab router.",
       "items": [
-        "Choose a private LAN subnet, then a pool of usable addresses inside it excluding the router’s address.",
-        "Changing the router LAN address can interrupt management access; reconnect and obtain a lease in the new subnet.",
-        "Save settings, connect one wired and one wireless client, then verify IP options, gateway reachability, and service access separately."
+        "Set LAN & DHCP together: Pick a private LAN IP and matching DHCP pool inside the same subnet.",
+        "Reconnect after IP changes: Changing the router's LAN IP drops your session until you renew your lease.",
+        "Verify step by step: Connect one wired and one wireless device, then test gateway and Internet access."
       ]
     }
   ],

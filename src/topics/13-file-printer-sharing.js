@@ -14,28 +14,28 @@ export default topic({
       "title": "A host provides a shared resource",
       "lead": "A shared folder or printer is available over a network from a device providing that service.",
       "items": [
-        "In peer-to-peer sharing, devices use Workgroup names and Computer Hostnames to identify peers; the host must stay powered on and reachable.",
-        "A dedicated file/print server centralizes resource management, access credentials, and continuous availability.",
-        "Universal Naming Convention (UNC) paths (e.g. \\\\HOST\\Share) directly locate shared resources; Windows Network Discovery helps browse hosts on private network profiles, and Map Network Drive assigns a persistent drive letter (such as Z:)."
+        "Peer-to-peer sharing: Uses Workgroups and Hostnames; the sharing PC must stay turned on.",
+        "Dedicated server: Centralizes shared files, user accounts, and 24/7 availability.",
+        "UNC paths & mapped drives: Reach shares directly via \\\\HOST\\Share or map a drive letter like Z:."
       ]
     },
     {
       "title": "Two permission gates for remote file access",
       "lead": "On Windows NTFS-hosted network shares, share permissions and file-system permissions both apply.",
       "items": [
-        "Share permissions: control the access allowed through the published network share.",
-        "File-system permissions: NTFS permissions control access to the underlying files and folders."
+        "Share permissions: Controls who can enter the folder over the network.",
+        "File-system permissions: NTFS rules that control local and remote file access."
       ],
       "expectedCount": 2,
-      "footnote": "Remote access is limited by both sets. Read/viewer permits reading; change/editor permits modification only when NTFS also allows it. Actual ACLs also include groups, inheritance, and explicit denies."
+      "footnote": "When Share and NTFS permissions differ, the most restrictive rule always wins."
     },
     {
       "title": "Share safely on trusted networks",
       "lead": "Use least privilege, authenticated accounts, and an approved private network profile.",
       "items": [
-        "Create a test folder → Properties → Sharing → Advanced Sharing; share only the intended folder with named authorized users.",
-        "Check Security permissions separately. Enable discovery/file sharing only for the approved profile and retain appropriate firewall rules.",
-        "Install a supported printer driver and authorize the printer share. A reachable PC does not guarantee spooler, driver, or permission success."
+        "Advanced Sharing: Share only the needed folder with specific user accounts.",
+        "Private Network Profile: Turn on Network Discovery only on trusted private networks.",
+        "Shared printers: Require a reachable host, a matching printer driver, and print permission."
       ]
     }
   ],

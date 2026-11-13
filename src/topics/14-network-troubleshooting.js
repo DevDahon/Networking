@@ -14,21 +14,21 @@ export default topic({
       "title": "Observe before changing",
       "lead": "Define the symptom and scope, gather evidence, make one justified change, then retest and document.",
       "items": [
-        "Start with power, cable, port, and wireless association. Compare with a known-good link when authorized.",
-        "Check address, mask, duplicate conflicts, DHCP service, and gateway. Test local and remote reachability separately.",
-        "If numeric connectivity works but names fail, investigate DNS. If the host is reachable but a share is denied, inspect identity and permissions."
+        "Check Layer 1 first: Inspect power, cables, switch link lights, and Wi-Fi connection.",
+        "Check IP settings: Verify the IP address, subnet mask, gateway, and DHCP status.",
+        "Isolate the layer: If ping works by IP but websites fail by name, check DNS."
       ]
     },
     {
       "title": "Six Windows diagnostic commands",
       "lead": "Run these on your own authorized Windows lab PC; browser output in the simulation is a model.",
       "items": [
-        "ipconfig: shows basic interface configuration; it does not prove reachability.",
-        "ipconfig /all: shows detail such as DNS, DHCP server, and leases; it does not prove reachability.",
-        "ping: tests ICMP Echo behavior and round-trip time; a timeout can also mean filtering or packet loss.",
-        "tracert: provides TTL-based hop evidence; filtered probes can produce gaps.",
-        "nslookup: queries DNS; success does not prove the destination service works.",
-        "arp -a: lists cached IPv4 neighbor mappings, not every device on the LAN."
+        "ipconfig: Displays current IPv4 address, subnet mask, and default gateway.",
+        "ipconfig /all: Shows MAC address, DHCP server, lease times, and DNS servers.",
+        "ping: Sends ICMP Echo messages to test reachability and round-trip time.",
+        "tracert: Maps each router hop along the path to a remote destination.",
+        "nslookup: Queries a DNS server to check if domain names resolve to IPs.",
+        "arp -a: Lists the local table of IPv4 addresses matched to MAC addresses."
       ],
       "expectedCount": 6
     },
@@ -36,9 +36,9 @@ export default topic({
       "title": "Test the theory and verify the repair",
       "lead": "Different problems can produce similar symptoms, so compare independent evidence.",
       "items": [
-        "169.254.x.x suggests link-local configuration; check DHCP reachability rather than guessing a public address.",
-        "A wrong gateway can break remote access while local peers still work. A DNS fault can leave numeric connectivity intact.",
-        "Network documentation and repair verification: record physical/logical topology diagrams, IP address allocation tables, device inventories, configuration backups, and change logs to systematically verify repairs."
+        "169.254.x.x (APIPA): Means the PC could not reach a DHCP server.",
+        "Local vs. remote: A bad gateway breaks Internet access while local LAN pings still work.",
+        "Document the fix: Record network diagrams, IP tables, and change logs after verifying repairs."
       ]
     },
     {

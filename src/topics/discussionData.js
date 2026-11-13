@@ -2,87 +2,172 @@
 // the useful configuration procedures or technical verification guidance.
 export const discussionData={
  '01-introduction-to-networking':{
-  walkthrough:{title:'Follow a shared-printer request',items:['The sending PC creates print data and addresses a reachable printer service. The switch connects the local devices.','Copper or radio carries the signals; compatible protocols let the printer interpret the message.','The printer receives the document and can return status information. Communication roles depend on the direction of each message.','If the Internet uplink fails, correctly configured local printing can continue. A failed PC cable isolates that PC; a failed central switch affects its attached devices.']},
+  walkthrough:{title:'Follow a shared-printer request',items:[
+   'Create Request: The sending PC prepares print data and addresses the local printer.',
+   'Transmit Signals: Ethernet cables or Wi-Fi carry the request through the local switch.',
+   'Receive & Reply: The printer accepts the job into its queue and sends a status reply.',
+   'Fault Isolation: An unplugged PC cable affects only that PC, while a dead switch stops all local printing.'
+  ]},
   summary:[
-   'A network connects devices so they can exchange data and share resources.',
-   'End devices, connecting devices, and wired or wireless links work together.',
-   'PAN, LAN, MAN, and WAN describe geographic scope rather than strict universal distance limits.',
-   'Peer-to-peer and client-server describe service roles, not geographic coverage.',
-   'Sender, receiver, message, medium, and protocol describe a communication exchange.',
-   'Bandwidth describes link capacity; latency describes delay. A LAN operates without Internet service, but shared resources need security and maintenance.'
+   'Core Purpose: A network connects devices to share data, files, and hardware resources.',
+   'Three Building Blocks: End devices, connecting devices (switches/routers), and links work together.',
+   'Coverage vs. Role: PAN, LAN, MAN, and WAN describe size; Peer-to-Peer and Client-Server describe service roles.',
+   'Performance: Bandwidth measures link capacity (Mbps/Gbps), while latency measures delay (ms).'
   ]
  },
  '03-network-topologies':{
-  walkthrough:{title:'Trace a switched star connection',items:['Five computers and one printer each have a separate cable to the central switch. This star needs six endpoint connections.','A computer reaches the printer through the switch. It does not need a separate direct cable to each other endpoint.','If one computer’s cable is disconnected, that computer is isolated. The other four computers can still reach the connected printer through the working switch.','If the central switch loses power or fails, all six endpoints lose communication through it. This central dependency is different from a single endpoint-cable failure.']},
-  summary:['Physical topology describes arrangement; logical topology describes how data travels.','A switched star gives endpoints independent links but depends on the central device.','Classic bus and unprotected ring failures follow shared-backbone and single-ring assumptions.','Mesh provides alternate paths; tree and hybrid designs combine links with different failure scopes.','Choose topology using endpoint count, cost, growth, cable reach, and availability requirements.','Redundant Ethernet links require loop prevention; an abstract connectivity graph does not simulate switching protocols.']
+  walkthrough:{title:'Trace a switched star connection',items:[
+   'Independent Spokes: Each of the five PCs and the printer has its own cable to the central switch.',
+   'Switch Forwarding: A PC reaches the printer through the switch without needing direct cables to other PCs.',
+   'Single-Cable Fault: Unplugging one PC isolates only that computer; the other four keep working.',
+   'Central-Device Fault: If the central switch loses power, all six endpoints lose connection.'
+  ]},
+  summary:[
+   'Physical vs. Logical: Physical topology is the cable layout; logical topology is how data flows.',
+   'Star Standard: Modern LANs use Star topology because one broken cable only affects one device.',
+   'Bus & Ring: Bus shares one backbone cable; an unprotected Ring breaks if any single link fails.',
+   'Mesh, Tree & Hybrid: Mesh adds redundant paths for high reliability, while Tree and Hybrid scale across buildings.'
+  ]
  },
  '04-network-devices':{
-  walkthrough:{title:'Read the interfaces along a network path',items:['The PC NIC sends a frame through an Ethernet port to a switch. Link indicators show link detection, not proof of IP or Internet access.','The switch forwards a known local unicast toward its learned destination port. A hub would repeat incoming bits to other ports.','For a remote IP network, a router selects the next hop. Its LAN and WAN interfaces face different network roles.','A home gateway may also contain an AP, switch, DHCP service, NAT, and firewall. A modem or optical terminal serves the provider access technology.']},
-  summary:['A NIC connects a host to a network; interfaces and ports have distinct roles.','A hub repeats bits; a switch learns MAC information and forwards frames.','A bridge joins link-layer segments; a switch is a multiport bridge.','A router forwards IP packets between networks.','An AP bridges wireless access to a LAN; a modem adapts provider-medium signals.','Repeaters regenerate signals and firewalls enforce traffic policy; combined devices may perform several functions.']
+  walkthrough:{title:'Read the interfaces along a network path',items:[
+   'NIC & Link Light: The PC’s NIC sends frames to the switch; a link light confirms physical connection.',
+   'Layer 2 Switching: The switch reads the destination MAC address and forwards the frame to the right port.',
+   'Layer 3 Routing: For outside networks, the router checks the destination IP and forwards the packet to the next hop.',
+   'Modem & Access Point: The AP connects wireless clients to the LAN, and the modem links to the ISP line.'
+  ]},
+  summary:[
+   'NIC & Hub: A NIC connects a host to a cable; a legacy Hub (Layer 1) blindly repeats signals to all ports.',
+   'Switch (Layer 2): Learns MAC addresses to forward frames only to the intended local device.',
+   'Router (Layer 3): Uses IP addresses and routing tables to connect different networks.',
+   'AP, Modem & Firewall: APs bridge Wi-Fi to Ethernet, modems translate ISP signals, and firewalls block threats.'
+  ]
  },
  '06-network-cables-media':{
-  walkthrough:{title:'Select media for a campus installation',items:['Identify the required channel distance: horizontal floor runs under 90 m can use Category 6 twisted pair, while outdoor building runs over 100 m require optical fiber.','Compare interference conditions: factory floors or conduits near high-voltage lines require fiber or properly bonded STP cable.','Select optical fiber profiles: single-mode fiber for long-distance inter-building backbones, and multi-mode fiber for high-speed switch-to-switch links within a data center.','Verify physical termination and transceiver compatibility before applying power or configuring network interfaces.']},
+  walkthrough:{title:'Select media for a campus installation',items:[
+   'Check Distance: Use Cat 6 copper for indoor runs under 100 meters, and fiber-optic cable for longer runs.',
+   'Check Interference: Use STP or optical fiber near heavy motors, power lines, or outdoor lightning zones.',
+   'Pick Fiber Type: Choose Multi-Mode Fiber (MMF) within buildings and Single-Mode Fiber (SMF) across campus.',
+   'Verify Connectors: Match RJ45 plugs to copper ports and LC/SC optical transceivers to fiber ports.'
+  ]},
   summary:[
-   'Copper carries electrical signals, optical fiber carries light, and wireless uses radio.',
-   'UTP relies on pair twisting to cancel crosstalk; STP requires correct shield bonding.',
-   'Cable category, channel length, connectors, and installation quality jointly determine performance.',
-   'Fiber optics provide immunity to electromagnetic interference and span much greater distances than copper.',
-   'Coaxial cable provides durable shielding for broadband and antenna feeds.',
-   'Radio frequencies provide mobile wireless connectivity over shared, unguided airspace.'
+   'Three Media Types: Copper uses electrical pulses, fiber uses light pulses, and wireless uses radio waves.',
+   'Twisted Pair (UTP/STP): Wire twists cancel crosstalk; copper Ethernet supports up to 100 meters.',
+   'Fiber-Optic Advantage: Glass fibers carry high-speed light over kilometers with zero electrical interference.',
+   'Coaxial & Wireless: Coaxial shields broadband connections, while Wi-Fi trades cable speed for mobility.'
   ]
  },
  '07-rj45-crimping':{
-  walkthrough:{title:'Termination sequence: inspect before crimping',items:['Use the contact-side view with the latch behind and cable entering downward. Pin 1 is left; confirm this orientation at both ends.','Cut cleanly and strip only the required jacket without nicking insulation. Arrange the selected T568 standard and preserve twists close to termination.','Trim conductors evenly, insert them fully into a compatible plug, and confirm the jacket is under strain relief.','Inspect all eight contact positions before crimping. Keep fingers away from blades and jaws; a bad crimp usually requires a new plug.','Connect main and remote tester units. Trace all eight paths, repair opens/shorts/miswires, and check the actual authorized link separately.']},
+  walkthrough:{title:'Termination sequence: inspect before crimping',items:[
+   'Strip Jacket: Score and remove about 1 inch of outer cable jacket without nicking the inner wire insulation.',
+   'Untwist & Align: Untwist pairs, flatten the 8 wires in exact T568A or T568B color order, and trim evenly.',
+   'Insert & Crimp: Push wires fully to the front of the RJ45 plug (clip facing down) with jacket inside strain relief, then crimp.',
+   'Test Continuity: Plug both ends into a LAN cable tester and verify LEDs 1 through 8 light up in order.'
+  ]},
   summary:[
-   'T568A and T568B specify exact conductor-to-pin orders in an agreed connector view.',
-   'A conventional straight-through cable uses A–A or B–B.',
-   'A traditional A–B crossover swaps the 10/100BASE-T pairs; many modern interfaces use auto-MDI/MDIX.',
-   'Full insertion, preserved twists, compatible plugs, and jacket strain relief affect termination quality.',
-   'Opens, shorts, and unexpected pin paths indicate different wire-map faults.',
-   'A continuity pass does not certify pair integrity, category bandwidth, or real-link performance.'
+   'T568A vs. T568B: Both standards wire 8 pins; T568B swaps the orange (pins 1–2) and green (pins 3, 6) pairs.',
+   'Cable Types: Straight-through (B-to-B) connects PC to Switch; Crossover (A-to-B) connects like devices.',
+   'Proper Crimp: Keep wire untwisting under 0.5 inch and lock the outer jacket under the plug’s strain latch.',
+   'Wire-Map Testing: A cable tester detects Open (broken), Short (touching), Miswired, and Split-Pair faults.'
   ]
  },
  '08-ip-addressing':{
-  walkthrough:{title:'Interpret an IPv4 configuration',items:['In 192.168.10.25/24, the prefix marks 24 network bits and eight host bits. The mask is 255.255.255.0.','The gateway 192.168.10.1 is another usable address on that local subnet and handles destinations without a more specific route.','A DNS resolver maps names to records. It may equal the gateway when that gateway forwards DNS, but this is not required.','An octet uses weights 128, 64, 32, 16, 8, 4, 2, 1; adding enabled weights converts eight bits into a decimal value.','Private addresses are not globally routed; loopback, link-local, shared carrier, documentation, multicast, and reserved ranges also need separate treatment.']},
+  walkthrough:{title:'Interpret an IPv4 configuration',items:[
+   'Read IP & Prefix: In 192.168.10.25/24, the first 24 bits (192.168.10) identify the network and .25 identifies the host.',
+   'Find Subnet Mask: A /24 prefix equals 255.255.255.0, giving 254 usable host addresses (.1 to .254).',
+   'Check Gateway: The default gateway (192.168.10.1) is the local router door used to reach outside networks.',
+   'Check Private vs. Special: 192.168.x.x is a private LAN IP, 127.0.0.1 tests the local PC, and 169.254.x.x means DHCP failed.'
+  ]},
   summary:[
-   'IPv4 uses 32 bits arranged in four decimal octets (0–255); IPv6 uses 128 bits.',
-   'The subnet mask or prefix separates the network identity from host identity bits.',
-   'Subnetting divides networks into smaller, efficient, and secure broadcast domains.',
-   'A /24 subnet has a Network ID (.0), Broadcast IP (.255), and 254 usable host addresses (.1 to .254).',
-   'Private IPv4 address ranges (RFC 1918) include 10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16.',
-   'Modern CIDR replaces classful addressing, allowing custom subnet sizes for any network.'
+   'IPv4 Format: Four decimal octets (0–255) totaling 32 bits, split into a Network portion and a Host portion.',
+   'Subnet Boundaries: Every subnet reserves the first IP as Network ID, the last as Broadcast, and Total − 2 for hosts.',
+   'CIDR & Private IPs: Slash notation (/24) replaces rigid classes; 10.x.x.x, 172.16–31.x.x, and 192.168.x.x are private.',
+   'IPv6 Evolution: IPv6 uses 128-bit hexadecimal addresses (with :: zero compression) so addresses never run out.'
   ]
  },
  '10-static-ip':{
-  walkthrough:{title:'Windows static-IP configuration',items:['Record the original configuration and select the intended adapter. Open ncpa.cpl, adapter Properties, then Internet Protocol Version 4 (TCP/IPv4) Properties.','On an approved isolated LAN, 192.168.1.10/24 and 192.168.1.20/24 are compatible local hosts. A gateway is unnecessary for a numeric local test.','Use ipconfig /all to inspect settings, then test the peer in both directions. If ICMP is filtered, examine approved policy rather than disabling the firewall.','Changing the second host to 192.168.2.20/24 requires appropriate gateways and bidirectional routing for cross-subnet communication.','Restore the original approved IP/DNS method after a physical demonstration; browser settings do not change the real Windows adapter.']},
+  walkthrough:{title:'Windows static-IP configuration',items:[
+   'Open Adapter Settings: Press Win+R, run ncpa.cpl, right-click the Ethernet/Wi-Fi adapter, and open IPv4 Properties.',
+   'Enter Local Settings: Type a unique IP (e.g., 192.168.1.10), Subnet Mask (255.255.255.0), and Default Gateway (192.168.1.1).',
+   'Enter DNS Server: Add a DNS server IP (such as 192.168.1.1 or 8.8.8.8) so website names resolve.',
+   'Verify with CLI: Run ipconfig /all to confirm the settings, then ping a local peer and the default gateway.'
+  ]},
   summary:[
-   'Static addressing supplies manually chosen, stable interface configuration.',
-   'Each ordinary LAN host needs a unique usable address and a valid contiguous subnet mask.',
-   'Same-subnet communication requires both hosts to make compatible local-delivery decisions.',
-   'Different subnets need appropriate routing and local gateways.',
-   'DNS is independent of numeric-IP reachability; valid syntax alone does not prove connectivity.',
-   'Record and restore real configurations, coordinate static assignments with DHCP, and preserve firewall protections.'
+   'Static vs. Dynamic: Use Static IPs for servers, printers, and routers; use DHCP for everyday client devices.',
+   'Four Required Fields: IP Address, Subnet Mask, Default Gateway (for outside networks), and DNS Server (for names).',
+   'Two-Way Agreement: Both hosts must have unique IPs and matching subnet masks to talk on a local LAN.',
+   'Always Verify: Valid numbers alone do not guarantee connection—always test with ipconfig and ping.'
   ]
  },
  '11-dhcp':{
-  walkthrough:{title:'Read a DHCP configuration and lease',items:['An authorized router pool contains usable addresses inside its LAN subnet, excluding the router and other managed infrastructure.','A client set to automatic IP/DNS obtains address, mask, gateway, DNS, and a lease lifetime from the reachable server.','Discover locates a server, Offer proposes configuration, Request selects it, and ACK commits the lease.','On authorized Windows equipment, ipconfig /all shows DHCP and lease information; ipconfig /release and ipconfig /renew return and request configuration.','Pool exhaustion, unavailable service, conflicting options, and invalid pool boundaries are different faults. An unapproved DHCP server must not be attached to the production LAN.']},
-  summary:['DHCP supplies temporary address configuration and options from an authorized server.','Initial allocation is commonly explained as Discover, Offer, Request, Acknowledgment.','Active leases must have unique addresses inside the configured pool.','Renewal extends use, release returns an address, and expiry makes it reusable.','A full pool cannot safely allocate another active address.','An unreachable DHCP server may lead to link-local configuration, which does not provide ordinary routed access.']
+  walkthrough:{title:'Read a DHCP configuration and lease',items:[
+   'Configure Pool: Set the router’s DHCP range inside its LAN subnet (e.g., .100 to .199), excluding static server IPs.',
+   'Run DORA Exchange: The client broadcasts Discover, receives an Offer, sends a Request, and gets an ACK.',
+   'Inspect Lease: Run ipconfig /all on Windows to view the leased IP, DHCP server address, and expiration time.',
+   'Refresh Lease: Use ipconfig /release to give back an IP and ipconfig /renew to request a fresh lease.'
+  ]},
+  summary:[
+   'Automatic Setup: DHCP automatically assigns an IP, subnet mask, gateway, and DNS server from a managed pool.',
+   'Four DORA Steps: Discover (client broadcast) → Offer (server proposal) → Request (client choice) → ACK (confirmed).',
+   'Lease Lifecycle: Leases are temporary; clients renew them halfway through or release them when disconnecting.',
+   'Common Faults: An exhausted pool or offline DHCP server causes clients to fall back to a 169.254.x.x APIPA address.'
+  ]
  },
  '12-router-wireless':{
-  walkthrough:{title:'Router configuration sequence',items:['Use an isolated, authorized router and record its current settings. A wired management connection reduces dependence on changing Wi-Fi settings.','Choose a private LAN subnet and a matching pool excluding the router address. A LAN address change can interrupt management and existing leases.','Set an SSID and supported WPA3-Personal or WPA2-AES security. Use a long unique passphrase distinct from router administrator credentials.','Reconnect a wired and an authenticated wireless client, then inspect assigned address, mask, gateway, and DNS.','Check local access before WAN services. Guest isolation depends on the actual device features and policy; restore approved settings after a physical demonstration.']},
-  summary:['A router connects IP networks; LAN interfaces face local clients and WAN faces another network/provider.','Small gateways may combine router, switch, AP, DHCP, NAT, and firewall functions.','NAT translation does not replace access-control policy or prove Internet service.','An SSID names a WLAN; authentication and association precede useful IP connectivity.','Use supported WPA3 or WPA2-AES security with strong unique credentials.','DHCP pools must match the LAN; guest isolation and actual WAN service need separate verification.']
+  walkthrough:{title:'Router configuration sequence',items:[
+   'Connect for Setup: Log into the router using a wired Ethernet cable so Wi-Fi changes do not drop your session.',
+   'Set LAN & DHCP: Configure the private LAN IP (e.g., 192.168.1.1/24) and matching DHCP pool (.100–.199).',
+   'Secure Wi-Fi: Set a clear SSID, choose 2.4 GHz / 5 GHz bands, and enable WPA3-Personal or WPA2-AES with a strong passphrase.',
+   'Reconnect & Test: Connect wired and wireless clients, verify their new IPs, and test local and Internet access.'
+  ]},
+  summary:[
+   'All-in-One Gateway: A SOHO router combines a Layer 3 Router, Layer 2 Switch, Wireless AP, DHCP server, NAT, and Firewall.',
+   'LAN vs. WAN: LAN ports connect private internal devices; the WAN port connects to the Internet Service Provider.',
+   'Wi-Fi Bands & Security: 2.4 GHz reaches farther while 5/6 GHz is faster; always protect Wi-Fi with WPA3 or WPA2-AES.',
+   'Guest Isolation: Guest Wi-Fi lets visitors use the Internet while blocking access to private LAN computers and files.'
+  ]
  },
  '13-file-printer-sharing':{
-  walkthrough:{title:'Windows folder sharing',items:['On a trusted approved network, a host shares a non-sensitive folder through Properties → Sharing → Advanced Sharing with a named authorized identity.','The Security tab controls NTFS permissions separately. For remote file access, both share and file-system rules must allow the requested action.',String.raw`From another computer, use a UNC path such as \\HOST\ClassFiles and authenticate with the intended account. Host-side access does not verify the client identity.`,'Read-only access permits reading without edits; editing requires suitable permissions at both layers. Retain approved discovery/file-sharing firewall rules.','Remove temporary shares after a physical demonstration. Printer sharing additionally depends on print permission, driver compatibility, and a working host/spooler.']},
-  summary:['A shared resource depends on a reachable host providing the service.','Peer-hosted and dedicated-server designs differ in availability and management.','Share permissions and file-system permissions both limit remote file access.','Use named identities, least privilege, and trusted network profiles.','UNC paths identify a host and share; discovery and name resolution are related but distinct.','Printer reachability alone does not prove driver, spooler, or permission success.']
+  walkthrough:{title:'Windows folder sharing',items:[
+   'Enable Private Sharing: Set the Windows network profile to Private and turn on Network Discovery and File Sharing.',
+   'Configure Share & NTFS: Right-click the folder, enable Advanced Sharing, and set both Share and NTFS Security permissions.',
+   String.raw`Connect via UNC Path: On another PC, open File Explorer and type \\HOST\ClassFiles (or map it as Drive Z:).`,
+   'Verify Access Level: Confirm Read-Only users can open files while Edit/Modify users can save changes.'
+  ]},
+  summary:[
+   'Host Dependency: Shared folders and printers are only accessible while the host computer is online and reachable.',
+   'Most Restrictive Wins: Windows combines Share permissions and NTFS permissions—the stricter rule always applies.',
+   String.raw`UNC & Mapped Drives: Access shares directly using \\Host\Share or map them to a drive letter like Z:.`,
+   'Least Privilege: Share only on trusted private networks and give each user only the permissions they need.'
+  ]
  },
  '14-network-troubleshooting':{
-  walkthrough:{title:'A fault-to-repair demonstration',items:['Define the symptom and scope, then inspect power, physical link, association, and the known healthy configuration.','ipconfig /all exposes address, mask, gateway, DNS, and DHCP details without proving reachability.','Compare a local numeric test, a gateway test, a remote numeric test, and a DNS query to narrow the affected function.','Use tracert for hop evidence and arp -a for cached IPv4 neighbors, recognizing filtering and cache limitations.','Change one justified setting, repeat the original failing test, and document the result. Keep security controls active and escalate unfamiliar equipment faults.']},
-  summary:['Troubleshooting moves from a clear symptom through evidence, a hypothesis, one justified change, and a retest.','Physical links, IP settings, routes, DNS, and application permissions can fail independently.','ipconfig reports configuration; ping tests ICMP behavior, with filtering and loss caveats.','tracert provides hop evidence and nslookup queries DNS; neither proves the whole service works.','arp -a lists cached local IPv4 mappings, not an exhaustive network inventory.','A successful repair is demonstrated by repeating the original failing test and documenting the outcome.']
+  walkthrough:{title:'A fault-to-repair demonstration',items:[
+   '1. Check Physical Layer: Verify power, link lights, Ethernet cable seating, or Wi-Fi connection status.',
+   '2. Check IP Config: Run ipconfig /all to spot a 169.254.x.x APIPA address, wrong subnet mask, or missing gateway.',
+   '3. Test Path & DNS: Ping the default gateway (local LAN), ping 8.8.8.8 (Internet route), and run nslookup (DNS).',
+   '4. Fix One Thing & Retest: Apply the targeted fix, then repeat the original failing action to confirm recovery.'
+  ]},
+  summary:[
+   'Structured Method: Observe the symptom → test layer by layer → change one setting → retest and document.',
+   'Core CLI Tools: ipconfig checks settings, ping tests reachability, tracert maps hops, and nslookup tests DNS.',
+   'ARP & Netstat: arp -a checks IP-to-MAC resolution on the LAN, while netstat lists active ports and connections.',
+   'Isolate the Layer: If ping by IP works but website names fail, the network path is healthy—fix the DNS setting.'
+  ]
  },
  '15-network-security':{
-  walkthrough:{title:'Layered defense in practice',items:['Secure the perimeter: configure stateful firewalls to deny unsolicited inbound traffic and permit only necessary ports.','Protect endpoints: install reputable antivirus/EDR software, enable automatic security updates, and run regular scans.','Encrypt data in transit: enforce HTTPS/TLS for all web services and avoid entering credentials over cleartext HTTP or open Wi-Fi.','Enforce strong authentication: implement multi-factor authentication (MFA) and unique, complex passphrases for all accounts.','Practice vigilant network hygiene: verify sender addresses before clicking links, backup critical files, and report suspicious activities.']},
-  summary:['Network security protects confidentiality, integrity, and availability against unauthorized access and disruption.','Common threats include malware, phishing deception, unauthorized intrusion, and Denial-of-Service resource exhaustion.','Firewalls filter traffic at network boundaries, while endpoint protection safeguards individual host systems.','HTTPS and TLS encrypt sensitive communications across unguided or public transport paths.','Routine software updates eliminate known vulnerabilities before attackers can exploit them.','Strong unique passphrases and multi-factor authentication form the primary defense against unauthorized account access.']
+  walkthrough:{title:'Layered defense in practice',items:[
+   '1. Perimeter Firewall: Enable stateful firewall rules to block unsolicited incoming connections from the Internet.',
+   '2. Endpoint Protection: Keep antivirus active and install OS and browser security updates automatically.',
+   '3. Encrypt Traffic: Use HTTPS/TLS for web logins and WPA2-AES or WPA3 for wireless networks.',
+   '4. Protect Accounts: Require strong, unique passphrases and Multi-Factor Authentication (MFA) on all accounts.'
+  ]},
+  summary:[
+   'CIA Triad: Confidentiality keeps data private, Integrity prevents tampering, and Availability keeps services online.',
+   'Four Major Threats: Malware infects hosts, phishing steals passwords, intrusions probe ports, and DoS floods servers.',
+   'Stateful Firewalls & TLS: Firewalls block unauthorized inbound probes, while HTTPS/TLS encrypts data in transit.',
+   'Human & Account Defense: Strong passwords, MFA, regular updates, and spotting phishing links stop most breaches.'
+  ]
  }
 };
 

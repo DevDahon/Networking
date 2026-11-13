@@ -24,11 +24,15 @@ function scene(root,spec){
   index=Math.max(0,Math.min(index,plan.steps.length-1));const current=plan.steps[index];
   const hasInputs=fields().some(f=>!f.options);
   const markup=stepIndex=>{const current=plan.steps[stepIndex];
-   return `<form class="control-row extra-config">${fields().map(f=>f.options?select(f.label,f.name,f.options,config[f.name]):input(f.label,f.name,config[f.name],f.number?'number':'text')).join('')}${hasInputs?'<button type="submit">Apply configuration</button>':''}</form>${error?result(error,false):`${spec.visual?spec.visual(config,stepIndex,plan):networkSVG(plan.labels||['Source','Network','Destination'],Math.min(2,stepIndex))}<div class="step-card" aria-live="polite"><b>Step ${stepIndex+1} of ${plan.steps.length} · <span class="extra-play-state">${playback.status}</span></b><h3>${esc(current.title)}</h3><p>${esc(current.text)}</p>${current.ok===false?'<span class="extra-blocked">Modeled limit or blocked operation</span>':''}</div>`}<div class="control-row extra-playback">${button('Play / replay','play','primary')}${button('Pause','pause')}${button('Resume','resume')}${button('Previous step','previous')}${button('Next step','advance')}${button('Reset sequence','reset')}${select('Animation speed','speed',[['0.5','0.5×'],['1','1×'],['2','2×']],playback.speed)}</div><p class="small">${esc(spec.note)} Configuration changes pause playback. No real equipment, traffic, or files are accessed.</p>`;
+   const scrubber=plan.steps.length>1?`<div class="step-scrubber" role="group" aria-label="Simulation steps">${plan.steps.map((s,i)=>`<button type="button" class="scrubber-pill ${i===stepIndex?'active':i<stepIndex?'completed':''}" data-step-jump="${i}" aria-current="${i===stepIndex?'step':'false'}" title="${esc(s.title)}"><span class="scrubber-num">${i+1}</span><span class="scrubber-label">${esc(s.title)}</span></button>`).join('')}</div>`:'';
+   return `<form class="control-row extra-config">${fields().map(f=>f.options?select(f.label,f.name,f.options,config[f.name]):input(f.label,f.name,config[f.name],f.number?'number':'text')).join('')}${hasInputs?'<button type="submit">Apply configuration</button>':''}</form>${error?result(error,false):`${spec.visual?spec.visual(config,stepIndex,plan):networkSVG(plan.labels||['Source','Network','Destination'],Math.min(2,stepIndex),null,null,{badge:current.title,fault:current.ok===false})}${scrubber}<div class="step-card" aria-live="polite"><b>Step ${stepIndex+1} of ${plan.steps.length} · <span class="extra-play-state">${playback.status}</span></b><h3>${esc(current.title)}</h3><p>${esc(current.text)}</p>${current.ok===false?'<span class="extra-blocked">Modeled limit or blocked operation</span>':''}</div>`}<div class="control-row extra-playback">${button(playback.running?'Restart':'Play / replay','play','primary')}${button('Pause','pause')}${button('Resume','resume')}${button('Previous step','previous')}${button('Next step','advance')}${button('Reset sequence','reset')}${select('Animation speed','speed',[['0.5','0.5×'],['1','1×'],['2','2×']],playback.speed)}</div><p class="small">${esc(spec.note)} Configuration changes pause playback. No real equipment, traffic, or files are accessed.</p>`;
   };
   root.innerHTML=markup(index);
   if(!error)reserveSimulationSpace(root,plan.steps.map((_,i)=>markup(i)));
   root.querySelector('form').onsubmit=e=>{e.preventDefault();apply();};
+  root.querySelectorAll('[data-step-jump]').forEach(btn=>{
+   btn.onclick=()=>{playback.pause();index=Number(btn.dataset.stepJump);draw();};
+  });
   for(const f of fields()){
    const el=root.querySelector(`[name="${f.name}"]`);
    if(el&&f.options){
@@ -48,7 +52,7 @@ function scene(root,spec){
 export function transferDemo(root){return scene(root,{
  defaults:{size:10,rate:100,latency:20,link:'up'},fields:[{...field('size','File size (decimal MB)'),number:true},field('rate','Link rate (Mb/s)',null,[10,100,1000]),{...field('latency','One-way delay (ms)'),number:true},field('link','Link state',null,[['up','Connected'],['down','Disconnected']])],
  build:c=>{const m=transferModel(c);return {...m,steps:m.ok?Array.from({length:5},(_,i)=>step(i===0?'Prepare the transfer':i===4?'Complete the idealized transfer':'Transmit data',`${(m.size*i/4).toFixed(2)} of ${m.size} MB delivered. Ideal transmission time is size × 8 ÷ rate = ${m.serialization.toFixed(3)} s; add ${(m.latency/1000).toFixed(3)} s one-way delay. ${i===4?'This simplified total omits protocol overhead, congestion, and processing.':''}`)):[step('Link unavailable','A valid file size and link rate cannot move data across a disconnected link.',false)]};},
- visual:(_c,i,m)=>`${networkSVG(['Sender','Link','Receiver'],i===4?2:i>0?1:0)}${metrics([['Delivered',`${m.ok?(m.size*i/4).toFixed(2):0} MB`],['Ideal serialization',`${m.serialization.toFixed(3)} s`],['One-way delay',`${m.latency} ms`],['Ideal total',`${m.total.toFixed(3)} s`]])}<progress class="extra-progress" max="4" value="${m.ok?i:0}" aria-label="Modeled transfer progress"></progress>`,
+ visual:(_c,i,m)=>`${networkSVG(['Sender','Link','Receiver'],i===4?2:i>0?1:0,null,m.ok?100+(i/4)*600:100)}${metrics([['Delivered',`${m.ok?(m.size*i/4).toFixed(2):0} MB`],['Ideal serialization',`${m.serialization.toFixed(3)} s`],['One-way delay',`${m.latency} ms`],['Ideal total',`${m.total.toFixed(3)} s`]])}<progress class="extra-progress" max="4" value="${m.ok?i:0}" aria-label="Modeled transfer progress"></progress>`,
  note:'Real arithmetic in an ideal one-way transfer model: 1 MB = 1,000,000 bytes and 1 Mb/s = 1,000,000 bits/s. Playback time is teaching time, not a speed measurement.'
  });}
 export function availabilityDemo(root){return scene(root,{
@@ -80,7 +84,37 @@ export function layerBoundaryDemo(root){return scene(root,{
 export function nextHopFrameDemo(root){return scene(root,{
  defaults:{destination:'remote',transport:'TCP'},fields:[field('destination','IP destination',null,[['local','Local LAN'],['remote','Different subnet']]),field('transport','Transport example',null,['TCP','UDP'])],
  build:c=>{const frames=hopFrames(c);return {frames,steps:frames.map(f=>step(f.hop,`IP destination stays ${f.destinationIP}. This frame’s destination is ${f.destinationMAC}; transport is ${f.transport}. MAC framing changes between links, while this no-NAT model retains source/destination IPs.`))};},
- visual:(_c,index,p)=>`${networkSVG(p.frames.length>1?['PC A','Router','PC B']:['PC A','Switch','PC B'],index===0?0:1)}${demoTable(['Field','Current value'],Object.entries(p.frames[index]))}`,note:'Conceptual no-NAT path with valid ARP/neighbor state and working routes assumed. TCP example targets HTTPS; UDP example targets DNS. Labels are schematic MAC identities, not captured frames.'
+ visual:(_c,index,p)=>{
+  const f=p.frames[index],isHop2=index>0;
+  return `${networkSVG(p.frames.length>1?['PC A','Router','PC B']:['PC A','Switch','PC B'],index===0?1:2,null,index===0?250:550,{badge:`${f.sourceMAC} → ${f.destinationMAC}`})}
+  <div class="pdu-header-strip" aria-label="Protocol Data Unit Header Inspector">
+   <div class="pdu-cell pdu-l2 ${isHop2?'pdu-mutated':''}">
+    <span class="pdu-layer-tag">L2 Dst MAC ${isHop2?'(Rewritten!)':'(Hop 1)'}</span>
+    <b>${esc(f.destinationMAC)}</b>
+   </div>
+   <div class="pdu-cell pdu-l2 ${isHop2?'pdu-mutated':''}">
+    <span class="pdu-layer-tag">L2 Src MAC ${isHop2?'(Rewritten!)':'(Hop 1)'}</span>
+    <b>${esc(f.sourceMAC)}</b>
+   </div>
+   <div class="pdu-cell pdu-l3">
+    <span class="pdu-layer-tag">L3 Src IP (Constant)</span>
+    <b>${esc(f.sourceIP)}</b>
+   </div>
+   <div class="pdu-cell pdu-l3">
+    <span class="pdu-layer-tag">L3 Dst IP (Constant)</span>
+    <b>${esc(f.destinationIP)}</b>
+   </div>
+   <div class="pdu-cell pdu-l4">
+    <span class="pdu-layer-tag">L4 Transport</span>
+    <b>${esc(f.transport)}</b>
+   </div>
+   <div class="pdu-cell pdu-l2 ${isHop2?'pdu-mutated':''}">
+    <span class="pdu-layer-tag">L2 FCS Trailer</span>
+    <b>${isHop2?'New CRC-32':'Initial CRC-32'}</b>
+   </div>
+  </div>
+  ${demoTable(['Field','Current value'],Object.entries(f))}`;
+ },note:'Conceptual no-NAT path with valid ARP/neighbor state and working routes assumed. TCP example targets HTTPS; UDP example targets DNS. Labels are schematic MAC identities, not captured frames.'
  });}
 export function mediumBudgetDemo(root){return scene(root,{
  defaults:{profile:'cat5e',distance:30,speed:1000,damaged:'no'},fields:[field('profile','Rated teaching profile',null,Object.entries(mediaProfiles).map(([k,v])=>[k,v.label])),{...field('distance','Channel length (m)'),number:true},field('speed','Required rate (Mb/s)',null,[100,1000,10000]),field('damaged','Cable condition',null,[['no','Intact'],['yes','Damaged']])],
@@ -105,15 +139,15 @@ export function partitionDemo(root){return scene(root,{
 export function asymmetricDemo(root){return scene(root,{
  defaults:{a:'192.168.1.10',aPrefix:24,b:'192.168.1.200',bPrefix:25},fields:[field('a','PC A address'),{...field('aPrefix','PC A prefix'),number:true},field('b','PC B address'),{...field('bPrefix','PC B prefix'),number:true}],
  build:c=>{const m=asymmetricSubnet(c);return {...m,steps:[step('PC A decides how to send',`${m.a}/${m.sa.prefix} considers ${m.b} ${m.aLocal?'local: use local-link delivery':'remote: a route/gateway is needed'}.`,m.aLocal),step('PC B independently decides how to reply',`${m.b}/${m.sb.prefix} considers ${m.a} ${m.bLocal?'local: use local-link delivery':'remote: a route/gateway is needed'}.`,m.bLocal),step('Check the round trip',m.ok?'Both hosts agree on local delivery. The modeled connected LAN permits the exchange.':'At least one host needs a route that this isolated model does not provide; a complete round trip fails despite valid individual addresses.',m.ok)]};},
- visual:(_c,_i,m)=>`${networkSVG(['PC A','One LAN, no router','PC B'])}${demoTable(['Host','Own network','Peer decision'],[['A',`${m.sa.network}/${m.sa.prefix}`,m.aLocal?'Local':'Needs route'],['B',`${m.sb.network}/${m.sb.prefix}`,m.bLocal?'Local':'Needs route']])}`,note:'Both directions are calculated using each host’s own prefix. This isolated-LAN model assumes an intact link and permitted traffic, with no gateway or alternate route.'
+ visual:(_c,i,m)=>`${networkSVG(['PC A','One LAN, no router','PC B'],i===0?0:i===1?2:1,null,i===0?250:i===1?550:400,{direction:i===1?'reverse':'forward',badge:i===0?`${m.a}/${m.sa.prefix}`:i===1?`${m.b}/${m.sb.prefix}`:(m.ok?'Round Trip OK':'Asymmetric Failure'),fault:(i===0&&!m.aLocal)||(i===1&&!m.bLocal)||(i===2&&!m.ok)})}${demoTable(['Host','Own network','Peer decision'],[['A',`${m.sa.network}/${m.sa.prefix}`,m.aLocal?'Local':'Needs route'],['B',`${m.sb.network}/${m.sb.prefix}`,m.bLocal?'Local':'Needs route']])}`,note:'Both directions are calculated using each host’s own prefix. This isolated-LAN model assumes an intact link and permitted traffic, with no gateway or alternate route.'
  });}
 export function guestIsolationDemo(root){return scene(root,{
  defaults:{source:'guest',destination:'staff',associated:'yes',isolation:'on',wan:'up',host:'on'},fields:[field('source','Client network',null,[['guest','Guest Wi-Fi'],['staff','Staff LAN']]),field('destination','Destination',null,[['staff','Staff file host'],['internet','Internet service'],['gateway','Local gateway']]),field('associated','Guest association',null,[['yes','Associated'],['no','Disconnected']]),field('isolation','Guest isolation',null,[['on','Enabled'],['off','Disabled']]),field('wan','WAN service',null,[['up','Available'],['down','Unavailable']]),field('host','Staff file host',null,[['on','Online'],['off','Offline']])],
  build:c=>{const m=guestPolicy(c);return {...m,steps:[step('Check local attachment',m.linkOK?'The selected client has a modeled local link.':'The guest is disconnected, so it cannot use a local or remote service.',m.linkOK),step('Evaluate the selected path',m.isolated?'Guest-to-staff access is blocked by the configured isolation policy.':m.pathOK?'The selected destination has a modeled path.':'WAN service is unavailable; this does not itself stop local gateway access.',m.linkOK&&!m.isolated&&m.pathOK),step('Observe service reachability',m.ok?'The selected operation is reachable under the modeled link, policy, and service conditions.':'The modeled link, isolation, WAN path, or host availability blocks this operation.',m.ok)]};},
- visual:(c,_i,m)=>`${networkSVG([c.source==='guest'?'Guest client':'Staff client','Router / AP',c.destination==='internet'?'WAN service':c.destination==='staff'?'Staff host':'Gateway'])}${metrics([['Local link',m.linkOK?'Available':'Disconnected'],['Isolation block',m.isolated?'Yes':'No'],['Selected route',m.pathOK?'Available':'Unavailable'],['Host/service',m.serviceOK?'Available':'Unavailable']])}`,note:'An explicit guest-isolation policy model, not a real VLAN/firewall configuration. File identity/permissions, radio interference, NAT, and upstream details are outside this view.'
+ visual:(c,i,m)=>`${networkSVG([c.source==='guest'?'Guest client':'Staff client','Router / AP',c.destination==='internet'?'WAN service':c.destination==='staff'?'Staff host':'Gateway'],i===0?0:i===1?1:(m.ok?2:1),null,null,{badge:m.isolated&&i>=1?'Isolated (Blocked)':m.ok&&i===2?'Reachable':'Policy Check',fault:(i===0&&!m.linkOK)||(i===1&&(!m.linkOK||m.isolated||!m.pathOK))||(i===2&&!m.ok)})}${metrics([['Local link',m.linkOK?'Available':'Disconnected'],['Isolation block',m.isolated?'Yes':'No'],['Selected route',m.pathOK?'Available':'Unavailable'],['Host/service',m.serviceOK?'Available':'Unavailable']])}`,note:'An explicit guest-isolation policy model, not a real VLAN/firewall configuration. File identity/permissions, radio interference, NAT, and upstream details are outside this view.'
  });}
 export function ttlTraceDemo(root){return scene(root,{
  defaults:{hide:'no',broken:'no'},fields:[field('hide','Router 2 Time Exceeded replies',null,[['no','Visible'],['yes','Suppressed, forwarding continues']]),field('broken','Link beyond router 2',null,[['no','Working'],['yes','Unavailable']])],
  build:c=>{const probes=Array.from({length:c.broken==='yes'?3:4},(_,i)=>traceProbe(i+1,c));return {probes,steps:probes.map(p=>step(`Probe with initial TTL ${p.ttl}`,`${p.status} · ${p.address}. ${p.text}`,p.status!=='Unreachable'))};},
- visual:(_c,index,p)=>`${networkSVG(['Source','Routers / IP path','Destination'],Math.min(2,index))}${demoTable(['Initial TTL','Returned address','Modeled evidence'],p.probes.slice(0,index+1).map(probe=>[probe.ttl,probe.address,probe.status]))}`,note:'A deterministic ICMP-Echo-style trace over three routers to a documentation-address destination. TTL-expiry replies, hidden replies, and an explicit link-down report are distinct modeled outcomes. No random timings or real probes are used.'
+ visual:(_c,index,p)=>{const cur=p.probes[index];return `${networkSVG(['Source','Routers / IP path','Destination'],Math.min(2,index),null,100+(index/Math.max(1,p.probes.length-1))*600,{badge:`TTL=${cur.ttl} · ${cur.status}`,fault:cur.status==='Unreachable'})}${demoTable(['Initial TTL','Returned address','Modeled evidence'],p.probes.slice(0,index+1).map(probe=>[probe.ttl,probe.address,probe.status]))}`;},note:'A deterministic ICMP-Echo-style trace over three routers to a documentation-address destination. TTL-expiry replies, hidden replies, and an explicit link-down report are distinct modeled outcomes. No random timings or real probes are used.'
  });}

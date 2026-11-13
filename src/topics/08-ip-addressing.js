@@ -33,34 +33,34 @@ export default topic({
       "title": "What is a subnet and why do we subnet?",
       "lead": "A subnet is a smaller, organized group of computers within a network, such as separating Students, Staff, and Guest Wi-Fi.",
       "items": [
-        "Organization: Divides a large network into manageable, logical departments.",
-        "Traffic control: Keeps broadcast messages inside one group so they do not slow down other computers.",
-        "Security boundaries: Devices in different subnets cannot talk directly; they must pass through a router or firewall where security rules apply.",
-        "Address efficiency: Allows network administrators to assign addresses without wasting large blocks."
+        "Organization: Splits a large network into smaller groups by room or department.",
+        "Traffic control: Keeps broadcast traffic inside one group so other rooms stay fast.",
+        "Security: Traffic between subnets must pass through a router where firewall rules apply.",
+        "Efficiency: Assigns right-sized address blocks without wasting IPs."
       ],
-      "footnote": "Subnetting is a logical division created by the Subnet Mask; it does not require buying new physical switches."
+      "footnote": "Subnetting is a logical division created by the subnet mask."
     },
     {
       "title": "The subnet mask separates network and host",
       "lead": "A subnet mask is a 32-bit filter that marks the boundary between network bits and host bits using consecutive ones and zeros.",
       "items": [
-        "Network boundary: Consecutive binary 1s identify the network portion; consecutive binary 0s identify the host portion.",
-        "Dotted-decimal format: A mask with 24 ones is written as 255.255.255.0.",
-        "CIDR prefix notation: Counting the 24 network ones is written shorthand as /24 (pronounced 'slash twenty-four').",
-        "Universal /24 standard: The most common mask in small offices, schools, and homes, providing up to 254 usable computers."
+        "Binary boundary: Consecutive 1s mark the network part; consecutive 0s mark the host part.",
+        "Dotted decimal: 24 ones is written as 255.255.255.0.",
+        "CIDR shorthand: Counting 24 network ones is written as /24.",
+        "Common LAN size: A /24 subnet provides 254 usable host addresses."
       ],
-      "footnote": "A subnet mask must always have contiguous 1s followed by contiguous 0s. A mask like 255.255.0.255 is invalid."
+      "footnote": "A valid subnet mask always has unbroken 1s followed by unbroken 0s."
     },
     {
       "title": "Inside every subnet: network, hosts, and broadcast",
       "lead": "Every subnet is simply an IP address group with a starting address, an ending address, and usable host addresses in between.",
       "items": [
-        "Network ID (The First IP): The very first address (e.g., 192.168.1.0). It names the entire subnet and cannot be assigned to a computer.",
-        "Broadcast IP (The Last IP): The very last address (e.g., 192.168.1.255). It sends messages to every device in the subnet at once.",
-        "Usable Host IPs (The Middle Numbers): All addresses between the first and last (e.g., 192.168.1.1 through 192.168.1.254). Assigned to PCs, phones, and printers.",
-        "Total Minus 2 Rule: Because the first (Network ID) and last (Broadcast IP) are reserved, usable host count is always Total IPs − 2."
+        "Network ID (First IP): Identifies the subnet itself (e.g., 192.168.1.0); never assign to a device.",
+        "Broadcast IP (Last IP): Sends traffic to every device in the subnet (e.g., 192.168.1.255).",
+        "Usable Host IPs (Middle): Assigned to computers, phones, and routers (e.g., .1 to .254).",
+        "Total Minus 2 Rule: Subtract 2 reserved addresses (Network and Broadcast) to find usable hosts."
       ],
-      "footnote": "In a /24 subnet with 256 total addresses, subtracting 2 gives exactly 254 usable host addresses."
+      "footnote": "In a /24 subnet (256 total IPs), 256 − 2 = 254 usable host addresses."
     },
     {
       "title": "Subnet Calculator and Boundaries",
@@ -81,9 +81,9 @@ export default topic({
       "title": "Classful history versus modern CIDR",
       "lead": "Modern CIDR allows any IP address block to use any prefix length, replacing rigid historical classes.",
       "items": [
-        "Classful legacy (1981): 10.0.0.0 was locked into Class A (/8), allocating 16 million hosts to one network with severe waste.",
-        "Modern CIDR (1993): Classless Inter-Domain Routing allows any prefix to be used with any IP address.",
-        "10.0.0.0/24 is normal: an administrator can carve 10.0.0.0 into small /24 subnets (254 hosts per classroom) with a 255.255.255.0 mask."
+        "Classful legacy: Fixed sizes (/8, /16, /24) wasted millions of addresses in large blocks.",
+        "Modern CIDR: Lets admins pair any prefix length with any IP block.",
+        "Flexible sizing: A 10.0.0.0 block can easily be split into small /24 classroom subnets."
       ]
     },
     {
@@ -115,12 +115,12 @@ export default topic({
       "title": "Introduction to IPv6 Basics",
       "lead": "IPv6 solves IPv4 address exhaustion by providing 128-bit addresses, offering practically unlimited addresses for modern global devices.",
       "items": [
-        "Why IPv6 is needed: IPv4 provides only 4.3 billion addresses, which are now completely exhausted by billions of smartphones, computers, and cloud servers.",
-        "128-Bit Structure: IPv6 uses 128 binary bits written as eight groups of four hexadecimal digits separated by colons (e.g., 2001:0db8:85a3:0000:0000:8a2e:0370:7334).",
-        "Zero Compression Rule (::): Consecutive groups of zeros can be abbreviated with a double colon (::) once in an address (e.g., 2001:db8::1).",
-        "Address Types Without Broadcast: IPv6 uses Unicast (one-to-one), Multicast (one-to-many), and Anycast (one-to-nearest). IPv6 eliminates noisy broadcast messages entirely."
+        "Why IPv6: IPv4's 4.3 billion addresses are exhausted; IPv6 provides virtually unlimited space.",
+        "128-Bit Hexadecimal: Written as 8 groups of 4 hex digits separated by colons (e.g., 2001:db8::1).",
+        "Zero Compression (::): A double colon replaces one contiguous block of all-zero groups.",
+        "No Broadcasts: Uses Unicast, Multicast, and Anycast instead of noisy broadcast traffic."
       ],
-      "footnote": "IPv6 provides 340 undecillion addresses (3.4 × 10^38), ensuring every device on Earth can have its own permanent, globally unique IP address without needing NAT."
+      "footnote": "IPv6's 128-bit space allows every device to have a globally unique address."
     }
   ],
   "application": {

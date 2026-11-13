@@ -10,10 +10,16 @@ function journey(root,{initial,choices,build,labels,note}){
  function draw(){
   const steps=build(settings);index=Math.min(index,steps.length-1);const current=steps[index];
   const markup=stepIndex=>{const current=steps[stepIndex];
-   return `<div class="control-row">${choices.map(c=>select(c.label,c.name,c.options,settings[c.name])).join('')}</div>${networkSVG(labels(settings,stepIndex),current.active)}<div class="step-card" aria-live="polite"><b>Stage ${stepIndex+1} of ${steps.length} · ${playback.status}</b><h3>${esc(current.title)}</h3><p>${esc(current.text)}</p>${current.ok===false?'<span class="protocol-fault">Modeled fault stops this operation at this stage.</span>':''}</div><div class="control-row">${button('Play / replay','play','primary')}${button('Pause','pause')}${button('Resume','resume')}${button('Previous step','previous')}${button('Next step','advance')}${button('Reset sequence','reset')}${select('Animation speed','speed',[['0.5','0.5×'],['1','1×'],['2','2×']],playback.speed)}</div><p class="small">${esc(note)} No real packets, mail, or configuration changes are sent.</p>`;
+   const scrubber=steps.length>1?`<div class="step-scrubber" role="group" aria-label="Protocol exchange stages">${steps.map((s,i)=>`<button type="button" class="scrubber-pill ${i===stepIndex?'active':i<stepIndex?'completed':''} ${s.ok===false?'fault':''}" data-step-jump="${i}" aria-current="${i===stepIndex?'step':'false'}" title="${esc(s.title)}"><span class="scrubber-num">${i+1}</span><span class="scrubber-label">${esc(s.title)}</span></button>`).join('')}</div>`:'';
+   const isReply=/Reply|answer|response|Read using/i.test(current.title);
+   const isBroadcast=/Broadcast/i.test(current.title);
+   return `<div class="control-row">${choices.map(c=>select(c.label,c.name,c.options,settings[c.name])).join('')}</div>${networkSVG(labels(settings,stepIndex),current.active,null,null,{badge:current.title,fault:current.ok===false,broadcast:isBroadcast,direction:isReply?'reverse':'forward'})}${scrubber}<div class="step-card" aria-live="polite"><b>Stage ${stepIndex+1} of ${steps.length} · ${playback.status}</b><h3>${esc(current.title)}</h3><p>${esc(current.text)}</p>${current.ok===false?'<span class="protocol-fault">Modeled fault stops this operation at this stage.</span>':''}</div><div class="control-row">${button('Play / replay','play','primary')}${button('Pause','pause')}${button('Resume','resume')}${button('Previous step','previous')}${button('Next step','advance')}${button('Reset sequence','reset')}${select('Animation speed','speed',[['0.5','0.5×'],['1','1×'],['2','2×']],playback.speed)}</div><p class="small">${esc(note)} No real packets, mail, or configuration changes are sent.</p>`;
   };
   root.innerHTML=markup(index);
   reserveSimulationSpace(root,steps.map((_,i)=>markup(i)));
+  root.querySelectorAll('[data-step-jump]').forEach(btn=>{
+   btn.onclick=()=>{playback.pause();index=Number(btn.dataset.stepJump);draw();};
+  });
   for(const c of choices)root.querySelector(`[name="${c.name}"]`).onchange=e=>{playback.pause();settings[c.name]=e.target.value;playback.reset();draw();};
   root.querySelector('[name="speed"]').onchange=e=>playback.setSpeed(e.target.value);
   root.querySelector('[data-action="previous"]').disabled=index===0;

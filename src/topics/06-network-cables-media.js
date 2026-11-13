@@ -14,11 +14,11 @@ export default topic({
     {
       "title": "Five network media choices",
       "items": [
-        "UTP: Four unshielded twisted copper pairs, no overall shield. Twisting reduces electromagnetic interference (EMI).",
-        "STP: Shielded twisted-pair cable with foil or braid shielding; requires proper grounding and bonding.",
-        "Fiber: Carries light signals through glass or plastic cores; immune to EMI and spans long distances.",
-        "Coaxial: Copper core with dielectric insulator and braided metallic shield; used for broadband and legacy bus.",
-        "Wireless: Radio frequency transmission providing mobility across shared, unguided electromagnetic airspace."
+        "UTP: Four unshielded twisted copper pairs; wire twists cancel out crosstalk.",
+        "STP: Adds foil or braided metal shielding to block strong electrical noise.",
+        "Fiber: Sends light pulses through glass cores for long-distance, interference-free links.",
+        "Coaxial: Shielded single-core copper cable used for cable Internet and TV.",
+        "Wireless: Sends radio waves through the air for mobile devices."
       ],
       "expectedCount": 5,
       "lead": "Copper, optical, and radio signals use different physical media."
@@ -27,45 +27,45 @@ export default topic({
       "title": "Three Ethernet cable categories",
       "lead": "An Ethernet link depends on the standard, cable, channel length, connectors, and installation quality.",
       "items": [
-        "Cat 5e: Supports 1 Gb/s (1000BASE-T) over a standard 100 m channel.",
-        "Cat 6: Supports 1 Gb/s at 100 m; supports 10 Gb/s (10GBASE-T) up to 55 m.",
-        "Cat 6A: Supports 10 Gb/s (10GBASE-T) over a full 100 m channel."
+        "Cat 5e: Supports 1 Gbps up to 100 meters.",
+        "Cat 6: Supports 1 Gbps up to 100 m, and 10 Gbps up to 55 m.",
+        "Cat 6A: Supports a full 10 Gbps up to 100 meters."
       ],
       "expectedCount": 3,
-      "footnote": "A standard channel comprises up to 90 m of permanent horizontal link plus 10 m of patch cords."
+      "footnote": "Standard copper Ethernet has a maximum total distance of 100 meters (90 m wall run + 10 m patch cords)."
     },
     {
       "title": "Fiber-Optic Cable Construction",
       "lead": "Optical fiber carries light pulses instead of electrical signals, eliminating electromagnetic interference.",
       "items": [
-        "Core and Cladding: Ultra-thin glass core surrounded by reflective cladding that bounces light along the fiber using total internal reflection.",
-        "Single-Mode Fiber (SMF): Extremely thin 9-micron core using laser light; spans dozens of kilometers for campus backbones and telco WANs.",
-        "Multi-Mode Fiber (MMF): Wider 50 or 62.5-micron core using LED or VCSEL light; spans up to 550 m for high-speed data center links.",
-        "Immunity to Interference: Because light does not conduct electricity, fiber is immune to electrical noise, motors, and lightning surges."
+        "Core & Cladding: A thin glass core surrounded by reflective cladding that bounces light forward.",
+        "Single-Mode Fiber (SMF): Tiny 9-micron core using laser light to span many kilometers.",
+        "Multi-Mode Fiber (MMF): Wider 50/62.5-micron core using LED/VCSEL light for up to 550 meters.",
+        "Zero EMI: Immune to electrical noise, motors, and lightning strikes."
       ],
-      "footnote": "Never look directly into an active fiber optic connector or transceiver; invisible laser light can cause permanent retinal damage."
+      "footnote": "Safety rule: Never look directly into an active fiber port—invisible laser light can damage your eyes."
     },
     {
       "title": "Coaxial Cable and Shielding",
       "lead": "Coaxial cable uses a concentric four-layer design that provides strong physical durability and electrical shielding.",
       "items": [
-        "Center Conductor: Solid copper or copper-clad steel wire that carries the high-frequency radio frequency signal.",
-        "Dielectric Insulator: Non-conductive plastic foam layer that maintains precise physical spacing between center conductor and shield.",
-        "Braided Metallic Shield: Woven copper or aluminum foil that blocks external electrical interference and completes the circuit ground.",
-        "Common Use Cases: Modern cable broadband modems (DOCSIS), closed-circuit TV (CCTV), and legacy 10BASE2/10BASE5 bus networks."
+        "Center Conductor: Solid copper wire that carries the signal.",
+        "Dielectric Insulator: Foam layer that keeps the core separated from the shield.",
+        "Braided Metal Shield: Blocks outside interference and grounds the cable.",
+        "Common Uses: Cable broadband modems (DOCSIS), CCTV, and TV antennas."
       ],
-      "footnote": "Coaxial cables terminate with threaded F-type connectors (for cable modems) or twist-lock BNC connectors (for legacy gear)."
+      "footnote": "Coaxial cables usually use screw-on F-connectors or twist-lock BNC connectors."
     },
     {
       "title": "Unguided Media and Wireless Radio",
       "lead": "Unguided media transmit electromagnetic waves through the air without physical cables, enabling mobile connectivity.",
       "items": [
-        "Radio Frequencies (RF): Transmits digital data modulated onto microwave and radio carrier frequencies between 2.4 GHz and 6 GHz.",
-        "Shared Transmission Airspace: Unlike dedicated copper links, all wireless stations in an area share the same radio frequency spectrum.",
-        "Environmental Attenuation: Radio waves are absorbed, reflected, and scattered by concrete walls, metal filing cabinets, and water.",
-        "Convenience vs. Stability: Wireless enables laptop and smartphone mobility, while wired Ethernet delivers guaranteed speed and zero interference."
+        "Radio Frequencies (RF): Carries data over 2.4 GHz, 5 GHz, and 6 GHz wireless bands.",
+        "Shared Airspace: All nearby Wi-Fi devices share the same radio channel capacity.",
+        "Signal Obstacles: Concrete walls, metal, and distance weaken wireless signals.",
+        "Mobility vs. Stability: Wi-Fi gives freedom to move, while Ethernet gives steady speed."
       ],
-      "footnote": "In enterprise networks, wireless access points are always connected back to the core network using wired Category 6 Ethernet cables."
+      "footnote": "Wireless access points still plug into the main network using wired Ethernet cables."
     }
   ],
   "demo": {
@@ -77,9 +77,9 @@ export default topic({
     "title": "Connect two buildings",
     "lead": "A 180 m outdoor path joins two buildings with electrical equipment nearby.",
     "items": [
-      "A standard 100 m copper Ethernet channel is insufficient for this direct path.",
-      "A suitable fiber link with appropriate transceivers can meet reach and isolation requirements.",
-      "Installation needs rated materials and professional planning; fiber is not simply a longer RJ45 cable."
+      "Exceeds Copper Limit: 180 meters is too long for a 100-meter Cat 6 copper cable.",
+      "Use Fiber-Optic Cable: Optical fiber easily spans 180 m and ignores electrical noise.",
+      "Matching Transceivers: Connect the fiber run using optical SFP transceivers at both switches."
     ]
   },
   "installation": {

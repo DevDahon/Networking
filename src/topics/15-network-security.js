@@ -15,20 +15,20 @@ export default topic({
       "title": "Network security and the CIA triad",
       "lead": "Network security protects interconnected systems, transmissions, and data from unauthorized access, modification, or disruption.",
       "items": [
-        "Confidentiality: ensures only authorized users and systems can read sensitive data, primarily achieved through strong encryption and access controls.",
-        "Integrity: guarantees that data has not been altered, corrupted, or tampered with in transit or storage, verified through cryptographic hashes and signatures.",
-        "Availability: ensures network services, hardware resources, and data remain accessible to authorized users when needed, protected against outages and denial of service."
+        "Confidentiality: Only authorized users can read data, enforced by encryption and access controls.",
+        "Integrity: Data stays accurate and unaltered, verified by cryptographic hashes.",
+        "Availability: Network services and data remain online and ready for authorized users."
       ],
-      "footnote": "Security is not a single product; it requires defense-in-depth where multiple layers of protective controls reinforce one another."
+      "footnote": "Defense-in-depth uses multiple security layers so no single failure exposes the network."
     },
     {
       "title": "Four common network security threats",
       "lead": "Modern networks face diverse automated and human threats targeting devices, users, and service capacity.",
       "items": [
-        "Malware: malicious software including viruses, self-replicating worms, disguised trojans, and encrypting ransomware designed to compromise hosts.",
-        "Phishing: deceptive communications mimicking legitimate organizations to trick users into divulging credentials, financial data, or downloading malware.",
-        "Unauthorized access: intrusion attempts where attackers exploit weak credentials, misconfigurations, or unpatched vulnerabilities to breach private networks.",
-        "Denial-of-Service (DoS): flooding attacks aimed at exhausting network bandwidth or server resources to render critical services unavailable to legitimate users."
+        "Malware: Harmful software like viruses, worms, trojans, and ransomware.",
+        "Phishing: Fake emails or messages that trick users into revealing passwords or clicking bad links.",
+        "Unauthorized access: Attackers breaking in through weak passwords or unpatched flaws.",
+        "Denial-of-Service (DoS): Flooding a server or network with traffic so real users cannot connect."
       ],
       "expectedCount": 4
     },
@@ -36,9 +36,9 @@ export default topic({
       "title": "Network Firewalls and Boundary Defense",
       "lead": "A firewall acts as a security barrier between trusted internal networks and untrusted external networks.",
       "items": [
-        "Packet filtering: inspects source IP, destination IP, protocol, and port numbers against established access control lists (ACLs).",
-        "Stateful inspection: tracks the state of active network connections, automatically permitting legitimate reply packets while dropping unsolicited external probes.",
-        "Boundary enforcement: hardware firewalls protect the network perimeter at the router/gateway, while software firewalls protect individual host endpoints."
+        "Packet filtering: Checks source/destination IPs, protocols, and ports against allow/block rules.",
+        "Stateful inspection: Remembers active outgoing connections and allows their matching replies back in.",
+        "Boundary & host defense: Router firewalls guard the network edge; OS firewalls guard each PC."
       ]
     },
     {
@@ -50,28 +50,28 @@ export default topic({
       "title": "Endpoint Protection and Security Updates",
       "lead": "Securing the individual devices connected to the network is just as vital as protecting the perimeter.",
       "items": [
-        "Antivirus and EDR: endpoint detection software monitors file operations, memory, and network activity to quarantine malicious programs and suspicious behaviors.",
-        "Vulnerability patching: software developers regularly release security updates to repair newly discovered software flaws and security holes.",
-        "Automated updates: maintaining current operating system, browser, and firmware patches prevents attackers from exploiting known, cataloged vulnerabilities."
+        "Antivirus and EDR: Scans files, memory, and processes to block malware on computers.",
+        "Security patching: Installs vendor fixes to close newly discovered software bugs.",
+        "Automatic updates: Keeps OS, browser, and router firmware patched against known attacks."
       ]
     },
     {
       "title": "HTTPS, TLS, and Secure Data in Transit",
       "lead": "Unencrypted transmissions over cables or Wi-Fi can be intercepted and read by anyone along the communication path.",
       "items": [
-        "Cleartext exposure: legacy protocols like HTTP and Telnet send usernames, passwords, and messages in unencrypted cleartext across the network.",
-        "Transport Layer Security (TLS): establishes an encrypted tunnel between client and server, transforming data into unreadable ciphertext.",
-        "Digital certificates: verified by trusted Certificate Authorities (CAs) to authenticate the server's identity and prevent man-in-the-middle impersonation."
+        "Cleartext risk: Plain HTTP and Telnet send passwords and data as readable text.",
+        "TLS encryption: Scrambles traffic between client and server into unreadable ciphertext.",
+        "Digital certificates: Verify that a website is genuine and not an impostor."
       ],
-      "footnote": "Always look for the HTTPS padlock indicator in modern web browsers before submitting personal or authentication credentials."
+      "footnote": "Always check for HTTPS before entering passwords or sensitive data."
     },
     {
       "title": "Three habits for responsible network use",
       "lead": "User awareness and disciplined operational habits form the first and most effective line of defense.",
       "items": [
-        "Strong unique credentials: use long passphrases combining letters, numbers, and symbols, and enforce multi-factor authentication (MFA) across all accounts.",
-        "Vigilant link and attachment verification: inspect sender email addresses and link destinations before opening unexpected attachments or entering credentials.",
-        "Separation of privileges: perform daily tasks using standard user accounts rather than administrator privileges to limit the potential blast radius of malware."
+        "Strong credentials & MFA: Use long unique passphrases plus Multi-Factor Authentication.",
+        "Verify links & senders: Check email addresses and URLs carefully before clicking or logging in.",
+        "Least privilege: Use a standard user account for daily work instead of an admin account."
       ],
       "expectedCount": 3
     }

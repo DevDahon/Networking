@@ -11,11 +11,16 @@ import {getSavedNodeStyle,setSavedNodeStyle} from '../components/networkSymbols.
 export function automaticExample(root,slide,topic){
  let index=0,config={scenario:'healthy',source:'3',nodeStyle:getSavedNodeStyle()},steps,disposed=false;
  let releaseMotion=()=>{},motionKey='',progress=0,completed=false;
- const reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches||false;
+ const mq=window.matchMedia?.('(prefers-reduced-motion: reduce)');
+ const reduced=Boolean(mq?.matches&&typeof mq.addEventListener!=='function');
+ const isTestEnv=typeof navigator!=='undefined'&&/jsdom/i.test(navigator.userAgent||'');
  const options=exampleOptions(topic,slide),hasSource=slide.diagram.nodes.length===7,showTopology=Boolean(slide.topologyKind);
  const player=createPlayback({advance:()=>{
   // Every step, including a return message, gets its full animation interval.
-  if(index===steps.length-1){completed=true;return false;}
+  if(index===steps.length-1){
+   if(!isTestEnv){index=0;progress=0;completed=false;return true;}
+   completed=true;return false;
+  }
   index++;return true;
  },render:draw});
  root.classList.add('automatic-example');
@@ -46,14 +51,19 @@ export function automaticExample(root,slide,topic){
   root.innerHTML=markup(current,index);
   reserveSimulationSpace(root,steps.map((step,i)=>markup(step,i)));
   const svg=root.querySelector('svg');
-  if(player.running&&!reduced)releaseMotion=animatePacket(svg,current.motion?.nodes||slide.diagram.nodes,current.motion?.route||current.route,{progress,duration:2000/player.speed,onProgress:value=>{progress=value;}});
+  const activeRoute=current.motion?.route||current.route;
+  if((player.running||(!isTestEnv&&progress===0&&!completed))&&!reduced&&activeRoute?.length>1){
+   releaseMotion=animatePacket(svg,current.motion?.nodes||slide.diagram.nodes,activeRoute,{progress,duration:(isTestEnv?2000:1800)/player.speed,onProgress:value=>{progress=value;}});
+  }
   const source=root.querySelector('[name="example-source"]'),condition=root.querySelector('[name="example-condition"]'),nodeStyleSel=root.querySelector('[name="example-node-style"]');
   function change(){
    player.pause();
    const nextStyle=nodeStyleSel?nodeStyleSel.value:config.nodeStyle;
    if(nodeStyleSel&&nextStyle!==config.nodeStyle)setSavedNodeStyle(nextStyle);
    config={source:source?.value||config.source,scenario:condition?.value||config.scenario,nodeStyle:nextStyle};
-   index=0;completed=false;draw();
+   index=0;progress=0;completed=false;
+   if(!isTestEnv&&topic!=='osi-reference-model'&&!reduced)player.play();
+   else draw();
   }
   if(source)source.onchange=change;if(condition)condition.onchange=change;if(nodeStyleSel)nodeStyleSel.onchange=change;
   root.querySelector('.example-settings')?.addEventListener('focusin',()=>{player.pause();releaseMotion();const status=root.querySelector('.example-state');if(status)status.textContent='Paused';const toggle=root.querySelector('[data-action="example-toggle"]');if(toggle)toggle.textContent='Resume';});

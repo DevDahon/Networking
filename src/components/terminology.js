@@ -18,11 +18,13 @@ export const terminology={
  MX:'Mail Exchange (DNS record)',AAAA:'IPv6 address record in the Domain Name System'
 };
 
-// Expand the first mention in a lesson sentence; preserve existing full names.
-export function expandAbbreviations(text){
+// Expand the first mention in a lesson sentence or topic; preserve existing full names.
+const skipInLessons = new Set(['PC', 'UI', 'MB', 'RFC', 'FIFO', 'UTF', '8P8C', 'IDC']);
+
+export function expandAbbreviations(text, used = new Set(), skipSet = null){
  if(typeof text!=='string')return text;
- const used=new Set();
  return text.replace(/\b(?:[A-Z][A-Za-z0-9]*|8P8C)\b/g,(short,offset)=>{
+  if(skipSet?.has(short))return short;
   const full=terminology[short];
   if(!full||used.has(short))return short;
   used.add(short);
@@ -35,10 +37,13 @@ export function expandAbbreviations(text){
 }
 
 export function expandLessonTerms(topic){
- return {...topic,objectives:topic.objectives.map(expandAbbreviations),slides:topic.slides.map(slide=>{
+ const topicUsed = new Set();
+ const expand = text => expandAbbreviations(text, topicUsed, skipInLessons);
+ const objectives = topic.objectives.map(expand);
+ return {...topic,objectives,slides:topic.slides.map(slide=>{
   const expanded={...slide};
-  for(const field of ['lead','footnote'])if(expanded[field])expanded[field]=expandAbbreviations(expanded[field]);
-  if(expanded.items)expanded.items=expanded.items.map(expandAbbreviations);
+  for(const field of ['lead','footnote'])if(expanded[field])expanded[field]=expand(expanded[field]);
+  if(expanded.items)expanded.items=slide.kind==='objectives'?[...objectives]:expanded.items.map(expand);
   return expanded;
  })};
 }

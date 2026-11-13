@@ -4,10 +4,32 @@ import {demoTable} from './extraScenes.js';
 import {createPlayback} from './playback.js';
 import {dotted} from '../utils/network.js';
 
-export function macLearningDemo(root){root.classList.add('extra-stateful');let model=new LearningSwitch(),source='A',destination='B',message='The MAC table begins empty. Send A → B, then B → A to compare flooding with learned forwarding.',ports=[];
- function draw(){root.innerHTML=`<div class="control-row">${select('Sending host','source',['A','B','C'],source)}${select('Destination host','destination',['A','B','C'],destination)}${button('Send Ethernet frame','send','primary')}${button('Clear learned table','reset')}</div><svg class="extra-topology" viewBox="0 0 800 240" role="img" aria-label="Three hosts connected to separate switch ports"><rect x="320" y="75" width="160" height="70" rx="10" fill="#eff6ff" stroke="#2563eb"/><text x="400" y="115" text-anchor="middle" font-size="18">Switch</text>${[['A',100,110,1],['B',700,50,2],['C',700,185,3]].map(([name,x,y,port])=>`<path d="M${port===1?320:480} 110L${x} ${y}" stroke="${ports.includes(port)?'#0d9488':'#94a3b8'}" stroke-width="4"/><rect x="${x-55}" y="${y-23}" width="110" height="46" rx="8" fill="white" stroke="#2563eb"/><text x="${x}" y="${y+6}" text-anchor="middle" font-size="18">Host ${name}</text><text x="${port===1?235:535}" y="${port===3?170:75}" font-size="14">Port ${port}</text>`).join('')}</svg><div class="extra-port-row">${[1,2,3].map(p=>`<span class="${ports.includes(p)?'active':''}">Port ${p} · ${ports.includes(p)?'forwards':'no outgoing copy'}</span>`).join('')}</div>${result(message)}${demoTable(['Learned source MAC','Ingress port'],Object.entries(model.table))}<p class="small">${model.frames} injected frames. One VLAN, fixed three-port model; aging, spanning tree, and multicast behavior are not simulated. Learning uses incoming source MACs, not guessed destination locations.</p>`;
+export function macLearningDemo(root){root.classList.add('extra-stateful');let model=new LearningSwitch(),source='A',destination='B',message='The MAC table begins empty. Send A → B, then B → A to compare flooding with learned forwarding.',ports=[],lastAction=null;
+ function draw(){
+  const hostMap={A:1,B:2,C:3};
+  const ingressPort=lastAction?hostMap[lastAction.source]:null;
+  const isFlood=ports.length>1;
+  root.innerHTML=`<div class="control-row">${select('Sending host','source',['A','B','C'],source)}${select('Destination host','destination',['A','B','C'],destination)}${button('Send Ethernet frame','send','primary')}${button('Clear learned table','reset')}</div><svg class="extra-topology" viewBox="0 0 800 240" role="img" aria-label="Three hosts connected to separate switch ports">
+   <rect x="310" y="65" width="180" height="88" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+   <text x="400" y="96" text-anchor="middle" font-size="17" font-weight="700" fill="#0f172a">Layer 2 Switch</text>
+   <text x="400" y="116" text-anchor="middle" font-size="11" font-family="monospace" fill="#1d4ed8">${lastAction?`Learned: 02:..:0${lastAction.source} → Port ${ingressPort}`:'CAM Table: Waiting for ingress'}</text>
+   ${lastAction?`<rect x="325" y="124" width="150" height="20" rx="10" fill="${isFlood?'#fef3c7':'#dcfce7'}" stroke="${isFlood?'#f59e0b':'#16a34a'}"/><text x="400" y="138" text-anchor="middle" font-size="10" font-weight="800" fill="${isFlood?'#b45309':'#15803d'}">${isFlood?'UNKNOWN UNICAST · FLOOD':'KNOWN UNICAST · FORWARD'}</text>`:''}
+   ${[['A',100,110,1,'02:00:00:00:00:0A'],['B',700,50,2,'02:00:00:00:00:0B'],['C',700,185,3,'02:00:00:00:00:0C']].map(([name,x,y,port,mac])=>{
+    const isIngress=ingressPort===port;
+    const isEgress=ports.includes(port);
+    const swX=port===1?310:490;
+    const midX=(swX+x)/2,midY=(110+y)/2;
+    const strokeColor=isIngress?'#2563eb':isEgress?(isFlood?'#f59e0b':'#0d9488'):'#94a3b8';
+    return `<path d="M${swX} 110L${x} ${y}" stroke="${strokeColor}" stroke-width="${isIngress||isEgress?'5':'3.5'}" ${isEgress&&isFlood?'stroke-dasharray="7 4"':''}/>
+     ${isIngress?`<circle cx="${midX}" cy="${midY}" r="7" fill="#2563eb" stroke="#fff" stroke-width="2"/><text x="${midX}" y="${midY-12}" text-anchor="middle" font-size="11" font-weight="700" fill="#1d4ed8">Ingress Frame ▶</text>`:''}
+     ${isEgress?`<circle cx="${midX}" cy="${midY}" r="7" fill="${isFlood?'#f59e0b':'#0d9488'}" stroke="#fff" stroke-width="2"/><text x="${midX}" y="${midY-12}" text-anchor="middle" font-size="11" font-weight="700" fill="${isFlood?'#b45309':'#0f766e'}">${isFlood?'Flooded Copy':'Targeted Copy'}</text>`:''}
+     <rect x="${x-62}" y="${y-26}" width="124" height="52" rx="8" fill="${isIngress?'#eff6ff':isEgress?'#f0fdf4':'white'}" stroke="${isIngress?'#2563eb':isEgress?'#16a34a':'#64748b'}" stroke-width="2"/>
+     <text x="${x}" y="${y-3}" text-anchor="middle" font-size="16" font-weight="700" fill="#0f172a">Host ${name}</text>
+     <text x="${x}" y="${y+14}" text-anchor="middle" font-size="10" font-family="monospace" fill="#475569">${mac}</text>
+     <text x="${port===1?235:545}" y="${port===3?175:70}" font-size="13" font-weight="700" fill="#334155">Port ${port}</text>`;
+   }).join('')}</svg><div class="extra-port-row">${[1,2,3].map(p=>`<span class="${ports.includes(p)?'active':''}">Port ${p} · ${ports.includes(p)?(isFlood?'floods copy':'forwards unicast'):(ingressPort===p?'ingress (learns source)':'no outgoing copy')}</span>`).join('')}</div>${result(message)}${demoTable(['Learned source MAC','Ingress port'],Object.entries(model.table))}<p class="small">${model.frames} injected frames. One VLAN, fixed three-port model; aging, spanning tree, and multicast behavior are not simulated. Learning uses incoming source MACs, not guessed destination locations.</p>`;
   root.querySelector('[name="source"]').onchange=e=>{source=e.target.value;};root.querySelector('[name="destination"]').onchange=e=>{destination=e.target.value;};
-  wire(root,{send:()=>{const frame=model.send(source,destination);ports=frame.ports;message=frame.text;draw();},reset:()=>{model=new LearningSwitch();ports=[];message='Learned table cleared. The next unknown unicast will be flooded to eligible non-ingress ports.';draw();}});
+  wire(root,{send:()=>{const frame=model.send(source,destination);ports=frame.ports;lastAction={source,destination};message=frame.text;draw();},reset:()=>{model=new LearningSwitch();ports=[];lastAction=null;message='Learned table cleared. The next unknown unicast will be flooded to eligible non-ingress ports.';draw();}});
  }draw();
 }
 export function dnsCacheDemo(root){root.classList.add('extra-stateful');let model=new DNSCache(),name='classroom.example',message='Resolve a name to populate the cache, then compare a hit, record change, and expiry.',ok=true;

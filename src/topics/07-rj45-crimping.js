@@ -14,48 +14,48 @@ export default topic({
     {
       "title": "Modular Connectors: RJ45 and Keystone Jack",
       "items": [
-        "RJ45 (8P8C) plug: Modular male plug with eight gold-plated contacts, used to terminate flexible stranded patch cables.",
-        "Keystone Jack: Modular female jack with 110 IDC contacts, mounted in wall faceplates and patch panels for permanent solid-core horizontal cabling.",
-        "Category matching: Plugs and jacks must match the cable category and conductor gauge to prevent signal degradation."
+        "RJ45 plug: Male 8-pin modular plug crimped onto flexible patch cords.",
+        "Keystone jack: Female wall or patch-panel jack punched down onto solid in-wall cable.",
+        "Category matching: Always match the plug and jack category to the cable rating."
       ]
     },
     {
       "title": "Four cabling tool and tester functions",
       "items": [
-        "Cable stripper: removes jacket without nicking conductor insulation.",
-        "Crimping tool: terminates compatible modular plugs.",
-        "Punch-down tool: seats conductors in compatible IDC jacks or patch panels.",
-        "Basic LAN tester: checks conductor continuity and wire mapping."
+        "Cable stripper: Scores and removes the outer jacket without nicking inner wires.",
+        "Crimping tool: Presses RJ45 plug pins into the copper wires and locks the jacket.",
+        "Punch-down tool: Pushes solid wires into keystone jack slots and trims excess ends.",
+        "Basic LAN tester: Checks pin-to-pin continuity across all 8 wires."
       ],
       "expectedCount": 4
     },
     {
       "title": "Tools and Equipment for RJ45 Cable Crimping",
-      "lead": "Terminating an 8P8C modular plug requires preparing dedicated cutting, stripping, crimping, and testing tools alongside quality Cat 5e/Cat 6 media.",
+      "lead": "Terminating an RJ45 plug requires stripping, cutting, crimping, and testing tools.",
       "toolKey": "rj45-setup",
       "items": [
-        "RJ45 Modular Crimper: Heavy-duty ratcheting tool with precision 8P8C dies to compress contacts into copper conductors and engage the jacket strain relief.",
-        "UTP Cable Stripper: Compact rotary wire stripper calibrated to cleanly score and remove the outer PVC jacket without nicking conductor insulation.",
-        "Modular RJ45 Plugs: Cat 5e or Cat 6 clear polycarbonate male 8P8C plugs featuring eight gold-plated contact pins and a flexible locking tab.",
-        "Unshielded Twisted Pair (UTP) Cable: Four-pair 24 AWG stranded copper Ethernet cable designed for flexible patch cords between workstations and wall jacks.",
-        "Flush Cutters / Snips: Precision diagonal cutting pliers used to trim untwisted, aligned wires straight and square across before insertion into the plug.",
-        "LAN Cable Tester: Dual-unit continuity wire-map tester to confirm all eight pin paths and detect open circuits, short circuits, or crossed pairs."
+        "RJ45 Modular Crimper: Presses the 8 gold pins into the wires and secures the cable jacket.",
+        "UTP Cable Stripper: Removes the outer plastic jacket safely without cutting inner wires.",
+        "Modular RJ45 Plugs: Clear 8-pin male connectors with gold contacts and a locking clip.",
+        "Unshielded Twisted Pair (UTP) Cable: Four-pair copper Ethernet cable for patch cords.",
+        "Flush Cutters / Snips: Trims untwisted, aligned wires straight and even before insertion.",
+        "LAN Cable Tester: Two-piece tester that verifies all 8 pins connect in the right order."
       ],
-      "footnote": "Always prepare spare 8P8C plugs; modular plugs cannot be reused once crimped."
+      "footnote": "Always keep spare RJ45 plugs; once crimped, a plug cannot be reused."
     },
     {
       "title": "Tools and Equipment for Keystone Jack Punch-Down",
-      "lead": "Terminating a permanent wall jack requires specialized insulation displacement tools, punch-down supports, and rated solid-core cabling.",
+      "lead": "Terminating a wall jack requires a punch-down tool, stand, and solid-core cable.",
       "toolKey": "keystone-setup",
       "items": [
-        "110 Impact Punch-Down Tool: Spring-loaded impact driver with a reversible 110/66 blade that seats conductors into IDC V-notches and cuts excess wire flush.",
-        "Keystone Jack (110 IDC): RJ45 female modular jack with 110 insulation displacement contacts, universal T568A/T568B color coding, and snap-in faceplate clips.",
-        "UTP Cable Stripper: Round jacket stripper used to remove 1 to 1.5 inches of outer jacket while preserving pair twists up to the IDC blocks.",
-        "Solid-Core UTP Cable: Four-pair 23/24 AWG solid copper horizontal cable engineered for structured in-wall and ceiling cable runs.",
-        "Punch-Down Palm Tool / Stand: Contoured palm puck or base holder that cradles the jack securely to prevent hand injury and ensure even downward punching pressure.",
-        "IDC Dust Caps & Cable Tester: Snap-on protective dust covers to lock conductors firmly in place, plus a LAN tester with patch cord to verify end-to-end pin mapping."
+        "110 Impact Punch-Down Tool: Seats wires into jack slots and cuts off the extra wire end.",
+        "Keystone Jack (110 IDC): Female RJ45 wall socket printed with T568A and T568B color guides.",
+        "UTP Cable Stripper: Removes 1.5 inches of outer jacket while keeping pairs twisted.",
+        "Solid-Core UTP Cable: Stiff copper cable designed for permanent in-wall installations.",
+        "Punch-Down Palm Tool / Stand: Holds the jack steady to protect your hand while punching down.",
+        "IDC Dust Caps & Cable Tester: Caps lock wires in place; the tester verifies all 8 pins."
       ],
-      "footnote": "Always orient the punch-down tool with the CUT blade facing outward toward the excess wire tail."
+      "footnote": "Always face the punch-down tool's CUT blade toward the outside edge of the jack."
     },
     {
       "title": "T568A: eight conductor positions",
@@ -91,20 +91,20 @@ export default topic({
       "title": "Straight-through and crossover arrangements",
       "lead": "A conventional straight-through cable uses the same standard at both ends: A–A or B–B.",
       "items": [
-        "A conventional A–B crossover swaps pins 1↔3 and 2↔6 for traditional 10/100BASE-T transmit/receive pairs.",
-        "Many modern interfaces support auto-MDI/MDIX, so a crossover cable is often unnecessary. Gigabit Ethernet uses all four pairs.",
-        "An equal but nonstandard color order may pass a simple continuity check while creating split pairs and poor performance."
+        "Crossover (A to B): Swaps pins 1↔3 and 2↔6 to connect two similar legacy devices.",
+        "Auto-MDI/MDIX: Modern network ports detect and adjust pin roles automatically.",
+        "Split-pair warning: Matching a made-up color order passes basic testers but causes heavy interference."
       ]
     },
     {
       "title": "Three common wire-map faults",
       "items": [
-        "Open: a conductor has no continuous end-to-end path.",
-        "Short: conductors are accidentally joined.",
-        "Miswire: a conductor arrives at an unexpected pin."
+        "Open: A wire is broken or not touching the connector pin.",
+        "Short: Two bare wires are accidentally touching each other.",
+        "Miswire: A wire is placed in the wrong pin position at one end."
       ],
       "expectedCount": 3,
-      "footnote": "A wire-map pass does not certify pair integrity, signal quality, or cable bandwidth."
+      "footnote": "A basic continuity pass does not prove high-speed signal quality."
     }
   ],
   "demo": {
@@ -116,9 +116,9 @@ export default topic({
     "title": "Repair a failed classroom patch cable",
     "lead": "One PC has an intermittent link after a cable was sharply pulled from its desk.",
     "items": [
-      "Check connector strain relief, bent contacts, and damaged cable before changing IP settings.",
-      "Replace a damaged plug with a compatible one, preserving the chosen standard.",
-      "Record wire-map results and test the actual link; continuity alone cannot prove rate or reliability."
+      "Inspect hardware first: Check for loose plugs, bent pins, or torn cable jackets.",
+      "Re-terminate cleanly: Cut off the damaged plug and crimp a new one using the same standard.",
+      "Test both ways: Verify all 8 pins on the LAN tester, then confirm the PC link light turns on."
     ]
   },
   "installation": {

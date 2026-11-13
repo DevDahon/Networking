@@ -45,26 +45,26 @@ const slides=[
   kind:'concept',
   title:'Seven OSI layer responsibilities',
   items:[
-   'Application: Network services and protocols used directly by end-user applications.',
-   'Presentation: Data formatting, character encoding, translation, and encryption.',
-   'Session: Dialog management, establishing, maintaining, and synchronizing communication sessions.',
-   'Transport: End-to-end communication, segmentation, flow control, and error recovery.',
-   'Network: Logical addressing and path determination (routing) across interconnected networks.',
-   'Data Link: Physical addressing, framing, media access, and local hop delivery.',
-   'Physical: Transmission and reception of raw binary bitstreams over a physical medium.'
+   'Application: Network services used directly by user apps (HTTP, DNS, DHCP).',
+   'Presentation: Data formatting, character encoding, and encryption.',
+   'Session: Starts, maintains, and ends communication dialogs.',
+   'Transport: End-to-end delivery, ports, and error recovery (TCP, UDP).',
+   'Network: Logical IP addressing and routing across networks.',
+   'Data Link: Physical MAC addressing, frames, and local switch delivery.',
+   'Physical: Sends raw binary bits as electrical, light, or radio signals.'
   ],
   expectedCount:7,
   lead:'The Open Systems Interconnection (OSI) model divides network communication into seven functional layers.',
   itemLabels:['7','6','5','4','3','2','1'],
-  footnote:'Each layer provides services to the layer above it and relies on the layer beneath it.'
+  footnote:'Each layer serves the layer above it and relies on the layer below it.'
  },
  {
   kind:'concept',
   title:'Wrap the data, then unwrap it',
   lead:'Encapsulation adds control information as data passes toward the transmission medium.',
   items:[
-   'Application data is carried in a TCP segment or UDP datagram, then an IP packet, then a link-layer frame. Physical signals carry the frame bits.',
-   'The receiver interprets and removes the relevant headers. Ethernet also uses a trailer for error detection.'
+   'Encapsulation (Sender): Wraps app data into a segment, packet, and frame before sending bits.',
+   'Decapsulation (Receiver): Reads and removes each layer header from bottom to top.'
   ]
  },
  {
@@ -97,12 +97,10 @@ const slides=[
  },
  {kind:'demo',title:'OSI and TCP/IP: two useful views',lead:'The common four-layer TCP/IP model groups responsibilities differently. These mappings are approximate.',type:'osiComparison',ask:'Where do OSI Presentation and Session responsibilities appear in this TCP/IP view?',emphasis:'OSI 7–5 map to Application, 4 to Transport, 3 to Internet, and 2–1 to Network Access / Link.',demo:'Select each TCP/IP group and trace its highlighted OSI rows. Explain that protocols and implementation boundaries do not always fit one box.'},
  {kind:'summary',title:'Summary of the Discussion',items:[
-  'OSI describes seven conceptual responsibilities, not a protocol or seven mandatory software operations.',
-  'Application, Presentation, and Session describe services, representation, and dialog coordination.',
-  'Transport uses ports; TCP supplies ordered reliable bytes while UDP itself does not guarantee delivery.',
-  'Network handles logical IP delivery; Data Link handles frames and local MAC delivery; Physical represents bits as signals.',
-  'Encapsulation builds nested data units; decapsulation interprets them at the receiver.',
-  'The common four-layer TCP/IP model groups these functions into Application, Transport, Internet, and Link.'
+  'Seven OSI Layers: A clear map of network duties from Physical (Layer 1) to Application (Layer 7).',
+  'Encapsulation & Decapsulation: Senders wrap data with headers down the stack; receivers unwrap them going up.',
+  'PDUs at Each Layer: Data becomes a Segment/Datagram (L4), Packet (L3), Frame (L2), and Bits (L1).',
+  'TCP/IP Mapping: Combines the 7 OSI layers into 4 practical layers (Application, Transport, Internet, Link).'
  ]}
 ];
 
