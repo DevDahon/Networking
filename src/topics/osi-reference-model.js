@@ -33,15 +33,9 @@ const slides=[
   title:'Wrap the data, then unwrap it',
   lead:'Encapsulation adds control information as data passes toward the transmission medium.',
   items:[
-   'Encapsulation (Sender, 7 → 1): Wraps the message like nested envelopes—Data → Segment (ports) → Packet (IPs) → Frame (MACs) → Bits.',
+   'Encapsulation (Sender, 7 → 1): Wraps the message like nested envelopes—Data → Segment/Datagram (ports) → Packet (IPs) → Frame (MACs) → Bits.',
    'Decapsulation (Receiver, 1 → 7): Verifies and removes each outer wrapper from the bottom up until only the app message remains.'
   ]
- },
- {
-  kind:'demo',
-  title:'Inside the message',
-  lead:'Conceptual walkthrough • select any OSI layer, step through encapsulation, and compare TCP/UDP loss handling.',
-  type:'osi'
  },
  {
   kind:'concept',
@@ -51,6 +45,12 @@ const slides=[
    'UDP (Fast, No Guarantee): Sends datagrams immediately without waiting for confirmations—used for live calls, streaming, and DNS.'
   ],
   expectedCount:2
+ },
+ {
+  kind:'demo',
+  title:'Inside the message',
+  lead:'Conceptual walkthrough • select any OSI layer, step through encapsulation, and compare TCP/UDP loss handling.',
+  type:'osi'
  },
  {
   kind:'concept',
