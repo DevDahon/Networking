@@ -123,12 +123,12 @@ export default topic({
     },
     {
       "title": "Two link choices: wired and wireless",
-      "lead": "A single network often combines multiple transmission media.",
+      "lead": "Choose between a wired cable for steady speed and wireless Wi-Fi for convenient mobility.",
       "items": [
-        "Ethernet provides a cabled link with predictable interference characteristics and a physical port requirement.",
-        "Wi-Fi provides radio access and mobility; walls, interference, distance, and shared airtime affect performance."
+        "Wired (Ethernet cable): Delivers fast, consistent speeds with minimal interference, but each device must plug into a network port.",
+        "Wireless (Wi-Fi radio): Lets laptops and mobile devices connect without cables, though walls, distance, and congestion can slow the signal."
       ],
-      "footnote": "Neither medium is automatically secure. Use authentication, encryption, and appropriate access controls.",
+      "footnote": "Most networks combine both: desktops and switches use wired Ethernet, while mobile devices use Wi-Fi—and both still require security controls.",
       "expectedCount": 2
     }
   ],

@@ -19,7 +19,7 @@ const copy = {
     ['Metropolitan Area Network (MAN)', null, 'A Metropolitan Area Network connects networks across a city or metropolitan area. It can link sites such as library branches, municipal offices, or campuses within that area.'],
     ['Wide Area Network (WAN)', null, 'A Wide Area Network connects networks across large geographic areas, such as regions or countries. Organizations commonly use provider services to link their distant sites.'],
     ['Two network service architectures', null, 'Network architecture defines whether devices share resources directly as equals (peer-to-peer) or through a dedicated server (client-server).'],
-    ['Two link choices: wired and wireless', null, 'Wired cables offer steady speed and reliability, while wireless links provide convenient mobility.']
+    ['Two link choices: wired and wireless', 'Two Link Choices: Wired vs. Wireless', 'Choose between a wired cable for steady speed and wireless Wi-Fi for convenient mobility.']
   ],
   '03-network-topologies': [
     ['Bus Topology', null, 'A bus topology connects all devices along a single shared backbone cable.'],

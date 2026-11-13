@@ -18,7 +18,7 @@ it('follows the agreed fifteen-slide introduction without detailed configuration
  expect(slides[8].type).toBe('introExchange');
  expect(slides.some(s => s.title === 'Example: one printer, five connected computers')).toBe(false);
  expect(slides.some(s => s.type === 'transferDemo' || s.type === 'availabilityDemo')).toBe(false);
- expect(JSON.stringify(slides.map(s=>[s.title,s.lead,s.items]))).not.toMatch(/ipconfig|T568|port 443|subnet calculator|lease pool/i);
+ expect(JSON.stringify(slides.map(s=>[s.title,s.lead,s.items]))).not.toMatch(/ipconfig|T568|port 443|subnet calculator|lease pool|predictable interference/i);
 });
 
 it('keeps local printing available when Internet access is unavailable',()=>{
