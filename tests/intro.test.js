@@ -109,6 +109,7 @@ it('displays concrete real-world examples for bandwidth and latency without simu
  expect(topics[0].slides[perfIndex].kind).toBe('concept');
  history.replaceState(null,'',`/#/topic/${topics[0].id}/slide/${perfIndex+1}`);
  dispose=startApp(root);
+ vi.advanceTimersByTime(0);
  const content=root.querySelector('#slide-content');
  expect(content.classList.contains('simulation-container')).toBe(false);
  expect(content.querySelectorAll('.perf-example-card')).toHaveLength(2);
