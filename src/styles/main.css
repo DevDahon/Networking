@@ -5986,6 +5986,91 @@ html.dark .slide-example .slide-context-pill {
     margin-left: auto;
 }
 
+/* OSI Deeper Layer Inspection Cards (Slides 5–11) */
+.osi-layer-lens {
+    margin-top: 14px;
+    border-radius: 12px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.osi-lens-create {
+    background: #f0f6ff;
+    border: 1px solid #bfdbfe;
+}
+
+.osi-lens-travel {
+    background: #f0fdfa;
+    border: 1px solid #99f6e4;
+}
+
+.osi-lens-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.osi-lens-badge {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.osi-lens-create .osi-lens-badge {
+    color: #1d4ed8;
+}
+
+.osi-lens-travel .osi-lens-badge {
+    color: #0f766e;
+}
+
+.osi-lens-pdu {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    background: #ffffff;
+    color: #0f172a;
+    border: 1px solid #cbd5e1;
+}
+
+.osi-lens-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.osi-lens-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 9px;
+    padding: 11px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.osi-lens-card h3 {
+    margin: 0;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.osi-lens-card p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.48;
+    color: #334155;
+}
+
 html.dark .perf-example-card {
     background: #0f172a;
     border-color: #334155;
@@ -6114,6 +6199,43 @@ html.dark .encap-step-note {
     color: #cbd5e1;
 }
 
+html.dark .osi-lens-create {
+    background: rgba(30, 58, 138, 0.24);
+    border-color: #1e40af;
+}
+
+html.dark .osi-lens-travel {
+    background: rgba(19, 78, 74, 0.26);
+    border-color: #115e59;
+}
+
+html.dark .osi-lens-create .osi-lens-badge {
+    color: #93c5fd;
+}
+
+html.dark .osi-lens-travel .osi-lens-badge {
+    color: #5eead4;
+}
+
+html.dark .osi-lens-pdu {
+    background: #0f172a;
+    color: #f8fafc;
+    border-color: #475569;
+}
+
+html.dark .osi-lens-card {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+html.dark .osi-lens-card h3 {
+    color: #f8fafc;
+}
+
+html.dark .osi-lens-card p {
+    color: #cbd5e1;
+}
+
 html.dark .osi-intro-points p {
     background: #1e293b;
     border-color: #334155;
@@ -6162,7 +6284,8 @@ html.dark .example-heading {
 }
 
 @media(max-width:767px) {
-    .perf-examples-grid {
+    .perf-examples-grid,
+    .osi-lens-grid {
         grid-template-columns: 1fr;
     }
 

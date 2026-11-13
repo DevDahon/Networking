@@ -8,6 +8,79 @@ const objectives=[
  'Compare the seven-layer OSI model with the four-layer TCP/IP model.'
 ];
 
+const deepLayerSlides=[
+ {
+  kind:'concept',
+  title:'Layer 7: Application Layer',
+  items:[
+   'Deeper Look: Not the screen button or window itself—these are the network service rules an app calls to request web pages, files, or messages.',
+   'Computer 1 → 2 Example: When Ana hits Send on "Meet at 3 PM!", the chat app hands the message to Layer 7 rules so communication begins.',
+   'What Breaks Here: A site returns "404 Not Found" or DNS fails to look up a server name even when Wi-Fi and cables work.'
+  ],
+  visualKey:'osiLayer7'
+ },
+ {
+  kind:'concept',
+  title:'Layer 6: Presentation Layer',
+  items:[
+   'Deeper Look: Acts as a translator, shrinker, and lock—formatting character sets, compressing big files, and encrypting private messages.',
+   'Computer 1 → 2 Example: Encodes "Meet at 3 PM!" into standard text bytes (like UTF-8) and encrypts it so outsiders cannot read it.',
+   'What Breaks Here: Garbled symbols from mismatched text encoding, an unsupported video codec, or an expired HTTPS security certificate.'
+  ],
+  visualKey:'osiLayer6'
+ },
+ {
+  kind:'concept',
+  title:'Layer 5: Session Layer',
+  items:[
+   'Deeper Look: Opens, coordinates, and cleanly closes ongoing two-way exchanges—keeping logins active and adding checkpoints to resume big uploads.',
+   'Computer 1 → 2 Example: Opens a shared chat session between Computer 1 and Computer 2 so replies stay paired inside the right thread.',
+   'What Breaks Here: Getting signed out mid-task with "Session expired" or having a large transfer restart from 0% when interrupted.'
+  ],
+  visualKey:'osiLayer5'
+ },
+ {
+  kind:'concept',
+  title:'Layer 4: Transport Layer',
+  items:[
+   'Deeper Look: Starts the travel layers by splitting messages into numbered pieces, tagging each app with port numbers, pacing flow, and handling drops.',
+   'Computer 1 → 2 Example: Tags "Meet at 3 PM!" with Port :5000 so Computer 2 hands it straight to the chat app rather than a web browser.',
+   'What Breaks Here: Basic reachability tests work, yet a host firewall blocks the app port or heavy packet loss stalls the message.'
+  ],
+  visualKey:'osiLayer4'
+ },
+ {
+  kind:'concept',
+  title:'Layer 3: Network Layer',
+  items:[
+   'Deeper Look: Stamps sender and receiver logical IP addresses onto each packet so routers can pick the best path across different networks.',
+   'Computer 1 → 2 Example: Adds Computer 1 and Computer 2 IP addresses so routers guide the packet even across campus buildings or the Internet.',
+   'What Breaks Here: Missing or wrong default gateway, duplicate IP conflict, or a fallback 169.254.x.x address blocking outside networks.'
+  ],
+  visualKey:'osiLayer3'
+ },
+ {
+  kind:'concept',
+  title:'Layer 2: Data Link Layer',
+  items:[
+   'Deeper Look: Wraps packets into frames with local hardware MAC addresses and an FCS check trailer for one local switch or Wi-Fi hop.',
+   'Computer 1 → 2 Example: The classroom switch reads Computer 2 MAC address and sends the frame only out the port where Computer 2 connects.',
+   'What Breaks Here: Wrong VLAN switch port assignment, damaged frames failing FCS checks, or unknown destinations flooding every port.'
+  ],
+  visualKey:'osiLayer2'
+ },
+ {
+  kind:'concept',
+  title:'Layer 1: Physical Layer',
+  items:[
+   'Deeper Look: Converts frames into electrical pulses, light flashes, or wireless waves—defining cables, RJ45 pins, voltage, and radio channels without reading data.',
+   'Computer 1 → 2 Example: Computer 1 network card turns the frame into 01001101… bits traveling over copper cable or Wi-Fi waves to Computer 2.',
+   'What Breaks Here: Loose RJ45 plug, broken copper conductor, bent fiber cord, dead green link LED, or weak Wi-Fi signal.'
+  ],
+  visualKey:'osiLayer1'
+ }
+];
+
 const slides=[
  {kind:'title',title:'Open Systems Interconnection (OSI) Reference Model and Network Communication',ask:'When a webpage fails, how can we decide where to begin looking?',emphasis:'OSI is a reference model for responsibilities, not a protocol that transmits a message.',demo:'Point to the stack from 7 to 1. Explain that the sender uses lower-layer services and the receiver interprets the result.'},
  {kind:'objectives',title:'Learning Objectives',lead:'At the end of this discussion, students should be able to:',items:objectives,ask:'Which objective would help you explain why a cable replacement does not fix every network problem?',emphasis:'Ask for an explanation and a tested example, not only a memorized list.',demo:'Invite learners to choose an objective they want to demonstrate before the lesson ends.'},
@@ -28,6 +101,7 @@ const slides=[
   lead:'The Open Systems Interconnection (OSI) model divides network communication into seven functional layers.',
   itemLabels:['7','6','5','4','3','2','1']
  },
+ ...deepLayerSlides,
  {
   kind:'concept',
   title:'Wrap the data, then unwrap it',

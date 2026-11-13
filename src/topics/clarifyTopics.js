@@ -57,6 +57,13 @@ const copy = {
   'osi-reference-model': [
     ['@osiIntroduction', 'What Is the OSI Reference Model?', 'OSI splits network communication into 7 clear steps—from opening an app down to sending signals over cables or Wi-Fi.'],
     ['Seven OSI layer responsibilities', null, 'Each OSI layer owns one clear duty—the 3 upper layers (7–5) prepare how data is created, while the 4 lower layers (4–1) handle how data travels.'],
+    ['Layer 7: Application Layer', null, 'Layer 7 sits closest to the user, providing network rules and services directly to programs like browsers and chat apps.'],
+    ['Layer 6: Presentation Layer', null, 'Layer 6 acts as the translator, formatter, and lock so both computers read text, media, and protected data the same way.'],
+    ['Layer 5: Session Layer', null, 'Layer 5 opens, coordinates, and cleanly closes ongoing two-way conversations between applications on two devices.'],
+    ['Layer 4: Transport Layer', null, 'Layer 4 begins how data travels—dividing data into numbered segments and using port numbers to reach the right app.'],
+    ['Layer 3: Network Layer', null, 'Layer 3 stamps logical IP addresses onto each packet and lets routers guide delivery across different networks.'],
+    ['Layer 2: Data Link Layer', null, 'Layer 2 wraps packets into frames with local hardware MAC addresses and an error check for switches and NICs.'],
+    ['Layer 1: Physical Layer', null, 'Layer 1 turns every frame into raw electrical, light, or wireless signals carrying 1s and 0s across the physical link.'],
     ['Wrap the data, then unwrap it', 'What Is Encapsulation?', 'When Computer 1 sends a message to Computer 2, encapsulation wraps it down the layers (7 → 1) and decapsulation unwraps it back up (1 → 7).'],
     ['Five OSI Protocol Data Units (PDUs)', null, 'Each OSI layer names the data unit by the control information added at that step: Data, Segment, Packet, Frame, and Bits.'],
     ['Four layers in the TCP/IP model', null, 'While OSI teaches 7 detailed boxes, real networks use the 4-layer TCP/IP model: Application, Transport, Internet, and Link.'],

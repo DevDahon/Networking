@@ -15,9 +15,11 @@ import {renderDeviceSlideVisual, deviceMetadata} from './components/deviceIllust
 import {renderHorizontalToolsSlide, toolsMetadata} from './components/toolsVisuals.js';
 import {performanceExamplesVisual} from './components/performanceVisual.js';
 import {encapsulationExampleVisual} from './components/encapsulationVisual.js';
+import {osiLayerDetailVisual} from './components/osiLayerVisual.js';
 import {renderCourseOutline} from './components/courseOutline.js';
 
-const visualPanels={performanceMeasures:performanceExamplesVisual,encapsulationExample:encapsulationExampleVisual};
+const osiLayerPanels = Object.fromEntries([7, 6, 5, 4, 3, 2, 1].map(n => [`osiLayer${n}`, () => osiLayerDetailVisual(n)]));
+const visualPanels={performanceMeasures:performanceExamplesVisual,encapsulationExample:encapsulationExampleVisual,...osiLayerPanels};
 
 const icons={Network,Globe,Workflow,Router,Layers,Cable,PlugZap,Binary,Split,MonitorCog,RefreshCw,Wifi,FolderOpen,Stethoscope,Shield,ArrowUpRight,ArrowLeft,ArrowRight,BookOpen,LayoutGrid,Search,Moon,Sun,Maximize2,Check,HelpCircle};
 const icon=n=>`<i data-lucide="${n.replace(/([a-z0-9])([A-Z])/g,'$1-$2').toLowerCase()}" aria-hidden="true"></i>`;
