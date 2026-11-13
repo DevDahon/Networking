@@ -1,5 +1,4 @@
 import {addPresenterNotes} from './createTopic.js';
-import {osiLayers} from '../simulations/osiModel.js';
 
 const objectives=[
  'Define the OSI reference model and explain the responsibility of each layer.',
@@ -8,34 +7,6 @@ const objectives=[
  'Identify the protocol data unit and headers added at each communication layer.',
  'Compare the seven-layer OSI model with the four-layer TCP/IP model.'
 ];
-
-const layerSlides=osiLayers.map(l=>({
- kind:'demo',
- title:`Layer ${l.number}: ${l.name}`,
- lead:l.purpose,
- type:'osiLayer',
- scenario:'school-web',
- layer:l.number,
- ask:{
-  7:'How is a DNS service different from the address bar in a browser?',
-  6:'How can both peers recover the same word from a sequence of bytes?',
-  5:'What makes an ongoing conversation different from sending one message?',
-  4:'What should an application do if its UDP data is lost?',
-  3:'Why does a remote packet go to a local gateway first?',
-  2:'What does the switch do if it does not know a destination MAC?',
-  1:'Would a Wi-Fi link still have a Physical layer without a cable?'
- }[l.number],
- emphasis:l.detail,
- demo:{
-  7:'Request a page, advance through name resolution and HTTP exchange, and discuss which operations use Application protocols.',
-  6:'Encode a short word into UTF-8 bytes, then reconstruct it. Clarify that encoding alone provides no secrecy.',
-  5:'Establish, exchange, and end a logical dialog. Contrast the application conversation with its underlying transport.',
-  4:'Drop unit 2 in TCP and UDP models. Compare retransmission and ordered byte delivery with UDP’s missing datagram.',
-  3:'Step the same packet across two different IP networks. Identify each next-hop link and the unchanged remote destination.',
-  2:'Send to a learned MAC, then choose an unknown MAC. Compare directed forwarding and VLAN-limited flooding.',
-  1:'Choose copper, fiber, or radio. Step through the same bits and point out that signal drawings are illustrative, not measured waveforms.'
- }[l.number]
-}));
 
 const slides=[
  {kind:'title',title:'Open Systems Interconnection (OSI) Reference Model and Network Communication',ask:'When a webpage fails, how can we decide where to begin looking?',emphasis:'OSI is a reference model for responsibilities, not a protocol that transmits a message.',demo:'Point to the stack from 7 to 1. Explain that the sender uses lower-layer services and the receiver interprets the result.'},
@@ -72,7 +43,6 @@ const slides=[
   lead:'Conceptual walkthrough • select any OSI layer, step through encapsulation, and compare TCP/UDP loss handling.',
   type:'osi'
  },
- ...layerSlides.slice(0,4),
  {
   kind:'concept',
   title:'Two transport services: TCP and UDP',
@@ -82,7 +52,6 @@ const slides=[
   ],
   expectedCount:2
  },
- ...layerSlides.slice(4),
  {
   kind:'concept',
   title:'Four layers in the TCP/IP model',

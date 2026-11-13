@@ -26,10 +26,9 @@ it.each([7,6,5,4,3,2,1])('plays the three focused Layer %i stages and disposes i
  root.querySelector('[data-action="toggle"]').click();expect(vi.getTimerCount()).toBe(1);
  dispose();dispose=null;expect(vi.getTimerCount()).toBe(0);
 });
-it('scopes the focused school scenario to the seven OSI layer slides',()=>{
+it('removes individual OSI layer simulations from osi-reference-model while keeping external transport demos scoped cleanly',()=>{
  const layers=topics.find(t=>t.id==='osi-reference-model').slides.filter(s=>s.type==='osiLayer');
- expect(layers.map(s=>s.layer)).toEqual([7,6,5,4,3,2,1]);
- expect(layers.every(s=>s.scenario==='school-web')).toBe(true);
+ expect(layers).toHaveLength(0);
  const other=topics.filter(t=>t.id!=='osi-reference-model').flatMap(t=>t.slides).filter(s=>s.type==='osiLayer');
  expect(other.every(s=>!s.scenario)).toBe(true);
 });
