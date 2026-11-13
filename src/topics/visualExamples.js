@@ -17,9 +17,7 @@ const coverageExamples=[
  ['Wide Area Network (WAN)','School campuses in different regions',chain(['Manila campus','Provider network','Cebu campus'],['Local campus network','Long-distance service','Local campus network']),['Long-distance links: Telecom provider lines connect campus routers across distant regions.','Router-to-router: WAN links join separate campus LANs over long distances.']]
 ];
 const definitions={
- '01-introduction-to-networking':[
-  ['Five parts of a conversation',example('Example: one printer, five connected computers','A classroom network shares a resource among several devices.',localClassroom,['Computer 3 (Sender) sends a print job (Message) over Ethernet cables (Medium).','The Network printer (Receiver) accepts the job using shared communication rules (Protocol).'])]
- ],
+ '01-introduction-to-networking':[],
  '03-network-topologies':[
   ['Six network topologies',example('Example: a six-endpoint star','Every endpoint has its own connection to the central switch.',localClassroom,['Independent spokes: Five computers and one printer each use their own cable to the switch.','Fault isolation: One unplugged cable affects only that PC, while a dead switch stops all six devices.'])]
  ],

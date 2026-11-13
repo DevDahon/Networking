@@ -46,7 +46,7 @@ it('keeps markers on valid SVG coordinates across every automatic example and co
     const examples = topics.flatMap(t => t.slides.filter(s => s.kind === 'example').map(s => [t.id, s]));
     examples.push(['01-introduction-to-networking', { exampleId: 'intro-internet', diagram: introDiagrams.internet }]);
     examples.push(['01-introduction-to-networking', { exampleId: 'intro-exchange', diagram: introDiagrams.exchange }]);
-    expect(examples).toHaveLength(22);
+    expect(examples).toHaveLength(21);
     for (const [topic, slide] of examples) {
         for (const scenario of ['healthy', ...(exampleOptions(topic, slide).length ? ['fault'] : [])]) {
             for (const step of examplePlan(topic, slide, { scenario })) {

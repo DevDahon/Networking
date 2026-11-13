@@ -4,7 +4,7 @@ import {clarifyTopic} from '../src/topics/clarifyTopics.js';
 
 it('introduces the main idea visibly on every discussion, example, and simulation slide',()=>{
  const discussion=topics.flatMap(topic=>topic.slides.filter(s=>!['title','objectives','summary'].includes(s.kind)));
- expect(discussion).toHaveLength(172);
+ expect(discussion).toHaveLength(171);
  for(const slide of discussion){
   expect(slide.lead).toBeTypeOf('string');
   expect(slide.lead).toMatch(/\.$/);

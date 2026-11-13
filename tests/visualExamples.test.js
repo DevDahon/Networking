@@ -46,5 +46,5 @@ it('follows the four-type overview with four examples and connects exactly five 
  expect(local.diagram.nodes.filter(node=>node.kind==='printer')).toHaveLength(1);
  expect(local.diagram.edges).toHaveLength(6);
  expect(local.diagram.edges.every(([a])=>local.diagram.nodes[a].kind==='switch')).toBe(true);
- expect(topic.slides.filter(slide=>slide.kind==='example')).toHaveLength(5);
+ expect(topic.slides.filter(slide=>slide.kind==='example')).toHaveLength(4);
 });

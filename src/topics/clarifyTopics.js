@@ -8,7 +8,6 @@ const copy = {
     ['Basic Network Components', null, 'Every network relies on three parts: end devices, connecting devices, and physical or wireless links.'],
     ['@introConnections', null, 'Devices connect to a network using either physical Ethernet cables or wireless radio signals.'],
     ['@introConnectivity', null, 'A local network connects nearby devices, while the Internet links local networks to the wider world.'],
-    ['Example: one printer, five connected computers', null, 'Five classroom computers share one network printer through a central switch.'],
     ['Five parts of a conversation', 'Five Elements of Data Communication', 'Every network exchange requires five elements: a sender, receiver, message, medium, and protocol.'],
     ['@introExchange', null, 'When one computer requests a file and the other replies, their sender and receiver roles switch.'],
     ['Three practical benefits of networking', 'Three Benefits of Networking', 'Networks save time and money by letting users share hardware, collaborate on files, and centralize backups.'],
