@@ -45,26 +45,26 @@ const slides=[
   kind:'concept',
   title:'Seven OSI layer responsibilities',
   items:[
-   'Application: Network services used directly by user apps (HTTP, DNS, DHCP).',
-   'Presentation: Data formatting, character encoding, and encryption.',
-   'Session: Starts, maintains, and ends communication dialogs.',
-   'Transport: End-to-end delivery, ports, and error recovery (TCP, UDP).',
-   'Network: Logical IP addressing and routing across networks.',
-   'Data Link: Physical MAC addressing, frames, and local switch delivery.',
-   'Physical: Sends raw binary bits as electrical, light, or radio signals.'
+   'Application: Network services used by apps like browsers and email (HTTP, DNS, DHCP).',
+   'Presentation: Formats, compresses, and encrypts data (like UTF-8 text or HTTPS) so both ends read it.',
+   'Session: Opens, tracks, and closes an ongoing conversation between two apps.',
+   'Transport: Uses port numbers to reach the right app and recovers lost pieces (TCP) or sends fast (UDP).',
+   'Network: Uses logical IP addresses and routers to forward packets across different networks.',
+   'Data Link: Wraps packets into frames and delivers them locally using MAC addresses and switches.',
+   'Physical: Sends raw 1s and 0s across copper cables, fiber light, or wireless radio.'
   ],
   expectedCount:7,
   lead:'The Open Systems Interconnection (OSI) model divides network communication into seven functional layers.',
   itemLabels:['7','6','5','4','3','2','1'],
-  footnote:'Each layer serves the layer above it and relies on the layer below it.'
+  footnote:'Each layer serves the layer above it—sending moves top-down (7 → 1), while receiving reads bottom-up (1 → 7).'
  },
  {
   kind:'concept',
   title:'Wrap the data, then unwrap it',
   lead:'Encapsulation adds control information as data passes toward the transmission medium.',
   items:[
-   'Encapsulation (Sender): Wraps app data into a segment, packet, and frame before sending bits.',
-   'Decapsulation (Receiver): Reads and removes each layer header from bottom to top.'
+   'Encapsulation (Sender, 7 → 1): Wraps the message like nested envelopes—Data → Segment (ports) → Packet (IPs) → Frame (MACs) → Bits.',
+   'Decapsulation (Receiver, 1 → 7): Verifies and removes each outer wrapper from the bottom up until only the app message remains.'
   ]
  },
  {
@@ -78,8 +78,8 @@ const slides=[
   kind:'concept',
   title:'Two transport services: TCP and UDP',
   items:[
-   'TCP: an ordered reliable byte stream with sequence numbers, acknowledgments, and retransmission.',
-   'UDP: datagrams without built-in delivery or ordering guarantees; applications may add reliability.'
+   'TCP (Reliable, Ordered): Numbers segments, confirms delivery, and resends lost pieces—used for web pages, files, and email.',
+   'UDP (Fast, No Guarantee): Sends datagrams immediately without waiting for confirmations—used for live calls, streaming, and DNS.'
   ],
   expectedCount:2
  },
@@ -88,19 +88,20 @@ const slides=[
   kind:'concept',
   title:'Four layers in the TCP/IP model',
   items:[
-   'Application: application protocols plus representation and dialog functions.',
-   'Transport: process-to-process services, including TCP and UDP.',
-   'Internet: IP logical addressing and forwarding across networks.',
-   'Link: local framing, media access, and physical transmission.'
+   'Application (OSI 7–5): Handles user-facing protocols, data formatting, and session control (HTTP, DNS, SMTP).',
+   'Transport (OSI 4): Delivers data between apps using TCP or UDP port numbers.',
+   'Internet (OSI 3): Handles logical IP addressing and routing across networks.',
+   'Link (OSI 2–1): Handles local MAC framing, switches, cables, and physical signals.'
   ],
   expectedCount:4
  },
  {kind:'demo',title:'OSI and TCP/IP: two useful views',lead:'The common four-layer TCP/IP model groups responsibilities differently. These mappings are approximate.',type:'osiComparison',ask:'Where do OSI Presentation and Session responsibilities appear in this TCP/IP view?',emphasis:'OSI 7–5 map to Application, 4 to Transport, 3 to Internet, and 2–1 to Network Access / Link.',demo:'Select each TCP/IP group and trace its highlighted OSI rows. Explain that protocols and implementation boundaries do not always fit one box.'},
  {kind:'summary',title:'Summary of the Discussion',items:[
-  'Seven OSI Layers: A clear map of network duties from Physical (Layer 1) to Application (Layer 7).',
-  'Encapsulation & Decapsulation: Senders wrap data with headers down the stack; receivers unwrap them going up.',
-  'PDUs at Each Layer: Data becomes a Segment/Datagram (L4), Packet (L3), Frame (L2), and Bits (L1).',
-  'TCP/IP Mapping: Combines the 7 OSI layers into 4 practical layers (Application, Transport, Internet, Link).'
+  '7 OSI Layers (7 → 1): Application, Presentation, Session, Transport, Network, Data Link, and Physical divide duties clearly.',
+  'Encapsulation: Senders add delivery headers going down (7 → 1); receivers remove them going up (1 → 7).',
+  'Data Units (PDUs): Segment/Datagram (L4 · Ports) → Packet (L3 · IP) → Frame (L2 · MAC) → Bits (L1 · Signals).',
+  'OSI vs. TCP/IP: Real networks combine OSI Layers 7–5 into Application and Layers 2–1 into Link.',
+  'Troubleshooting Tip: Check bottom-up—cable & link (L1–2) → IP & gateway (L3) → ports & service (L4–7).'
  ]}
 ];
 

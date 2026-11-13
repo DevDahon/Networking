@@ -1600,10 +1600,17 @@ body.presentation-mode {
 
 .presentation-mode .slide-body-frame>.slide-body {
     position: absolute;
-    left: 50%;
+    left: 0;
     top: 0;
     max-width: none;
-    transform-origin: top center
+    transform-origin: top left;
+    text-align: left
+}
+
+.presentation-mode .slide-title .slide-body-frame>.slide-body {
+    left: 50%;
+    transform-origin: top center;
+    text-align: center
 }
 
 .presentation-mode .slide-body {
@@ -1612,19 +1619,22 @@ body.presentation-mode {
 
 .presentation-mode .slide-body>h2 {
     font-size: 34px;
-    margin: 0 0 12px;
+    margin: 0 0 10px;
     max-width: none;
+    text-align: left;
 }
 
 .presentation-mode .slide-title .slide-body>h2 {
     font-size: 50px;
+    text-align: center;
 }
 
 .presentation-mode .slide-lead {
     font-size: 18px;
     line-height: 1.5;
     margin: 0 0 16px;
-    max-width: none;
+    max-width: min(1050px, 100%);
+    text-align: left;
 }
 
 .presentation-mode .osi-grid {
@@ -1779,8 +1789,8 @@ body.presentation-mode {
 
     .presentation-mode .slide-body-frame>.slide-body {
         position: relative;
-        left: auto;
-        top: auto;
+        left: auto !important;
+        top: auto !important;
         width: 100% !important;
         max-width: 100% !important;
         transform: none !important;

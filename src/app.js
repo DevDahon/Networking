@@ -9,7 +9,7 @@ import {automaticExample} from './simulations/automaticExamples.js';
 import {parseRoute,shouldHandleKey} from './router.js';
 import {loadProgress,saveProgress,resetProgress} from './utils/progress.js';
 import {simulations} from './simulations/index.js';
-import {fitSlide} from './components/fitSlide.js';
+import {fitSlide,frameWidth} from './components/fitSlide.js';
 import {connectorOrientationSVG,rj45PlugColorSVG,straightVsCrossoverVisualSVG} from './components/cableVisuals.js';
 import {renderDeviceSlideVisual, deviceMetadata} from './components/deviceIllustrations.js';
 import {renderHorizontalToolsSlide, toolsMetadata} from './components/toolsVisuals.js';
@@ -103,7 +103,7 @@ export function startApp(root){
   root.querySelector('[data-action="prev"]').disabled=index===0;
   const content=root.querySelector('#slide-content');
   const stageWidth=root.querySelector('.slide-stage')?.clientWidth||window.innerWidth;
-  if(stageWidth>=768)root.querySelector('.slide-body').style.width=`${stageWidth>1280?Math.min(Math.round(stageWidth),1920):1280}px`;
+  if(stageWidth>=768)root.querySelector('.slide-body').style.width=`${frameWidth(stageWidth)}px`;
   if(s.kind==='title')content.innerHTML=titleVisual(t);
   else if(s.kind==='example')releaseSimulation=automaticExample(content,s,t.id);
   else if(s.type){const dispose=simulations[s.type](content,s);if(typeof dispose==='function')releaseSimulation=dispose;}
