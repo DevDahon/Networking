@@ -48,12 +48,6 @@ const slides=[
   expectedCount:2
  },
  {
-  kind:'demo',
-  title:'Inside the message',
-  lead:'Conceptual walkthrough • select any OSI layer, step through encapsulation, and compare TCP/UDP loss handling.',
-  type:'osi'
- },
- {
   kind:'concept',
   title:'Four layers in the TCP/IP model',
   items:[

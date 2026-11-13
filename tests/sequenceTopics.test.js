@@ -6,7 +6,7 @@ const constraints=[
  [2,'@topology','Choosing a Network Topology'],
  [3,'How Interfaces and Switches Connect Local Devices','@macLearningDemo'],
  [4,'Seven OSI layer responsibilities','What Is Encapsulation?'],
- [4,'Two transport services: TCP and UDP','@osi'],
+ [4,'Four layers in the TCP/IP model','@osiComparison'],
  [7,'The Subnet Mask: The Dividing Boundary','@bitwiseDemo'],
  [8,'Example: two manually configured classroom computers','@asymmetricDemo'],
  [8,'Windows Static Address Configuration Procedure','@static'],
@@ -26,7 +26,7 @@ it.each(constraints)('keeps the prerequisite beside its demonstration in topic %
 
 it('reviews every topic and retains all slide content, boundaries, and simulation counts',()=>{
  expect(Object.keys(sequenceMoves)).toHaveLength(14);
- expect(topics.reduce((sum,t)=>sum+t.slides.length,0)).toBe(205);
+ expect(topics.reduce((sum,t)=>sum+t.slides.length,0)).toBe(204);
  for(const topic of topics){
   expect(topic.slides[0].kind).toBe('title');expect(topic.slides[1].kind).toBe('objectives');expect(topic.slides.at(-1).kind).toBe('summary');
   if(topic.id!=='06-network-cables-media')expect(topic.slides.filter(s=>s.type||s.kind==='example').length).toBeGreaterThanOrEqual(2);
