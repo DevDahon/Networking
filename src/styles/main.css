@@ -2477,42 +2477,65 @@ body.presentation-mode {
 }
 
 .automatic-example .classroom-example {
-    height: 250px;
-    margin: 0 0 8px
+    height: 275px;
+    margin: 0 0 6px
 }
 
 .automatic-example .example-explanation {
-    font-size: 18px;
-    line-height: 1.45;
-    gap: 6px
+    display: none
+}
+
+.automatic-example .example-heading {
+    font-size: 20px;
+    margin: 4px 0 2px
 }
 
 .automatic-example .control-row {
-    margin: 10px 0;
-    gap: 10px
+    margin: 6px 0;
+    gap: 10px;
+    align-items: center
+}
+
+.automatic-example .example-settings label,
+.automatic-example .example-controls label {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    width: auto;
+    margin: 0;
+    font-size: 14px
+}
+
+.automatic-example .example-settings select,
+.automatic-example .example-controls select {
+    width: auto;
+    min-width: 110px;
+    padding: 6px 10px;
+    font-size: 14px
 }
 
 .example-current {
-    margin: 14px 0 0;
-    padding: 14px 18px;
+    margin: 8px 0 0;
+    padding: 12px 16px;
     background: #eff6ff;
     border: 1px solid #dbeafe;
     border-radius: 12px
 }
 
 .example-current>b {
-    font-size: 13px;
+    font-size: 12.5px;
     color: #0f766e
 }
 
 .example-current h3 {
-    font-size: 23px;
-    margin: 7px 0
+    font-size: 20px;
+    margin: 3px 0
 }
 
 .example-current p {
-    font-size: 19px;
-    line-height: 1.5;
+    font-size: 17.5px;
+    line-height: 1.45;
     margin: 0
 }
 

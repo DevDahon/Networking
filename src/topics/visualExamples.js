@@ -18,7 +18,7 @@ const coverageExamples=[
 ];
 const definitions={
  '01-introduction-to-networking':[
-  ['Five parts of a conversation',{...example('Example: one printer, five connected computers','A classroom network shares a resource among several devices.',localClassroom,['1. Sender (Computer 3) & 2. Receiver (Printer): Computer 3 creates the job; the network printer is the destination.','3. Message (Print Job), 4. Medium (Ethernet Cables), & 5. Protocol (Agreed Rules) complete the five elements.']),exampleTitle:'Example: Five Elements in a Classroom Print Job'}]
+  ['Five parts of a conversation',example('Example: one printer, five connected computers','A classroom network shares a resource among several devices.',localClassroom,['Computer 3 (Sender) sends a print job (Message) over Ethernet cables (Medium).','The Network printer (Receiver) accepts the job using shared communication rules (Protocol).'])]
  ],
  '03-network-topologies':[
   ['Six network topologies',example('Example: a six-endpoint star','Every endpoint has its own connection to the central switch.',localClassroom,['Independent spokes: Five computers and one printer each use their own cable to the switch.','Fault isolation: One unplugged cable affects only that PC, while a dead switch stops all six devices.'])]

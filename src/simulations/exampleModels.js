@@ -18,10 +18,10 @@ function exchange(diagram,source,target,broken=false){
  const route=diagramPath(diagram,source,target,broken);
  if(!route.length)return [stage('Locate the disconnected path','The selected source cable is unplugged, so no frames can leave this computer.',[source],[],false),stage('Delivery stops here','The printer receives no job from this computer, while other connected computers still work.',[source],[],false)];
  return [
-  stage('Prepare a print job',`${diagram.nodes[source].label} prepares a document print request for the shared network printer.`,[source],[],true,[['1. Sender',diagram.nodes[source].label],['2. Receiver',diagram.nodes[target].label],['3. Message','Print job data']]),
-  stage('Send the print job',`The print request travels along ${route.map(i=>diagram.nodes[i].label).join(' → ')}.`,route,route,true,[['4. Medium','Ethernet cables & switch'],['5. Protocol','Ethernet & printing rules']]),
-  stage('The printer accepts the job','The network printer receives the request and places the document into its print queue.',[target],[],true,[['2. Receiver',diagram.nodes[target].label],['Job state','Accepted / queued']]),
-  stage('Return the printer response','The printer sends a job-accepted status reply back through the switch to the computer.',[...route].reverse(),[...route].reverse(),true,[['Response','Job accepted / queued'],['Printing finished?','Not established by this response']])
+  stage('Prepare a print job',`${diagram.nodes[source].label} (Sender) creates the print job (Message) for the network printer.`,[source],[],true,[['Role','Sender → Message']]),
+  stage('Send the print job',`The print job travels across Ethernet cables (Medium) along ${route.map(i=>diagram.nodes[i].label).join(' → ')}.`,route,route,true,[['Role','Medium & Protocol']]),
+  stage('The printer accepts the job','The network printer (Receiver) accepts the request into its print queue.',[target],[],true,[['Job state','Accepted / queued']]),
+  stage('Return the printer response','The printer sends a status reply back through the switch to the computer.',[...route].reverse(),[...route].reverse(),true,[['Response','Job accepted / queued'],['Printing finished?','Not established by this response']])
  ];
 }
 export function exampleOptions(topic,slide){
