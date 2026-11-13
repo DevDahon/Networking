@@ -89,7 +89,16 @@ export function startApp(root){
 
  function presentation(){
   const {topic:t,index}=route,s=t.slides[index];progress.lastTopic=t.id;const p=progress.topics[t.id]||={};p.slide=index;persist();const total=t.slides.length;
-  root.querySelector('main').innerHTML=`<div class="slide-stage"><article class="slide slide-${s.kind}"><div class="slide-kicker"><span>NETWORKING 1 / ${String(t.number).padStart(2,'0')}</span><span>${String(index+1).padStart(2,'0')} / ${total}</span></div><div class="slide-body"><h2>${esc(s.title)}</h2>${s.lead?`<p class="slide-lead">${esc(s.lead)}</p>`:''}<div id="slide-content" class="${s.type?'simulation-container':''}"></div></div></article></div><div class="slide-navigation"><div><button type="button" class="button quiet" id="btn-slide-grid" title="Slide Grid (G)">${icon('LayoutGrid')} Grid</button><span class="slide-count">${index+1} of ${total}</span></div><div>${button(icon('ArrowLeft')+' Previous','prev')}${index<total-1?button('Next slide '+icon('ArrowRight'),'next','primary'):`<a class="button primary" href="#/">Back to Topics ${icon('LayoutGrid')}</a>`}</div></div><div class="lesson-progress"><span style="width:${(index+1)/total*100}%"></span></div><p id="fullscreen-status" role="status">${esc(fullscreenError)}</p>`;
+  let parentConcept='';
+  if(s.kind==='example'||s.kind==='demo'){
+   for(let k=index-1;k>=2;k--){
+    if(t.slides[k].kind==='concept'||(s.kind==='demo'&&t.slides[k].kind==='walkthrough')){parentConcept=t.slides[k].title;break;}
+   }
+  }
+  const contextPill=parentConcept?`<div class="slide-context-pill">${s.kind==='example'?'EXAMPLE':'SIMULATION'} · ${esc(parentConcept)}</div>`:'';
+  const nextSlide=t.slides[index+1];
+  const nextLabel=nextSlide?.kind==='example'?'Next: Example ':nextSlide?.kind==='demo'?'Next: Simulation ':'Next slide ';
+  root.querySelector('main').innerHTML=`<div class="slide-stage"><article class="slide slide-${s.kind}"><div class="slide-kicker"><span>NETWORKING 1 / ${String(t.number).padStart(2,'0')}</span><span>${String(index+1).padStart(2,'0')} / ${total}</span></div><div class="slide-body">${contextPill}<h2>${esc(s.title)}</h2>${s.lead?`<p class="slide-lead">${esc(s.lead)}</p>`:''}<div id="slide-content" class="${s.type?'simulation-container':''}"></div></div></article></div><div class="slide-navigation"><div><button type="button" class="button quiet" id="btn-slide-grid" title="Slide Grid (G)">${icon('LayoutGrid')} Grid</button><span class="slide-count">${index+1} of ${total}</span></div><div>${button(icon('ArrowLeft')+' Previous','prev')}${index<total-1?button(nextLabel+icon('ArrowRight'),'next','primary'):`<a class="button primary" href="#/">Back to Topics ${icon('LayoutGrid')}</a>`}</div></div><div class="lesson-progress"><span style="width:${(index+1)/total*100}%"></span></div><p id="fullscreen-status" role="status">${esc(fullscreenError)}</p>`;
   root.querySelector('[data-action="prev"]').disabled=index===0;
   const content=root.querySelector('#slide-content');
   if((root.querySelector('.slide-stage')?.clientWidth||window.innerWidth)>=768)root.querySelector('.slide-body').style.width='1280px';

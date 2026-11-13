@@ -5470,3 +5470,39 @@ html.dark svg.network-diagram line[stroke="#cbd5e1"] {
     stroke: #334155;
 }
 
+/* Parent Concept Context Pill on Example & Simulation Slides */
+.slide-context-pill {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    padding: 4px 12px;
+    margin-bottom: 6px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+}
+
+.slide-example .slide-context-pill {
+    background: #f0fdf4;
+    color: #047857;
+    border-color: #a7f3d0;
+}
+
+html.dark .slide-context-pill {
+    background: rgba(30, 58, 138, 0.45);
+    color: #93c5fd;
+    border-color: #1e40af;
+}
+
+html.dark .slide-example .slide-context-pill {
+    background: rgba(6, 95, 70, 0.45);
+    color: #6ee7b7;
+    border-color: #065f46;
+}
+
+

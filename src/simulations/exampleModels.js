@@ -18,10 +18,10 @@ function exchange(diagram,source,target,broken=false){
  const route=diagramPath(diagram,source,target,broken);
  if(!route.length)return [stage('Locate the disconnected path','The selected source cable is unplugged, so no frames can leave this computer.',[source],[],false),stage('Delivery stops here','The printer receives no job from this computer, while other connected computers still work.',[source],[],false)];
  return [
-  stage('Prepare a print job',`${diagram.nodes[source].label} prepares a document print request for the shared network printer.`,[source],[],true,[['Message','Print request and document data']]),
-  stage('Send the print job',`The print request travels along ${route.map(i=>diagram.nodes[i].label).join(' → ')}.`,route,route,true,[['Message','Print request and document data']]),
-  stage('The printer accepts the job','The network printer receives the request and places the document into its print queue.',[target],[],true,[['Job state','Accepted / queued']]),
-  stage('Return the printer response','The printer sends a job-accepted status reply back through the switch to the computer.',[...route].reverse(),[...route].reverse(),true,[['Response','Job accepted / queued'],['Printing finished?','Queued for printing']])
+  stage('Prepare a print job',`${diagram.nodes[source].label} prepares a document print request for the shared network printer.`,[source],[],true,[['1. Sender',diagram.nodes[source].label],['2. Receiver',diagram.nodes[target].label],['3. Message','Print job data']]),
+  stage('Send the print job',`The print request travels along ${route.map(i=>diagram.nodes[i].label).join(' → ')}.`,route,route,true,[['4. Medium','Ethernet cables & switch'],['5. Protocol','Ethernet & printing rules']]),
+  stage('The printer accepts the job','The network printer receives the request and places the document into its print queue.',[target],[],true,[['2. Receiver',diagram.nodes[target].label],['Job state','Accepted / queued']]),
+  stage('Return the printer response','The printer sends a job-accepted status reply back through the switch to the computer.',[...route].reverse(),[...route].reverse(),true,[['Response','Job accepted / queued'],['Printing finished?','Not established by this response']])
  ];
 }
 export function exampleOptions(topic,slide){
@@ -50,7 +50,7 @@ export function examplePlan(topic,slide,{scenario='healthy',source='3'}={}){
   stage('Use a local resource','The computer sends a print job through the local switch directly to the printer.',[0,1,2],[0,1,2]),
   stage('The local printer responds','The printer replies through the switch that the job is queued—no Internet needed.',[2,1,0],[2,1,0],true,[['Response','Job accepted / queued']]),
   stage('Request a remote website','The computer sends a web request to the router because the website is on an outside network.',[0,1,3],[0,1,3]),
-  stage(fault?'Remote access stops at the unavailable connection':'Reach the remote service',fault?'Local LAN printing still works, but the offline Internet link blocks the remote website.':'The router forwards the request across the working Internet link to the remote web server.',fault?[3]:[3,4],fault?[]:[3,4],!fault)
+  stage(fault?'Remote access stops at the unavailable connection':'Reach the remote service',fault?'The local network is still connected, but the offline Internet link blocks the remote website.':'The router forwards the request across the working Internet link to the remote web server.',fault?[3]:[3,4],fault?[]:[3,4],!fault)
  ];
  if(slide.exampleId==='intro-exchange')return [
   stage('Create a request','Computer A (sender) creates a request asking Computer B (receiver) for a shared file.',[0],[],true,[['Message','Please send the document']]),
