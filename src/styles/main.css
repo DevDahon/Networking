@@ -96,7 +96,7 @@ a:focus-visible,
 input:focus-visible,
 select:focus-visible,
 summary:focus-visible {
-    outline: 3px solid #0d9488;
+    outline: 3px solid var(--blue);
     outline-offset: 4px
 }
 
@@ -228,7 +228,7 @@ svg {
     display: inline-block;
     width: 6px;
     height: 6px;
-    background: var(--teal);
+    background: var(--blue);
     border-radius: 50%;
     margin-right: 7px
 }
@@ -248,7 +248,7 @@ main:focus {
     font-size: 11px;
     letter-spacing: .15em;
     font-weight: 800;
-    color: #0f766e;
+    color: #1d4ed8;
     display: block;
     margin-bottom: 16px
 }
@@ -391,19 +391,11 @@ main:focus {
     height: 22px
 }
 
-.group-1 {
-    background: #ecfdf5;
-    color: #0f766e
-}
-
-.group-2 {
-    background: #f0f2ff;
-    color: #4f46e5
-}
-
+.group-1,
+.group-2,
 .group-3 {
-    background: #fff7ed;
-    color: #b45309
+    background: #eff6ff;
+    color: var(--blue)
 }
 
 .topic-number {
@@ -622,7 +614,7 @@ main:focus {
 
 .discussion {
     margin-top: 28px;
-    border-left: 3px solid var(--teal);
+    border-left: 3px solid var(--blue);
     padding: 4px 22px
 }
 
@@ -3030,19 +3022,11 @@ body.presentation-mode {
     text-transform: uppercase
 }
 
-.grid-kind-badge.kind-title {
+.grid-kind-badge.kind-title,
+.grid-kind-badge.kind-demo,
+.grid-kind-badge.kind-summary {
     background: #eff6ff;
     color: var(--blue)
-}
-
-.grid-kind-badge.kind-demo {
-    background: #ecfdf5;
-    color: #0f766e
-}
-
-.grid-kind-badge.kind-summary {
-    background: #fff7ed;
-    color: #c2410c
 }
 
 .slide-grid-card h4 {
@@ -3169,19 +3153,11 @@ body.presentation-mode {
     flex-shrink: 0
 }
 
-.badge-topic {
+.badge-topic,
+.badge-slide,
+.badge-glossary {
     background: #eff6ff;
     color: var(--blue)
-}
-
-.badge-slide {
-    background: #ecfdf5;
-    color: #0d9488
-}
-
-.badge-glossary {
-    background: #fdf4ff;
-    color: #a21caf
 }
 
 .search-item-info {
@@ -3276,8 +3252,42 @@ html.dark .slide-lead {
     color: #94a3b8
 }
 
+html.dark button:focus-visible,
+html.dark a:focus-visible,
+html.dark input:focus-visible,
+html.dark select:focus-visible,
+html.dark summary:focus-visible {
+    outline-color: #60a5fa;
+}
+
+html.dark .local-indicator:before {
+    background: #60a5fa;
+}
+
 html.dark .eyebrow {
-    color: #2dd4bf;
+    color: #60a5fa;
+}
+
+html.dark .topic-icon,
+html.dark .group-1,
+html.dark .group-2,
+html.dark .group-3 {
+    background: rgba(30, 58, 138, 0.45);
+    color: #93c5fd;
+}
+
+html.dark .discussion {
+    border-left-color: #60a5fa;
+}
+
+html.dark .grid-kind-badge.kind-title,
+html.dark .grid-kind-badge.kind-demo,
+html.dark .grid-kind-badge.kind-summary,
+html.dark .badge-topic,
+html.dark .badge-slide,
+html.dark .badge-glossary {
+    background: rgba(30, 58, 138, 0.45);
+    color: #93c5fd;
 }
 
 html.dark .dashboard-intro p,
@@ -4459,9 +4469,13 @@ html.dark .meta-item strong {
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--teal);
+    color: var(--blue);
     display: block;
     margin-bottom: 4px;
+}
+
+html.dark .section-kicker {
+    color: #60a5fa;
 }
 
 .outline-section h2 {
@@ -4951,54 +4965,58 @@ html.dark .skill-card p {
     margin-top: 24px;
     padding: 20px 24px;
     border-radius: 12px;
-    background: #f0fdf4;
-    border: 1px solid #bbf7d0;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
     display: flex;
     gap: 16px;
 }
 
 html.dark .lab-notice-box {
-    background: #064e3b26;
-    border-color: #065f46;
+    background: rgba(30, 58, 138, 0.25);
+    border-color: #1e40af;
 }
 
 .notice-icon {
-    color: #16a34a;
+    color: var(--blue);
     font-size: 22px;
     flex-shrink: 0;
     margin-top: 2px;
+}
+
+html.dark .notice-icon {
+    color: #60a5fa;
 }
 
 .notice-text h4 {
     font-size: 15px;
     font-weight: 700;
     margin: 0 0 6px;
-    color: #166534;
+    color: #1e40af;
 }
 
 html.dark .notice-text h4 {
-    color: #86efac;
+    color: #93c5fd;
 }
 
 .notice-text p {
     font-size: 13px;
     line-height: 1.6;
-    color: #14532d;
+    color: #1e3a8a;
     margin: 0 0 8px;
 }
 
 html.dark .notice-text p {
-    color: #bbf7d0;
+    color: #dbeafe;
 }
 
 .notice-sub {
     font-size: 12px !important;
-    color: #166534 !important;
+    color: #1e40af !important;
     margin: 0 !important;
 }
 
 html.dark .notice-sub {
-    color: #86efac !important;
+    color: #93c5fd !important;
 }
 
 /* Modules Grid */
@@ -5583,22 +5601,10 @@ html.dark svg.network-diagram line[stroke="#cbd5e1"] {
     border: 1px solid #bfdbfe;
 }
 
-.slide-example .slide-context-pill {
-    background: #f0fdf4;
-    color: #047857;
-    border-color: #a7f3d0;
-}
-
 html.dark .slide-context-pill {
     background: rgba(30, 58, 138, 0.45);
     color: #93c5fd;
     border-color: #1e40af;
-}
-
-html.dark .slide-example .slide-context-pill {
-    background: rgba(6, 95, 70, 0.45);
-    color: #6ee7b7;
-    border-color: #065f46;
 }
 
 /* Responsive Simulation & Dropdown Overlap Safeguards */

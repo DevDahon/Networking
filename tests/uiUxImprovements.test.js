@@ -99,5 +99,22 @@ describe('UI/UX and Accessibility Improvements',()=>{
    expect(stage.querySelector('.callout')).toBeNull();
   }
  });
+
+ it('keeps website UI chrome consistently blue while preserving simulation visual colors',()=>{
+  const css=readFileSync(resolve(process.cwd(),'src/styles/main.css'),'utf8');
+  expect(css).toMatch(/summary:focus-visible\s*\{[^}]*outline:\s*3px solid var\(--blue\)/);
+  expect(css).toMatch(/\.local-indicator:before\s*\{[^}]*background:\s*var\(--blue\)/);
+  expect(css).toMatch(/\.eyebrow\s*\{[^}]*color:\s*#1d4ed8/);
+  expect(css).toMatch(/\.group-1,\s*\.group-2,\s*\.group-3\s*\{[^}]*background:\s*#eff6ff;[^}]*color:\s*var\(--blue\)/);
+  expect(css).toMatch(/\.discussion\s*\{[^}]*border-left:\s*3px solid var\(--blue\)/);
+  expect(css).toMatch(/\.grid-kind-badge\.kind-title,\s*\.grid-kind-badge\.kind-demo,\s*\.grid-kind-badge\.kind-summary\s*\{[^}]*background:\s*#eff6ff;[^}]*color:\s*var\(--blue\)/);
+  expect(css).toMatch(/\.badge-topic,\s*\.badge-slide,\s*\.badge-glossary\s*\{[^}]*background:\s*#eff6ff;[^}]*color:\s*var\(--blue\)/);
+  expect(css).toMatch(/\.section-kicker\s*\{[^}]*color:\s*var\(--blue\)/);
+  expect(css).toMatch(/\.lab-notice-box\s*\{[^}]*background:\s*#eff6ff;[^}]*border:\s*1px solid #bfdbfe/);
+  expect(css).not.toMatch(/\.slide-example\s+\.slide-context-pill/);
+  expect(css).toMatch(/html\.dark\s+\.eyebrow\s*\{[^}]*color:\s*#60a5fa/);
+  expect(css).toMatch(/\.feedback\.success\s*\{[^}]*color:\s*#065f46/);
+  expect(css).toMatch(/\.bit-split-host\s*\{[^}]*#0d9488/);
+ });
 });
 
