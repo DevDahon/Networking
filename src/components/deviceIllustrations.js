@@ -57,22 +57,6 @@ export const deviceMetadata = {
     image: 'images/devices/repeater.jpg',
     photoCaption: 'Dual-Band AC Wall-Plug Wi-Fi Range Extender'
   },
-  bridge: {
-    name: 'Network Bridge',
-    shortName: 'Bridge',
-    role: 'Segment Isolator & Filtering Engine',
-    desc: 'Joins two LAN segments and checks MAC destinations so local traffic stays on its own side.',
-    image: 'images/devices/bridge.jpg',
-    photoCaption: 'Point-to-Point Wireless / Multiport Ethernet Bridge'
-  },
-  firewall: {
-    name: 'Network Firewall',
-    shortName: 'Firewall',
-    role: 'Traffic Policy Enforcement & Perimeter Defense',
-    desc: 'Guards a network boundary by inspecting packet addresses, protocol ports, and connection states against security rules.',
-    image: 'images/devices/firewall.jpg',
-    photoCaption: 'Next-Gen Hardware Security Firewall Appliance'
-  },
   server: {
     name: 'Enterprise Server',
     shortName: 'Server',
@@ -110,17 +94,4 @@ export function renderDeviceSlideVisual(deviceKey) {
   if (!photoView) return '';
 
   return `<div class="device-visual-card">${photoView}</div>`;
-}
-
-export function routerGatewayPortsVisual() {
-  return `
-    <div class="device-visual-card router-rear-card">
-      <div class="router-rear-box">
-        <img src="images/router/router_rear.jpg" alt="Home Gateway Router Rear Ports" class="router-rear-photo" loading="lazy" />
-      </div>
-      <div class="router-rear-meta">
-        <h4 class="physical-photo-title">Home Gateway Router (Rear Ports)</h4>
-      </div>
-    </div>
-  `;
 }

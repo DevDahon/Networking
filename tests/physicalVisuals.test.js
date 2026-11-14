@@ -25,7 +25,6 @@ function mountTopicSlide(topicId, title) {
 describe('Real-life photographs for physical networking content', () => {
   it.each([
     ['01-introduction-to-networking', 'Basic Network Components', 4],
-    ['04-network-devices', 'Ports, Link Lights, and Home Gateways', 1],
     ['osi-reference-model', 'Layer 1: Physical Layer', 3],
     ['06-network-cables-media', 'Five network media choices', 5],
     ['06-network-cables-media', 'Three Ethernet cable categories', 1],
@@ -78,10 +77,15 @@ describe('Real-life photographs for physical networking content', () => {
     }
   });
 
-  it('omits the removed Network Device Functions Explorer slide from 04-network-devices', () => {
+  it('omits the removed device explorer, bridge, firewall, and gateway port slides from 04-network-devices', () => {
     const topic = topics.find(t => t.id === '04-network-devices');
     expect(topic).toBeDefined();
-    expect(topic.slides.some(s => s.type === 'devices' || /Network Device Functions Explorer/i.test(s.title))).toBe(false);
+    expect(topic.slides.some(s => (
+      s.type === 'devices'
+      || ['bridge', 'firewall'].includes(s.deviceKey)
+      || s.visualKey === 'routerPorts'
+      || /^(Network Device Functions Explorer|Network Bridge|Network Firewall|Ports, Link Lights, and Home Gateways)$/i.test(s.title)
+    ))).toBe(false);
   });
 
   it('displays matching real cable and access point photos in mediaExplorer', () => {

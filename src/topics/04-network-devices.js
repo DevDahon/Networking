@@ -97,37 +97,6 @@ export default topic({
       ]
     },
     {
-      "title": "Network Bridge",
-      "deviceKey": "bridge",
-      "lead": "A network bridge joins two separate LAN segments and filters frames by MAC address to reduce congestion.",
-      "items": [
-        "Splits Collision Domains: Divides one busy LAN into two quieter segments.",
-        "Tracks MACs: Learns which MAC addresses live on Side A vs. Side B.",
-        "Filters Local Traffic: Only forwards frames that actually need to cross segments."
-      ]
-    },
-    {
-      "title": "Network Firewall",
-      "deviceKey": "firewall",
-      "lead": "A firewall monitors and filters incoming and outgoing network traffic based on configured security policies.",
-      "items": [
-        "Boundary Guard: Protects the border between your trusted LAN and the Internet.",
-        "Stateful Tracking: Allows replies to your requests while blocking outside attacks.",
-        "Rule Filtering: Permits or drops packets based on IP address, protocol, and port."
-      ]
-    },
-    {
-      "title": "Ports, link lights, and home gateways",
-      "lead": "Device roles explain behavior better than the shape of the box.",
-      "visualKey": "routerPorts",
-      "visualLayout": "split",
-      "items": [
-        "Home Gateway: Combines a router, switch, access point, DHCP server, and firewall in one box.",
-        "LAN vs. WAN Ports: LAN ports connect local PCs; the WAN port connects to the ISP.",
-        "Link Lights: Confirm a working cable connection, not valid IP or Internet access."
-      ]
-    },
-    {
       "title": "Virtual LANs and Routing Principles",
       "lead": "VLANs split a physical switch into isolated virtual networks, while routers use static or dynamic routes to connect them.",
       "items": [
