@@ -84,8 +84,12 @@ describe('Real-life photographs for physical networking content', () => {
       s.type === 'devices'
       || ['bridge', 'firewall'].includes(s.deviceKey)
       || s.visualKey === 'routerPorts'
-      || /^(Network Device Functions Explorer|Network Bridge|Network Firewall|Ports, Link Lights, and Home Gateways)$/i.test(s.title)
+      || /^(Network Device Functions Explorer|Network Bridge|Network Firewall|Ports, Link Lights, and Home Gateways|Nine common network devices)$/i.test(s.title)
     ))).toBe(false);
+    const overview = topic.slides.find(s => s.title === 'Seven common network devices');
+    expect(overview).toBeDefined();
+    expect(overview.items).toHaveLength(7);
+    expect(overview.items.some(item => /^(Bridge|Firewall):/i.test(item))).toBe(false);
   });
 
   it('displays matching real cable and access point photos in mediaExplorer', () => {

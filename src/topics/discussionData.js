@@ -40,7 +40,7 @@ export const discussionData={
    'NIC & Hub: A NIC connects a host with a physical port and MAC address; a legacy hub repeats incoming electrical signals to all ports.',
    'Switch: Learns MAC addresses to forward local frames directly to the intended port without collisions.',
    'Router: Connects separate IP networks and checks routing tables to forward packets between subnets.',
-   'AP, Modem & Firewall: APs link Wi-Fi clients to wired Ethernet, modems convert ISP provider signals, and firewalls filter unauthorized traffic.'
+   'AP, Modem & Repeater: APs link Wi-Fi clients to wired Ethernet, modems convert ISP provider signals, and repeaters extend signal reach.'
   ]
  },
  '06-network-cables-media':{

@@ -34,7 +34,7 @@ const copy = {
     ['@topology', 'Handling Link and Device Failures', 'Test how a broken cable or failed switch affects reachability in each topology layout.']
   ],
   '04-network-devices': [
-    ['Nine common network devices', null, 'Each network device has a specific job—sending signals, connecting local devices, routing between networks, or blocking threats.'],
+    ['Seven common network devices', null, 'Each network device has a specific job—sending signals, connecting local devices, bridging Wi-Fi, or routing between networks.'],
     ['Network Interface Card (NIC)', null, 'A NIC connects a computer to a wired or wireless link and gives it a unique hardware MAC address.'],
     ['Network Hub', null, 'A hub is a legacy multiport repeater that blindly copies every incoming electrical signal out every other port.'],
     ['Network Switch', null, 'A switch learns hardware MAC addresses on a local network and forwards frames directly to the target port.'],

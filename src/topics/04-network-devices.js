@@ -5,13 +5,13 @@ export default topic({
   "icon": "Router",
   "description": "Identify the hardware and follow the different jobs of switching, routing, and wireless access.",
   "objectives": [
-    "Identify NIC, hub, switch, router, modem, AP, repeater, bridge, and firewall.",
+    "Identify NIC, hub, switch, router, modem, AP, and repeater.",
     "Choose the correct device for a network requirement.",
     "Explain local switching versus inter-network routing."
   ],
   "concepts": [
     {
-      "title": "Nine common network devices",
+      "title": "Seven common network devices",
       "items": [
         "NIC: provides a host network interface.",
         "Hub: repeats incoming bits to other ports without learning MAC destinations.",
@@ -19,11 +19,9 @@ export default topic({
         "Router: forwards IP packets between networks using routes.",
         "Modem: adapts signals for a provider access technology.",
         "Wireless access point: bridges Wi-Fi stations onto a LAN.",
-        "Repeater: regenerates or retransmits signals.",
-        "Bridge: joins separate LAN segments and filters local MAC traffic; a switch acts as a multiport bridge.",
-        "Firewall: permits or blocks traffic according to policy."
+        "Repeater: regenerates or retransmits signals."
       ],
-      "expectedCount": 9,
+      "expectedCount": 7,
       "lead": "These are functions; one physical product may combine several of them."
     },
     {
