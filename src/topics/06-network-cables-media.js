@@ -13,6 +13,7 @@ export default topic({
   "concepts": [
     {
       "title": "Five network media choices",
+      "visualKey": "mediaChoicesPhotos",
       "items": [
         "UTP: Four unshielded twisted copper pairs; wire twists cancel out crosstalk.",
         "STP: Adds foil or braided metal shielding to block strong electrical noise.",
@@ -25,6 +26,8 @@ export default topic({
     },
     {
       "title": "Three Ethernet cable categories",
+      "visualKey": "ethernetCategoriesPhoto",
+      "visualLayout": "split",
       "lead": "An Ethernet link depends on the standard, cable, channel length, connectors, and installation quality.",
       "items": [
         "Cat 5e: Supports 1 Gbps up to 100 meters.",
@@ -35,6 +38,8 @@ export default topic({
     },
     {
       "title": "Fiber-Optic Cable Construction",
+      "visualKey": "fiberOpticPhotos",
+      "visualLayout": "split",
       "lead": "Optical fiber carries light pulses instead of electrical signals, eliminating electromagnetic interference.",
       "items": [
         "Core & Cladding: A thin glass core surrounded by reflective cladding that bounces light forward.",
@@ -45,6 +50,8 @@ export default topic({
     },
     {
       "title": "Coaxial Cable and Shielding",
+      "visualKey": "coaxialCablePhotos",
+      "visualLayout": "split",
       "lead": "Coaxial cable uses a concentric four-layer design that provides strong physical durability and electrical shielding.",
       "items": [
         "Center Conductor: Solid copper wire that carries the signal.",
@@ -55,6 +62,8 @@ export default topic({
     },
     {
       "title": "Unguided Media and Wireless Radio",
+      "visualKey": "wirelessHardwarePhotos",
+      "visualLayout": "split",
       "lead": "Unguided media transmit electromagnetic waves through the air without physical cables, enabling mobile connectivity.",
       "items": [
         "Radio Frequencies (RF): Carries data over 2.4 GHz, 5 GHz, and 6 GHz wireless bands.",

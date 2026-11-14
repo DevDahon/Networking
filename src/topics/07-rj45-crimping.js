@@ -13,6 +13,8 @@ export default topic({
   "concepts": [
     {
       "title": "Modular Connectors: RJ45 and Keystone Jack",
+      "visualKey": "modularConnectors",
+      "visualLayout": "split",
       "items": [
         "RJ45 plug: Male 8-pin modular plug crimped onto flexible patch cords.",
         "Keystone jack: Female wall or patch-panel jack punched down onto solid in-wall cable.",
@@ -77,6 +79,7 @@ export default topic({
     },
     {
       "title": "Straight-through and crossover arrangements",
+      "visualKey": "patchCableRealPhoto",
       "lead": "A conventional straight-through cable uses the same standard at both ends: A–A or B–B.",
       "items": [
         "Crossover (A to B): Swaps pins 1↔3 and 2↔6 to connect two similar legacy devices.",
@@ -86,6 +89,8 @@ export default topic({
     },
     {
       "title": "Three common wire-map faults",
+      "visualKey": "wireMapFaultsPhoto",
+      "visualLayout": "split",
       "items": [
         "Open: A wire is broken or not touching the connector pin.",
         "Short: Two bare wires are accidentally touching each other.",

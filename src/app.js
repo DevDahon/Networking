@@ -10,16 +10,17 @@ import {parseRoute,shouldHandleKey} from './router.js';
 import {loadProgress,saveProgress,resetProgress} from './utils/progress.js';
 import {simulations} from './simulations/index.js';
 import {fitSlide,frameWidth} from './components/fitSlide.js';
-import {connectorOrientationSVG,rj45PlugColorSVG,straightVsCrossoverVisualSVG} from './components/cableVisuals.js';
-import {renderDeviceSlideVisual, deviceMetadata} from './components/deviceIllustrations.js';
+import {connectorOrientationSVG,rj45PlugColorSVG,straightVsCrossoverVisualSVG,modularConnectorsVisual} from './components/cableVisuals.js';
+import {renderDeviceSlideVisual, deviceMetadata, routerGatewayPortsVisual} from './components/deviceIllustrations.js';
 import {renderHorizontalToolsSlide, toolsMetadata} from './components/toolsVisuals.js';
 import {performanceExamplesVisual} from './components/performanceVisual.js';
 import {encapsulationExampleVisual} from './components/encapsulationVisual.js';
 import {osiLayerDetailVisual} from './components/osiLayerVisual.js';
+import {physicalVisualPanels} from './components/physicalVisuals.js';
 import {renderCourseOutline} from './components/courseOutline.js';
 
 const osiLayerPanels = Object.fromEntries([7, 6, 5, 4, 3, 2, 1].map(n => [`osiLayer${n}`, () => osiLayerDetailVisual(n)]));
-const visualPanels={performanceMeasures:performanceExamplesVisual,encapsulationExample:encapsulationExampleVisual,...osiLayerPanels};
+const visualPanels={performanceMeasures:performanceExamplesVisual,encapsulationExample:encapsulationExampleVisual,routerPorts:routerGatewayPortsVisual,modularConnectors:modularConnectorsVisual,...physicalVisualPanels,...osiLayerPanels};
 
 const icons={Network,Globe,Workflow,Router,Layers,Cable,PlugZap,Binary,Split,MonitorCog,RefreshCw,Wifi,FolderOpen,Stethoscope,Shield,ArrowUpRight,ArrowLeft,ArrowRight,BookOpen,LayoutGrid,Search,Moon,Sun,Maximize2,Check,HelpCircle};
 const icon=n=>`<i data-lucide="${n.replace(/([a-z0-9])([A-Z])/g,'$1-$2').toLowerCase()}" aria-hidden="true"></i>`;
@@ -150,13 +151,18 @@ export function startApp(root){
     if(s.title.includes('Connector Orientation')||s.title.includes('orientation'))extraVisual=connectorOrientationSVG();
     else if(s.title.startsWith('T568A:'))extraVisual=rj45PlugColorSVG('A');
     else if(s.title.startsWith('T568B:'))extraVisual=rj45PlugColorSVG('B');
-    else if(s.title.includes('Straight-through and crossover'))extraVisual=straightVsCrossoverVisualSVG();
+    else if(s.title.includes('Straight-through and crossover')||s.title.includes('Straight-Through vs Crossover'))extraVisual=straightVsCrossoverVisualSVG();
    }
    const isGrid = !extraVisual && (s.expectedCount >= 4 || s.items.length >= 4 || (s.kind === 'concept' && s.expectedCount === 2) || Boolean(visualPanels[s.visualKey]));
    const gridClass = !extraVisual && (s.expectedCount >= 7 || s.items.length >= 7) ? 'counted-grid-3' : (isGrid ? 'counted-grid' : '');
    const visualPanel = visualPanels[s.visualKey]?.() || '';
-   const listHtml=`<${s.kind==='objectives'?'ol':'ul'} class="teaching-points ${gridClass}"${s.expectedCount?` data-item-count="${s.expectedCount}"`: ''}>${s.items.map((item,i)=>`<li><span class="point-index">${esc(s.itemLabels?.[i]??String(i+1).padStart(2,'0'))}</span><p>${formatItemText(item)}</p></li>`).join('')}</${s.kind==='objectives'?'ol':'ul'}>${visualPanel}`;
-   content.innerHTML=extraVisual?`<div class="rj45-slide-grid">${extraVisual}<div class="rj45-slide-content">${listHtml}</div></div>`:listHtml;
+   const itemsHtml=`<${s.kind==='objectives'?'ol':'ul'} class="teaching-points ${gridClass}"${s.expectedCount?` data-item-count="${s.expectedCount}"`: ''}>${s.items.map((item,i)=>`<li><span class="point-index">${esc(s.itemLabels?.[i]??String(i+1).padStart(2,'0'))}</span><p>${formatItemText(item)}</p></li>`).join('')}</${s.kind==='objectives'?'ol':'ul'}>`;
+   const listHtml=`${itemsHtml}${visualPanel}`;
+   content.innerHTML=extraVisual
+    ?`<div class="rj45-slide-grid">${extraVisual}<div class="rj45-slide-content">${listHtml}</div></div>`
+    :(s.visualLayout==='split'&&visualPanel)
+     ?`<div class="physical-split-grid"><div class="physical-split-text">${itemsHtml}</div><div class="physical-split-visual">${visualPanel}</div></div>`
+     :listHtml;
   }
  }
 

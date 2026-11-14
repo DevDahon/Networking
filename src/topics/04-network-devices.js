@@ -119,6 +119,8 @@ export default topic({
     {
       "title": "Ports, link lights, and home gateways",
       "lead": "Device roles explain behavior better than the shape of the box.",
+      "visualKey": "routerPorts",
+      "visualLayout": "split",
       "items": [
         "Home Gateway: Combines a router, switch, access point, DHCP server, and firewall in one box.",
         "LAN vs. WAN Ports: LAN ports connect local PCs; the WAN port connects to the ISP.",

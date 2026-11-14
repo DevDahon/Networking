@@ -78,6 +78,15 @@ const layerDetails = {
 export function osiLayerDetailVisual(layerNumber) {
   const layer = layerDetails[layerNumber];
   if (!layer) return '';
+  const physicalThumbs = layerNumber === 1
+    ? `
+      <div class="osi-physical-thumbs" aria-label="Real Layer 1 physical media">
+        <figure class="osi-mini-photo"><img src="images/media/utp_cable.jpg" alt="Cat 6 UTP Copper Cable" loading="lazy" /><figcaption>Cat 6 UTP</figcaption></figure>
+        <figure class="osi-mini-photo"><img src="images/tools/rj45_plugs.jpg" alt="8P8C RJ45 Plugs" loading="lazy" /><figcaption>RJ45 Plug</figcaption></figure>
+        <figure class="osi-mini-photo"><img src="images/media/fiber_optic.jpg" alt="Duplex Fiber Optic Cable" loading="lazy" /><figcaption>Fiber Optic</figcaption></figure>
+      </div>
+    `
+    : '';
   return `
     <section class="osi-layer-lens osi-lens-${layer.group}" aria-label="What you encounter deeper inside Layer ${layerNumber}">
       <div class="osi-lens-header">
@@ -92,6 +101,7 @@ export function osiLayerDetailVisual(layerNumber) {
           </article>
         `).join('')}
       </div>
+      ${physicalThumbs}
     </section>
   `;
 }

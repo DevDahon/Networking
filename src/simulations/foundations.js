@@ -798,11 +798,11 @@ export function deviceExplorer(root){
 const layers=[['Application','User-facing protocol services','HTTP, DNS; TCP/IP Application'],['Presentation','Representation, encoding, encryption concepts','Text encoding, data representation; TCP/IP Application'],['Session','Dialog/session management concepts','Session coordination; TCP/IP Application'],['Transport','Process-to-process delivery','TCP segments, UDP datagrams; TCP/IP Transport'],['Network','Logical addressing and routing','IPv4 / IPv6 packets; TCP/IP Internet'],['Data Link','Local frames and media access','Ethernet frames, MAC; TCP/IP Link'],['Physical','Signals and bit transmission','Copper electrical signals, fiber light, radio; TCP/IP Link']];
 export function osi(root){let layer=0,step=0,transport='TCP';const wraps=['Application data','TCP header + data (segment)','IP header + segment (packet)','Ethernet header + packet + trailer (frame)','Signals on the medium','Receiver removes link framing','Receiver processes IP and transport','Application receives data'];function draw(){root.innerHTML=`<div class="osi-grid"><div>${layers.map((l,i)=>`<button data-layer="${i}" aria-pressed="${i===layer}"><b>${7-i}</b> ${l[0]}</button>`).join('')}</div><div><span class="eyebrow">OSI ${7-layer} · ${layers[layer][0]}</span><h2>${layers[layer][1]}</h2><p>${layers[layer][2]}</p></div></div><div class="step-card" aria-live="polite"><b>Encapsulation journey · ${step+1}/8</b><p>${wraps[step]}</p></div><div class="control-row">${button('Previous step','prev')}${button(step===7?'Replay':'Next step','next','primary')}${select('Transport loss demonstration','transport',['TCP','UDP'],transport)}${button('Lose data unit 2','loss')}</div><div id="loss"></div>`;root.querySelector('[name="transport"]').onchange=e=>{transport=e.target.value;};root.querySelectorAll('[data-layer]').forEach(b=>b.onclick=()=>{layer=+b.dataset.layer;draw();});wire(root,{prev:()=>{step=Math.max(0,step-1);draw();},next:()=>{step=(step+1)%8;draw();},loss:()=>root.querySelector('#loss').innerHTML=result(read(root,'transport')==='TCP'?'Units 1 and 3 arrive. TCP detects missing bytes through acknowledgment/sequence behavior and retransmits; the application receives ordered bytes.':'Datagrams 1 and 3 arrive. UDP itself neither retransmits datagram 2 nor restores ordering. The application decides how to handle the loss.')});}draw();}
 const media={
-  UTP:['Four unshielded twisted copper pairs in a PVC/LSZH jacket.','Cat 5e (1 Gb/s at 100 m), Cat 6 (10 Gb/s at 55 m), Cat 6A (10 Gb/s at 100 m).','#d97706'],
-  STP:['Twisted pairs with foil/braided shielding (F/UTP, S/FTP); protects against severe EMI.','Used in industrial, electrical, and data center pathways with proper grounding.','#64748b'],
-  Fiber:['Ultra-pure glass core and cladding transmitting modulated light pulses.','Single-mode (laser, 40+ km) and Multimode (LED/VCSEL, 300–550 m); complete immunity to EMI.','#0d9488'],
-  Coaxial:['Central copper conductor, dielectric insulator, metallic shield, and outer jacket.','Broadband cable TV/DOCSIS internet and legacy 10BASE2/10BASE5 bus networks.','#2563eb'],
-  Wireless:['Radio frequency electromagnetic waves over 2.4 GHz, 5 GHz, and 6 GHz spectrum bands.','Enables user mobility; subject to path loss, solid obstacles, and shared-medium contention.','#8b5cf6']
+  UTP:['Four unshielded twisted copper pairs in a PVC/LSZH jacket.','Cat 5e (1 Gb/s at 100 m), Cat 6 (10 Gb/s at 55 m), Cat 6A (10 Gb/s at 100 m).','#d97706','images/media/utp_cable.jpg','Real Cat 6 UTP cable'],
+  STP:['Twisted pairs with foil/braided shielding (F/UTP, S/FTP); protects against severe EMI.','Used in industrial, electrical, and data center pathways with proper grounding.','#64748b','images/media/stp_cable.jpg','Real STP shielded cable'],
+  Fiber:['Ultra-pure glass core and cladding transmitting modulated light pulses.','Single-mode (laser, 40+ km) and Multimode (LED/VCSEL, 300–550 m); complete immunity to EMI.','#0d9488','images/media/fiber_optic.jpg','Real duplex fiber-optic cable'],
+  Coaxial:['Central copper conductor, dielectric insulator, metallic shield, and outer jacket.','Broadband cable TV/DOCSIS internet and legacy 10BASE2/10BASE5 bus networks.','#2563eb','images/media/coaxial_cable.jpg','Real coaxial cable with F-connector'],
+  Wireless:['Radio frequency electromagnetic waves over 2.4 GHz, 5 GHz, and 6 GHz spectrum bands.','Enables user mobility; subject to path loss, solid obstacles, and shared-medium contention.','#8b5cf6','images/devices/ap.jpg','Real Wi-Fi access point hardware']
 };
 
 function renderSignalingSvg(mediumName) {
@@ -874,6 +874,10 @@ function draw(){
     ${select('Cable or transmission medium','media',Object.keys(media),name)}
     <div class="media-section">
       <svg viewBox="0 0 240 200" role="img" aria-label="${name} schematic cross-section">${svgContent}</svg>
+      <figure class="media-real-figure">
+        <img src="${media[name][3]}" alt="${esc(media[name][4])}" class="media-real-photo" loading="lazy" />
+        <figcaption>${esc(media[name][4])}</figcaption>
+      </figure>
       <div>
         <h2>${name}</h2>
         <p>${media[name][0]}</p>

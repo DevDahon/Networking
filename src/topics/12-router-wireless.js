@@ -12,6 +12,8 @@ export default topic({
   "concepts": [
     {
       "title": "Three gateway interface and translation concepts",
+      "visualKey": "gatewayInterfacesPhotos",
+      "visualLayout": "split",
       "lead": "A small-office gateway often combines routing, switching, wireless access, DHCP, NAT, and firewall policy.",
       "items": [
         "LAN interface: Connects and serves devices inside the local network.",
@@ -31,6 +33,8 @@ export default topic({
     },
     {
       "title": "Wi-Fi Frequencies and Standards",
+      "visualKey": "wifiRouterHardwarePhoto",
+      "visualLayout": "split",
       "lead": "Wireless networks operate over unlicensed radio frequencies using standardized IEEE 802.11 protocols.",
       "items": [
         "2.4 GHz Band: Longer range through walls, but slower and prone to interference.",

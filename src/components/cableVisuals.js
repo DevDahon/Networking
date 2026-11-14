@@ -208,6 +208,13 @@ export function rj45PlugColorSVG(standard='B'){
      }).join('')}
     </g>
    </svg>
+   <div class="rj45-real-strip">
+    <img src="images/tools/rj45_crimped_front.jpg" alt="Real crimped transparent RJ45 plug contact view" class="rj45-real-thumb" loading="lazy" />
+    <div class="rj45-real-note">
+     <span class="rj45-real-tag">REAL CRIMPED PLUG</span>
+     <p>Hold gold pins toward you, latch behind: <b>Pin 1 is left</b>, all 8 wires reach the tip, and the jacket locks inside.</p>
+    </div>
+   </div>
   </div>
  `;
 }

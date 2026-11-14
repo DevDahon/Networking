@@ -886,18 +886,48 @@ main:focus {
 
 .media-section {
     display: grid;
-    grid-template-columns: 240px 1fr;
-    gap: 35px;
+    grid-template-columns: 185px 225px 1fr;
+    gap: 22px;
     align-items: center
 }
 
 .media-section svg {
     width: 100%;
-    max-height: 240px
+    max-height: 185px
 }
 
 .media-section p {
-    font-size: 18px
+    font-size: 16px;
+    line-height: 1.45;
+    margin: 6px 0
+}
+
+.media-real-figure {
+    margin: 0;
+    background: #ffffff;
+    border: 1px solid var(--border, #e2e8f0);
+    border-radius: 10px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+    text-align: center
+}
+
+.media-real-photo {
+    width: 100%;
+    height: 132px;
+    object-fit: contain;
+    border-radius: 6px;
+    background: #ffffff
+}
+
+.media-real-figure figcaption {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #475569;
+    line-height: 1.25
 }
 
 .coverage-view {
@@ -1639,7 +1669,7 @@ body.presentation-mode {
 }
 
 .presentation-mode .media-section {
-    grid-template-columns: 240px 1fr
+    grid-template-columns: 185px 225px 1fr
 }
 
 .presentation-mode .connector {
@@ -6313,6 +6343,476 @@ html.dark .example-heading {
 
     .encap-step-note {
         margin-left: 0;
+    }
+}
+
+/* Physical Hardware & Media Photograph Panels */
+.physical-split-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 560px;
+    gap: 28px;
+    align-items: start;
+}
+
+.physical-split-text .teaching-points {
+    margin-top: 0;
+}
+
+.physical-photo-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.physical-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.physical-panel-eyebrow {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    color: var(--blue, #1d4ed8);
+    text-transform: uppercase;
+}
+
+.physical-cards-grid {
+    display: grid;
+    gap: 12px;
+}
+
+.physical-panel-strip-4 .physical-cards-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin-top: 8px;
+}
+
+.physical-panel-strip-5 .physical-cards-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    margin-top: 8px;
+    gap: 10px;
+}
+
+.physical-panel-stack-2 .physical-cards-grid,
+.physical-panel-feature .physical-cards-grid {
+    grid-template-columns: 1fr;
+}
+
+.physical-photo-card,
+.connector-photo-card {
+    margin: 0;
+    background: #ffffff;
+    border: 1px solid var(--border, #e2e8f0);
+    border-radius: 12px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    box-sizing: border-box;
+}
+
+.physical-photo-card:hover,
+.connector-photo-card:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.08);
+}
+
+.physical-panel-stack-2 .physical-photo-card,
+.connectors-pair-grid .connector-photo-card {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+}
+
+.physical-photo-box,
+.connector-photo-box {
+    width: 100%;
+    height: 116px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.physical-panel-strip-5 .physical-photo-box {
+    height: 98px;
+}
+
+.physical-panel-feature .physical-photo-box {
+    height: 224px;
+    padding: 8px 12px;
+}
+
+.rj45-slide-content .physical-panel-feature {
+    margin-top: 4px;
+}
+
+.rj45-slide-content .physical-panel-feature .physical-photo-box {
+    height: 158px;
+}
+
+.physical-panel-stack-2 .physical-photo-box,
+.connectors-pair-grid .connector-photo-box {
+    width: 186px;
+    height: 118px;
+    flex-shrink: 0;
+}
+
+.physical-photo-img,
+.connector-photo-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.physical-photo-meta,
+.connector-photo-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+    flex: 1;
+}
+
+.physical-photo-tag,
+.connector-photo-badge {
+    align-self: flex-start;
+    font-size: 9.5px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 4px;
+}
+
+.badge-blue,
+.badge-male {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+}
+
+.badge-teal,
+.badge-female {
+    background: #f0fdfa;
+    color: #0f766e;
+    border: 1px solid #99f6e4;
+}
+
+.badge-amber {
+    background: #fffbeb;
+    color: #b45309;
+    border: 1px solid #fde68a;
+}
+
+.badge-slate {
+    background: #f1f5f9;
+    color: #334155;
+    border: 1px solid #cbd5e1;
+}
+
+.physical-photo-title,
+.connector-photo-title {
+    margin: 0;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1.25;
+}
+
+.physical-photo-desc,
+.connector-photo-desc {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #475569;
+}
+
+/* Modular Connectors Grid (Topic 06 Slide 3) */
+.connectors-compare-wrap {
+    padding: 12px;
+}
+
+.connectors-pair-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+/* Real Crimped RJ45 Contact Inset inside T568A/B Schematic */
+.rj45-real-strip {
+    margin-top: 10px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rj45-real-thumb {
+    width: 106px;
+    height: 70px;
+    object-fit: contain;
+    background: #ffffff;
+    border: 1px solid #dbeafe;
+    border-radius: 6px;
+    padding: 3px;
+    flex-shrink: 0;
+}
+
+.rj45-real-note {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.rj45-real-tag {
+    font-size: 9.5px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: #1d4ed8;
+}
+
+.rj45-real-note p {
+    margin: 0;
+    font-size: 11.5px;
+    line-height: 1.35;
+    color: #1e293b;
+}
+
+/* Router Gateway Rear Ports Card (Topic 03) */
+.router-rear-box {
+    width: 100%;
+    height: 165px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.router-rear-photo {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
+.router-ports-callout-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.router-port-chip {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 7px 9px;
+    border-radius: 8px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.port-chip-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    margin-top: 4px;
+    flex-shrink: 0;
+}
+
+.dot-wan { background: #2563eb; }
+.dot-lan { background: #0d9488; }
+.dot-wlan { background: #6366f1; }
+.dot-pwr { background: #d97706; }
+
+.port-chip-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+}
+
+.port-chip-text strong {
+    font-size: 11.5px;
+    color: #0f172a;
+    line-height: 1.2;
+}
+
+.port-chip-text span {
+    font-size: 10.5px;
+    color: #475569;
+    line-height: 1.3;
+}
+
+/* OSI Layer 1 Compact Real Media Strip */
+.osi-physical-thumbs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.osi-mini-photo {
+    margin: 0;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 5px 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.osi-mini-photo img {
+    width: 64px;
+    height: 44px;
+    object-fit: contain;
+    border-radius: 4px;
+    background: #ffffff;
+    flex-shrink: 0;
+}
+
+.osi-mini-photo figcaption {
+    font-size: 12px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+/* Dark Mode for Physical Visuals */
+html.dark .media-real-figure,
+html.dark .physical-photo-card,
+html.dark .connector-photo-card,
+html.dark .rj45-schematic-wrap {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+html.dark .rj45-schematic-title {
+    color: #f8fafc;
+}
+
+html.dark .badge-blue,
+html.dark .badge-male {
+    background: rgba(30, 58, 138, 0.45);
+    color: #93c5fd;
+    border-color: #1e40af;
+}
+
+html.dark .badge-teal,
+html.dark .badge-female {
+    background: rgba(19, 78, 74, 0.5);
+    color: #5eead4;
+    border-color: #115e59;
+}
+
+html.dark .badge-amber {
+    background: rgba(120, 53, 15, 0.45);
+    color: #fcd34d;
+    border-color: #b45309;
+}
+
+html.dark .badge-slate {
+    background: #334155;
+    color: #cbd5e1;
+    border-color: #475569;
+}
+
+html.dark .physical-photo-card:hover,
+html.dark .connector-photo-card:hover {
+    border-color: #60a5fa;
+}
+
+html.dark .physical-panel-eyebrow {
+    color: #60a5fa;
+}
+
+html.dark .physical-photo-box,
+html.dark .connector-photo-box,
+html.dark .router-rear-box {
+    background: #0f172a;
+    border-color: #334155;
+}
+
+html.dark .physical-photo-title,
+html.dark .connector-photo-title,
+html.dark .port-chip-text strong,
+html.dark .osi-mini-photo figcaption {
+    color: #f8fafc;
+}
+
+html.dark .physical-photo-desc,
+html.dark .connector-photo-desc,
+html.dark .port-chip-text span,
+html.dark .media-real-figure figcaption {
+    color: #cbd5e1;
+}
+
+html.dark .router-port-chip,
+html.dark .osi-mini-photo {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+html.dark .rj45-real-strip {
+    background: rgba(30, 58, 138, 0.35);
+    border-color: #1e40af;
+}
+
+html.dark .rj45-real-tag {
+    color: #93c5fd;
+}
+
+html.dark .rj45-real-note p {
+    color: #e2e8f0;
+}
+
+@media(max-width:960px) {
+    .physical-split-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .physical-panel-strip-4 .physical-cards-grid,
+    .physical-panel-strip-5 .physical-cards-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media(max-width:640px) {
+    .physical-panel-strip-4 .physical-cards-grid,
+    .physical-panel-strip-5 .physical-cards-grid,
+    .router-ports-callout-grid,
+    .osi-physical-thumbs {
+        grid-template-columns: 1fr;
+    }
+
+    .physical-panel-stack-2 .physical-photo-card,
+    .connectors-pair-grid .connector-photo-card {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .physical-panel-stack-2 .physical-photo-box,
+    .connectors-pair-grid .connector-photo-box {
+        width: 100%;
+        height: 150px;
     }
 }
 
