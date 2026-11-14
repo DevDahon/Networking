@@ -619,73 +619,73 @@ export function topology(root){
 }
 const devices={
   NIC:{
-    desc:'A host interface card for converting digital data to signals and receiving transmissions.',
+    desc:'A host interface card that connects a computer to the network and converts data to physical signals.',
     ports:'One Ethernet RJ45 port or internal Wi-Fi radio interface.',
-    layer:'Layer 1 & Layer 2 (Physical & Data Link)',
+    scope:'Single host network connection and built-in hardware MAC identity.',
     handling:'Converts internal computer bus data into physical transmission signals; filters incoming frames by hardware MAC address.',
     diagram:['Host Computer','NIC Interface','Local Network']
   },
   Hub:{
-    desc:'Legacy multiport physical layer repeater that broadcasts all incoming bits to every connected port.',
+    desc:'A legacy multiport repeater that blindly copies all incoming signals out to every other port.',
     ports:'Multiple equal shared repeater ports (typically 4–8 ports).',
-    layer:'Layer 1 (Physical)',
+    scope:'Shared local cable path where all connected devices share one collision domain.',
     handling:'Receives bits on an ingress port and blindly repeats them to ALL other ports; does not learn MAC addresses; creates one shared collision domain.',
     diagram:['PC 1 (Sender)','Repeater Hub (Floods all)','PC 2 & PC 3 (Receive)']
   },
   Switch:{
-    desc:'Intelligent multiport bridge that learns MAC addresses and forwards frames only to target ports.',
+    desc:'An intelligent multiport bridge that learns MAC addresses and forwards frames only to target ports.',
     ports:'LAN Ethernet ports (8, 16, 24, or 48 ports); micro-segmented per port.',
-    layer:'Layer 2 (Data Link)',
+    scope:'Local wired LAN forwarding based on a learned MAC address table.',
     handling:'Learns source MAC addresses into its MAC table; forwards unicast frames directly to destination port; floods unknown unicast/broadcast; isolates collision domains.',
-    diagram:['PC on Port 1','Layer 2 Switch','PC on Port 3']
+    diagram:['PC on Port 1','Ethernet Switch','PC on Port 3']
   },
   Router:{
-    desc:'Inter-network gateway that forwards IP packets between different subnets and networks.',
+    desc:'An inter-network gateway that forwards IP packets between different subnets and networks.',
     ports:'LAN interfaces and separate WAN / uplink ports.',
-    layer:'Layer 3 (Network)',
-    handling:'Inspects destination IP address, consults its routing table, strips and reconstructs Layer 2 frames, and forwards across subnets; breaks broadcast domains.',
+    scope:'Inter-network packet routing between your LAN and external WAN subnets.',
+    handling:'Inspects destination IP addresses, consults its routing table, forwards packets toward the target network, and keeps local broadcasts inside each LAN.',
     diagram:['Local LAN Subnet','Router / Gateway','Remote WAN / Internet']
   },
   Modem:{
-    desc:'Modulator-demodulator that converts digital network data to analog signals for ISP transmission media.',
+    desc:'A modulator-demodulator that adapts digital network data for ISP broadband lines.',
     ports:'Provider broadband line (cable/DSL/fiber coax) and customer Ethernet interface.',
-    layer:'Layer 1 & Layer 2 (Physical / Carrier Interface)',
+    scope:'Signal translation between ISP provider lines and your local Ethernet network.',
     handling:'Modulates digital host signals into analog frequencies for telephone/cable lines, and demodulates incoming carrier signals.',
     diagram:['Home Router','Modem','ISP Central Office']
   },
   AP:{
-    desc:'Wireless Access Point bridging radio-frequency wireless stations to a wired local area network.',
+    desc:'A wireless access point that bridges Wi-Fi client stations onto a wired local area network.',
     ports:'Radio antennas (2.4/5/6 GHz) and wired Gigabit Ethernet uplink port.',
-    layer:'Layer 2 (Data Link Bridge: 802.11 to 802.3)',
+    scope:'Wireless Wi-Fi client access bridged directly onto a wired Ethernet LAN.',
     handling:'Receives 802.11 wireless radio frames, converts them into 802.3 Ethernet frames, and injects them onto the wired local switch.',
     diagram:['Wi-Fi Laptop','Access Point','Wired LAN Switch']
   },
   Repeater:{
-    desc:'Signal amplifier that regenerates incoming electrical or optical signals to extend transmission reach.',
+    desc:'A signal regenerator that rebuilds and amplifies weakened transmissions to extend distance.',
     ports:'Input and output medium connectors.',
-    layer:'Layer 1 (Physical)',
+    scope:'Signal cleanup and reach extension beyond standard cable or Wi-Fi limits.',
     handling:'Cleans, retimes, and amplifies signals degraded by distance and attenuation; does not inspect packet headers or filter traffic.',
     diagram:['Cable Segment A','Signal Repeater','Cable Segment B']
   },
   Bridge:{
-    desc:'Two-port or multi-port link-layer device that connects and filters traffic between two LAN segments.',
-    ports:'Two or more link-layer segment interfaces.',
-    layer:'Layer 2 (Data Link)',
+    desc:'A network bridge that joins two LAN segments and filters local MAC traffic between them.',
+    ports:'Two or more wired or point-to-point LAN segment interfaces.',
+    scope:'Traffic filtering between two separate LAN segments using MAC destinations.',
     handling:'Maintains a MAC address table to forward traffic across segments only when destination is on the opposite side, reducing congestion.',
     diagram:['LAN Segment 1','Network Bridge','LAN Segment 2']
   },
   Firewall:{
-    desc:'Security enforcement boundary inspecting and filtering network traffic according to security rules.',
+    desc:'A security enforcement boundary that inspects and filters traffic according to configured rules.',
     ports:'Inside (trusted LAN), Outside (untrusted WAN), and optional DMZ interfaces.',
-    layer:'Layers 3, 4 & 7 (Network, Transport & Application stateful filtering)',
+    scope:'Perimeter policy filtering across IP addresses, protocol ports, and session states.',
     handling:'Evaluates IP addresses, TCP/UDP ports, and connection states; permits established sessions and drops unauthorized incoming probes.',
     diagram:['Internal Trusted Host','Stateful Firewall','External Untrusted Web']
   },
   Server:{
-    desc:'High-capacity compute host running network service daemons, web servers, databases, and centralized network resources.',
-    ports:'Redundant 10GbE / Gigabit Ethernet interfaces with link aggregation (NIC teaming) and dedicated IPMI management.',
-    layer:'Layers 4–7 (Transport ports 80/443/53/25, Session, Presentation, Application services)',
-    handling:'Listens on standardized TCP/UDP ports, processes incoming requests through service daemons, coordinates concurrent client sessions, and returns data.',
+    desc:'A high-capacity host running shared file, web, database, and directory services for clients.',
+    ports:'Redundant 10GbE / Gigabit Ethernet interfaces with link aggregation (NIC teaming) and dedicated management port.',
+    scope:'Centralized resource hosting and multi-client request handling across network ports.',
+    handling:'Listens on standardized service ports, processes incoming client requests through server programs, and returns requested resources.',
     diagram:['Client Workstation','LAN / Backbone','Enterprise Server']
   }
 };
@@ -724,7 +724,7 @@ export function deviceExplorer(root){
       <p><b>Hardware Interfaces:</b> ${esc(d.ports)}</p>
       
       <div class="result-grid" style="margin: 14px 0; font-size: 13px; text-align: left;">
-        <div><b>OSI Layer:</b><br>${esc(d.layer)}</div>
+        <div><b>Device Scope &amp; Purpose:</b><br>${esc(d.scope)}</div>
         <div><b>Traffic Handling Behavior:</b><br>${esc(d.handling)}</div>
       </div>
 
@@ -738,7 +738,7 @@ export function deviceExplorer(root){
             <thead>
               <tr style="border-bottom: 2px solid var(--border);">
                 <th style="padding: 6px 8px;">Device</th>
-                <th style="padding: 6px 8px;">OSI Layer</th>
+                <th style="padding: 6px 8px;">Network Scope</th>
                 <th style="padding: 6px 8px;">Forwarding Basis</th>
                 <th style="padding: 6px 8px;">Collision Domains</th>
                 <th style="padding: 6px 8px;">Broadcast Domains</th>
@@ -747,28 +747,28 @@ export function deviceExplorer(root){
             <tbody>
               <tr style="border-bottom: 1px solid var(--border);">
                 <td style="padding: 6px 8px;"><b>Hub</b></td>
-                <td style="padding: 6px 8px;">Layer 1 (Physical)</td>
+                <td style="padding: 6px 8px;">Shared single LAN bus</td>
                 <td style="padding: 6px 8px;">Electrical repetition (Floods all)</td>
                 <td style="padding: 6px 8px;">1 shared collision domain</td>
                 <td style="padding: 6px 8px;">1 broadcast domain</td>
               </tr>
               <tr style="border-bottom: 1px solid var(--border);">
                 <td style="padding: 6px 8px;"><b>Switch</b></td>
-                <td style="padding: 6px 8px;">Layer 2 (Data Link)</td>
+                <td style="padding: 6px 8px;">Within one local LAN</td>
                 <td style="padding: 6px 8px;">MAC Address Table</td>
                 <td style="padding: 6px 8px;">1 per port (Isolated)</td>
                 <td style="padding: 6px 8px;">1 per VLAN / subnet</td>
               </tr>
               <tr style="border-bottom: 1px solid var(--border);">
                 <td style="padding: 6px 8px;"><b>Router</b></td>
-                <td style="padding: 6px 8px;">Layer 3 (Network)</td>
+                <td style="padding: 6px 8px;">Between separate networks</td>
                 <td style="padding: 6px 8px;">IP Routing Table</td>
                 <td style="padding: 6px 8px;">1 per port (Isolated)</td>
                 <td style="padding: 6px 8px;">1 per subnet (Breaks broadcasts)</td>
               </tr>
               <tr>
                 <td style="padding: 6px 8px;"><b>Access Point</b></td>
-                <td style="padding: 6px 8px;">Layer 2 (Bridge)</td>
+                <td style="padding: 6px 8px;">Wi-Fi to wired LAN edge</td>
                 <td style="padding: 6px 8px;">802.11 Radio ↔ 802.3 Ethernet</td>
                 <td style="padding: 6px 8px;">Shared airtime domain</td>
                 <td style="padding: 6px 8px;">Bridges into wired LAN domain</td>

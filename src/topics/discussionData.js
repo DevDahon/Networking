@@ -32,15 +32,15 @@ export const discussionData={
  '04-network-devices':{
   walkthrough:{title:'Read the interfaces along a network path',items:[
    'NIC & Link Light: The PC’s NIC sends frames to the switch; a link light confirms physical connection.',
-   'Layer 2 Switching: The switch reads the destination MAC address and forwards the frame to the right port.',
-   'Layer 3 Routing: For outside networks, the router checks the destination IP and forwards the packet to the next hop.',
+   'MAC Switching: The switch reads the destination MAC address and forwards the frame only to the right local port.',
+   'IP Routing: For outside networks, the router checks the destination IP and forwards the packet to the next hop.',
    'Modem & Access Point: The AP connects wireless clients to the LAN, and the modem links to the ISP line.'
   ]},
   summary:[
-   'NIC & Hub: A NIC connects a host to a cable; a legacy Hub (Layer 1) blindly repeats signals to all ports.',
-   'Switch (Layer 2): Learns MAC addresses to forward frames only to the intended local device.',
-   'Router (Layer 3): Uses IP addresses and routing tables to connect different networks.',
-   'AP, Modem & Firewall: APs bridge Wi-Fi to Ethernet, modems translate ISP signals, and firewalls block threats.'
+   'NIC & Hub: A NIC connects a host with a physical port and MAC address; a legacy hub repeats incoming electrical signals to all ports.',
+   'Switch: Learns MAC addresses to forward local frames directly to the intended port without collisions.',
+   'Router: Connects separate IP networks and checks routing tables to forward packets between subnets.',
+   'AP, Modem & Firewall: APs link Wi-Fi clients to wired Ethernet, modems convert ISP provider signals, and firewalls filter unauthorized traffic.'
   ]
  },
  '06-network-cables-media':{

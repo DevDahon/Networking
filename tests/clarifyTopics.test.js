@@ -35,3 +35,11 @@ it('keeps the network-type title, two-sentence description, and example heading 
  expect(local.lead).toBe('A Local Area Network connects devices within a limited area, such as a room, building, or campus. It lets those devices exchange data and share resources through wired or wireless links.');
  expect(local.exampleTitle).toBe('Example: Five computers share one network printer');
 });
+
+it('keeps network device descriptions specific without random OSI layer references',()=>{
+ const netDevices=topics.find(t=>t.id==='04-network-devices');
+ for(const slide of netDevices.slides){
+  const text=[slide.lead,...(slide.items||[])].join(' ');
+  expect(text).not.toMatch(/\b(OSI\s+Layer|Layer\s*[0-9])\b/i);
+ }
+});

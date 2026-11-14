@@ -4,102 +4,82 @@ export const deviceMetadata = {
   nic: {
     name: 'Network Interface Card (NIC)',
     shortName: 'NIC',
-    layer: 'Layer 1 & Layer 2',
     role: 'Host Physical Interface & Hardware MAC Identifier',
-    desc: 'Provides the physical port and controller for sending and receiving frames on a network medium.',
+    desc: 'Connects a computer to a wired cable or wireless radio network and handles signal conversion using its built-in MAC address.',
     image: 'images/devices/nic.jpg',
-    photoCaption: 'PCIe Desktop Gigabit Network Interface Card',
-    specs: 'Host Bus: PCIe x1 • Media Port: RJ45 1000BASE-T • Addressing: Factory 48-bit MAC'
+    photoCaption: 'PCIe Desktop Gigabit Network Interface Card'
   },
   hub: {
     name: 'Network Hub',
     shortName: 'Hub',
-    layer: 'Layer 1 (Physical)',
     role: 'Multiport Repeater & Shared Collision Domain',
-    desc: 'Repeats all incoming electrical signals to every other port without inspecting addresses.',
+    desc: 'Shares one electrical bus across all ports and repeats every incoming signal out to every other connected port without checking addresses.',
     image: 'images/devices/hub.jpg',
-    photoCaption: '8-Port Fast Ethernet Multiport Repeater Hub',
-    specs: 'Ports: 8× RJ45 10/100 Mbps • Domain: 1 Shared Collision Domain • Layer: Pure Layer 1'
+    photoCaption: '8-Port Fast Ethernet Multiport Repeater Hub'
   },
   switch: {
     name: 'Network Switch',
     shortName: 'Switch',
-    layer: 'Layer 2 (Data Link)',
     role: 'Intelligent Multiport Bridge & MAC Learning Engine',
-    desc: 'Inspects source MAC addresses to learn ports and forwards frames directly to destination ports.',
+    desc: 'Records the hardware MAC address on each port and forwards local frames directly to the target device port.',
     image: 'images/devices/switch.jpg',
-    photoCaption: '24-Port 1U Rackmount Gigabit Managed Switch',
-    specs: 'Ports: 24× Gigabit RJ45 + 2× SFP Uplinks • Forwarding: MAC Table (CAM) • Layer 2'
+    photoCaption: '24-Port 1U Rackmount Gigabit Managed Switch'
   },
   router: {
     name: 'Network Router',
     shortName: 'Router',
-    layer: 'Layer 3 (Network)',
     role: 'Inter-Network Gateway & IP Path Forwarding',
-    desc: 'Connects different broadcast domains and uses routing tables to forward packets across networks.',
+    desc: 'Links separate IP networks, keeps local broadcast traffic inside each LAN, and forwards packets using a routing table.',
     image: 'images/devices/router.jpg',
-    photoCaption: 'Enterprise Branch Office Internetworking Router',
-    specs: 'Interfaces: Dual Gigabit WAN + Switched LAN + RJ45 Console • Routing: IP Table • Layer 3'
+    photoCaption: 'Enterprise Branch Office Internetworking Router'
   },
   modem: {
     name: 'Modem (Modulator-Demodulator)',
     shortName: 'Modem',
-    layer: 'Layer 1 (Physical)',
     role: 'Digital ↔ Analog Signal Converter for Provider Media',
-    desc: 'Converts digital computer data into analog carrier waves for transmission over cable, DSL, or fiber.',
+    desc: 'Modulates digital Ethernet signals onto coaxial, DSL, or fiber provider lines and demodulates incoming ISP signals back into data.',
     image: 'images/devices/modem.jpg',
-    photoCaption: 'DOCSIS 3.1 Broadband Cable Modem',
-    specs: 'Inputs: Coaxial 75Ω F-Connector • Output: Gigabit LAN • Modulation: QAM/OFDM'
+    photoCaption: 'DOCSIS 3.1 Broadband Cable Modem'
   },
   ap: {
     name: 'Wireless Access Point (AP)',
     shortName: 'Access Point',
-    layer: 'Layer 2 (Data Link)',
     role: 'Wi-Fi Transceiver & 802.11 ↔ 802.3 Bridge',
-    desc: 'Connects Wi-Fi client stations to a wired local area network by bridging wireless and wired frames.',
+    desc: 'Provides Wi-Fi radio coverage and bridges wireless client frames onto a wired Ethernet switch.',
     image: 'images/devices/ap.jpg',
-    photoCaption: 'Enterprise Ceiling-Mount Wi-Fi Access Point',
-    specs: 'Radios: Dual-Band 2.4/5 GHz 802.11ac/ax • Uplink: 802.3af PoE RJ45 • Bridging: 802.11 ↔ 802.3'
+    photoCaption: 'Enterprise Ceiling-Mount Wi-Fi Access Point'
   },
   repeater: {
     name: 'Network Repeater',
     shortName: 'Repeater',
-    layer: 'Layer 1 (Physical)',
     role: 'Signal Regenerator & Distance Extender',
-    desc: 'Cleans, retimes, and amplifies attenuated signals to extend transmission distance across media.',
+    desc: 'Reconstructs weakened digital pulses and amplifies faded wireless signals to extend transmission reach.',
     image: 'images/devices/repeater.jpg',
-    photoCaption: 'Dual-Band AC Wall-Plug Wi-Fi Range Extender',
-    specs: 'Form Factor: Direct AC Plug • Antennas: Dual Folding • Extension: Signal Regeneration'
+    photoCaption: 'Dual-Band AC Wall-Plug Wi-Fi Range Extender'
   },
   bridge: {
     name: 'Network Bridge',
     shortName: 'Bridge',
-    layer: 'Layer 2 (Data Link)',
     role: 'Segment Isolator & Filtering Engine',
-    desc: 'Connects two physical LAN segments, filtering local traffic and forwarding inter-segment frames.',
+    desc: 'Joins two LAN segments and checks MAC destinations so local traffic stays on its own side.',
     image: 'images/devices/bridge.jpg',
-    photoCaption: 'Point-to-Point Wireless / Multiport Ethernet Bridge',
-    specs: 'Function: Joins Link Segments • Filtering: Inter-segment MAC Forwarding • Layer 2'
+    photoCaption: 'Point-to-Point Wireless / Multiport Ethernet Bridge'
   },
   firewall: {
     name: 'Network Firewall',
     shortName: 'Firewall',
-    layer: 'Layer 3, 4 & 7 (Security)',
     role: 'Traffic Policy Enforcement & Perimeter Defense',
-    desc: 'Monitors and filters network traffic based on configured security rules and connection states.',
+    desc: 'Guards a network boundary by inspecting packet addresses, protocol ports, and connection states against security rules.',
     image: 'images/devices/firewall.jpg',
-    photoCaption: 'Next-Gen Hardware Security Firewall Appliance',
-    specs: 'Dedicated Interfaces: MGMT, WAN1/2, DMZ, Internal LAN • Inspection: Stateful Packet Filter'
+    photoCaption: 'Next-Gen Hardware Security Firewall Appliance'
   },
   server: {
     name: 'Enterprise Server',
     shortName: 'Server',
-    layer: 'Layers 4–7 (Transport to Application)',
     role: 'Centralized Resource Provider & High-Availability Service Host',
-    desc: 'Provides centralized resources, files, applications, web services, or network identity to connected client nodes.',
+    desc: 'Provides shared files, web applications, databases, and network directory services to connected clients.',
     image: 'images/devices/server.jpg',
-    photoCaption: '2U Rackmount Enterprise Dual-Socket Server',
-    specs: 'Dedicated Interfaces: 4× 10GbE SFP+ Teaming • Redundant 80-Plus Titanium PSUs • ECC RAM'
+    photoCaption: '2U Rackmount Enterprise Dual-Socket Server'
   }
 };
 
@@ -124,7 +104,7 @@ export function renderHowItWorksSvg(deviceKey) {
         <rect x="0" y="0" width="520" height="180" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
 
         <!-- Flow Title -->
-        <text x="20" y="22" font-size="11" fill="#0f172a" font-weight="800">HOW IT WORKS: Host Data → L2 Ethernet Frame → Electrical Bitstream</text>
+        <text x="20" y="22" font-size="11" fill="#0f172a" font-weight="800">HOW IT WORKS: Host Data → Ethernet Frame → Electrical Bitstream</text>
 
         <!-- Step 1: Host System -->
         <g transform="translate(15, 38)">
@@ -174,7 +154,7 @@ export function renderHowItWorksSvg(deviceKey) {
 
         <!-- Bottom takeaway banner -->
         <rect x="15" y="148" width="490" height="22" rx="4" fill="#f8fafc" stroke="#e2e8f0"/>
-        <text x="260" y="163" font-size="9" fill="#334155" text-anchor="middle">NIC converts host memory bytes into standard Layer 2 Ethernet frames and physical electrical pulses.</text>
+        <text x="260" y="163" font-size="9" fill="#334155" text-anchor="middle">NIC converts host memory data into standard Ethernet frames and electrical pulses onto the cable.</text>
       </svg>`;
 
     case 'hub':
@@ -207,7 +187,7 @@ export function renderHowItWorksSvg(deviceKey) {
         <g transform="translate(165, 38)">
           <rect x="0" y="0" width="160" height="95" rx="6" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
           <rect x="10" y="8" width="140" height="20" rx="3" fill="#334155"/>
-          <text x="80" y="22" font-size="9" fill="#ffffff" font-weight="800" text-anchor="middle">HUB CHASSIS (Layer 1)</text>
+          <text x="80" y="22" font-size="9" fill="#ffffff" font-weight="800" text-anchor="middle">HUB CHASSIS (Shared Bus)</text>
 
           <!-- Shared bus split wire -->
           <circle cx="20" cy="50" r="5" fill="#3b82f6"/>
@@ -325,7 +305,7 @@ export function renderHowItWorksSvg(deviceKey) {
 
     case 'router':
       return `
-      <svg class="device-flow-svg" viewBox="0 0 520 180" role="img" aria-label="How a Network Router Works: Layer 3 IP Packet Forwarding via Routing Table">
+      <svg class="device-flow-svg" viewBox="0 0 520 180" role="img" aria-label="How a Network Router Works: IP Packet Forwarding via Routing Table">
         <rect x="0" y="0" width="520" height="180" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
         <text x="20" y="22" font-size="11" fill="#0f172a" font-weight="800">HOW IT WORKS: Host IP Packet → Router Inspects IP → Consults Routing Table → WAN Hop</text>
 
@@ -343,10 +323,10 @@ export function renderHowItWorksSvg(deviceKey) {
         <!-- Arrow LAN to Router -->
         <path d="M 130 84 H 155" stroke="#3b82f6" stroke-width="2.5" marker-end="url(#arrow)"/>
 
-        <!-- Router Layer 3 Engine -->
+        <!-- Router Engine -->
         <g transform="translate(160, 36)">
           <rect x="0" y="0" width="195" height="100" rx="6" fill="#f8fafc" stroke="#0f172a" stroke-width="1.8"/>
-          <text x="97" y="16" font-size="9" fill="#0f172a" font-weight="800" text-anchor="middle">ROUTER (Layer 3 Engine)</text>
+          <text x="97" y="16" font-size="9" fill="#0f172a" font-weight="800" text-anchor="middle">ROUTER (Routing Engine)</text>
 
           <!-- Routing Table Inset -->
           <rect x="8" y="24" width="179" height="42" rx="2" fill="#ffffff" stroke="#cbd5e1"/>
@@ -365,7 +345,7 @@ export function renderHowItWorksSvg(deviceKey) {
           <text x="152" y="60" font-size="7" fill="#16a34a" font-weight="800" text-anchor="middle">WAN ✓</text>
 
           <text x="97" y="82" font-size="7.5" fill="#1e3a8a" text-anchor="middle">1. Decrements TTL by 1</text>
-          <text x="97" y="93" font-size="7.5" fill="#15803d" font-weight="700" text-anchor="middle">2. Re-encapsulates L2 MAC for WAN link</text>
+          <text x="97" y="93" font-size="7.5" fill="#15803d" font-weight="700" text-anchor="middle">2. Rebuilds MAC header for WAN link</text>
         </g>
 
         <!-- Arrow Router to WAN -->
@@ -446,7 +426,7 @@ export function renderHowItWorksSvg(deviceKey) {
       return `
       <svg class="device-flow-svg" viewBox="0 0 520 180" role="img" aria-label="How a Wireless Access Point Works: 802.11 Wi-Fi to 802.3 Ethernet Frame Bridging">
         <rect x="0" y="0" width="520" height="180" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
-        <text x="20" y="22" font-size="11" fill="#0f172a" font-weight="800">HOW IT WORKS: 802.11 Wireless RF Frames ⇄ Layer 2 Bridge ⇄ 802.3 Wired Ethernet</text>
+        <text x="20" y="22" font-size="11" fill="#0f172a" font-weight="800">HOW IT WORKS: 802.11 Wireless RF Frames ⇄ Frame Bridge ⇄ 802.3 Wired Ethernet</text>
 
         <!-- Wireless Client (Laptop) -->
         <g transform="translate(15, 38)">
@@ -466,7 +446,7 @@ export function renderHowItWorksSvg(deviceKey) {
           <path d="M 16 22 A 26 26 0 0 1 16 -8" stroke="#0284c7" stroke-width="2.5" fill="none"/>
         </g>
 
-        <!-- Access Point Layer 2 Bridge -->
+        <!-- Access Point Bridge -->
         <g transform="translate(165, 36)">
           <rect x="0" y="0" width="180" height="100" rx="6" fill="#f8fafc" stroke="#0284c7" stroke-width="1.8"/>
           <text x="90" y="16" font-size="9" fill="#0f172a" font-weight="800" text-anchor="middle">ACCESS POINT (Bridge)</text>
@@ -498,7 +478,7 @@ export function renderHowItWorksSvg(deviceKey) {
         </g>
 
         <rect x="15" y="146" width="490" height="24" rx="4" fill="#f8fafc" stroke="#e2e8f0"/>
-        <text x="260" y="162" font-size="9" fill="#0f172a" text-anchor="middle">An AP bridges Wi-Fi frames to wired Ethernet without routing or altering the Layer 3 IP packet.</text>
+        <text x="260" y="162" font-size="9" fill="#0f172a" text-anchor="middle">An AP bridges Wi-Fi frames onto wired Ethernet while keeping the destination IP packet intact.</text>
       </svg>`;
 
     case 'repeater':
@@ -525,7 +505,7 @@ export function renderHowItWorksSvg(deviceKey) {
         <!-- Repeater Regeneration Circuit -->
         <g transform="translate(170, 36)">
           <rect x="0" y="0" width="175" height="100" rx="6" fill="#f8fafc" stroke="#1e293b" stroke-width="1.8"/>
-          <text x="87" y="16" font-size="9" fill="#0f172a" font-weight="800" text-anchor="middle">REPEATER (Layer 1)</text>
+          <text x="87" y="16" font-size="9" fill="#0f172a" font-weight="800" text-anchor="middle">REPEATER (Signal Rebuilder)</text>
 
           <rect x="10" y="24" width="155" height="26" rx="3" fill="#fef3c7" stroke="#f59e0b"/>
           <text x="87" y="36" font-size="7.5" fill="#92400e" font-weight="800" text-anchor="middle">Threshold Detector (0 vs 1)</text>
@@ -559,7 +539,7 @@ export function renderHowItWorksSvg(deviceKey) {
 
     case 'bridge':
       return `
-      <svg class="device-flow-svg" viewBox="0 0 520 180" role="img" aria-label="How a Network Bridge Works: Layer 2 Filtering Table Isolating Local Traffic">
+      <svg class="device-flow-svg" viewBox="0 0 520 180" role="img" aria-label="How a Network Bridge Works: MAC Filtering Table Isolating Local Traffic">
         <rect x="0" y="0" width="520" height="180" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
         <text x="20" y="22" font-size="11" fill="#0f172a" font-weight="800">HOW IT WORKS: Bridge Filters Local Traffic & Forwards Only Cross-Segment Frames</text>
 

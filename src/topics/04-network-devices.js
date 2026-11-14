@@ -20,7 +20,7 @@ export default topic({
         "Modem: adapts signals for a provider access technology.",
         "Wireless access point: bridges Wi-Fi stations onto a LAN.",
         "Repeater: regenerates or retransmits signals.",
-        "Bridge: joins link-layer segments; a switch is a multiport bridge.",
+        "Bridge: joins separate LAN segments and filters local MAC traffic; a switch acts as a multiport bridge.",
         "Firewall: permits or blocks traffic according to policy."
       ],
       "expectedCount": 9,
@@ -39,9 +39,9 @@ export default topic({
     {
       "title": "Network Hub",
       "deviceKey": "hub",
-      "lead": "A network hub is a legacy Layer 1 physical device that repeats electrical signals to all connected ports.",
+      "lead": "A network hub is a legacy multiport repeater that copies incoming electrical signals out to every other connected port.",
       "items": [
-        "Layer 1 Repeater: Shares one electrical bus across all connected ports.",
+        "Shared Electrical Bus: Shares one electrical path across all connected ports instead of isolating traffic.",
         "No Address Reading: Cannot inspect MAC or IP addresses.",
         "Floods Everything: Copies incoming bits to every other port, causing collisions."
       ]
@@ -49,7 +49,7 @@ export default topic({
     {
       "title": "Network Switch",
       "deviceKey": "switch",
-      "lead": "A network switch is an intelligent Layer 2 device that forwards frames using learned MAC addresses.",
+      "lead": "A network switch connects wired devices in a LAN and forwards frames directly to the target port using learned MAC addresses.",
       "items": [
         "No Collisions: Gives every connected port its own dedicated full-speed link.",
         "MAC Address Table: Learns which device MAC address is plugged into each port.",
@@ -59,7 +59,7 @@ export default topic({
     {
       "title": "Network Router",
       "deviceKey": "router",
-      "lead": "A router is a Layer 3 internetworking device that forwards packets between different logical networks.",
+      "lead": "A router connects separate IP networks together and uses a routing table to forward packets across network boundaries.",
       "items": [
         "Connects Networks: Links your local LAN to outside WANs or the Internet.",
         "Routing Table: Looks up destination IP prefixes to pick the best next hop.",
@@ -82,7 +82,7 @@ export default topic({
       "lead": "A wireless access point (AP) connects Wi-Fi stations to a wired local area network.",
       "items": [
         "Wi-Fi Radio: Broadcasts 2.4 GHz, 5 GHz, or 6 GHz wireless signals.",
-        "Layer 2 Bridge: Connects wireless devices directly onto the wired Ethernet LAN.",
+        "Wireless-to-Wired Bridge: Passes frames directly between Wi-Fi clients and the wired Ethernet LAN.",
         "Easy Expansion: Usually powered by a single PoE (Power over Ethernet) switch cable."
       ]
     },
@@ -99,7 +99,7 @@ export default topic({
     {
       "title": "Network Bridge",
       "deviceKey": "bridge",
-      "lead": "A network bridge connects two or more separate LAN segments at Layer 2 to segment traffic and reduce congestion.",
+      "lead": "A network bridge joins two separate LAN segments and filters frames by MAC address to reduce congestion.",
       "items": [
         "Splits Collision Domains: Divides one busy LAN into two quieter segments.",
         "Tracks MACs: Learns which MAC addresses live on Side A vs. Side B.",
