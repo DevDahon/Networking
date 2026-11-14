@@ -177,7 +177,6 @@ export const simulationGuidance={
  communication:'Choose a transmission medium. Use Play/Pause/Resume or manual steps for sender, medium, and receiver; packet motion corresponds to the transmission stage.',
  coverage:'Change coverage and service architecture independently. Use the diagrams to explain why a LAN may use either peer or server services.',
  topology:'Select a topology, then change the failed link or device. Read the source reachability result using the stated topology assumptions.',
- devices:'Select a device and its labeled port. Compare its function and local switching or routing behavior in the schematic.',
  osi:'Select layers, step the wrapping journey, then demonstrate TCP versus UDP behavior with a modeled loss.',
  media:'Select a cable cross-section or wireless medium and compare physical construction, signaling method, and reach requirements.',
  cable:'Select T568A or T568B, inspect both ends, change conductor positions, and run the calculated wire-map test. Explain faults without treating continuity as certification.',

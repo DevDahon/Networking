@@ -139,11 +139,6 @@ export default topic({
       ]
     }
   ],
-  "demo": {
-    "type": "devices",
-    "title": "Network device explorer",
-    "lead": "Conceptual device gallery • inspect labeled interfaces and compare a hub, switch, and router."
-  },
   "application": {
     "title": "Expand a small office",
     "lead": "The office has too few wired ports and weak Wi-Fi in a meeting room.",

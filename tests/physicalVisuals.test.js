@@ -78,12 +78,10 @@ describe('Real-life photographs for physical networking content', () => {
     }
   });
 
-  it('displays real hardware photos instead of schematic SVGs in deviceExplorer', () => {
-    const content = mountTopicSlide('04-network-devices', 'Network Device Functions Explorer');
-    const photo = content.querySelector('.device-real-photo');
-    expect(photo).not.toBeNull();
-    expect(existsSync(resolve(process.cwd(), 'public', photo.getAttribute('src')))).toBe(true);
-    expect(content.querySelectorAll('.device-hardware-svg')).toHaveLength(0);
+  it('omits the removed Network Device Functions Explorer slide from 04-network-devices', () => {
+    const topic = topics.find(t => t.id === '04-network-devices');
+    expect(topic).toBeDefined();
+    expect(topic.slides.some(s => s.type === 'devices' || /Network Device Functions Explorer/i.test(s.title))).toBe(false);
   });
 
   it('displays matching real cable and access point photos in mediaExplorer', () => {

@@ -48,7 +48,6 @@ const copy = {
     ['Example: the switch and router have different jobs', 'Example: Switch vs Router Roles', 'Local print jobs stay inside the switch, while Internet requests go through the switch to the router.'],
     ['Ports, link lights, and home gateways', 'Ports, Link Lights, and Home Gateways', 'All-in-one home gateways separate local LAN ports from the ISP WAN port, while link lights confirm physical cabling.'],
     ['Virtual LANs and Routing Principles', 'VLAN Concepts and Routing Principles', 'VLANs split one physical switch into separate logical groups, and routers connect those groups when needed.'],
-    ['@devices', 'Network Device Functions Explorer', 'Compare how NICs, hubs, switches, routers, access points, and modems process network traffic.'],
     ['Expand a small office', null, 'Add a switch when you need more Ethernet ports, or add an access point when you need wider Wi-Fi coverage.'],
     ['Read the interfaces along a network path', 'Device Roles Along a Network Path', 'Follow how a computer, switch, router, and modem work together to deliver a network request.']
   ],

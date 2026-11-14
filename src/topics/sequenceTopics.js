@@ -7,7 +7,7 @@ export const sequenceMoves={
  ],
  '04-network-devices':[
   ['@macLearningDemo','after','Network Switch'],
-  ['Read the interfaces along a network path','before','@devices']
+  ['Read the interfaces along a network path','before','Expand a small office']
  ],
  'osi-reference-model':[],
  '06-network-cables-media':[
