@@ -1388,44 +1388,11 @@ export function renderDeviceSlideVisual(deviceKey) {
 export function routerGatewayPortsVisual() {
   return `
     <div class="device-visual-card router-rear-card">
-      <div class="device-section-header">
-        <div class="device-badges">
-          <span class="device-hardware-badge">PHYSICAL INTERFACES</span>
-          <span class="device-layer-badge">SOHO Gateway Rear Panel</span>
-        </div>
-      </div>
       <div class="router-rear-box">
-        <img src="images/router/router_rear.jpg" alt="Router Rear Physical Interfaces" class="router-rear-photo" loading="lazy" />
+        <img src="images/router/router_rear.jpg" alt="Home Gateway Router Rear Ports" class="router-rear-photo" loading="lazy" />
       </div>
-      <div class="router-ports-callout-grid">
-        <div class="router-port-chip chip-wan">
-          <span class="port-chip-dot dot-wan"></span>
-          <div class="port-chip-text">
-            <strong>WAN / Internet Port</strong>
-            <span>Dedicated uplink to ISP cable/fiber modem</span>
-          </div>
-        </div>
-        <div class="router-port-chip chip-lan">
-          <span class="port-chip-dot dot-lan"></span>
-          <div class="port-chip-text">
-            <strong>Switched LAN Ports (1–4)</strong>
-            <span>Internal Gigabit switch for wired hosts &amp; APs</span>
-          </div>
-        </div>
-        <div class="router-port-chip chip-wlan">
-          <span class="port-chip-dot dot-wlan"></span>
-          <div class="port-chip-text">
-            <strong>Dual-Band Antennas</strong>
-            <span>2.4 GHz &amp; 5 GHz Wi-Fi radio transmitters</span>
-          </div>
-        </div>
-        <div class="router-port-chip chip-pwr">
-          <span class="port-chip-dot dot-pwr"></span>
-          <div class="port-chip-text">
-            <strong>Power &amp; Factory Reset</strong>
-            <span>DC power jack &amp; 10s reset pinhole</span>
-          </div>
-        </div>
+      <div class="router-rear-meta">
+        <h4 class="physical-photo-title">Home Gateway Router (Rear Ports)</h4>
       </div>
     </div>
   `;

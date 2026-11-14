@@ -209,10 +209,9 @@ export function rj45PlugColorSVG(standard='B'){
     </g>
    </svg>
    <div class="rj45-real-strip">
-    <img src="images/tools/rj45_crimped_front.jpg" alt="Real crimped transparent RJ45 plug contact view" class="rj45-real-thumb" loading="lazy" />
+    <img src="images/tools/rj45_crimped_front.jpg" alt="Crimped RJ45 8P8C Plug" class="rj45-real-thumb" loading="lazy" />
     <div class="rj45-real-note">
-     <span class="rj45-real-tag">REAL CRIMPED PLUG</span>
-     <p>Hold gold pins toward you, latch behind: <b>Pin 1 is left</b>, all 8 wires reach the tip, and the jacket locks inside.</p>
+     <p class="rj45-real-title">Crimped RJ45 8P8C Plug</p>
     </div>
    </div>
   </div>
@@ -321,9 +320,7 @@ export function modularConnectorsVisual() {
             <img src="images/tools/rj45_plugs.jpg" alt="Modular RJ45 8P8C Plugs" class="connector-photo-img" loading="lazy" />
           </div>
           <div class="connector-photo-meta">
-            <span class="connector-photo-badge badge-male">MALE PLUG</span>
-            <h4 class="connector-photo-title">8P8C Modular Plug (RJ45)</h4>
-            <p class="connector-photo-desc">Gold-plated contact pins crimped onto flexible stranded patch cables for workstation &amp; patch panel ports.</p>
+            <h4 class="connector-photo-title">RJ45 Modular Plug (8P8C)</h4>
           </div>
         </div>
         <div class="connector-photo-card">
@@ -331,9 +328,7 @@ export function modularConnectorsVisual() {
             <img src="images/tools/keystone_jack.jpg" alt="110 IDC Keystone Jack" class="connector-photo-img" loading="lazy" />
           </div>
           <div class="connector-photo-meta">
-            <span class="connector-photo-badge badge-female">FEMALE RECEPTACLE</span>
             <h4 class="connector-photo-title">Keystone Jack (110 IDC)</h4>
-            <p class="connector-photo-desc">Insulation displacement contact (IDC) blocks punched down onto solid-core in-wall horizontal runs.</p>
           </div>
         </div>
       </div>
