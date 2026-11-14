@@ -11,15 +11,6 @@ export default topic({
   ],
   "concepts": [
     {
-      "title": "Prefix, gateway, and DNS do different jobs",
-      "lead": "The subnet mask or CIDR prefix tells the host which address bits identify its local subnet.",
-      "items": [
-        "192.168.1.10/24 uses 24 network bits and 8 host bits; its mask is 255.255.255.0.",
-        "The default gateway is a local router used for destinations without a more specific route.",
-        "DNS: maps names to records such as IP addresses."
-      ]
-    },
-    {
       "title": "Two ways to assign an address",
       "items": [
         "Static: an administrator manually configures the address and related settings.",
@@ -40,7 +31,7 @@ export default topic({
       "title": "Four IPv4 configuration fields",
       "items": [
         "IP address: Unique host address for this device on the subnet.",
-        "Subnet mask: Defines which part of the IP is the local network.",
+        "Subnet mask: Defines which bits identify the local network (e.g., 255.255.255.0 or /24 for 24 network bits).",
         "Default gateway: Local router IP used to reach outside networks.",
         "DNS server: Translates website names into IP addresses."
       ],
@@ -60,15 +51,6 @@ export default topic({
       "kind": "demo",
       "lead": "Calculate each host’s local/remote decision independently using its own mask.",
       "type": "asymmetricDemo"
-    },
-    {
-      "title": "Windows configuration and verification",
-      "lead": "Interface labels vary by Windows version; the classic adapter IPv4 properties remain useful for a supervised lab.",
-      "items": [
-        "Open adapter settings: Run ncpa.cpl or open Network & Internet → Adapter options.",
-        "Enter IPv4 settings: Open TCP/IPv4 Properties, enter the IP, mask, gateway, and DNS, then click OK.",
-        "Verify with CLI: Run ipconfig /all and ping the peer IP to confirm connectivity."
-      ]
     }
   ],
   "demo": {

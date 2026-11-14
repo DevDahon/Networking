@@ -117,29 +117,11 @@ export default topic({
       ]
     },
     {
-      "title": "Connecting a device to a LAN",
-      "lead": "A network interface card (NIC) provides a device’s network interface; an Ethernet port is a physical connection point.",
-      "items": [
-        "Hub (Layer 1): Blindly repeats every bit to all ports without checking MAC addresses.",
-        "Switch (Layer 2): Learns source MAC addresses and sends frames directly to the target port.",
-        "Bridge (Layer 2): Connects two LAN segments; a switch acts as a multi-port bridge."
-      ]
-    },
-    {
-      "title": "Joining networks and media",
-      "lead": "A router forwards IP packets between networks using a routing table.",
-      "items": [
-        "Modem / ONT: Converts signals for your ISP’s coaxial, phone, or fiber line.",
-        "Access Point (AP): Connects Wi-Fi devices to the wired switch.",
-        "Home Gateway: Combines a router, switch, AP, DHCP server, and firewall in one box."
-      ]
-    },
-    {
-      "title": "Ports and protection",
+      "title": "Ports, link lights, and home gateways",
       "lead": "Device roles explain behavior better than the shape of the box.",
       "items": [
+        "Home Gateway: Combines a router, switch, access point, DHCP server, and firewall in one box.",
         "LAN vs. WAN Ports: LAN ports connect local PCs; the WAN port connects to the ISP.",
-        "Firewall Rules: Block unwanted network traffic based on security policies.",
         "Link Lights: Confirm a working cable connection, not valid IP or Internet access."
       ]
     },

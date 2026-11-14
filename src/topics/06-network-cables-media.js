@@ -66,8 +66,8 @@ export default topic({
   ],
   "demo": {
     "type": "media",
-    "title": "Media and tool bench",
-    "lead": "Illustrated comparison • inspect cable cross-sections and choose media for a task."
+    "title": "Transmission media workbench",
+    "lead": "Illustrated comparison • inspect cable cross-sections and signaling methods across media types."
   },
   "application": {
     "title": "Connect two buildings",

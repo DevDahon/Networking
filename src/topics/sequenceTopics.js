@@ -6,7 +6,7 @@ export const sequenceMoves={
   ['Choose a topology for the task','after','@topology']
  ],
  '04-network-devices':[
-  ['@macLearningDemo','after','Connecting a device to a LAN'],
+  ['@macLearningDemo','after','Network Switch'],
   ['Read the interfaces along a network path','before','@devices']
  ],
  'osi-reference-model':[],
@@ -18,8 +18,7 @@ export const sequenceMoves={
  ],
  '08-ip-addressing':[
   ['@bitwiseDemo','after','The subnet mask separates network and host'],
-  ['Understanding CIDR prefix notation','after','@bitwiseDemo'],
-  ['Example: read one classroom address','after','Understanding CIDR prefix notation'],
+  ['Example: read one classroom address','after','@bitwiseDemo'],
   ['Interpret an IPv4 configuration','before','@subnet']
  ],
  '10-static-ip':[
@@ -37,7 +36,6 @@ export const sequenceMoves={
  ],
  '12-router-wireless':[
   ['Wi-Fi Frequencies and Standards','before','Wireless identity and protection'],
-  ['Two protected Wi-Fi security options','before','Example: a laptop joins classroom Wi-Fi'],
   ['Router configuration sequence','before','@router'],
   ['@guestIsolationDemo','after','@router']
  ],

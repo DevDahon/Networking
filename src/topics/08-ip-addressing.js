@@ -44,9 +44,8 @@ export default topic({
       "lead": "A subnet mask is a 32-bit filter that marks the boundary between network bits and host bits using consecutive ones and zeros.",
       "items": [
         "Binary boundary: Consecutive 1s mark the network part; consecutive 0s mark the host part.",
-        "Dotted decimal: 24 ones is written as 255.255.255.0.",
-        "CIDR shorthand: Counting 24 network ones is written as /24.",
-        "Common LAN size: A /24 subnet provides 254 usable host addresses."
+        "Slash (CIDR) notation: /24 counts 24 network 1s (255.255.255.0), /16 counts 16 (255.255.0.0), and /8 counts 8 (255.0.0.0).",
+        "Remaining host bits: Subtracting the prefix from 32 gives the host bits (for /24, 32 − 24 = 8 bits, or 254 usable hosts)."
       ]
     },
     {
@@ -64,15 +63,6 @@ export default topic({
       "kind": "demo",
       "lead": "Real calculation • any valid IPv4 address and prefix, binary boundary, guided steps, and explained calculations.",
       "type": "subnet"
-    },
-    {
-      "title": "Understanding CIDR prefix notation",
-      "lead": "Prefix notation uses a slash to count the consecutive network ones in the subnet mask.",
-      "items": [
-        "/24 means 24 ones in the mask: 11111111.11111111.11111111.00000000, which is 255.255.255.0.",
-        "/16 means 16 ones (255.255.0.0), while /8 means 8 ones (255.0.0.0).",
-        "Remaining host bits: subtracting the prefix from 32 gives the host bits (for /24, 32 − 24 = 8 bits, or 254 usable hosts)."
-      ]
     },
     {
       "title": "Classful history versus modern CIDR",

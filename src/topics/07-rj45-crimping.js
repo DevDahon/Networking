@@ -20,16 +20,6 @@ export default topic({
       ]
     },
     {
-      "title": "Four cabling tool and tester functions",
-      "items": [
-        "Cable stripper: Scores and removes the outer jacket without nicking inner wires.",
-        "Crimping tool: Presses RJ45 plug pins into the copper wires and locks the jacket.",
-        "Punch-down tool: Pushes solid wires into keystone jack slots and trims excess ends.",
-        "Basic LAN tester: Checks pin-to-pin continuity across all 8 wires."
-      ],
-      "expectedCount": 4
-    },
-    {
       "title": "Tools and Equipment for RJ45 Cable Crimping",
       "lead": "Terminating an RJ45 plug requires stripping, cutting, crimping, and testing tools.",
       "toolKey": "rj45-setup",

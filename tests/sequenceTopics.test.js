@@ -4,7 +4,7 @@ import { sequenceTopic, sequenceMoves } from '../src/topics/sequenceTopics.js';
 
 const constraints=[
  [2,'@topology','Choosing a Network Topology'],
- [3,'How Interfaces and Switches Connect Local Devices','@macLearningDemo'],
+ [3,'Network Switch','@macLearningDemo'],
  [4,'Seven OSI layer responsibilities','Layer 7: Application Layer'],
  [4,'Layer 1: Physical Layer','What Is Encapsulation?'],
  [4,'What Is Encapsulation?','Five OSI Protocol Data Units (PDUs)'],
@@ -14,7 +14,7 @@ const constraints=[
  [9,'Domain Name System (DNS)','@dnsCacheDemo'],
  [9,'Example: open a protected school website','@protocolWeb'],
  [10,'@dhcp','@reservedPoolDemo'],
- [11,'Two protected Wi-Fi security options','Example: a laptop joins classroom Wi-Fi'],
+ [11,'SSID, Authentication, and Isolation','Example: a laptop joins classroom Wi-Fi'],
  [12,'Publishing and Accessing a Windows Shared Folder','@sharing'],
  [13,'Nine modeled network faults','Example: numeric access works but a name fails']
 ];
@@ -27,7 +27,7 @@ it.each(constraints)('keeps the prerequisite beside its demonstration in topic %
 
 it('reviews every topic and retains all slide content, boundaries, and simulation counts',()=>{
  expect(Object.keys(sequenceMoves)).toHaveLength(14);
- expect(topics.reduce((sum,t)=>sum+t.slides.length,0)).toBe(209);
+ expect(topics.reduce((sum,t)=>sum+t.slides.length,0)).toBe(201);
  for(const topic of topics){
   expect(topic.slides[0].kind).toBe('title');expect(topic.slides[1].kind).toBe('objectives');expect(topic.slides.at(-1).kind).toBe('summary');
   if(!['06-network-cables-media','osi-reference-model'].includes(topic.id))expect(topic.slides.filter(s=>s.type||s.kind==='example').length).toBeGreaterThanOrEqual(2);

@@ -24,7 +24,7 @@ export default topic({
       "title": "Wireless identity and protection",
       "lead": "An SSID names a wireless network. Association and authentication come before useful IP connectivity.",
       "items": [
-        "Strong encryption: Always choose WPA3 or WPA2-AES; never use WEP or open Wi-Fi for private data.",
+        "Strong encryption: Always choose WPA3-Personal (strongest) or WPA2-Personal AES; never use WEP or open Wi-Fi for private data.",
         "Separate passwords: Use a strong Wi-Fi passphrase and a different router admin password.",
         "Guest isolation: Place visitors on an isolated Guest Wi-Fi so they cannot access private LAN folders."
       ]
@@ -39,14 +39,6 @@ export default topic({
         "Wi-Fi 5 (802.11ac): High-speed 5 GHz standard delivering gigabit wireless speeds.",
         "Wi-Fi 6 (802.11ax): Modern standard across 2.4/5/6 GHz built for crowded schools and offices."
       ]
-    },
-    {
-      "title": "Two protected Wi-Fi security options",
-      "items": [
-        "WPA3-Personal: Strongest modern Wi-Fi protection for supported devices.",
-        "WPA2-Personal (AES): Reliable standard protection compatible with most devices."
-      ],
-      "expectedCount": 2
     },
     {
       "title": "Change settings in a safe order",

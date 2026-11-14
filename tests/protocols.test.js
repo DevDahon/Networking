@@ -14,7 +14,7 @@ const change=(name,value)=>{const e=root.querySelector(`[name="${name}"]`);e.val
 it('inserts the new topic at 9, with the old lessons retaining their routes',()=>{
  expect(topics).toHaveLength(14);expect(topics[8]).toBe(topic);expect(topic.number).toBe(9);
  expect(topics.slice(9).map(t=>[t.number,t.id])).toEqual([[10,'11-dhcp'],[11,'12-router-wireless'],[12,'13-file-printer-sharing'],[13,'14-network-troubleshooting'],[14,'15-network-security']]);
- expect(topic.slides).toHaveLength(22);expect(topic.slides[0]).toMatchObject({kind:'title',title:topic.title});expect(topic.slides[1].title).toBe('Learning Objectives');expect(topic.slides.at(-1).title).toBe('Summary of the Discussion');
+ expect(topic.slides).toHaveLength(21);expect(topic.slides[0]).toMatchObject({kind:'title',title:topic.title});expect(topic.slides[1].title).toBe('Learning Objectives');expect(topic.slides.at(-1).title).toBe('Summary of the Discussion');
 });
 it('covers all ten core requested protocols with explicit purpose, application, and layer guidance',()=>{
  expect(protocolCatalog.map(p=>p.id)).toEqual(['TCP','UDP','IP','ARP','ICMP','DHCP','DNS','HTTP','HTTPS','SSH']);

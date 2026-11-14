@@ -860,7 +860,7 @@ function renderSignalingSvg(mediumName) {
   `;
 }
 
-export function mediaExplorer(root){let name='UTP',tool=0;const steps=['Stripper: adjust to jacket thickness; remove only the required jacket (approx. 20–25 mm) without nicking or cutting insulated conductors.','Crimper: insert a fully seated 8P8C modular plug and compress using the proper die; keep fingers clear.','Tester: connect main and remote units; compare all conductor paths 1 through 8, then identify open, short, or crossed faults.','Punch-down tool: seat the conductor in a compatible IDC slot with the cutting blade facing the waste side.'];
+export function mediaExplorer(root){let name='UTP';
 function draw(){
   const isTwisted = name==='UTP'||name==='STP';
   const isWireless = name==='Wireless';
@@ -883,15 +883,6 @@ function draw(){
 
     <div style="margin: 14px 0;">
       ${renderSignalingSvg(name)}
-    </div>
-
-    <div class="step-card">
-      <b>Installation tool walkthrough · ${tool+1}/4</b>
-      <p>${steps[tool]}</p>
-    </div>
-    <div class="control-row">
-      ${button('Previous tool','prev')}
-      ${button('Next tool','next')}
     </div>
 
     <details style="margin-top: 14px;">
@@ -957,9 +948,5 @@ function draw(){
   `;
 
   root.querySelector('[name="media"]').onchange=e=>{name=e.target.value;draw();};
-  wire(root,{
-    prev:()=>{tool=Math.max(0,tool-1);draw();},
-    next:()=>{tool=(tool+1)%4;draw();}
-  });
 }
 draw();}

@@ -179,7 +179,7 @@ export const simulationGuidance={
  topology:'Select a topology, then change the failed link or device. Read the source reachability result using the stated topology assumptions.',
  devices:'Select a device and its labeled port. Compare its function and local switching or routing behavior in the schematic.',
  osi:'Select layers, step the wrapping journey, then demonstrate TCP versus UDP behavior with a modeled loss.',
- media:'Select a cable cross-section and step through the tool explanations. Relate media choice to distance and installation requirements.',
+ media:'Select a cable cross-section or wireless medium and compare physical construction, signaling method, and reach requirements.',
  cable:'Select T568A or T568B, inspect both ends, change conductor positions, and run the calculated wire-map test. Explain faults without treating continuity as certification.',
  ipv4:'Enter an address and prefix, then toggle the octet bits. Read the range classification and network/host boundary.',
  subnet:'Enter an address and prefix or select a prefix example. Compare mask, boundary, counts, range, and the explained calculation, including /31 and /32.',

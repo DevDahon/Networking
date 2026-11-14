@@ -36,7 +36,6 @@ const slides=[
  demo('ARP resolves the local next hop','protocolArp','Change between a local peer and a remote destination; follow the calculated next-hop explanation.','Choose a local or remote destination. Play or step through request, reply, cache, and frame addressing. Emphasize that a remote IP destination uses the gateway MAC on the first link.'),
  profile('ICMP'),
  profile('DHCP'),
- demo('DHCP configuration and its two UDP endpoints','dhcp','DHCPv4 uses server UDP 67 and client UDP 68; a lease becomes active at ACK.','Run DORA manually or automatically. Inspect options, active leases, renewal and release; explain that DHCP is an Application protocol using UDP.'),
  profile('DNS'),
  profile('HTTP'),
  profile('HTTPS'),
