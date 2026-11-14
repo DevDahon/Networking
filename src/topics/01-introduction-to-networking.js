@@ -123,8 +123,6 @@ export default topic({
     {
       "title": "Two link choices: wired and wireless",
       "lead": "Choose between a wired cable for steady speed and wireless Wi-Fi for convenient mobility.",
-      "visualKey": "linkChoicesPhotos",
-      "visualLayout": "split",
       "items": [
         "Wired (Ethernet cable): Delivers fast, consistent speeds with minimal interference, but each device must plug into a network port.",
         "Wireless (Wi-Fi radio): Lets laptops and mobile devices connect without cables, though walls, distance, and congestion can slow the signal."

@@ -25,7 +25,6 @@ function mountTopicSlide(topicId, title) {
 describe('Real-life photographs for physical networking content', () => {
   it.each([
     ['01-introduction-to-networking', 'Basic Network Components', 4],
-    ['01-introduction-to-networking', 'Two Link Choices: Wired vs. Wireless', 2],
     ['04-network-devices', 'Ports, Link Lights, and Home Gateways', 1],
     ['osi-reference-model', 'Layer 1: Physical Layer', 3],
     ['06-network-cables-media', 'Five network media choices', 5],
@@ -49,6 +48,11 @@ describe('Real-life photographs for physical networking content', () => {
       expect(src).toMatch(/^images\/.+\.(jpg|jpeg|png|webp)$/);
       expect(existsSync(resolve(process.cwd(), 'public', src))).toBe(true);
     }
+  });
+
+  it('does not render images on Two Link Choices: Wired vs. Wireless', () => {
+    const content = mountTopicSlide('01-introduction-to-networking', 'Two Link Choices: Wired vs. Wireless');
+    expect(content.querySelectorAll('img')).toHaveLength(0);
   });
 
   it('verifies every deviceKey and toolKey slide resolves existing image files on disk', () => {

@@ -27,22 +27,6 @@ const panelConfigs = {
       }
     ]
   },
-  linkChoicesPhotos: {
-    variant: 'stack-2',
-    label: 'Wired and wireless connection hardware',
-    cards: [
-      {
-        src: 'images/tools/ethernet_patch_cable.jpg',
-        alt: 'Blue Cat 6 Ethernet Patch Cable with RJ45 Plugs',
-        title: 'Cat 6 Ethernet Patch Cable'
-      },
-      {
-        src: 'images/devices/ap.jpg',
-        alt: 'Dual-Band Wireless Access Point',
-        title: 'Wi-Fi Access Point'
-      }
-    ]
-  },
   mediaChoicesPhotos: {
     variant: 'strip-5',
     label: 'Network transmission media',
