@@ -68,10 +68,22 @@ describe('Real-life photographs for physical networking content', () => {
           const src = img.getAttribute('src');
           expect(existsSync(resolve(process.cwd(), 'public', src))).toBe(true);
         }
+        if (slide.deviceKey) {
+          expect(document.querySelectorAll('#slide-content .device-tab-btn, #slide-content .device-schematic-view, #slide-content .device-hardware-svg')).toHaveLength(0);
+          expect(document.querySelectorAll('#slide-content .device-photo-specs')).toHaveLength(0);
+        }
         cleanup();
         cleanup = null;
       });
     }
+  });
+
+  it('displays real hardware photos instead of schematic SVGs in deviceExplorer', () => {
+    const content = mountTopicSlide('04-network-devices', 'Network Device Functions Explorer');
+    const photo = content.querySelector('.device-real-photo');
+    expect(photo).not.toBeNull();
+    expect(existsSync(resolve(process.cwd(), 'public', photo.getAttribute('src')))).toBe(true);
+    expect(content.querySelectorAll('.device-hardware-svg')).toHaveLength(0);
   });
 
   it('displays matching real cable and access point photos in mediaExplorer', () => {

@@ -118,29 +118,6 @@ export function startApp(root){
    const roleHtml=`<div class="device-role-card"><h4 class="role-title">${esc(meta.name)}</h4><p class="role-desc">${esc(meta.desc)}</p></div>`;
    const listHtml=`<ul class="teaching-points">${s.items.map((item,i)=>`<li><span class="point-index">${esc(s.itemLabels?.[i]??String(i+1).padStart(2,'0'))}</span><p>${formatItemText(item)}</p></li>`).join('')}</ul>`;
    content.innerHTML=`<div class="device-slide-grid"><div class="device-visuals-col">${renderDeviceSlideVisual(s.deviceKey)}</div><div class="device-content-col">${roleHtml}${listHtml}</div></div>`;
-   content.querySelectorAll('.device-tab-btn').forEach(btn => {
-     btn.addEventListener('click', () => {
-       const view = btn.dataset.view;
-       const card = btn.closest('.device-visual-card');
-       if (!card) return;
-       card.querySelectorAll('.device-tab-btn').forEach(b => b.classList.toggle('active', b === btn));
-       const photoView = card.querySelector('.device-photo-view');
-       const schematicView = card.querySelector('.device-schematic-view');
-       if (photoView && schematicView) {
-         if (view === 'photo') {
-           photoView.classList.add('active');
-           photoView.removeAttribute('hidden');
-           schematicView.classList.remove('active');
-           schematicView.setAttribute('hidden', '');
-         } else {
-           schematicView.classList.add('active');
-           schematicView.removeAttribute('hidden');
-           photoView.classList.remove('active');
-           photoView.setAttribute('hidden', '');
-         }
-       }
-     });
-   });
   }
   else if(s.toolKey && toolsMetadata[s.toolKey]){
    content.innerHTML=renderHorizontalToolsSlide(s.toolKey);

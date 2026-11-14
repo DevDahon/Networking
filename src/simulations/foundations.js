@@ -6,7 +6,7 @@ import {layouts,reachable} from './models.js';
 import {topologyPath} from './extraModels.js';
 import {createStepPlayback} from './playback.js';
 import {renderTopologyNode,getSavedNodeStyle,setSavedNodeStyle} from '../components/networkSymbols.js';
-import {renderPhysicalDeviceSvg,renderHowItWorksSvg} from '../components/deviceIllustrations.js';
+import {renderDevicePhotoBox,renderHowItWorksSvg} from '../components/deviceIllustrations.js';
 function renderCommunicationSVG({ scenario, medium, step, totalSteps, packetPos, activeHop, isComplete }) {
   const isRouted = scenario === 'routed';
   const isFiber = medium === 'Fiber optics';
@@ -701,17 +701,17 @@ export function deviceExplorer(root){
       </div>
 
       <div class="control-row" style="margin: 12px 0 6px;">
-        <button type="button" class="${viewMode==='hardware'?'primary':''}" data-view-mode="hardware">Physical Hardware View</button>
+        <button type="button" class="${viewMode==='hardware'?'primary':''}" data-view-mode="hardware">Real Hardware Photo</button>
         <button type="button" class="${viewMode==='flow'?'primary':''}" data-view-mode="flow">Operational Data Flow Demonstration</button>
       </div>
 
       <div class="device-explorer-layout" style="margin: 14px 0;">
         <div class="device-explorer-card" style="background: white; border: 1px solid var(--border); border-radius: 12px; padding: 16px;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-            <span class="eyebrow" style="font-size: 11px; font-weight: 800; color: #2563eb;">${viewMode==='hardware'?'PHYSICAL HARDWARE VIEW':'OPERATIONAL DATA FLOW DEMONSTRATION'}</span>
+            <span class="eyebrow" style="font-size: 11px; font-weight: 800; color: #2563eb;">${viewMode==='hardware'?'REAL HARDWARE PHOTO':'OPERATIONAL DATA FLOW DEMONSTRATION'}</span>
             <span style="font-size: 11px; color: #64748b; font-weight: 600;">${name==='AP'?'Access Point':name} Equipment</span>
           </div>
-          ${viewMode==='hardware'?renderPhysicalDeviceSvg(key):renderHowItWorksSvg(key)}
+          ${viewMode==='hardware'?renderDevicePhotoBox(key):renderHowItWorksSvg(key)}
           ${viewMode==='hardware'?`
           <div class="device-face" style="margin: 14px 0 0; padding: 12px;">
             <span style="font-size: 14px;">${name==='AP'?'Wi-Fi access point':name} Port Selector</span>
@@ -728,7 +728,7 @@ export function deviceExplorer(root){
         <div><b>Traffic Handling Behavior:</b><br>${esc(d.handling)}</div>
       </div>
 
-      <p class="callout">Port ${port} selected. ${name==='Switch'?'Known destination on port 3: frame forwards to port 3. Unknown destination: flood other LAN ports.':name==='Router'?'Packet to a remote subnet: consult routing table and forward through the appropriate interface.':name==='Hub'?'Bits received on this port repeat out the other ports.':'Inspect the actual model’s labels; this is a schematic, not a product photograph.'}</p>
+      <p class="callout">Port ${port} selected. ${name==='Switch'?'Known destination on port 3: frame forwards to port 3. Unknown destination: flood other LAN ports.':name==='Router'?'Packet to a remote subnet: consult routing table and forward through the appropriate interface.':name==='Hub'?'Bits received on this port repeat out the other ports.':'Inspect the device’s physical ports and indicator labels; port count varies by model.'}</p>
       ${networkSVG(d.diagram, port > 1 ? 2 : 0)}
 
       <details style="margin-top: 14px;">
