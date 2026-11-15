@@ -413,7 +413,6 @@ export function coverage(root){
 }
 export function topology(root){
   let kind='Star',failed=-1,dead=-1,source=1,target=4,custom=[],step=0,nodeStyle=getSavedNodeStyle();
-  let releaseMotion=()=>{};
 
   function getModel(){
     return kind==='Build your own'
@@ -455,7 +454,6 @@ export function topology(root){
   });
 
   function draw(){
-    releaseMotion();
     const model=getModel();
     if(source>=model.nodes.length)source=0;
     if(target>=model.nodes.length)target=Math.min(model.nodes.length-1,4);
@@ -484,72 +482,70 @@ export function topology(root){
     const packetPos=path.length>0?xy[path[step]]:null;
 
     root.innerHTML=`
-      <div class="control-row">
-        ${select('Topology','kind',[...Object.keys(layouts),'Build your own'],kind)}
-        ${select('Failed cable','failed',[[-1,'None'],...model.edges.map(([a,b],i)=>[i,`${model.nodes[a]} ↔ ${model.nodes[b]}`])],failed)}
-        ${select('Failed device','dead',[[-1,'None'],...model.nodes.map((n,i)=>[i,n])],dead)}
-        ${select('Node display','nodeStyle',[['symbols','Device symbols'],['boxes','Labeled boxes']],nodeStyle)}
-        ${button('Reset faults','reset')}
-      </div>
+      <div class="topology-workbench">
+        <div class="control-row topology-controls">
+          ${select('Topology','kind',[...Object.keys(layouts),'Build your own'],kind)}
+          ${select('Failed cable','failed',[[-1,'None'],...model.edges.map(([a,b],i)=>[i,`${model.nodes[a]} ↔ ${model.nodes[b]}`])],failed)}
+          ${select('Failed device','dead',[[-1,'None'],...model.nodes.map((n,i)=>[i,n])],dead)}
+          ${button('Reset faults','reset')}
+        </div>
 
-      <div class="control-row">
-        ${select('Trace from','source',model.nodes.map((n,i)=>[i,n]),source)}
-        ${select('Trace to','target',model.nodes.map((n,i)=>[i,n]),target)}
-        ${button('Play trace','play','primary')}
-        ${button('Pause','pause')}
-        ${button('Resume','resume')}
-        ${button('Previous step','prev')}
-        ${button('Next step','next')}
-        ${button('Reset trace','resetTrace')}
-        ${select('Animation speed','speed',[['0.5','0.5×'],['1','1×'],['2','2×']],playback.speed)}
-      </div>
+        <div class="control-row topology-controls">
+          ${select('Trace from','source',model.nodes.map((n,i)=>[i,n]),source)}
+          ${select('Trace to','target',model.nodes.map((n,i)=>[i,n]),target)}
+          ${button('Play trace','play','primary')}
+          ${button('Pause','pause')}
+          ${button('Resume','resume')}
+          ${select('Animation speed','speed',[['0.5','0.5×'],['1','1×'],['2','2×']],playback.speed)}
+        </div>
 
-      <svg class="topology-diagram" viewBox="0 0 800 340" role="img" aria-label="${esc(kind)} topology; path: ${esc(visited.map(i=>model.nodes[i]).join(' → ')||'No reachable path')}">
-        ${topologyConnections(kind,model.edges,xy,{failed,dead,path:visited})}
-        ${model.nodes.map((n,i)=>renderTopologyNode({
-          x:xy[i][0],
-          y:xy[i][1],
-          label:n,
-          style:nodeStyle,
-          status:i===dead?'dead':visited.includes(i)?'connected':connected.includes(i)?'default':'unreachable',
-          dataAttrs:`data-node-index="${i}" data-trace-node="${i}"`
-        })).join('')}
-        ${packetPos?`<circle class="packet" data-network-packet cx="${packetPos[0]}" cy="${packetPos[1]}" r="8" fill="#0d9488" stroke="#ffffff" stroke-width="2.5" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.3))"/>`:''}
-      </svg>
+        <div class="topology-workbench-grid">
+          <div class="topology-diagram-panel">
+            <svg class="topology-diagram" viewBox="0 0 800 340" role="img" aria-label="${esc(kind)} topology; path: ${esc(visited.map(i=>model.nodes[i]).join(' → ')||'No reachable path')}">
+              ${topologyConnections(kind,model.edges,xy,{failed,dead,path:visited})}
+              ${model.nodes.map((n,i)=>renderTopologyNode({
+                x:xy[i][0],
+                y:xy[i][1],
+                label:n,
+                style:nodeStyle,
+                status:i===dead?'dead':visited.includes(i)?'connected':connected.includes(i)?'default':'unreachable',
+                dataAttrs:`data-node-index="${i}" data-trace-node="${i}"`
+              })).join('')}
+              ${packetPos?`<circle class="packet" data-network-packet cx="${packetPos[0]}" cy="${packetPos[1]}" r="8" fill="#0d9488" stroke="#ffffff" stroke-width="2.5" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.3))"/>`:''}
+            </svg>
 
-      <p class="callout">${model.note}</p>
+            ${kind==='Build your own'?`
+              <div class="control-row builder-controls" style="margin-top: 10px;">
+                ${select('From','from',model.nodes,'A')}
+                ${select('To','to',model.nodes,'B')}
+                ${button('Add connection','add','primary')}
+                ${button('Clear builder','clear')}
+              </div>
+            `:''}
+          </div>
 
-      ${model.dataFlow ? `
-        <div class="result-grid" style="margin: 12px 0; font-size: 13px; text-align: left;">
-          <div><b>Data Movement:</b><br>${esc(model.dataFlow)}</div>
-          <div><b>Practical Use:</b><br>${esc(model.example)}</div>
-          <div style="grid-column: 1 / -1; margin-top: 4px;">
-            <b style="color:#16a34a;">Advantages:</b> ${esc(model.pros)}<br>
-            <b style="color:#dc2626;">Disadvantages:</b> ${esc(model.cons)}
+          <div class="topology-details-panel">
+            <div class="step-card" aria-live="polite">
+              <b>Path trace · Step ${path.length?step+1:0} of ${path.length} · <span class="extra-play-state">${playback.status}</span></b>
+              <h3>${esc(stepTitle)}</h3>
+              <p>${esc(stepText)}</p>
+              ${path.length===0?'<span class="extra-blocked" style="display:inline-block;margin-top:6px;color:#dc2626;font-weight:600;">Selected failure prevents communication between these devices.</span>':''}
+            </div>
+
+            ${model.pros || model.cons ? `
+              <div class="result-grid" style="margin: 0; font-size: 13.5px; text-align: left;">
+                <div style="grid-column: 1 / -1;">
+                  <b style="color:#16a34a;">Advantages:</b> ${esc(model.pros)}<br>
+                  <b style="color:#dc2626; display:inline-block; margin-top:6px;">Disadvantages:</b> ${esc(model.cons)}
+                </div>
+              </div>
+            ` : ''}
           </div>
         </div>
-      ` : ''}
-
-      <div class="step-card" aria-live="polite">
-        <b>Path trace · Step ${path.length?step+1:0} of ${path.length} · <span class="extra-play-state">${playback.status}</span></b>
-        <h3>${esc(stepTitle)}</h3>
-        <p>${esc(stepText)}</p>
-        ${path.length===0?'<span class="extra-blocked" style="display:inline-block;margin-top:6px;color:#dc2626;font-weight:600;">Selected failure prevents communication between these devices.</span>':''}
       </div>
-
-      ${result(`Reachable from ${model.nodes[source]}: ${connected.map(i=>model.nodes[i]).join(', ')||'none'}. ${model.nodes.length-connected.length} node(s) outside the source component.`,connected.length===model.nodes.length)}
-
-      ${kind==='Build your own'?`
-        <div class="control-row">
-          ${select('From','from',model.nodes,'A')}
-          ${select('To','to',model.nodes,'B')}
-          ${button('Add connection','add','primary')}
-          ${button('Clear builder','clear')}
-        </div>
-      `:''}
     `;
 
-    ['kind','failed','dead','source','target','nodeStyle','speed'].forEach(n=>{
+    ['kind','failed','dead','source','target','speed'].forEach(n=>{
       const el=root.querySelector(`[name="${n}"]`);
       if(!el)return;
       el.onchange=e=>{
@@ -572,9 +568,6 @@ export function topology(root){
         }else if(n==='target'){
           target=+e.target.value;
           step=0;
-        }else if(n==='nodeStyle'){
-          nodeStyle=e.target.value;
-          setSavedNodeStyle(nodeStyle);
         }else if(n==='speed'){
           playback.setSpeed(e.target.value);
         }
@@ -613,7 +606,6 @@ export function topology(root){
 
   draw();
   return ()=>{
-    releaseMotion();
     playback.dispose();
   };
 }
@@ -705,78 +697,80 @@ export function deviceExplorer(root){
         <button type="button" class="${viewMode==='flow'?'primary':''}" data-view-mode="flow">Operational Data Flow Demonstration</button>
       </div>
 
-      <div class="device-explorer-layout" style="margin: 14px 0;">
-        <div class="device-explorer-card" style="background: white; border: 1px solid var(--border); border-radius: 12px; padding: 16px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-            <span class="eyebrow" style="font-size: 11px; font-weight: 800; color: #2563eb;">${viewMode==='hardware'?'PHYSICAL HARDWARE VIEW':'OPERATIONAL DATA FLOW DEMONSTRATION'}</span>
-            <span style="font-size: 11px; color: #64748b; font-weight: 600;">${name==='AP'?'Access Point':name} Equipment</span>
+      <div class="sim-workbench-grid">
+        <div class="sim-visual-panel">
+          <div class="device-explorer-layout">
+            <div class="device-explorer-card" style="background: var(--bg-surface, white); border: 1px solid var(--border); border-radius: 12px; padding: 16px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span class="eyebrow" style="font-size: 11px; font-weight: 800; color: var(--blue, #2563eb);">${viewMode==='hardware'?'PHYSICAL HARDWARE VIEW':'OPERATIONAL DATA FLOW DEMONSTRATION'}</span>
+                <span style="font-size: 11px; color: var(--text-muted, #64748b); font-weight: 600;">${name==='AP'?'Access Point':name} Equipment</span>
+              </div>
+              ${viewMode==='hardware'?renderPhysicalDeviceSvg(key):renderHowItWorksSvg(key)}
+              ${viewMode==='hardware'?`
+              <div class="device-face" style="margin: 14px 0 0; padding: 12px;">
+                <span style="font-size: 14px;">${name==='AP'?'Wi-Fi access point':name} Port Selector</span>
+                <div class="ports">${Array.from({length:name==='Switch'||name==='Hub'?8:name==='Router'||name==='Server'?2:1},(_,i)=>`<button data-port="${i+1}" aria-label="Inspect ${name} port ${i+1}">${name==='Router'?(i?'WAN':'LAN'):name==='Server'?(i?'10G-2':'10G-1'):i+1}</button>`).join('')}</div>
+              </div>`:''}
+            </div>
           </div>
-          ${viewMode==='hardware'?renderPhysicalDeviceSvg(key):renderHowItWorksSvg(key)}
-          ${viewMode==='hardware'?`
-          <div class="device-face" style="margin: 14px 0 0; padding: 12px;">
-            <span style="font-size: 14px;">${name==='AP'?'Wi-Fi access point':name} Port Selector</span>
-            <div class="ports">${Array.from({length:name==='Switch'||name==='Hub'?8:name==='Router'||name==='Server'?2:1},(_,i)=>`<button data-port="${i+1}" aria-label="Inspect ${name} port ${i+1}">${name==='Router'?(i?'WAN':'LAN'):name==='Server'?(i?'10G-2':'10G-1'):i+1}</button>`).join('')}</div>
-          </div>`:''}
+          ${networkSVG(d.diagram, port > 1 ? 2 : 0)}
+        </div>
+        <div class="sim-details-panel">
+          <h2>${esc(d.desc)}</h2>
+          <p><b>Hardware Interfaces:</b> ${esc(d.ports)}</p>
+          <div class="result-grid" style="margin: 0; font-size: 13px; text-align: left;">
+            <div><b>OSI Layer:</b><br>${esc(d.layer)}</div>
+            <div><b>Traffic Handling Behavior:</b><br>${esc(d.handling)}</div>
+          </div>
+          <div class="feedback" role="status">Port ${port} selected. ${name==='Switch'?'Known destination on port 3: frame forwards to port 3. Unknown destination: flood other LAN ports.':name==='Router'?'Packet to a remote subnet: consult routing table and forward through the appropriate interface.':name==='Hub'?'Bits received on this port repeat out the other ports.':'Inspect the actual model’s labels; this is a schematic, not a product photograph.'}</div>
+          <details>
+            <summary><b>Traffic Forwarding Comparison: Hub vs Switch vs Router vs Access Point</b></summary>
+            <div class="table-wrap" style="margin-top: 10px; font-size: 13px; line-height: 1.6;">
+              <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                <thead>
+                  <tr style="border-bottom: 2px solid var(--border);">
+                    <th style="padding: 6px 8px;">Device</th>
+                    <th style="padding: 6px 8px;">OSI Layer</th>
+                    <th style="padding: 6px 8px;">Forwarding Basis</th>
+                    <th style="padding: 6px 8px;">Collision Domains</th>
+                    <th style="padding: 6px 8px;">Broadcast Domains</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="border-bottom: 1px solid var(--border);">
+                    <td style="padding: 6px 8px;"><b>Hub</b></td>
+                    <td style="padding: 6px 8px;">Layer 1 (Physical)</td>
+                    <td style="padding: 6px 8px;">Electrical repetition (Floods all)</td>
+                    <td style="padding: 6px 8px;">1 shared collision domain</td>
+                    <td style="padding: 6px 8px;">1 broadcast domain</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--border);">
+                    <td style="padding: 6px 8px;"><b>Switch</b></td>
+                    <td style="padding: 6px 8px;">Layer 2 (Data Link)</td>
+                    <td style="padding: 6px 8px;">MAC Address Table</td>
+                    <td style="padding: 6px 8px;">1 per port (Isolated)</td>
+                    <td style="padding: 6px 8px;">1 per VLAN / subnet</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--border);">
+                    <td style="padding: 6px 8px;"><b>Router</b></td>
+                    <td style="padding: 6px 8px;">Layer 3 (Network)</td>
+                    <td style="padding: 6px 8px;">IP Routing Table</td>
+                    <td style="padding: 6px 8px;">1 per port (Isolated)</td>
+                    <td style="padding: 6px 8px;">1 per subnet (Breaks broadcasts)</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 6px 8px;"><b>Access Point</b></td>
+                    <td style="padding: 6px 8px;">Layer 2 (Bridge)</td>
+                    <td style="padding: 6px 8px;">802.11 Radio ↔ 802.3 Ethernet</td>
+                    <td style="padding: 6px 8px;">Shared airtime domain</td>
+                    <td style="padding: 6px 8px;">Bridges into wired LAN domain</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
         </div>
       </div>
-
-      <h2>${esc(d.desc)}</h2>
-      <p><b>Hardware Interfaces:</b> ${esc(d.ports)}</p>
-      
-      <div class="result-grid" style="margin: 14px 0; font-size: 13px; text-align: left;">
-        <div><b>OSI Layer:</b><br>${esc(d.layer)}</div>
-        <div><b>Traffic Handling Behavior:</b><br>${esc(d.handling)}</div>
-      </div>
-
-      <p class="callout">Port ${port} selected. ${name==='Switch'?'Known destination on port 3: frame forwards to port 3. Unknown destination: flood other LAN ports.':name==='Router'?'Packet to a remote subnet: consult routing table and forward through the appropriate interface.':name==='Hub'?'Bits received on this port repeat out the other ports.':'Inspect the actual model’s labels; this is a schematic, not a product photograph.'}</p>
-      ${networkSVG(d.diagram, port > 1 ? 2 : 0)}
-
-      <details style="margin-top: 14px;">
-        <summary><b>Traffic Forwarding Comparison: Hub vs Switch vs Router vs Access Point</b></summary>
-        <div style="margin-top: 10px; font-size: 13px; line-height: 1.6; color: #475569;">
-          <table style="width: 100%; border-collapse: collapse; text-align: left;">
-            <thead>
-              <tr style="border-bottom: 2px solid var(--border);">
-                <th style="padding: 6px 8px;">Device</th>
-                <th style="padding: 6px 8px;">OSI Layer</th>
-                <th style="padding: 6px 8px;">Forwarding Basis</th>
-                <th style="padding: 6px 8px;">Collision Domains</th>
-                <th style="padding: 6px 8px;">Broadcast Domains</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr style="border-bottom: 1px solid var(--border);">
-                <td style="padding: 6px 8px;"><b>Hub</b></td>
-                <td style="padding: 6px 8px;">Layer 1 (Physical)</td>
-                <td style="padding: 6px 8px;">Electrical repetition (Floods all)</td>
-                <td style="padding: 6px 8px;">1 shared collision domain</td>
-                <td style="padding: 6px 8px;">1 broadcast domain</td>
-              </tr>
-              <tr style="border-bottom: 1px solid var(--border);">
-                <td style="padding: 6px 8px;"><b>Switch</b></td>
-                <td style="padding: 6px 8px;">Layer 2 (Data Link)</td>
-                <td style="padding: 6px 8px;">MAC Address Table</td>
-                <td style="padding: 6px 8px;">1 per port (Isolated)</td>
-                <td style="padding: 6px 8px;">1 per VLAN / subnet</td>
-              </tr>
-              <tr style="border-bottom: 1px solid var(--border);">
-                <td style="padding: 6px 8px;"><b>Router</b></td>
-                <td style="padding: 6px 8px;">Layer 3 (Network)</td>
-                <td style="padding: 6px 8px;">IP Routing Table</td>
-                <td style="padding: 6px 8px;">1 per port (Isolated)</td>
-                <td style="padding: 6px 8px;">1 per subnet (Breaks broadcasts)</td>
-              </tr>
-              <tr>
-                <td style="padding: 6px 8px;"><b>Access Point</b></td>
-                <td style="padding: 6px 8px;">Layer 2 (Bridge)</td>
-                <td style="padding: 6px 8px;">802.11 Radio ↔ 802.3 Ethernet</td>
-                <td style="padding: 6px 8px;">Shared airtime domain</td>
-                <td style="padding: 6px 8px;">Bridges into wired LAN domain</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </details>
     `;
 
     root.querySelectorAll('[data-device]').forEach(b=>b.onclick=()=>{
@@ -796,7 +790,7 @@ export function deviceExplorer(root){
   draw();
 }
 const layers=[['Application','User-facing protocol services','HTTP, DNS; TCP/IP Application'],['Presentation','Representation, encoding, encryption concepts','Text encoding, data representation; TCP/IP Application'],['Session','Dialog/session management concepts','Session coordination; TCP/IP Application'],['Transport','Process-to-process delivery','TCP segments, UDP datagrams; TCP/IP Transport'],['Network','Logical addressing and routing','IPv4 / IPv6 packets; TCP/IP Internet'],['Data Link','Local frames and media access','Ethernet frames, MAC; TCP/IP Link'],['Physical','Signals and bit transmission','Copper electrical signals, fiber light, radio; TCP/IP Link']];
-export function osi(root){let layer=0,step=0,transport='TCP';const wraps=['Application data','TCP header + data (segment)','IP header + segment (packet)','Ethernet header + packet + trailer (frame)','Signals on the medium','Receiver removes link framing','Receiver processes IP and transport','Application receives data'];function draw(){root.innerHTML=`<div class="osi-grid"><div>${layers.map((l,i)=>`<button data-layer="${i}" aria-pressed="${i===layer}"><b>${7-i}</b> ${l[0]}</button>`).join('')}</div><div><span class="eyebrow">OSI ${7-layer} · ${layers[layer][0]}</span><h2>${layers[layer][1]}</h2><p>${layers[layer][2]}</p></div></div><div class="step-card" aria-live="polite"><b>Encapsulation journey · ${step+1}/8</b><p>${wraps[step]}</p></div><div class="control-row">${button('Previous step','prev')}${button(step===7?'Replay':'Next step','next','primary')}${select('Transport loss demonstration','transport',['TCP','UDP'],transport)}${button('Lose data unit 2','loss')}</div><div id="loss"></div>`;root.querySelector('[name="transport"]').onchange=e=>{transport=e.target.value;};root.querySelectorAll('[data-layer]').forEach(b=>b.onclick=()=>{layer=+b.dataset.layer;draw();});wire(root,{prev:()=>{step=Math.max(0,step-1);draw();},next:()=>{step=(step+1)%8;draw();},loss:()=>root.querySelector('#loss').innerHTML=result(read(root,'transport')==='TCP'?'Units 1 and 3 arrive. TCP detects missing bytes through acknowledgment/sequence behavior and retransmits; the application receives ordered bytes.':'Datagrams 1 and 3 arrive. UDP itself neither retransmits datagram 2 nor restores ordering. The application decides how to handle the loss.')});}draw();}
+export function osi(root){let layer=0,step=0,transport='TCP';const wraps=['Application data','TCP header + data (segment)','IP header + segment (packet)','Ethernet header + packet + trailer (frame)','Signals on the medium','Receiver removes link framing','Receiver processes IP and transport','Application receives data'];function draw(){const markup=(lIdx,sIdx)=>`<div class="sim-workbench-grid"><div class="sim-visual-panel"><div class="osi-grid"><div>${layers.map((l,i)=>`<button data-layer="${i}" aria-pressed="${i===lIdx}"><b>${7-i}</b> ${l[0]}</button>`).join('')}</div><div><span class="eyebrow">OSI ${7-lIdx} · ${layers[lIdx][0]}</span><h2>${layers[lIdx][1]}</h2><p>${layers[lIdx][2]}</p></div></div></div><div class="sim-details-panel"><div class="step-card" aria-live="polite"><b>Encapsulation journey · ${sIdx+1}/8</b><p>${wraps[sIdx]}</p></div><div class="control-row">${button('Previous step','prev')}${button(sIdx===7?'Replay':'Next step','next','primary')}${select('Transport loss demonstration','transport',['TCP','UDP'],transport)}${button('Lose data unit 2','loss')}</div><div id="loss"></div></div></div>`;root.innerHTML=markup(layer,step);reserveSimulationSpace(root,wraps.map((_,i)=>markup(layer,i)));root.querySelector('[name="transport"]').onchange=e=>{transport=e.target.value;};root.querySelectorAll('[data-layer]').forEach(b=>b.onclick=()=>{layer=+b.dataset.layer;draw();});wire(root,{prev:()=>{step=Math.max(0,step-1);draw();},next:()=>{step=(step+1)%8;draw();},loss:()=>root.querySelector('#loss').innerHTML=result(read(root,'transport')==='TCP'?'Units 1 and 3 arrive. TCP detects missing bytes through acknowledgment/sequence behavior and retransmits; the application receives ordered bytes.':'Datagrams 1 and 3 arrive. UDP itself neither retransmits datagram 2 nor restores ordering. The application decides how to handle the loss.')});}draw();}
 const media={
   UTP:['Four unshielded twisted copper pairs in a PVC/LSZH jacket.','Cat 5e (1 Gb/s at 100 m), Cat 6 (10 Gb/s at 55 m), Cat 6A (10 Gb/s at 100 m).','#d97706'],
   STP:['Twisted pairs with foil/braided shielding (F/UTP, S/FTP); protects against severe EMI.','Used in industrial, electrical, and data center pathways with proper grounding.','#64748b'],
@@ -862,99 +856,104 @@ function renderSignalingSvg(mediumName) {
 
 export function mediaExplorer(root){let name='UTP',tool=0;const steps=['Stripper: adjust to jacket thickness; remove only the required jacket (approx. 20–25 mm) without nicking or cutting insulated conductors.','Crimper: insert a fully seated 8P8C modular plug and compress using the proper die; keep fingers clear.','Tester: connect main and remote units; compare all conductor paths 1 through 8, then identify open, short, or crossed faults.','Punch-down tool: seat the conductor in a compatible IDC slot with the cutting blade facing the waste side.'];
 function draw(){
-  const isTwisted = name==='UTP'||name==='STP';
-  const isWireless = name==='Wireless';
-  const svgContent = isTwisted
-    ? `<circle cx="120" cy="100" r="85" fill="#e2e8f0" stroke="#475569" stroke-width="5"/>${[[85,65],[150,65],[85,135],[150,135]].map(([x,y],i)=>`<g><circle cx="${x}" cy="${y}" r="25" fill="white" stroke="${['#16a34a','#ea580c','#2563eb','#92400e'][i]}" stroke-width="7"/><circle cx="${x+10}" cy="${y+8}" r="10" fill="${['#16a34a','#ea580c','#2563eb','#92400e'][i]}"/></g>`).join('')}`
-    : isWireless
-    ? `<circle cx="120" cy="100" r="85" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="3"/><circle cx="120" cy="100" r="65" fill="none" stroke="#8b5cf6" stroke-width="3" stroke-dasharray="8 6"/><circle cx="120" cy="100" r="40" fill="none" stroke="#8b5cf6" stroke-width="4" stroke-dasharray="6 4"/><circle cx="120" cy="100" r="18" fill="#8b5cf6"/><path d="M120 30 L120 170 M50 100 L190 100" stroke="#c4b5fd" stroke-width="2" stroke-dasharray="4 4"/>`
-    : `<circle cx="120" cy="100" r="85" fill="#e2e8f0" stroke="#475569" stroke-width="5"/><circle cx="120" cy="100" r="57" fill="white" stroke="${media[name][2]}" stroke-width="13"/><circle cx="120" cy="100" r="20" fill="${media[name][2]}"/>`;
-
-  root.innerHTML=`
-    ${select('Cable or transmission medium','media',Object.keys(media),name)}
-    <div class="media-section">
-      <svg viewBox="0 0 240 200" role="img" aria-label="${name} schematic cross-section">${svgContent}</svg>
-      <div>
-        <h2>${name}</h2>
-        <p>${media[name][0]}</p>
-        <p>${media[name][1]}</p>
+  const buildMediaHtml = (mediumKey, toolIdx) => {
+    const twisted = mediumKey==='UTP'||mediumKey==='STP';
+    const wireless = mediumKey==='Wireless';
+    const svgInner = twisted
+      ? `<circle cx="120" cy="100" r="85" fill="#e2e8f0" stroke="#475569" stroke-width="5"/>${[[85,65],[150,65],[85,135],[150,135]].map(([x,y],i)=>`<g><circle cx="${x}" cy="${y}" r="25" fill="white" stroke="${['#16a34a','#ea580c','#2563eb','#92400e'][i]}" stroke-width="7"/><circle cx="${x+10}" cy="${y+8}" r="10" fill="${['#16a34a','#ea580c','#2563eb','#92400e'][i]}"/></g>`).join('')}`
+      : wireless
+      ? `<circle cx="120" cy="100" r="85" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="3"/><circle cx="120" cy="100" r="65" fill="none" stroke="#8b5cf6" stroke-width="3" stroke-dasharray="8 6"/><circle cx="120" cy="100" r="40" fill="none" stroke="#8b5cf6" stroke-width="4" stroke-dasharray="6 4"/><circle cx="120" cy="100" r="18" fill="#8b5cf6"/><path d="M120 30 L120 170 M50 100 L190 100" stroke="#c4b5fd" stroke-width="2" stroke-dasharray="4 4"/>`
+      : `<circle cx="120" cy="100" r="85" fill="#e2e8f0" stroke="#475569" stroke-width="5"/><circle cx="120" cy="100" r="57" fill="white" stroke="${media[mediumKey][2]}" stroke-width="13"/><circle cx="120" cy="100" r="20" fill="${media[mediumKey][2]}"/>`;
+    return `
+      ${select('Cable or transmission medium','media',Object.keys(media),mediumKey)}
+      <div class="sim-workbench-grid">
+        <div class="sim-visual-panel">
+          <div class="media-section">
+            <svg viewBox="0 0 240 200" role="img" aria-label="${mediumKey} schematic cross-section">${svgInner}</svg>
+            <div>
+              <h2>${mediumKey}</h2>
+              <p>${media[mediumKey][0]}</p>
+              <p>${media[mediumKey][1]}</p>
+            </div>
+          </div>
+          ${renderSignalingSvg(mediumKey)}
+        </div>
+        <div class="sim-details-panel">
+          <div class="step-card">
+            <b>Installation tool walkthrough · ${toolIdx+1}/4</b>
+            <p>${steps[toolIdx]}</p>
+          </div>
+          <div class="control-row">
+            ${button('Previous tool','prev')}
+            ${button('Next tool','next')}
+          </div>
+          <details>
+            <summary><b>Media Characteristics & Category Reference Guide</b></summary>
+            <div class="table-wrap" style="margin-top: 10px; font-size: 13px; line-height: 1.6;">
+              <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                <thead>
+                  <tr style="border-bottom: 2px solid var(--border);">
+                    <th style="padding: 6px 8px;">Medium / Category</th>
+                    <th style="padding: 6px 8px;">Max Speed</th>
+                    <th style="padding: 6px 8px;">Max Distance</th>
+                    <th style="padding: 6px 8px;">EMI Immunity</th>
+                    <th style="padding: 6px 8px;">Primary Application</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="border-bottom: 1px solid var(--border);">
+                    <td style="padding: 6px 8px;"><b>Cat 5e UTP</b></td>
+                    <td style="padding: 6px 8px;">1 Gb/s (1000BASE-T)</td>
+                    <td style="padding: 6px 8px;">100 meters</td>
+                    <td style="padding: 6px 8px;">Moderate (Twisted pair cancellation)</td>
+                    <td style="padding: 6px 8px;">Standard desktop office drops</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--border);">
+                    <td style="padding: 6px 8px;"><b>Cat 6 UTP</b></td>
+                    <td style="padding: 6px 8px;">10 Gb/s (up to 55m)</td>
+                    <td style="padding: 6px 8px;">100m (1 Gb/s), 55m (10 Gb/s)</td>
+                    <td style="padding: 6px 8px;">High (Tighter pair twists)</td>
+                    <td style="padding: 6px 8px;">Modern commercial Gigabit installations</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--border);">
+                    <td style="padding: 6px 8px;"><b>Cat 6A UTP/STP</b></td>
+                    <td style="padding: 6px 8px;">10 Gb/s (10GBASE-T)</td>
+                    <td style="padding: 6px 8px;">100 meters full reach</td>
+                    <td style="padding: 6px 8px;">Very High (Alien crosstalk shield)</td>
+                    <td style="padding: 6px 8px;">Data centers, switch uplinks, PoE+</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--border);">
+                    <td style="padding: 6px 8px;"><b>Single-mode Fiber</b></td>
+                    <td style="padding: 6px 8px;">100+ Gb/s</td>
+                    <td style="padding: 6px 8px;">Up to 40+ kilometers</td>
+                    <td style="padding: 6px 8px;">Total (Optically isolated)</td>
+                    <td style="padding: 6px 8px;">Campus backbones, WAN, telecommunications</td>
+                  </tr>
+                  <tr style="border-bottom: 1px solid var(--border);">
+                    <td style="padding: 6px 8px;"><b>Multimode Fiber</b></td>
+                    <td style="padding: 6px 8px;">10–40 Gb/s</td>
+                    <td style="padding: 6px 8px;">300–550 meters</td>
+                    <td style="padding: 6px 8px;">Total (Optically isolated)</td>
+                    <td style="padding: 6px 8px;">Intra-building server room backbones</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 6px 8px;"><b>Wi-Fi (802.11ax/be)</b></td>
+                    <td style="padding: 6px 8px;">Up to 9.6 Gb/s shared</td>
+                    <td style="padding: 6px 8px;">30–50 meters indoor</td>
+                    <td style="padding: 6px 8px;">Susceptible to RF noise & walls</td>
+                    <td style="padding: 6px 8px;">Mobile client access, laptops, smartphones</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+        </div>
       </div>
-    </div>
+    `;
+  };
 
-    <div style="margin: 14px 0;">
-      ${renderSignalingSvg(name)}
-    </div>
-
-    <div class="step-card">
-      <b>Installation tool walkthrough · ${tool+1}/4</b>
-      <p>${steps[tool]}</p>
-    </div>
-    <div class="control-row">
-      ${button('Previous tool','prev')}
-      ${button('Next tool','next')}
-    </div>
-
-    <details style="margin-top: 14px;">
-      <summary><b>Media Characteristics & Category Reference Guide</b></summary>
-      <div style="margin-top: 10px; font-size: 13px; line-height: 1.6; color: #475569;">
-        <table style="width: 100%; border-collapse: collapse; text-align: left;">
-          <thead>
-            <tr style="border-bottom: 2px solid var(--border);">
-              <th style="padding: 6px 8px;">Medium / Category</th>
-              <th style="padding: 6px 8px;">Max Speed</th>
-              <th style="padding: 6px 8px;">Max Distance</th>
-              <th style="padding: 6px 8px;">EMI Immunity</th>
-              <th style="padding: 6px 8px;">Primary Application</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom: 1px solid var(--border);">
-              <td style="padding: 6px 8px;"><b>Cat 5e UTP</b></td>
-              <td style="padding: 6px 8px;">1 Gb/s (1000BASE-T)</td>
-              <td style="padding: 6px 8px;">100 meters</td>
-              <td style="padding: 6px 8px;">Moderate (Twisted pair cancellation)</td>
-              <td style="padding: 6px 8px;">Standard desktop office drops</td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--border);">
-              <td style="padding: 6px 8px;"><b>Cat 6 UTP</b></td>
-              <td style="padding: 6px 8px;">10 Gb/s (up to 55m)</td>
-              <td style="padding: 6px 8px;">100m (1 Gb/s), 55m (10 Gb/s)</td>
-              <td style="padding: 6px 8px;">High (Tighter pair twists)</td>
-              <td style="padding: 6px 8px;">Modern commercial Gigabit installations</td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--border);">
-              <td style="padding: 6px 8px;"><b>Cat 6A UTP/STP</b></td>
-              <td style="padding: 6px 8px;">10 Gb/s (10GBASE-T)</td>
-              <td style="padding: 6px 8px;">100 meters full reach</td>
-              <td style="padding: 6px 8px;">Very High (Alien crosstalk shield)</td>
-              <td style="padding: 6px 8px;">Data centers, switch uplinks, PoE+</td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--border);">
-              <td style="padding: 6px 8px;"><b>Single-mode Fiber</b></td>
-              <td style="padding: 6px 8px;">100+ Gb/s</td>
-              <td style="padding: 6px 8px;">Up to 40+ kilometers</td>
-              <td style="padding: 6px 8px;">Total (Optically isolated)</td>
-              <td style="padding: 6px 8px;">Campus backbones, WAN, telecommunications</td>
-            </tr>
-            <tr style="border-bottom: 1px solid var(--border);">
-              <td style="padding: 6px 8px;"><b>Multimode Fiber</b></td>
-              <td style="padding: 6px 8px;">10–40 Gb/s</td>
-              <td style="padding: 6px 8px;">300–550 meters</td>
-              <td style="padding: 6px 8px;">Total (Optically isolated)</td>
-              <td style="padding: 6px 8px;">Intra-building server room backbones</td>
-            </tr>
-            <tr>
-              <td style="padding: 6px 8px;"><b>Wi-Fi (802.11ax/be)</b></td>
-              <td style="padding: 6px 8px;">Up to 9.6 Gb/s shared</td>
-              <td style="padding: 6px 8px;">30–50 meters indoor</td>
-              <td style="padding: 6px 8px;">Susceptible to RF noise & walls</td>
-              <td style="padding: 6px 8px;">Mobile client access, laptops, smartphones</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </details>
-  `;
+  root.innerHTML=buildMediaHtml(name,tool);
+  reserveSimulationSpace(root,Object.keys(media).map(m=>buildMediaHtml(m,tool)));
 
   root.querySelector('[name="media"]').onchange=e=>{name=e.target.value;draw();};
   wire(root,{

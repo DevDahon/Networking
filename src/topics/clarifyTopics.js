@@ -4,7 +4,7 @@
 const copy = {
   '01-introduction-to-networking': [
     ['What Is a Computer Network?', null, 'A computer network connects two or more devices so they can share data and resources using agreed rules called protocols.'],
-    ['Everyday Uses of Networks', null, 'Networks let people message, study online, and share files or printers across connected devices.'],
+    ['Everyday Uses of Networks', null, 'Networks support daily messaging, private organizational Intranets, partner Extranets, and small-office connections.'],
     ['Basic Network Components', null, 'Every network relies on three parts: end devices, connecting devices, and physical or wireless links.'],
     ['@introConnections', null, 'Devices connect to a network using either physical Ethernet cables or wireless radio signals.'],
     ['@introConnectivity', null, 'A local network connects nearby devices, while the Internet links local networks to the wider world.'],
@@ -99,7 +99,7 @@ const copy = {
     ['Understanding CIDR prefix notation', 'CIDR Prefix Notation (/24 Shortcut)', 'CIDR notation writes the subnet mask as a simple slash number—like /24 instead of 255.255.255.0.'],
     ['Example: read one classroom address', null, 'A host with 192.168.10.25/24 talks directly to local peers on 192.168.10.0/24 and sends outside traffic to its gateway.'],
     ['Classful history versus modern CIDR', 'Classful History vs Modern Subnetting', 'Modern CIDR replaces rigid old Class A, B, and C sizes so admins can create subnets of any size without wasting IPs.'],
-    ['Three private IPv4 ranges', 'Three Private IPv4 Address Ranges', 'Private IP ranges (10.x.x.x, 172.16–31.x.x, and 192.168.x.x) are used inside local LANs and require NAT to reach the Internet.'],
+    ['Three private IPv4 ranges', 'Three Private IPv4 Address Ranges', 'Private IP ranges (10.x.x.x, 172.16–31.x.x, and 192.168.x.x) are used inside local networks and require NAT to reach the Internet.'],
     ['Eight common special-purpose IPv4 ranges', 'Eight Special-Purpose IPv4 Ranges', 'Special IPv4 ranges handle self-testing (127.0.0.1), automatic fallback (169.254.x.x), multicast, and documentation.'],
     ['Introduction to IPv6 Basics', 'Introduction to IPv6 Basics', 'IPv6 uses 128-bit hexadecimal addresses to provide an almost limitless supply of IPs for modern devices.'],
     ['Plan a 28-host classroom subnet', 'Subnet Sizing and Address Planning', 'Choose a subnet prefix that fits all your computers, the router gateway, and room for future growth.']
@@ -172,14 +172,14 @@ const copy = {
   ],
   '14-network-troubleshooting': [
     ['Observe before changing', 'Systematic Troubleshooting Process', 'Fix network problems systematically: identify the symptom, test one layer at a time, change one setting, and retest.'],
-    ['Six Windows diagnostic commands', null, 'Six built-in Windows commands—ipconfig, ping, tracert, nslookup, arp, and netstat—reveal where a connection is failing.'],
+    ['Six Windows diagnostic commands', null, 'Six built-in Windows commands—ipconfig, ipconfig /all, ping, tracert, nslookup, and arp -a—reveal where a connection is failing.'],
     ['Nine modeled network faults', null, 'Different problems—like an unplugged cable, 169.254.x.x APIPA address, missing gateway, or dead DNS—leave distinct clues.'],
     ['Example: numeric access works but a name fails', null, 'If pinging an IP address works but opening a website name fails, the network path is fine—the issue is DNS.'],
     ['@ttlTraceDemo', 'Understanding Traceroute Results', 'See how tracert uses Time-to-Live (TTL) values to map each router hop along the path to a destination.'],
     ['Test the theory and verify the repair', 'Verifying a Network Repair', 'After fixing a network setting, always repeat the exact action that originally failed to confirm the problem is solved.'],
     ['A fault-to-repair demonstration', 'Troubleshooting Workflow: Symptom to Fix', 'Walk through checking the cable, verifying IP settings with ipconfig, testing the gateway with ping, and checking DNS.'],
     ['@troubleshoot', 'Diagnosing Network Faults Workbench', 'Pick a fault scenario, run diagnostic commands in the terminal, and identify the exact root cause.'],
-    ['“The network is down”', 'Local LAN vs Internet vs DNS', 'When a user says "the Internet is down," test local LAN, gateway, public IP, and DNS separately to pinpoint the real failure.']
+    ['“The network is down”', 'Local Network vs Internet vs DNS', 'When a user says "the Internet is down," test local subnet, gateway, public IP, and DNS separately to pinpoint the real failure.']
   ],
   '15-network-security': [
     ['Network security and the CIA triad', 'The CIA Triad: Confidentiality, Integrity, Availability', 'Network security protects the CIA Triad: keeping data private (Confidentiality), accurate (Integrity), and reachable (Availability).'],

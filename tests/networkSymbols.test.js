@@ -70,26 +70,11 @@ it('renders node in box mode vs symbol mode according to style option', () => {
   expect(symbolMarkup).toContain('symbol-label-pill');
 });
 
-it('topology workbench supports switching between device symbols and labeled boxes', () => {
+it('topology workbench renders device symbols and omits removed nodeStyle selector', () => {
   const root = document.createElement('div');
   topology(root);
 
-  const styleSelect = root.querySelector('[name="nodeStyle"]');
-  expect(styleSelect).not.toBeNull();
-  expect(Array.from(styleSelect.options).map(o => o.value)).toEqual(['symbols', 'boxes']);
-
-  // Initially symbols
-  expect(root.querySelector('.symbol-switch, .symbol-pc')).not.toBeNull();
-
-  // Switch to boxes
-  styleSelect.value = 'boxes';
-  styleSelect.dispatchEvent(new Event('change'));
-  expect(root.querySelector('.symbol-switch')).toBeNull();
-  expect(root.querySelectorAll('rect[width="106"]')).toHaveLength(5);
-
-  // Switch back to symbols
-  styleSelect.value = 'symbols';
-  styleSelect.dispatchEvent(new Event('change'));
+  expect(root.querySelector('[name="nodeStyle"]')).toBeNull();
   expect(root.querySelector('.symbol-switch, .symbol-pc')).not.toBeNull();
 });
 

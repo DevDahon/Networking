@@ -198,7 +198,7 @@ Technical references: [IANA service-name and port registry](https://www.iana.org
 
 ## Verification limits
 
-Automated tests cover all deck structures, every slide's DOM rendering, calculations, controls, route compatibility, archived-data preservation, and simulation lifecycle. The production build must pass before delivery. See IMPLEMENTATION_REPORT.md for actual results.
+Automated tests cover all deck structures, every slide's DOM rendering, calculations, controls, route compatibility, archived-data preservation, and simulation lifecycle. The production build must pass before delivery.
 
 Browser automation currently reports that the browser-access host is unavailable. Actual browser/projector screenshots, precise viewport readability/overlap, native fullscreen, and browser-console checks therefore remain unverified. DOM tests and a successful build do not substitute for those visual checks or real hardware validation.
 
@@ -206,9 +206,9 @@ Technical abbreviations are expanded inline in lesson titles, explanations, obje
 
 Visual examples follow the concepts they illustrate in every topic. Network coverage has one overview listing all four types, followed by Personal, Local, Metropolitan, and Wide Area Network example slides. The local example shows five computers and one printer, each cabled to a switch. Nineteen example slides use reusable labeled SVG diagrams and two concise explanations. Definitions and placements are in `src/topics/visualExamples.js`; rendering is in `src/components/classroomExample.js`.
 
-The final teaching sequence is reviewed in [SLIDE_SEQUENCE_AUDIT.md](SLIDE_SEQUENCE_AUDIT.md), including the numbered order of all 225 slides. Shared ordering rules live in `src/topics/sequenceTopics.js`; `tests/sequenceTopics.test.js` guards concept/demonstration adjacency and lesson boundaries. Numbered slide links and saved positions remain positional when a topic is reordered.
+Shared ordering rules live in `src/topics/sequenceTopics.js`; `tests/sequenceTopics.test.js` guards concept/demonstration adjacency and lesson boundaries. Numbered slide links and saved positions remain positional when a topic is reordered.
 
-Topic ownership and cross-topic overlap for every slide are documented in [TOPIC_PLACEMENT_AUDIT.md](TOPIC_PLACEMENT_AUDIT.md). The star example emphasizes topology paths and failure scope; shared-resource examples in introductory lessons retain their own teaching purpose.
+The star example emphasizes topology paths and failure scope; shared-resource examples in introductory lessons retain their own teaching purpose.
 
 Topic 1 now uses the agreed fifteen-slide introductory overview. Components and connection methods are brief previews; detailed device functions, classifications, protocols, and configuration remain in their dedicated topics.
 

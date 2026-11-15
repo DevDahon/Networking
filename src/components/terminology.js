@@ -23,15 +23,23 @@ const skipInLessons = new Set(['PC', 'UI', 'MB', 'RFC', 'FIFO', 'UTF', '8P8C', '
 
 export function expandAbbreviations(text, used = new Set(), skipSet = null){
  if(typeof text!=='string')return text;
+ const normalizedText=text.toLowerCase().replace(/-/g,' ');
  return text.replace(/\b(?:[A-Z][A-Za-z0-9]*|8P8C)\b/g,(short,offset)=>{
   if(skipSet?.has(short))return short;
   const full=terminology[short];
   if(!full||used.has(short))return short;
-  used.add(short);
+  // Skip abbreviations already placed inside parentheses (e.g., "Wireless LAN (WLAN)" or "(HTTP, DNS)").
+  let depth=0;
+  for(let i=0;i<offset;i++){
+   if(text[i]==='(')depth++;
+   else if(text[i]===')'&&depth>0)depth--;
+  }
+  if(depth>0)return short;
   // A definition elsewhere in this sentence already supplies the meaning.
-  if(text.toLowerCase().includes(full.toLowerCase()))return short;
-  // Preserve addresses, port notation, and symbolic endpoint identifiers.
-  if(/[A-Za-z0-9-]/.test(text[offset-1]||'')||/[A-Za-z0-9-]/.test(text[offset+short.length]||''))return short;
+  if(normalizedText.includes(full.toLowerCase().replace(/-/g,' ')))return short;
+  // Preserve addresses, port notation, symbolic endpoint identifiers, and compound phrases followed by their own acronym (e.g., "Wireless LAN (WLAN)").
+  if(/[A-Za-z0-9-]/.test(text[offset-1]||'')||/[A-Za-z0-9-]/.test(text[offset+short.length]||'')||/^\s+\([A-Z0-9-]{2,}\)/.test(text.slice(offset+short.length)))return short;
+  used.add(short);
   return `${full} (${short})`;
  });
 }

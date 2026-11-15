@@ -22,7 +22,7 @@ const definitions={
   ['Six network topologies',example('Example: a six-endpoint star','Every endpoint has its own connection to the central switch.',localClassroom,['Independent spokes: Five computers and one printer each use their own cable to the switch.','Fault isolation: One unplugged cable affects only that PC, while a dead switch stops all six devices.'])]
  ],
  '04-network-devices':[
-  ['Joining networks and media',example('Example: the switch and router have different jobs','Local printing and visiting a remote website follow different paths.',{nodes:[node('Computer',100,145),node('Switch',340,145,'Local frames','switch'),node('Printer',340,285,'Local destination','printer'),node('Router',600,145,'Next network','network'),node('Provider',870,145,'Remote networks','network')],edges:[[0,1],[1,2],[1,3],[3,4]]},['Switch (Local LAN): Sends print jobs directly from the computer to the classroom printer.','Router (Outside WAN): Forwards web traffic out to the Internet Service Provider.'])]
+  ['Joining networks and media',example('Example: the switch and router have different jobs','Local printing and visiting a remote website follow different paths.',{nodes:[node('Computer',100,145),node('Switch',340,145,'Local frames','switch'),node('Printer',340,285,'Local destination','printer'),node('Router',600,145,'Next network','network'),node('Provider',870,145,'Remote networks','network')],edges:[[0,1],[1,2],[1,3],[3,4]]},['Switch (Local network): Sends print jobs directly from the computer to the classroom printer.','Router (Outside WAN): Forwards web traffic out to the Internet Service Provider.'])]
  ],
  '06-network-cables-media':[],
  '07-rj45-crimping':[

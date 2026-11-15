@@ -96,10 +96,11 @@ describe('Course Outline Module', () => {
     expect(topics).toHaveLength(14);
     expect(document.querySelectorAll('.topic-card')).toHaveLength(14);
 
-    // Dashboard hero has a link to the course outline
-    const outlineLink = document.querySelector('.intro-actions a[href="#/outline"]');
-    expect(outlineLink).not.toBeNull();
-    expect(outlineLink.textContent).toContain('Course Outline');
+    // Course Outline link stays in the header and is removed from the dashboard hero
+    expect(document.querySelector('.intro-actions a[href="#/outline"]')).toBeNull();
+    const headerOutlineLink = document.querySelector('.app-header a[href="#/outline"]');
+    expect(headerOutlineLink).not.toBeNull();
+    expect(headerOutlineLink.textContent).toContain('Course Outline');
   });
 
   it('navigates seamlessly between dashboard, outline, and topics', () => {

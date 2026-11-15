@@ -19,6 +19,7 @@ beforeEach(()=>{
 afterEach(()=>{
  cleanup?.();
  cleanup=null;
+ document.documentElement.classList.remove('dark');
  vi.restoreAllMocks();
 });
 
@@ -89,15 +90,158 @@ describe('UI/UX and Accessibility Improvements',()=>{
   expect(css).toMatch(/\.teaching-points\.counted-grid-3\s*\{[^}]*grid-template-columns:\s*1fr;/);
  });
 
- it('omits static AI-style footnote and takeaway callout banners across topics and simulations',()=>{
+ it('omits static AI-style footnote and takeaway callout banners across topics and all active simulations',()=>{
   expect(topics.every(topic=>topic.slides.every(slide=>!('footnote' in slide)))).toBe(true);
 
   const stage=document.createElement('div');
-  for(const key of ['osiIntroduction','osiDevices','osi','media']){
-   stage.innerHTML='';
-   simulations[key](stage);
-   expect(stage.querySelector('.callout')).toBeNull();
+  const seen=new Set();
+  for(const topic of topics){
+   for(const slide of topic.slides){
+    if(!slide.type||seen.has(slide.type))continue;
+    seen.add(slide.type);
+    stage.innerHTML='';
+    const dispose=simulations[slide.type](stage,slide);
+    expect(stage.querySelector('.callout'),`Unexpected .callout in ${slide.type}`).toBeNull();
+    dispose?.();
+   }
   }
  });
-});
 
+ it('standardizes shared two-column workbench grid, CSS variables, and Slide Grid kind badges in light and dark mode',()=>{
+  const css=readFileSync(resolve(process.cwd(),'src/styles/main.css'),'utf8');
+  expect(css).toContain('.sim-workbench-grid');
+  expect(css).toContain('--bg-surface:');
+  expect(css).toContain('--bg-elevated:');
+  expect(css).toContain('--border-color:');
+  expect(css).toContain('--text-primary:');
+  expect(css).toMatch(/html\.dark\s*\{[\s\S]*--bg-surface:/);
+
+  for(const kind of ['title','objectives','concept','example','demo','application','walkthrough','summary']){
+   expect(css).toContain(`.grid-kind-badge.kind-${kind}`);
+   expect(css).toContain(`html.dark .grid-kind-badge.kind-${kind}`);
+  }
+ });
+
+ it('search modal reports accurate total slide count, indexes slide bullet items, and omits stale weekly coverage text',()=>{
+  cleanup=startApp(document.querySelector('#app'));
+  const totalSlides=topics.reduce((sum,t)=>sum+t.slides.length,0);
+  const searchBtn=document.querySelector('#btn-search');
+  expect(searchBtn).not.toBeNull();
+  searchBtn.click();
+
+  const inputEl=document.querySelector('.search-input');
+  expect(inputEl).not.toBeNull();
+  expect(inputEl.placeholder).toContain(`${topics.length} topics, ${totalSlides} slides`);
+  expect(document.querySelector('.search-modal-container').textContent).not.toContain('weekly coverage');
+
+  // Search for a bullet item term ("110 impact punch-down tool") to verify slide.items indexing
+  inputEl.value='punch-down tool';
+  inputEl.dispatchEvent(new Event('input',{bubbles:true}));
+  expect(document.querySelectorAll('.search-result-item').length).toBeGreaterThan(0);
+ });
+
+ it('matches RJ45 connector orientation and straight-through visuals on clarified Topic 6 titles',()=>{
+  const rj45=topics.find(t=>t.id==='07-rj45-crimping');
+  const straightSlideIdx=rj45.slides.findIndex(s=>s.title==='Straight-Through vs Crossover Cables');
+  expect(straightSlideIdx).toBeGreaterThan(-1);
+
+  history.replaceState(null,'',`/#/topic/${rj45.id}/slide/${straightSlideIdx+1}`);
+  cleanup=startApp(document.querySelector('#app'));
+  expect(document.querySelector('.rj45-slide-grid')).not.toBeNull();
+  expect(document.querySelector('.rj45-schematic-title').textContent).toContain('Straight-Through');
+ });
+
+ it('renders security and securityFirewall simulations in two-column workbench layout with working step controls',()=>{
+  const stage=document.createElement('div');
+  const d1=simulations.security(stage);
+  expect(stage.querySelector('.sim-workbench-grid')).not.toBeNull();
+  stage.querySelector('[data-action="advance"]').click();
+  expect(stage.querySelector('.step-card').textContent).toContain('Step 2 / 3');
+  d1?.();
+
+  stage.innerHTML='';
+  const d2=simulations.securityFirewall(stage);
+  expect(stage.querySelector('.sim-workbench-grid')).not.toBeNull();
+  stage.querySelector('[data-action="advance"]').click();
+  expect(stage.querySelector('.step-card').textContent).toContain('Step 2 / 4');
+  d2?.();
+ });
+
+ it('renders slide grid modal and toggles dark mode cleanly',()=>{
+  cleanup=startApp(document.querySelector('#app'));
+  history.replaceState(null,'',`/#/topic/${topics[0].id}/slide/1`);
+  window.dispatchEvent(new HashChangeEvent('hashchange'));
+
+  const gridBtn=document.querySelector('#btn-slide-grid');
+  expect(gridBtn).not.toBeNull();
+  gridBtn.click();
+  expect(document.querySelectorAll('.slide-grid-card')).toHaveLength(topics[0].slides.length);
+  expect(document.querySelector('.grid-kind-badge')).not.toBeNull();
+
+  const themeBtn=document.querySelector('#btn-theme-toggle');
+  expect(themeBtn).not.toBeNull();
+  themeBtn.click();
+  expect(document.documentElement.classList.contains('dark')).toBe(true);
+ });
+
+  it('asks for confirmation when clicking Previous topic on slide 1 or Next topic on the last slide', () => {
+    cleanup = startApp(document.querySelector('#app'));
+
+    history.replaceState(null, '', '/#/topic/' + topics[0].id + '/slide/1');
+    window.dispatchEvent(new HashChangeEvent('hashchange'));
+    expect(document.querySelector('[data-action="prev"]').disabled).toBe(true);
+
+    history.replaceState(null, '', '/#/topic/' + topics[2].id + '/slide/1');
+    window.dispatchEvent(new HashChangeEvent('hashchange'));
+    const prevBtn = document.querySelector('[data-action="prev"]');
+    expect(prevBtn.disabled).toBe(false);
+    expect(prevBtn.textContent).toMatch(/Previous topic/i);
+
+    prevBtn.click();
+    expect(document.querySelector('.confirm-modal-overlay')).not.toBeNull();
+    expect(location.hash).toBe('#/topic/' + topics[2].id + '/slide/1');
+    document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    expect(document.querySelector('.confirm-modal-overlay')).toBeNull();
+    expect(location.hash).toBe('#/topic/' + topics[2].id + '/slide/1');
+
+    prevBtn.click();
+    document.querySelector('[data-confirm-accept]').click();
+    expect(location.hash).toBe('#/topic/' + topics[1].id + '/slide/' + topics[1].slides.length);
+
+    window.dispatchEvent(new HashChangeEvent('hashchange'));
+    const nextTopicBtn = document.querySelector('.slide-navigation a[href^="#/topic/"]');
+    nextTopicBtn.click();
+    expect(document.querySelector('.confirm-modal-overlay')).not.toBeNull();
+    document.querySelector('[data-confirm-accept]').click();
+    expect(location.hash).toBe('#/topic/' + topics[2].id + '/slide/1');
+  });
+
+  it('renders Next topic button on last slide of intermediate topics and Back to Topics on final topic', () => {
+    cleanup = startApp(document.querySelector('#app'));
+
+    // Intermediate topic: Topic 1 last slide
+    const firstTopic = topics[0];
+    history.replaceState(null, '', '/#/topic/' + firstTopic.id + '/slide/' + firstTopic.slides.length);
+    window.dispatchEvent(new HashChangeEvent('hashchange'));
+
+    const nextTopicBtn = document.querySelector('.slide-navigation a[href^="#/topic/"]');
+    expect(nextTopicBtn).not.toBeNull();
+    expect(nextTopicBtn.textContent).toMatch(/Next topic/i);
+    expect(nextTopicBtn.getAttribute('href')).toBe('#/topic/' + topics[1].id + '/slide/1');
+    expect(document.querySelector('.slide-navigation a[href="#/"]')).toBeNull();
+
+    // Advancing with ArrowRight on last slide transitions to Next topic slide 1
+    document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+    expect(location.hash).toBe('#/topic/' + topics[1].id + '/slide/1');
+
+    // Final topic: last slide
+    const finalTopic = topics.at(-1);
+    history.replaceState(null, '', '/#/topic/' + finalTopic.id + '/slide/' + finalTopic.slides.length);
+    window.dispatchEvent(new HashChangeEvent('hashchange'));
+
+    expect(document.querySelector('.slide-navigation a[href^="#/topic/"]')).toBeNull();
+    const backToTopicsBtn = document.querySelector('.slide-navigation a[href="#/"]');
+    expect(backToTopicsBtn).not.toBeNull();
+    expect(backToTopicsBtn.textContent).toMatch(/Back to Topics/i);
+  });
+});
