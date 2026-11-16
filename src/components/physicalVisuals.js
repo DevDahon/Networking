@@ -157,12 +157,12 @@ const panelConfigs = {
   },
   wifiRouterHardwarePhoto: {
     variant: 'feature',
-    label: 'Dual-band Wi-Fi 6 router',
+    label: 'TP-Link dual-band Wi-Fi router',
     cards: [
       {
         src: 'images/router/wifi_router.webp',
-        alt: 'Modern Black Dual-Band Wi-Fi 6 Router with Four Antennas and Status LEDs',
-        title: 'Dual-Band Wi-Fi 6 Router'
+        alt: 'TP-Link Dual-Band Wireless Router with Four External Antennas and Status LEDs',
+        title: 'TP-Link Wireless Router'
       }
     ]
   }

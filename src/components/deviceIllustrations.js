@@ -31,7 +31,7 @@ export const deviceMetadata = {
     role: 'Inter-Network Gateway & IP Path Forwarding',
     desc: 'Links separate IP networks, keeps local broadcast traffic inside each LAN, and forwards packets using a routing table.',
     image: 'images/devices/router.webp',
-    photoCaption: 'Enterprise Branch Office Internetworking Router'
+    photoCaption: 'TP-Link Wireless Router'
   },
   modem: {
     name: 'Modem (Modulator-Demodulator)',
