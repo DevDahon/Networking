@@ -89,14 +89,14 @@ describe('Real-life photographs for physical networking content', () => {
     expect(topic.slides.some(s => (
       s.type === 'devices'
       || s.type === 'macLearningDemo'
-      || ['bridge', 'firewall'].includes(s.deviceKey)
+      || ['modem', 'bridge', 'firewall'].includes(s.deviceKey)
       || s.visualKey === 'routerPorts'
-      || /^(Network Device Functions Explorer|How Switches Learn MAC Addresses|Network Bridge|Network Firewall|Ports, Link Lights, and Home Gateways|Nine common network devices)$/i.test(s.title)
+      || /^(Network Device Functions Explorer|How Switches Learn MAC Addresses|Modem \(Modulator-Demodulator\)|Network Bridge|Network Firewall|Ports, Link Lights, and Home Gateways|Nine common network devices|Seven common network devices)$/i.test(s.title)
     ))).toBe(false);
-    const overview = topic.slides.find(s => s.title === 'Seven common network devices');
+    const overview = topic.slides.find(s => s.title === 'Six common network devices');
     expect(overview).toBeDefined();
-    expect(overview.items).toHaveLength(7);
-    expect(overview.items.some(item => /^(Bridge|Firewall):/i.test(item))).toBe(false);
+    expect(overview.items).toHaveLength(6);
+    expect(overview.items.some(item => /^(Modem|Bridge|Firewall):/i.test(item))).toBe(false);
   });
 
   it('displays matching real cable and access point photos in mediaExplorer', () => {

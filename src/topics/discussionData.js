@@ -34,13 +34,13 @@ export const discussionData={
    'NIC & Link Light: The PC’s NIC sends frames to the switch; a link light confirms physical connection.',
    'MAC Switching: The switch reads the destination MAC address and forwards the frame only to the right local port.',
    'IP Routing: For outside networks, the router checks the destination IP and forwards the packet to the next hop.',
-   'Modem & Access Point: The AP connects wireless clients to the LAN, and the modem links to the ISP line.'
+   'Access Point & Repeater: The AP bridges wireless clients onto the wired LAN, and a repeater extends signal reach.'
   ]},
   summary:[
    'NIC & Hub: A NIC connects a host with a physical port and MAC address; a legacy hub repeats incoming electrical signals to all ports.',
    'Switch: Learns MAC addresses to forward local frames directly to the intended port without collisions.',
    'Router: Connects separate IP networks and checks routing tables to forward packets between subnets.',
-   'AP, Modem & Repeater: APs link Wi-Fi clients to wired Ethernet, modems convert ISP provider signals, and repeaters extend signal reach.'
+   'Access Point & Repeater: APs link Wi-Fi clients to wired Ethernet, and repeaters regenerate weakened signals to extend reach.'
   ]
  },
  '06-network-cables-media':{

@@ -34,18 +34,17 @@ const copy = {
     ['@topology', 'Handling Link and Device Failures', 'Test how a broken cable or failed switch affects reachability in each topology layout.']
   ],
   '04-network-devices': [
-    ['Seven common network devices', null, 'Each network device has a specific job—sending signals, connecting local devices, bridging Wi-Fi, or routing between networks.'],
+    ['Six common network devices', null, 'Each network device has a specific job—sending signals, connecting local devices, bridging Wi-Fi, or routing between networks.'],
     ['Network Interface Card (NIC)', null, 'A NIC connects a computer to a wired or wireless link and gives it a unique hardware MAC address.'],
     ['Network Hub', null, 'A hub is a legacy multiport repeater that blindly copies every incoming electrical signal out every other port.'],
     ['Network Switch', null, 'A switch learns hardware MAC addresses on a local network and forwards frames directly to the target port.'],
     ['Network Router', null, 'A router connects separate IP networks and checks its routing table to forward packets toward their destination network.'],
     ['Example: the switch and router have different jobs', 'Example: Switch vs Router Roles', 'Local print jobs stay inside the switch, while Internet requests go through the switch to the router.'],
-    ['Modem (Modulator-Demodulator)', null, 'A modem translates digital network data into modulated signals that can travel over a cable, DSL, or fiber provider line.'],
     ['Wireless Access Point (AP)', null, 'An access point broadcasts Wi-Fi signals so wireless devices can connect into a wired local area network.'],
     ['Network Repeater', null, 'A repeater regenerates weakened electrical, optical, or radio signals so they can travel farther cleanly.'],
     ['Virtual LANs and Routing Principles', 'VLAN Concepts and Routing Principles', 'VLANs split one physical switch into separate logical groups, and routers connect those groups when needed.'],
     ['Expand a small office', null, 'Add a switch when you need more Ethernet ports, or add an access point when you need wider Wi-Fi coverage.'],
-    ['Read the interfaces along a network path', 'Device Roles Along a Network Path', 'Follow how a computer, switch, router, and modem work together to deliver a network request.']
+    ['Read the interfaces along a network path', 'Device Roles Along a Network Path', 'Follow how a computer, switch, wireless access point, and router work together to deliver a network request.']
   ],
   'osi-reference-model': [
     ['@osiIntroduction', 'What Is the OSI Reference Model?', 'OSI splits network communication into 7 clear steps—from opening an app down to sending signals over cables or Wi-Fi.'],

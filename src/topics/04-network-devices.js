@@ -5,23 +5,22 @@ export default topic({
   "icon": "Router",
   "description": "Identify the hardware and follow the different jobs of switching, routing, and wireless access.",
   "objectives": [
-    "Identify NIC, hub, switch, router, modem, AP, and repeater.",
+    "Identify NIC, hub, switch, router, AP, and repeater.",
     "Choose the correct device for a network requirement.",
     "Explain local switching versus inter-network routing."
   ],
   "concepts": [
     {
-      "title": "Seven common network devices",
+      "title": "Six common network devices",
       "items": [
         "NIC: provides a host network interface.",
         "Hub: repeats incoming bits to other ports without learning MAC destinations.",
         "Switch: learns MAC information and forwards local-link frames.",
         "Router: forwards IP packets between networks using routes.",
-        "Modem: adapts signals for a provider access technology.",
         "Wireless access point: bridges Wi-Fi stations onto a LAN.",
         "Repeater: regenerates or retransmits signals."
       ],
-      "expectedCount": 7,
+      "expectedCount": 6,
       "lead": "These are functions; one physical product may combine several of them."
     },
     {
@@ -62,16 +61,6 @@ export default topic({
         "Connects Networks: Links your LAN to outside WANs or the Internet.",
         "Routing Table: Looks up destination IP prefixes to pick the best next hop.",
         "Stops Broadcasts: Keeps local broadcast traffic from leaking outside."
-      ]
-    },
-    {
-      "title": "Modem (Modulator-Demodulator)",
-      "deviceKey": "modem",
-      "lead": "A modem converts digital computer data into analog signals suitable for transmission over provider media.",
-      "items": [
-        "ISP Bridge: Connects home or office networks to DSL, coax cable, or fiber lines.",
-        "Modulate (Send): Converts digital bits into provider line signals.",
-        "Demodulate (Receive): Converts incoming provider signals back into digital Ethernet."
       ]
     },
     {
@@ -117,7 +106,7 @@ export default topic({
   },
   "installation": {
     "equipment": "PC/NIC, switch, router/AP, patch cable; photographs if equipment is unavailable.",
-    "mistakes": "Calling every box a modem; plugging the provider into a random LAN port.",
+    "mistakes": "Confusing a switch with a router; plugging the WAN uplink into a random LAN port.",
     "safety": "Do not open powered equipment or reset production routers."
   }
 });

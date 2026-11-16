@@ -33,14 +33,6 @@ export const deviceMetadata = {
     image: 'images/devices/router.webp',
     photoCaption: 'TP-Link Wireless Router'
   },
-  modem: {
-    name: 'Modem (Modulator-Demodulator)',
-    shortName: 'Modem',
-    role: 'Digital ↔ Analog Signal Converter for Provider Media',
-    desc: 'Modulates digital Ethernet signals onto coaxial, DSL, or fiber provider lines and demodulates incoming ISP signals back into data.',
-    image: 'images/devices/modem.webp',
-    photoCaption: 'DOCSIS 3.1 Broadband Cable Modem'
-  },
   ap: {
     name: 'Wireless Access Point (AP)',
     shortName: 'Access Point',
