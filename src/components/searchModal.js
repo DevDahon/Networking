@@ -19,10 +19,10 @@ export function createSearchModal(root,topics,onNavigate){
   {
    type:'topic',
    title:'Networking 1 – Course Outline',
-   subtitle:'Official course roadmap, weekly coverage, syllabus outcomes, and practical skills',
+   subtitle:'Official course roadmap, course topics and subtopics, syllabus outcomes, and practical skills',
    id:'outline',
    hash:'#/outline',
-   query:'course outline syllabus roadmap schedule weeks competencies learning outcomes'
+   query:'course outline syllabus roadmap topics subtopics competencies learning outcomes'
   },
   ...topics.map(t=>({
    type:'topic',
@@ -43,10 +43,11 @@ export function createSearchModal(root,topics,onNavigate){
     subtitle:`Topic ${String(t.number).padStart(2,'0')} · Slide ${idx+1}`,
     lead:s.lead||'',
     hash:`#/topic/${t.id}/slide/${idx+1}`,
-    query:`${s.title.toLowerCase()} ${s.lead?.toLowerCase()||''} topic ${t.number} ${t.title.toLowerCase()}`
+    query:`${s.title.toLowerCase()} ${s.lead?.toLowerCase()||''} ${(s.items||[]).join(' ').toLowerCase()} topic ${t.number} ${t.title.toLowerCase()}`
    });
   });
  });
+ const totalSlides=slideEntries.length;
 
  function search(text){
   const q=text.trim().toLowerCase();
@@ -125,7 +126,7 @@ export function createSearchModal(root,topics,onNavigate){
    <div class="search-modal-container">
     <div class="search-input-wrapper">
      <span class="search-icon">&#128269;</span>
-     <input type="text" class="search-input" placeholder="Search 14 topics, 214 slides, or acronyms (e.g., DNS, /26, OSI, Firewall)..." aria-label="Search curriculum">
+     <input type="text" class="search-input" placeholder="Search ${topics.length} topics, ${totalSlides} slides, or acronyms (e.g., DNS, /26, OSI, Firewall)..." aria-label="Search curriculum">
      <button type="button" class="search-close-btn" aria-label="Close search (Esc)">&times;</button>
     </div>
     <div class="search-results-list"></div>

@@ -95,7 +95,7 @@ export const discussionData={
   summary:[
    'Static vs. Dynamic: Use Static IPs for servers, printers, and routers; use DHCP for everyday client devices.',
    'Four Required Fields: IP Address, Subnet Mask, Default Gateway (for outside networks), and DNS Server (for names).',
-   'Two-Way Agreement: Both hosts must have unique IPs and matching subnet masks to talk on a local LAN.',
+   'Two-Way Agreement: Both hosts must have unique IPs and matching subnet masks to talk on a local network.',
    'Always Verify: Valid numbers alone do not guarantee connection—always test with ipconfig and ping.'
   ]
  },
@@ -145,7 +145,7 @@ export const discussionData={
   walkthrough:{title:'A fault-to-repair demonstration',items:[
    '1. Check Physical Layer: Verify power, link lights, Ethernet cable seating, or Wi-Fi connection status.',
    '2. Check IP Config: Run ipconfig /all to spot a 169.254.x.x APIPA address, wrong subnet mask, or missing gateway.',
-   '3. Test Path & DNS: Ping the default gateway (local LAN), ping 8.8.8.8 (Internet route), and run nslookup (DNS).',
+   '3. Test Path & DNS: Ping the default gateway (local network), ping 8.8.8.8 (Internet route), and run nslookup (DNS).',
    '4. Fix One Thing & Retest: Apply the targeted fix, then repeat the original failing action to confirm recovery.'
   ]},
   summary:[

@@ -37,7 +37,7 @@ export default topic({
       "lead": "Different problems can produce similar symptoms, so compare independent evidence.",
       "items": [
         "169.254.x.x (APIPA): Means the PC could not reach a DHCP server.",
-        "Local vs. remote: A bad gateway breaks Internet access while local LAN pings still work.",
+        "Local vs. remote: A bad gateway breaks Internet access while local subnet pings still work.",
         "Document the fix: Record network diagrams, IP tables, and change logs after verifying repairs."
       ]
     },

@@ -1,4 +1,5 @@
 import {esc,button,input,select,result,wire,read} from '../components/ui.js';
+import {reserveSimulationSpace} from '../components/simulationSpace.js';
 import {subnet,classify,connectivity,T568A,T568B,cableTest,ipv4} from '../utils/network.js';
 import {renderSubnetDrill} from './subnetDrill.js';
 
@@ -38,46 +39,49 @@ export function cable(root){
     </div>
    </div>
 
-   <p class="callout">Front contact view: contacts face you, latch behind, cable enters downward. Pin 1 is left. Reference T568${standard}: ${(standard==='A'?T568A:T568B).join(' · ')}</p>
+   <p class="small"><b>Front contact view:</b> contacts face you, latch behind, cable enters downward. Pin 1 is left. Reference T568${standard}: ${(standard==='A'?T568A:T568B).join(' · ')}</p>
 
-   <div class="cable-ends">
-    ${ends.map((end,e)=>`
-     <fieldset>
-      <legend>End ${e+1} · 8P8C contact view</legend>
-      <div class="connector">
-       ${end.map((w,i)=>`
-        <label class="pin">
-         <b>${i+1}</b>
-         <span class="wire-color" style="background:${w.startsWith('White')?`repeating-linear-gradient(45deg,white,white 6px,${colors[w.split('/')[1]]} 6px,${colors[w.split('/')[1]]} 10px)`:colors[w]||'#e2e8f0'}"></span>
-         <select aria-label="End ${e+1} pin ${i+1}" id="end-${e+1}-pin-${i+1}" name="end-${e+1}-pin-${i+1}" data-end="${e}" data-pin="${i}">
-          <option value="">Open</option>
-          ${T568B.map(c=>`<option ${w===c?'selected':''}>${c}</option>`).join('')}
-         </select>
-        </label>
-       `).join('')}
-      </div>
-     </fieldset>
-    `).join('')}
-   </div>
-
-   <div class="control-row">
-    ${button('Validate color order','validate')}
-    ${button('Run continuity test','test','primary')}
-    ${button('Create an open at end 2 pin 1','open')}
-    ${button('Create short at end 2 pins 1–2','short')}
-   </div>
-
-   <div class="feedback" role="status">${esc(message)}</div>
-
-   <div id="wire-map">${wireMapHtml}</div>
-
-   <div class="step-card">
-    <b>Crimping sequence · ${step+1}/6</b>
-    <p>${stages[step]}</p>
-    ${button('Previous step','prev')}
-    ${button(step===5?'Replay sequence':'Next step','next')}
+   <div class="sim-workbench-grid">
+    <div class="sim-visual-panel">
+     <div class="cable-ends">
+      ${ends.map((end,e)=>`
+       <fieldset>
+        <legend>End ${e+1} · 8P8C contact view</legend>
+        <div class="connector">
+         ${end.map((w,i)=>`
+          <label class="pin">
+           <b>${i+1}</b>
+           <span class="wire-color" style="background:${w.startsWith('White')?`repeating-linear-gradient(45deg,white,white 6px,${colors[w.split('/')[1]]} 6px,${colors[w.split('/')[1]]} 10px)`:colors[w]||'#e2e8f0'}"></span>
+           <select aria-label="End ${e+1} pin ${i+1}" id="end-${e+1}-pin-${i+1}" name="end-${e+1}-pin-${i+1}" data-end="${e}" data-pin="${i}">
+            <option value="">Open</option>
+            ${T568B.map(c=>`<option ${w===c?'selected':''}>${c}</option>`).join('')}
+           </select>
+          </label>
+         `).join('')}
+        </div>
+       </fieldset>
+      `).join('')}
+     </div>
+     <div class="control-row">
+      ${button('Validate color order','validate')}
+      ${button('Run continuity test','test','primary')}
+      ${button('Create an open at end 2 pin 1','open')}
+      ${button('Create short at end 2 pins 1–2','short')}
+     </div>
+    </div>
+    <div class="sim-details-panel">
+     <div class="feedback" role="status">${esc(message)}</div>
+     <div id="wire-map">${wireMapHtml}</div>
+     <div class="step-card">
+      <b>Crimping sequence · ${step+1}/6</b>
+      <p>${stages[step]}</p>
+      ${button('Previous step','prev')}
+      ${button(step===5?'Replay sequence':'Next step','next')}
+     </div>
+    </div>
    </div>
   `;
+  reserveSimulationSpace(root,stages.map((st,idx)=>root.innerHTML.replace(stages[step],st).replace(`${step+1}/6`,`${idx+1}/6`)));
 
   // Wire select changes
   root.querySelectorAll('[data-end]').forEach(s=>{
@@ -215,19 +219,25 @@ export function addressExplorer(root,isSubnet=false){
  function drawAddressExplorer(target){
   const presets=['192.168.1.10','10.0.0.1','172.16.5.20','127.0.0.1','8.8.8.8'];
   target.innerHTML=`
-   <form class="control-row" id="inspect-address">
-    ${input('IPv4 address','ip',ip)}
-    <button class="primary" type="submit">Inspect Address</button>
-   </form>
-   <div class="presets">
-    <span class="presets-label">Quick examples:</span>
-    ${presets.map(p=>`<button type="button" data-ip="${p}">${p}</button>`).join('')}
-   </div>
-   <div id="address-display" aria-live="polite"></div>
-   <div class="octet-demonstration">
-    <h3>Binary octet viewer</h3>
-    <p>Toggle bits to show how enabled weights sum to the decimal value.</p>
-    <div id="bits"></div>
+   <div class="sim-workbench-grid">
+    <div class="sim-visual-panel">
+     <form class="control-row" id="inspect-address">
+      ${input('IPv4 address','ip',ip)}
+      <button class="primary" type="submit">Inspect Address</button>
+     </form>
+     <div class="presets">
+      <span class="presets-label">Quick examples:</span>
+      ${presets.map(p=>`<button type="button" data-ip="${p}">${p}</button>`).join('')}
+     </div>
+     <div id="address-display" aria-live="polite"></div>
+    </div>
+    <div class="sim-details-panel">
+     <div class="octet-demonstration">
+      <h3>Binary octet viewer</h3>
+      <p>Toggle bits to show how enabled weights sum to the decimal value.</p>
+      <div id="bits"></div>
+     </div>
+    </div>
    </div>
   `;
 
@@ -240,7 +250,7 @@ export function addressExplorer(root,isSubnet=false){
     const classification=classify(ip);
 
     target.querySelector('#address-display').innerHTML=`
-     <p class="callout">${esc(classification)}</p>
+     <div class="feedback">${esc(classification)}</div>
      <div class="binary" aria-label="32-bit binary representation">
       ${bins.map((b,idx)=>`<span style="margin:0 4px;" title="Octet ${idx+1}: ${octets[idx]}">${b}</span>`).join(' . ')}
      </div>
@@ -288,7 +298,7 @@ export function addressExplorer(root,isSubnet=false){
    try{
     const s=subnet(ip,prefix);
     const netPct=Math.round((s.prefix/32)*100);
-    target.querySelector('#calculation').innerHTML=`<p class="callout">${esc(classify(ip))}</p><div class="bit-split-bar" aria-label="Proportional 32-bit network and host split"><div class="bit-split-net" style="width:${netPct}%">Network: ${s.prefix} bits</div><div class="bit-split-host" style="width:${100-netPct}%">Host: ${32-s.prefix} bits</div></div><div class="binary" aria-label="Network and host binary sections"><span>${s.binary.slice(0,s.prefix)}</span><span class="bit-boundary-marker" aria-hidden="true">|</span><strong>${s.binary.slice(s.prefix)}</strong></div><p class="small">Blue: ${s.prefix} network bit${s.prefix===1?'':'s'} · Teal: ${32-s.prefix} host bit${32-s.prefix===1?'':'s'}</p><div class="result-grid">${Object.entries({'Subnet mask':s.mask,'Network address':s.network,'Broadcast':s.broadcast||'Not applicable','Total addresses':s.total,'Usable addresses':s.usable,'First usable':s.first,'Last usable':s.last,'Convention':s.prefix===31?'Point-to-point RFC 3021':s.prefix===32?'Single address / host route':'Ordinary IPv4 broadcast subnet'}).map(([k,v])=>`<div><span>${k}</span><b>${v}</b></div>`).join('')}</div><details><summary>Explain the calculation</summary><ol><li>Keep ${s.prefix} bits for the network; ${32-s.prefix} bits remain.</li><li>Block size = 2^${32-s.prefix} = ${s.total} addresses.</li><li>Round the numeric input down to its block boundary: ${s.network}.</li><li>${s.prefix<31?`Last address is broadcast ${s.broadcast}; remove the two endpoints for ${s.usable} usable hosts.`:'This prefix uses its special convention; do not subtract two.'}</li></ol></details>`;
+    target.querySelector('#calculation').innerHTML=`<div class="sim-workbench-grid"><div class="sim-visual-panel"><div class="feedback">${esc(classify(ip))}</div><div class="bit-split-bar" aria-label="Proportional 32-bit network and host split"><div class="bit-split-net" style="width:${netPct}%">Network: ${s.prefix} bits</div><div class="bit-split-host" style="width:${100-netPct}%">Host: ${32-s.prefix} bits</div></div><div class="binary" aria-label="Network and host binary sections"><span>${s.binary.slice(0,s.prefix)}</span><span class="bit-boundary-marker" aria-hidden="true">|</span><strong>${s.binary.slice(s.prefix)}</strong></div><p class="small">Blue: ${s.prefix} network bit${s.prefix===1?'':'s'} · Teal: ${32-s.prefix} host bit${32-s.prefix===1?'':'s'}</p><details><summary>Explain the calculation</summary><ol><li>Keep ${s.prefix} bits for the network; ${32-s.prefix} bits remain.</li><li>Block size = 2^${32-s.prefix} = ${s.total} addresses.</li><li>Round the numeric input down to its block boundary: ${s.network}.</li><li>${s.prefix<31?`Last address is broadcast ${s.broadcast}; remove the two endpoints for ${s.usable} usable hosts.`:'This prefix uses its special convention; do not subtract two.'}</li></ol></details></div><div class="sim-details-panel"><div class="result-grid">${Object.entries({'Subnet mask':s.mask,'Network address':s.network,'Broadcast':s.broadcast||'Not applicable','Total addresses':s.total,'Usable addresses':s.usable,'First usable':s.first,'Last usable':s.last,'Convention':s.prefix===31?'Point-to-point RFC 3021':s.prefix===32?'Single address / host route':'Ordinary IPv4 broadcast subnet'}).map(([k,v])=>`<div><span>${k}</span><b>${v}</b></div>`).join('')}</div></div></div>`;
    }catch(e){
     target.querySelector('#calculation').innerHTML=result(e.message,false);
    }

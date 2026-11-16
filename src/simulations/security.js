@@ -111,41 +111,53 @@ export function security(root) {
       isProtected ? `[DEFENSE SUCCESS] ${sc.defenseOn}` : `[THREAT DETECTED - BREACH] ${sc.threat} ${sc.defenseOff}`
     ];
 
-    root.innerHTML = `
-      <div class="control-row">
-        ${select('Security scenario', 'scenario', securityScenarios.map((s, i) => [i, s.name]), selected)}
-        ${select('Security defense state', 'defense', [['enabled', 'Defenses Active (Protected)'], ['disabled', 'Defenses Disabled (Vulnerable)']], defenseActive)}
-        ${button(player.running ? 'Pause simulation' : 'Simulate Threat Event', 'simulate', 'primary')}
-        ${button('Previous step', 'previous')}
-        ${button('Next step', 'advance')}
-        ${button('Reset Scenario', 'reset')}
-        ${select('Speed', 'speed', [['0.5', '0.5×'], ['1', '1×'], ['2', '2×']], player.speed)}
-      </div>
-      ${networkSVG(sc.labels, activeNode, null, activeNode > 0 ? activeNode - 1 : 0, {
-        direction: 'reverse',
-        badge: step === 0 ? 'Threat Origin' : step === 1 ? 'Inspecting...' : (isProtected ? 'BLOCKED ✓' : 'BREACH !'),
-        fault: step === 2 && isProtected
-      })}
-      ${detailHtml}
-      <div class="step-scrubber" role="tablist" aria-label="Simulation steps">
-        ${stepTitles.map((title, idx) => `
-          <button type="button" class="scrubber-pill ${idx === step ? 'active' : idx < step ? 'completed' : ''}" data-step-jump="${idx}" aria-selected="${idx === step}">
-            <span class="scrubber-num">${idx + 1}</span>
-            <span class="scrubber-label">${esc(title.replace(/^\d+\.\s*/, ''))}</span>
-          </button>
-        `).join('')}
-      </div>
-      <div class="step-card" aria-live="polite">
-        <b>Step ${step + 1} / 3 · ${esc(stepTitles[step])} · ${player.status}</b>
-        <p>${esc(stepTexts[step])}</p>
-      </div>
-      ${result(stepTexts[step], isProtected || step < 2)}
-      <p class="small">
-        <b>Threat:</b> ${esc(sc.threat)}<br>
-        <b>Outcome:</b> ${isProtected ? esc(sc.defenseOn) : esc(sc.defenseOff)}
-      </p>
-      <p class="small">This demonstration is a conceptual instructional model. It illustrates security principles (Confidentiality, Integrity, Availability) without generating real malicious network traffic or modifying local firewall configurations.</p>
-    `;
+    const markup = stepIndex => {
+      const nodeForStep = stepIndex === 0 ? 2 : stepIndex === 1 ? 1 : (isProtected ? 1 : 0);
+      return `
+        <div class="control-row">
+          ${select('Security scenario', 'scenario', securityScenarios.map((s, i) => [i, s.name]), selected)}
+          ${select('Security defense state', 'defense', [['enabled', 'Defenses Active (Protected)'], ['disabled', 'Defenses Disabled (Vulnerable)']], defenseActive)}
+          ${button(player.running ? 'Pause simulation' : 'Simulate Threat Event', 'simulate', 'primary')}
+          ${button('Previous step', 'previous')}
+          ${button('Next step', 'advance')}
+          ${button('Reset Scenario', 'reset')}
+          ${select('Speed', 'speed', [['0.5', '0.5×'], ['1', '1×'], ['2', '2×']], player.speed)}
+        </div>
+        <div class="sim-workbench-grid">
+          <div class="sim-visual-panel">
+            ${networkSVG(sc.labels, nodeForStep, null, nodeForStep > 0 ? nodeForStep - 1 : 0, {
+              direction: 'reverse',
+              badge: stepIndex === 0 ? 'Threat Origin' : stepIndex === 1 ? 'Inspecting...' : (isProtected ? 'BLOCKED ✓' : 'BREACH !'),
+              fault: stepIndex === 2 && isProtected
+            })}
+            <div class="step-scrubber" role="tablist" aria-label="Simulation steps">
+              ${stepTitles.map((title, idx) => `
+                <button type="button" class="scrubber-pill ${idx === stepIndex ? 'active' : idx < stepIndex ? 'completed' : ''}" data-step-jump="${idx}" aria-selected="${idx === stepIndex}">
+                  <span class="scrubber-num">${idx + 1}</span>
+                  <span class="scrubber-label">${esc(title.replace(/^\d+\.\s*/, ''))}</span>
+                </button>
+              `).join('')}
+            </div>
+          </div>
+          <div class="sim-details-panel">
+            <div class="step-card" aria-live="polite">
+              <b>Step ${stepIndex + 1} / 3 · ${esc(stepTitles[stepIndex])} · ${player.status}</b>
+              <p>${esc(stepTexts[stepIndex])}</p>
+            </div>
+            ${detailHtml}
+            ${result(stepTexts[stepIndex], isProtected || stepIndex < 2)}
+            <p class="small">
+              <b>Threat:</b> ${esc(sc.threat)}<br>
+              <b>Outcome:</b> ${isProtected ? esc(sc.defenseOn) : esc(sc.defenseOff)}
+            </p>
+            <p class="small">This demonstration is a conceptual instructional model. It illustrates security principles (Confidentiality, Integrity, Availability) without generating real malicious network traffic or modifying local firewall configurations.</p>
+          </div>
+        </div>
+      `;
+    };
+
+    root.innerHTML = markup(step);
+    reserveSimulationSpace(root, [0, 1, 2].map(markup));
 
     root.querySelector('[name="scenario"]').onchange = e => {
       selected = Number(e.target.value);
@@ -323,60 +335,74 @@ export function securityFirewall(root) {
         : `[FIREWALL: DROP] ${pkt.name} is DROPPED. ${mode === 'stateful' ? pkt.statefulStatus : pkt.statelessStatus}`
     ];
 
-    const rulesHtml = `
-      <div class="result-grid" style="margin: 12px 0; font-size: 13px;">
+    const buildRulesHtml = stepIndex => `
+      <div class="result-grid" style="margin: 0; font-size: 13px;">
         <div style="grid-column: 1 / -1;">
           <b>Active Firewall Ruleset (Evaluated Top-to-Bottom):</b>
           <div style="font-family: monospace; background: var(--bg-surface, #f8fafc); padding: 8px; border-radius: 6px; margin-top: 4px; line-height: 1.5;">
-            <div style="${step >= 2 && pkt.matchedRule.includes('Rule 1') ? 'color: #16a34a; font-weight: 700; background: #dcfce7; padding: 2px 4px; border-radius: 4px;' : ''}">1. [ALLOW] Outbound LAN -> WAN Any</div>
-            <div style="${step >= 2 && pkt.matchedRule.includes('Rule 2') ? 'color: #16a34a; font-weight: 700; background: #dcfce7; padding: 2px 4px; border-radius: 4px;' : ''}">2. [ALLOW] Inbound Established & Related State</div>
-            <div style="${step >= 2 && pkt.matchedRule.includes('Rule 3') ? 'color: #16a34a; font-weight: 700; background: #dcfce7; padding: 2px 4px; border-radius: 4px;' : ''}">3. [ALLOW] Inbound TCP 443 -> DMZ Web Server</div>
-            <div style="${step >= 2 && pkt.matchedRule.includes('Rule 4') ? 'color: #dc2626; font-weight: 700; background: #fee2e2; padding: 2px 4px; border-radius: 4px;' : ''}">4. [DENY]  Inbound TCP 22, 3389 (Remote Management)</div>
-            <div style="${step >= 2 && pkt.matchedRule.includes('Rule 5') ? 'color: #dc2626; font-weight: 700; background: #fee2e2; padding: 2px 4px; border-radius: 4px;' : ''}">5. [DROP]  Inbound Default Deny (Implicit Drop)</div>
+            <div style="${stepIndex >= 2 && pkt.matchedRule.includes('Rule 1') ? 'color: #16a34a; font-weight: 700; background: #dcfce7; padding: 2px 4px; border-radius: 4px;' : ''}">1. [ALLOW] Outbound LAN -> WAN Any</div>
+            <div style="${stepIndex >= 2 && pkt.matchedRule.includes('Rule 2') ? 'color: #16a34a; font-weight: 700; background: #dcfce7; padding: 2px 4px; border-radius: 4px;' : ''}">2. [ALLOW] Inbound Established & Related State</div>
+            <div style="${stepIndex >= 2 && pkt.matchedRule.includes('Rule 3') ? 'color: #16a34a; font-weight: 700; background: #dcfce7; padding: 2px 4px; border-radius: 4px;' : ''}">3. [ALLOW] Inbound TCP 443 -> DMZ Web Server</div>
+            <div style="${stepIndex >= 2 && pkt.matchedRule.includes('Rule 4') ? 'color: #dc2626; font-weight: 700; background: #fee2e2; padding: 2px 4px; border-radius: 4px;' : ''}">4. [DENY]  Inbound TCP 22, 3389 (Remote Management)</div>
+            <div style="${stepIndex >= 2 && pkt.matchedRule.includes('Rule 5') ? 'color: #dc2626; font-weight: 700; background: #fee2e2; padding: 2px 4px; border-radius: 4px;' : ''}">5. [DROP]  Inbound Default Deny (Implicit Drop)</div>
           </div>
         </div>
         <div><b>Evaluated Packet:</b><br>${esc(pkt.proto)} ${esc(pkt.src)} &rarr; ${esc(pkt.dst)}</div>
-        <div><b>Matched Rule:</b><br>${step >= 2 ? esc(pkt.matchedRule) : 'Awaiting inspection...'}</div>
+        <div><b>Matched Rule:</b><br>${stepIndex >= 2 ? esc(pkt.matchedRule) : 'Awaiting inspection...'}</div>
       </div>
     `;
 
-    root.innerHTML = `
-      <div class="control-row">
-        ${select('Select test packet', 'packet', firewallPackets.map((p, i) => [i, p.name]), selected)}
-        ${select('Firewall mode', 'mode', [['stateful', 'Stateful Inspection (Connection Tracking)'], ['stateless', 'Stateless Packet Filter (ACLs only)']], mode)}
-        ${button(player.running ? 'Pause simulation' : 'Start Simulation', 'evaluate', 'primary')}
-        ${button('Previous step', 'previous')}
-        ${button('Next step', 'advance')}
-        ${button('Reset', 'reset')}
-        ${select('Speed', 'speed', [['0.5', '0.5×'], ['1', '1×'], ['2', '2×']], player.speed)}
-      </div>
-      ${networkSVG(labels, activeNode, null, activeNode > 0 ? activeNode - 1 : 0, {
-        direction: pkt.direction === 'outbound' ? 'reverse' : 'forward',
-        badge: `${pkt.proto} ${step === 3 ? (isAllowed ? 'PERMIT ✓' : 'DROP ✕') : ''}`,
-        fault: step === 3 && !isAllowed
-      })}
-      ${rulesHtml}
-      <div class="step-scrubber" role="tablist" aria-label="Firewall inspection steps">
-        ${stepTitles.map((title, idx) => `
-          <button type="button" class="scrubber-pill ${idx === step ? 'active' : idx < step ? 'completed' : ''}" data-step-jump="${idx}" aria-selected="${idx === step}">
-            <span class="scrubber-num">${idx + 1}</span>
-            <span class="scrubber-label">${esc(title.replace(/^\d+\.\s*/, ''))}</span>
-          </button>
-        `).join('')}
-      </div>
-      <div class="step-card" aria-live="polite">
-        <b>Step ${step + 1} / 4 · ${esc(stepTitles[step])} · ${player.status}</b>
-        <p>${esc(stepTexts[step])}</p>
-      </div>
-      ${result(stepTexts[step], step < 3 || isAllowed)}
-      <p class="small">
-        <b>Packet Details:</b> ${esc(pkt.description)}<br>
-        <b>Inspection Insight:</b> ${mode === 'stateful'
-          ? 'Stateful firewalls remember outgoing requests so matching response packets pass through automatically without opening permanent incoming ports.'
-          : 'Stateless filters check each packet in isolation, failing to recognize return traffic from legitimate outgoing requests.'}
-      </p>
-      <p class="small">This demonstration is a conceptual instructional model. It illustrates packet filtering and stateful inspection without modifying local host firewalls or generating real network traffic.</p>
-    `;
+    const markup = stepIndex => {
+      const nodeForStep = stepIndex === 0
+        ? (pkt.direction === 'outbound' ? 2 : 0)
+        : (stepIndex === 1 || stepIndex === 2 ? 1 : (isAllowed ? (pkt.direction === 'outbound' ? 0 : 2) : 1));
+      return `
+        <div class="control-row">
+          ${select('Select test packet', 'packet', firewallPackets.map((p, i) => [i, p.name]), selected)}
+          ${select('Firewall mode', 'mode', [['stateful', 'Stateful Inspection (Connection Tracking)'], ['stateless', 'Stateless Packet Filter (ACLs only)']], mode)}
+          ${button(player.running ? 'Pause simulation' : 'Start Simulation', 'evaluate', 'primary')}
+          ${button('Previous step', 'previous')}
+          ${button('Next step', 'advance')}
+          ${button('Reset', 'reset')}
+          ${select('Speed', 'speed', [['0.5', '0.5×'], ['1', '1×'], ['2', '2×']], player.speed)}
+        </div>
+        <div class="sim-workbench-grid">
+          <div class="sim-visual-panel">
+            ${networkSVG(labels, nodeForStep, null, nodeForStep > 0 ? nodeForStep - 1 : 0, {
+              direction: pkt.direction === 'outbound' ? 'reverse' : 'forward',
+              badge: `${pkt.proto} ${stepIndex === 3 ? (isAllowed ? 'PERMIT ✓' : 'DROP ✕') : ''}`,
+              fault: stepIndex === 3 && !isAllowed
+            })}
+            <div class="step-scrubber" role="tablist" aria-label="Firewall inspection steps">
+              ${stepTitles.map((title, idx) => `
+                <button type="button" class="scrubber-pill ${idx === stepIndex ? 'active' : idx < stepIndex ? 'completed' : ''}" data-step-jump="${idx}" aria-selected="${idx === stepIndex}">
+                  <span class="scrubber-num">${idx + 1}</span>
+                  <span class="scrubber-label">${esc(title.replace(/^\d+\.\s*/, ''))}</span>
+                </button>
+              `).join('')}
+            </div>
+            ${buildRulesHtml(stepIndex)}
+          </div>
+          <div class="sim-details-panel">
+            <div class="step-card" aria-live="polite">
+              <b>Step ${stepIndex + 1} / 4 · ${esc(stepTitles[stepIndex])} · ${player.status}</b>
+              <p>${esc(stepTexts[stepIndex])}</p>
+            </div>
+            ${result(stepTexts[stepIndex], stepIndex < 3 || isAllowed)}
+            <p class="small">
+              <b>Packet Details:</b> ${esc(pkt.description)}<br>
+              <b>Inspection Insight:</b> ${mode === 'stateful'
+                ? 'Stateful firewalls remember outgoing requests so matching response packets pass through automatically without opening permanent incoming ports.'
+                : 'Stateless filters check each packet in isolation, failing to recognize return traffic from legitimate outgoing requests.'}
+            </p>
+            <p class="small">This demonstration is a conceptual instructional model. It illustrates packet filtering and stateful inspection without modifying local host firewalls or generating real network traffic.</p>
+          </div>
+        </div>
+      `;
+    };
+
+    root.innerHTML = markup(step);
+    reserveSimulationSpace(root, [0, 1, 2, 3].map(markup));
 
     root.querySelector('[name="packet"]').onchange = e => {
       selected = Number(e.target.value);

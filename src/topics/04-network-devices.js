@@ -59,9 +59,9 @@ export default topic({
       "deviceKey": "router",
       "lead": "A router connects separate IP networks together and uses a routing table to forward packets across network boundaries.",
       "items": [
-        "Connects Networks: Links your local LAN to outside WANs or the Internet.",
+        "Connects Networks: Links your LAN to outside WANs or the Internet.",
         "Routing Table: Looks up destination IP prefixes to pick the best next hop.",
-        "Stops Broadcasts: Keeps local LAN broadcast traffic from leaking outside."
+        "Stops Broadcasts: Keeps local broadcast traffic from leaking outside."
       ]
     },
     {

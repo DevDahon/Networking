@@ -1,6 +1,7 @@
 import {mountPenTool} from './components/penTool.js';
 import {createSlideGrid} from './components/slideGrid.js';
 import {createSearchModal} from './components/searchModal.js';
+import {createConfirmModal} from './components/confirmModal.js';
 import {createIcons,Network,Globe,Workflow,Router,Layers,Cable,PlugZap,Binary,Split,MonitorCog,RefreshCw,Wifi,FolderOpen,Stethoscope,Shield,ArrowUpRight,ArrowLeft,ArrowRight,BookOpen,LayoutGrid,Search,Moon,Sun,Maximize2,Check,HelpCircle} from 'lucide';
 import {topics} from './topics/topicRegistry.js';
 import {esc,formatItemText,button,networkSVG,wire} from './components/ui.js';
@@ -29,7 +30,23 @@ export function startApp(root){
  const inkBySlide=new Map();let releaseInk=()=>{};
  let progress=loadProgress(),route,releaseSlide=()=>{},releaseSimulation=()=>{},storageWarning=false,fullscreenError='';
  const persist=()=>{storageWarning=!saveProgress(progress);};
- const goto=index=>{if(route.kind==='topic')location.hash=`/topic/${route.topic.id}/slide/${Math.max(1,Math.min(route.topic.slides.length,index+1))}`;};
+ const goto=index=>{
+  if(route.kind==='topic'){
+   if(index<0){
+    const currentTopicIndex=topics.findIndex(item=>item.id===route.topic.id);
+    const prevTopic=topics[currentTopicIndex-1];
+    if(prevTopic)location.hash=`/topic/${prevTopic.id}/slide/${prevTopic.slides.length}`;
+    return;
+   }
+   if(index>=route.topic.slides.length){
+    const currentTopicIndex=topics.findIndex(item=>item.id===route.topic.id);
+    const nextTopic=topics[currentTopicIndex+1];
+    if(nextTopic)location.hash=`/topic/${nextTopic.id}/slide/1`;
+    return;
+   }
+   location.hash=`/topic/${route.topic.id}/slide/${Math.max(1,Math.min(route.topic.slides.length,index+1))}`;
+  }
+ };
 
  let isDark=localStorage.getItem('networking1-theme')==='dark';
  if(isDark)document.documentElement.classList.add('dark');
@@ -42,6 +59,7 @@ export function startApp(root){
 
  const slideGrid=createSlideGrid(root,goto);
  const searchModal=createSearchModal(root,topics,hash=>{location.hash=hash;});
+ const confirmModal=createConfirmModal(root);
 
  function fullscreenFailure(){fullscreenError='Fullscreen was blocked by the browser. Press F to try again.';const status=root.querySelector('#fullscreen-status');if(status)status.textContent=fullscreenError;}
  function enterFullscreen(){fullscreenError='';try{if(!document.fullscreenElement){if(!document.documentElement.requestFullscreen){fullscreenFailure();return;}Promise.resolve(document.documentElement.requestFullscreen()).catch(fullscreenFailure);}}catch{fullscreenFailure();}}
@@ -49,6 +67,7 @@ export function startApp(root){
  function launchTopic(event){const link=event.target.closest?.('a[href^="#/topic/"]');if(!link||event.defaultPrevented||event.button!==0||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;enterFullscreen();}
 
  function render(){
+  confirmModal.close();
   releaseInk();releaseInk=()=>{};releaseSimulation();releaseSimulation=()=>{};releaseSlide();
   const previous=route;route=parseRoute(location.hash,topics,progress);
   if(previous?.kind==='topic'&&route.kind!=='topic'&&document.fullscreenElement)Promise.resolve(document.exitFullscreen()).catch(()=>{});
@@ -75,7 +94,26 @@ export function startApp(root){
   const btnFullscreen=root.querySelector('#btn-fullscreen');if(btnFullscreen)btnFullscreen.onclick=fullscreen;
 
   const shell={querySelectorAll:selector=>[...root.querySelectorAll(selector)].filter(el=>!el.closest('#slide-content'))};
-  wire(shell,{reset:()=>{if(window.confirm('Reset saved presentation slide positions? Archived results and other saved data will be retained.')){progress=resetProgress();render();}},prev:()=>goto(route.index-1),next:()=>goto(route.index+1)});
+  wire(shell,{
+   reset:()=>{if(window.confirm('Reset saved presentation slide positions? Archived results and other saved data will be retained.')){progress=resetProgress();render();}},
+   prev:()=>{
+    if(route.kind==='topic'&&route.index===0){
+     const prevTopic=topics[topics.findIndex(item=>item.id===route.topic.id)-1];
+     if(prevTopic){
+      confirmModal.open({
+       eyebrow:'PREVIOUS TOPIC',
+       title:`Go back to Topic ${String(prevTopic.number).padStart(2,'0')}?`,
+       message:`${prevTopic.title} (Slide ${prevTopic.slides.length} of ${prevTopic.slides.length})`,
+       confirmLabel:'Go to Previous Topic',
+       onConfirm:()=>goto(-1)
+      });
+     }
+     return;
+    }
+    goto(route.index-1);
+   },
+   next:()=>goto(route.index+1)
+  });
   createIcons({icons,nameAttr:'data-lucide',attrs:{'stroke-width':1.7}});
 
   if(route.kind==='topic'){
@@ -91,7 +129,7 @@ export function startApp(root){
 
  function dashboard(){
   const last=topics.find(t=>t.id===progress.lastTopic);
-  root.querySelector('main').innerHTML=`<section class="dashboard-intro"><div><div class="eyebrow">COMPUTER SYSTEMS · FOUNDATIONS</div><h1>Make connections.<br><span>Understand the network.</span></h1><p>Interactive Networking Learning and Laboratory.<br>${topics.length} interactive presentations, from your first connection to confident troubleshooting.</p><div class="intro-actions">${last?`<a class="button primary" href="#/topic/${last.id}">${icon('BookOpen')} Continue Topic ${String(last.number).padStart(2,'0')}</a>`:`<a class="button primary" href="#/topic/01-introduction-to-networking/slide/1">Start with the fundamentals ${icon('ArrowRight')}</a>`}<a class="button" href="#/outline">${icon('BookOpen')} Course Outline</a><span>${topics.length} independently accessible topics</span></div></div><div class="hero-network">${networkSVG(['Learn','Connect','Explain'],1)}<span class="diagram-caption">CONCEPT → CONNECTION → UNDERSTANDING</span></div></section><section aria-labelledby="curriculum-heading"><div class="section-heading"><div><h2 id="curriculum-heading">Explore the curriculum</h2></div><p>Choose a topic to explore.</p></div><div class="topic-grid">${topics.map((t,i)=>{const p=progress.topics[t.id]||{},position=Math.min(t.slides.length-1,Number.isInteger(p.slide)?p.slide:0);return `<a class="topic-card" href="${position>0?`#/topic/${t.id}`:`#/topic/${t.id}/slide/1`}"><div class="card-top"><span class="topic-icon group-${Math.floor(i/4)}">${icon(t.icon)}</span><span class="topic-number">TOPIC ${String(t.number).padStart(2,'0')}</span></div><h3>${t.title}</h3><p>${t.description}</p><div class="card-bottom"><span>${t.slides.length} slides</span>${position>0?`<span class="card-resume">Resume slide ${position+1} ${icon('ArrowRight')}</span>`:icon('ArrowUpRight')}</div><div class="card-progress" aria-label="Last viewed slide ${position+1} of ${t.slides.length}"><span style="width:${position/(t.slides.length-1)*100}%"></span></div></a>`;}).join('')}</div></section>`;
+  root.querySelector('main').innerHTML=`<section class="dashboard-intro"><div><div class="eyebrow">COMPUTER SYSTEMS · FOUNDATIONS</div><h1>Make connections.<br><span>Understand the network.</span></h1><p>Interactive Networking Learning and Laboratory.<br>${topics.length} interactive presentations, from your first connection to confident troubleshooting.</p><div class="intro-actions">${last?`<a class="button primary" href="#/topic/${last.id}">${icon('BookOpen')} Continue Topic ${String(last.number).padStart(2,'0')}</a>`:`<a class="button primary" href="#/topic/01-introduction-to-networking/slide/1">Start with the fundamentals ${icon('ArrowRight')}</a>`}<span>${topics.length} independently accessible topics</span></div></div><div class="hero-network">${networkSVG(['Learn','Connect','Explain'],1)}<span class="diagram-caption">CONCEPT → CONNECTION → UNDERSTANDING</span></div></section><section aria-labelledby="curriculum-heading"><div class="section-heading"><div><h2 id="curriculum-heading">Explore the curriculum</h2></div><p>Choose a topic to explore.</p></div><div class="topic-grid">${topics.map((t,i)=>{const p=progress.topics[t.id]||{},position=Math.min(t.slides.length-1,Number.isInteger(p.slide)?p.slide:0);return `<a class="topic-card" href="${position>0?`#/topic/${t.id}`:`#/topic/${t.id}/slide/1`}"><div class="card-top"><span class="topic-icon group-${Math.floor(i/4)}">${icon(t.icon)}</span><span class="topic-number">TOPIC ${String(t.number).padStart(2,'0')}</span></div><h3>${t.title}</h3><p>${t.description}</p><div class="card-bottom"><span>${t.slides.length} slides</span>${position>0?`<span class="card-resume">Resume slide ${position+1} ${icon('ArrowRight')}</span>`:icon('ArrowUpRight')}</div><div class="card-progress" aria-label="Last viewed slide ${position+1} of ${t.slides.length}"><span style="width:${position/(t.slides.length-1)*100}%"></span></div></a>`;}).join('')}</div></section>`;
  }
 
  function presentation(){
@@ -105,8 +143,28 @@ export function startApp(root){
   const contextPill=parentConcept?`<div class="slide-context-pill">${s.kind==='example'?'EXAMPLE':'SIMULATION'} · ${esc(parentConcept)}</div>`:'';
   const nextSlide=t.slides[index+1];
   const nextLabel=nextSlide?.kind==='example'?'Next: Example ':nextSlide?.kind==='demo'?'Next: Simulation ':'Next slide ';
-  root.querySelector('main').innerHTML=`<div class="slide-stage"><article class="slide slide-${s.kind}"><div class="slide-kicker"><span>NETWORKING 1 / ${String(t.number).padStart(2,'0')}</span><span>${String(index+1).padStart(2,'0')} / ${total}</span></div><div class="slide-body">${contextPill}<h2>${esc(s.title)}</h2>${s.lead?`<p class="slide-lead">${esc(s.lead)}</p>`:''}<div id="slide-content" class="${s.type?'simulation-container':''}"></div></div></article></div><div class="slide-navigation"><div><button type="button" class="button quiet" id="btn-slide-grid" title="Slide Grid (G)">${icon('LayoutGrid')} Grid</button><span class="slide-count">${index+1} of ${total}</span></div><div>${button(icon('ArrowLeft')+' Previous','prev')}${index<total-1?button(nextLabel+icon('ArrowRight'),'next','primary'):`<a class="button primary" href="#/">Back to Topics ${icon('LayoutGrid')}</a>`}</div></div><div class="lesson-progress"><span style="width:${(index+1)/total*100}%"></span></div><p id="fullscreen-status" role="status">${esc(fullscreenError)}</p>`;
-  root.querySelector('[data-action="prev"]').disabled=index===0;
+  const currentTopicIndex=topics.findIndex(item=>item.id===t.id);
+  const prevTopic=topics[currentTopicIndex-1];
+  const nextTopic=topics[currentTopicIndex+1];
+  const prevLabel=index===0&&prevTopic?' Previous topic':' Previous';
+  const lastAction=nextTopic
+   ?`<a class="button primary" href="#/topic/${nextTopic.id}/slide/1">Next topic ${icon('ArrowRight')}</a>`
+   :`<a class="button primary" href="#/">Back to Topics ${icon('LayoutGrid')}</a>`;
+  root.querySelector('main').innerHTML=`<div class="slide-stage"><article class="slide slide-${s.kind}"><div class="slide-kicker"><span>NETWORKING 1 / ${String(t.number).padStart(2,'0')}</span><span>${String(index+1).padStart(2,'0')} / ${total}</span></div><div class="slide-body">${contextPill}<h2>${esc(s.title)}</h2>${s.lead?`<p class="slide-lead">${esc(s.lead)}</p>`:''}<div id="slide-content" class="${s.type?'simulation-container':''}"></div></div></article></div><div class="slide-navigation"><div><button type="button" class="button quiet" id="btn-slide-grid" title="Slide Grid (G)">${icon('LayoutGrid')} Grid</button><span class="slide-count">${index+1} of ${total}</span></div><div>${button(icon('ArrowLeft')+prevLabel,'prev')}${index<total-1?button(nextLabel+icon('ArrowRight'),'next','primary'):lastAction}</div></div><div class="lesson-progress"><span style="width:${(index+1)/total*100}%"></span></div><p id="fullscreen-status" role="status">${esc(fullscreenError)}</p>`;
+  root.querySelector('[data-action="prev"]').disabled=index===0&&!prevTopic;
+  const nextTopicLink=index===total-1&&nextTopic?root.querySelector('.slide-navigation a[href^="#/topic/"]'):null;
+  if(nextTopicLink){
+   nextTopicLink.onclick=event=>{
+    event.preventDefault();
+    confirmModal.open({
+     eyebrow:'NEXT TOPIC',
+     title:`Continue to Topic ${String(nextTopic.number).padStart(2,'0')}?`,
+     message:`${nextTopic.title} (Slide 1 of ${nextTopic.slides.length})`,
+     confirmLabel:'Go to Next Topic',
+     onConfirm:()=>goto(total)
+    });
+   };
+  }
   const content=root.querySelector('#slide-content');
   const stageWidth=root.querySelector('.slide-stage')?.clientWidth||window.innerWidth;
   if(stageWidth>=768)root.querySelector('.slide-body').style.width=`${frameWidth(stageWidth)}px`;
@@ -125,10 +183,11 @@ export function startApp(root){
   else {
    let extraVisual='';
    if(t.id==='06-network-cables-media'||t.id==='07-rj45-crimping'){
-    if(s.title.includes('Connector Orientation')||s.title.includes('orientation'))extraVisual=connectorOrientationSVG();
+    const titleLower=s.title.toLowerCase();
+    if(titleLower.includes('orientation')||s.title==='RJ45 Plugs and Keystone Jacks')extraVisual=connectorOrientationSVG();
     else if(s.title.startsWith('T568A:'))extraVisual=rj45PlugColorSVG('A');
     else if(s.title.startsWith('T568B:'))extraVisual=rj45PlugColorSVG('B');
-    else if(s.title.includes('Straight-through and crossover')||s.title.includes('Straight-Through vs Crossover'))extraVisual=straightVsCrossoverVisualSVG();
+    else if(s.title.includes('Straight-through and crossover'))extraVisual=straightVsCrossoverVisualSVG();
    }
    const isGrid = !extraVisual && (s.expectedCount >= 4 || s.items.length >= 4 || (s.kind === 'concept' && s.expectedCount === 2) || Boolean(visualPanels[s.visualKey]));
    const gridClass = !extraVisual && (s.expectedCount >= 7 || s.items.length >= 7) ? 'counted-grid-3' : (isGrid ? 'counted-grid' : '');
@@ -148,10 +207,11 @@ export function startApp(root){
    e.preventDefault();searchModal.toggle();return;
   }
   if(e.key==='Escape'){
+   if(confirmModal.isOpen()){confirmModal.close();return;}
    if(searchModal.isOpen()){searchModal.close();return;}
    if(slideGrid.isOpen()){slideGrid.close();return;}
   }
-  if(route.kind!=='topic'||!shouldHandleKey(e))return;
+  if(confirmModal.isOpen()||route.kind!=='topic'||!shouldHandleKey(e))return;
   if(e.key==='g'||e.key==='G'){
    e.preventDefault();
    slideGrid.toggle(route.topic,route.index);
@@ -176,7 +236,7 @@ export function startApp(root){
   if(skipLink)skipLink.removeEventListener('click',onSkip);
   root.removeEventListener('click',launchTopic);
   releaseInk();releaseSimulation();releaseSlide();
-  slideGrid.destroy();searchModal.destroy();
+  slideGrid.destroy();searchModal.destroy();confirmModal.destroy();
   document.body.classList.remove('presentation-mode');
   window.removeEventListener('hashchange',render);window.removeEventListener('keydown',onKey);
  };

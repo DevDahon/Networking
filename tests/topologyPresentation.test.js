@@ -27,6 +27,12 @@ it('topology workbench combines link/device failure simulation and path tracing'
  expect(root.querySelector('[name="target"]')).not.toBeNull();
  expect(root.querySelector('[data-action="play"]')).not.toBeNull();
  expect(root.querySelector('.step-card').textContent).toContain('Path trace');
+ expect(root.querySelector('[name="nodeStyle"]')).toBeNull();
+ expect(root.querySelector('[data-action="prev"]')).toBeNull();
+ expect(root.querySelector('[data-action="next"]')).toBeNull();
+ expect(root.querySelector('[data-action="resetTrace"]')).toBeNull();
+ expect(root.querySelector('.callout')).toBeNull();
+ expect(root.textContent).not.toMatch(/outside the source component|Data Movement:|Practical Use:/);
 });
 
 it.each(Object.keys(layouts))('uses the same readable %s layout in both simulations', kind => {

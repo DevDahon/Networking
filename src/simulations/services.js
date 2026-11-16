@@ -53,45 +53,51 @@ export function dhcp(root){
     ${select('Animation speed','speed',[['0.5','0.5×'],['1','1×'],['2','2×']],playback.speed)}
    </div>
 
-   ${networkSVG([client,server.online?'DHCP Server (192.168.1.1)':'Server offline','Lease Pool (192.168.1.100–102)'],stage<0?0:stage===1||stage===3?1:0,null,stage<0?100:250,{badge:curStep?`${curStep.msg} (${curStep.src.split(':')[1]}→${curStep.dst.split(':')[1]})`:'Idle (No Lease)',broadcast:stage===0||stage===2,direction:stage===1||stage===3?'reverse':stage>=0?'forward':null,fault:!server.online||/exhausted|No DHCP/i.test(log)})}
+   <div class="sim-workbench-grid">
+    <div class="sim-visual-panel">
+     ${networkSVG([client,server.online?'DHCP Server (192.168.1.1)':'Server offline','Lease Pool (192.168.1.100–102)'],stage<0?0:stage===1||stage===3?1:0,null,stage<0?100:250,{badge:curStep?`${curStep.msg} (${curStep.src.split(':')[1]}→${curStep.dst.split(':')[1]})`:'Idle (No Lease)',broadcast:stage===0||stage===2,direction:stage===1||stage===3?'reverse':stage>=0?'forward':null,fault:!server.online||/exhausted|No DHCP/i.test(log)})}
 
-   <div class="dora">
-    ${['Discover','Offer','Request','ACK'].map((s,i)=>`<span class="${i===stage?'current':''}">${i+1} · ${s}</span>`).join('')}
-   </div>
+     <div class="dora">
+      ${['Discover','Offer','Request','ACK'].map((s,i)=>`<span class="${i===stage?'current':''}">${i+1} · ${s}</span>`).join('')}
+     </div>
 
-   ${curStep ? `
-    <div class="result-grid" style="margin:12px 0;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));">
-     <div><b>Message Type:</b><br><code style="color:var(--blue);font-weight:700;">${curStep.msg}</code></div>
-     <div><b>Direction:</b><br><span style="font-size:12px;">${curStep.direction}</span></div>
-     <div><b>Source & Dest Ports:</b><br><code style="font-size:12px;">${curStep.src} &rarr; ${curStep.dst}</code></div>
-     <div><b>Educational Summary:</b><br><span style="font-size:12px;">${curStep.desc}</span></div>
+     ${curStep ? `
+      <div class="result-grid" style="margin:0;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));">
+       <div><b>Message Type:</b><br><code style="color:var(--blue);font-weight:700;">${curStep.msg}</code></div>
+       <div><b>Direction:</b><br><span style="font-size:12px;">${curStep.direction}</span></div>
+       <div><b>Source & Dest Ports:</b><br><code style="font-size:12px;">${curStep.src} &rarr; ${curStep.dst}</code></div>
+       <div><b>Educational Summary:</b><br><span style="font-size:12px;">${curStep.desc}</span></div>
+      </div>
+     ` : ''}
     </div>
-   ` : ''}
 
-   ${result(log,!/exhausted|No DHCP|No active|error/i.test(log))}
+    <div class="sim-details-panel">
+     ${result(log,!/exhausted|No DHCP|No active|error/i.test(log))}
 
-   <div class="control-row">
-    ${button('Release lease','release')}
-    ${button('Renew lease','renew')}
-    ${button('+30 teaching seconds','time')}
-    ${button(server.online?'Take server offline':'Bring server online','online')}
-    ${button('Reset exchange','reset')}
+     <div class="control-row">
+      ${button('Release lease','release')}
+      ${button('Renew lease','renew')}
+      ${button('+30 teaching seconds','time')}
+      ${button(server.online?'Take server offline':'Bring server online','online')}
+      ${button('Reset exchange','reset')}
+     </div>
+
+     <p class="small">${playback.running?'Automatic playback running':stage===3?'Exchange complete':'Playback paused'} · Clock ${server.time}s · Lease 60 teaching seconds · Mask ${subnet(server.gateway,server.prefix).mask} · Gateway ${esc(server.gateway)} · DNS ${esc(server.dns)}</p>
+
+     <div class="table-wrap">
+      <table>
+       <thead>
+        <tr><th>Client</th><th>Address</th><th>Remaining lease</th></tr>
+       </thead>
+       <tbody>
+        ${Object.entries(server.leases).map(([c,l])=>`<tr><td>${c}</td><td>${l.ip}</td><td>${l.expires-server.time}s</td></tr>`).join('')||'<tr><td colspan="3">No active leases</td></tr>'}
+       </tbody>
+      </table>
+     </div>
+
+     <p class="small">Manual and automatic steps share the same exchange state. Previous DORA step restores the preceding exchange and lease table. Changing client/pool/time cancels that history. Renewal is Request/ACK, not full initial DORA.</p>
+    </div>
    </div>
-
-   <p class="small">${playback.running?'Automatic playback running':stage===3?'Exchange complete':'Playback paused'} · Clock ${server.time}s · Lease 60 teaching seconds · Mask ${subnet(server.gateway,server.prefix).mask} · Gateway ${esc(server.gateway)} · DNS ${esc(server.dns)}</p>
-
-   <div class="table-wrap">
-    <table>
-     <thead>
-      <tr><th>Client</th><th>Address</th><th>Remaining lease</th></tr>
-     </thead>
-     <tbody>
-      ${Object.entries(server.leases).map(([c,l])=>`<tr><td>${c}</td><td>${l.ip}</td><td>${l.expires-server.time}s</td></tr>`).join('')||'<tr><td colspan="3">No active leases</td></tr>'}
-     </tbody>
-    </table>
-   </div>
-
-   <p class="small">Manual and automatic steps share the same exchange state. Previous DORA step restores the preceding exchange and lease table. Changing client/pool/time cancels that history. Renewal is Request/ACK, not full initial DORA.</p>
   `;
 
   // Reserve the pending lease row before playback can commit it.
@@ -471,43 +477,49 @@ export function troubleshooting(root){
     ${button('Apply targeted repair','repair','primary')}
    </div>
 
-   <p class="callout">${state.fault<0?'Configuration restored. Repeat the original diagnostic command to observe the repair.':`Current fault: ${faults[selected]}. Inspect the settings and compare local, remote, name, and service behavior.`}</p>
+   <div class="sim-workbench-grid">
+    <div class="sim-visual-panel">
+     <div class="feedback" role="status">${state.fault<0?'Configuration restored. Repeat the original diagnostic command to observe the repair.':`Current fault: ${faults[selected]}. Inspect the settings and compare local, remote, name, and service behavior.`}</div>
 
-   <div class="methodology-bar" style="background:var(--bg-surface);border:1px solid var(--border-color);border-radius:10px;padding:12px;margin:12px 0;">
-    <span style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:8px;">Standard 6-Step Troubleshooting Sequence</span>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;">
-     ${methodSteps.map(m=>`
-      <button type="button" class="method-step-btn" data-method-cmd="${esc(m.cmd)}" style="text-align:left;padding:8px 10px;background:var(--bg-elevated);border:1px solid var(--border-color);border-radius:8px;cursor:pointer;">
-       <b style="font-size:12px;color:var(--blue);display:block;">${m.step}</b>
-       <span style="font-size:11px;color:var(--text-primary);display:block;font-weight:600;">${m.label}</span>
-       <code style="font-size:10px;color:var(--text-muted);">${m.cmd}</code>
-      </button>
-     `).join('')}
+     ${networkSVG(['Host (.10)','Switch / AP','Gateway (.1.1)'])}
+
+     <div class="methodology-bar" style="background:var(--bg-surface);border:1px solid var(--border-color);border-radius:10px;padding:12px;">
+      <span style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--text-muted);display:block;margin-bottom:8px;">Standard 6-Step Troubleshooting Sequence</span>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;">
+       ${methodSteps.map(m=>`
+        <button type="button" class="method-step-btn" data-method-cmd="${esc(m.cmd)}" style="text-align:left;padding:8px 10px;background:var(--bg-elevated);border:1px solid var(--border-color);border-radius:8px;cursor:pointer;">
+         <b style="font-size:12px;color:var(--blue);display:block;">${m.step}</b>
+         <span style="font-size:11px;color:var(--text-primary);display:block;font-weight:600;">${m.label}</span>
+         <code style="font-size:10px;color:var(--text-muted);">${m.cmd}</code>
+        </button>
+       `).join('')}
+      </div>
+     </div>
+
+     <p class="small">Model: PC .10/24, peer .200/24, gateway/DNS 192.168.1.1; remote documentation target 203.0.113.20. ICMP is permitted.</p>
+    </div>
+
+    <div class="sim-details-panel">
+     <div class="terminal-container">
+      <div class="terminal-header-bar">
+       <div class="terminal-dots"><span></span><span></span><span></span></div>
+       <div class="terminal-title">Command Prompt - Lab Workstation (192.168.1.10)</div>
+      </div>
+      <pre class="terminal" role="log" aria-live="polite">${esc(history.at(-1)||'Select or type a command below to inspect this state. No real probes are sent.')}</pre>
+      <form class="terminal-prompt-form control-row" id="terminal-prompt-form">
+       <span class="terminal-prompt-label">C:\\Users\\Student&gt;</span>
+       <input type="text" name="command" id="command" class="terminal-prompt-input" value="${esc(command)}" placeholder="Type command (ping, ipconfig, tracert, nslookup, help)..." autocomplete="off" spellcheck="false" />
+       <button type="submit" class="primary" data-action="run">Execute modeled command</button>
+      </form>
+      <div class="quick-cmd-list">
+       <span class="quick-cmd-label">Quick commands:</span>
+       ${commands.map(c=>`<button type="button" class="quick-cmd" data-cmd="${esc(c)}"><code>${esc(c)}</code></button>`).join('')}
+      </div>
+     </div>
+
+     <p class="small">${history.length} command(s) run in this session. The latest result is shown above. Outputs derive from the current faulty or repaired state; real command wording, timing, and filtering vary.</p>
     </div>
    </div>
-
-   <p class="small">Model: PC .10/24, peer .200/24, gateway/DNS 192.168.1.1; remote documentation target 203.0.113.20. ICMP is permitted.</p>
-
-   ${networkSVG(['Host (.10)','Switch / AP','Gateway (.1.1)'])}
-
-   <div class="terminal-container">
-    <div class="terminal-header-bar">
-     <div class="terminal-dots"><span></span><span></span><span></span></div>
-     <div class="terminal-title">Command Prompt - Lab Workstation (192.168.1.10)</div>
-    </div>
-    <pre class="terminal" role="log" aria-live="polite">${esc(history.at(-1)||'Select or type a command below to inspect this state. No real probes are sent.')}</pre>
-    <form class="terminal-prompt-form control-row" id="terminal-prompt-form">
-     <span class="terminal-prompt-label">C:\\Users\\Student&gt;</span>
-     <input type="text" name="command" id="command" class="terminal-prompt-input" value="${esc(command)}" placeholder="Type command (ping, ipconfig, tracert, nslookup, help)..." autocomplete="off" spellcheck="false" />
-     <button type="submit" class="primary" data-action="run">Execute modeled command</button>
-    </form>
-    <div class="quick-cmd-list">
-     <span class="quick-cmd-label">Quick commands:</span>
-     ${commands.map(c=>`<button type="button" class="quick-cmd" data-cmd="${esc(c)}"><code>${esc(c)}</code></button>`).join('')}
-    </div>
-   </div>
-
-   <p class="small">${history.length} command(s) run in this session. The latest result is shown above. Outputs derive from the current faulty or repaired state; real command wording, timing, and filtering vary.</p>
   `;
 
   root.querySelector('[name="scenario"]').onchange=e=>{
