@@ -81,9 +81,9 @@ export function osiLayerDetailVisual(layerNumber) {
   const physicalThumbs = layerNumber === 1
     ? `
       <div class="osi-physical-thumbs" aria-label="Real Layer 1 physical media">
-        <figure class="osi-mini-photo"><img src="images/media/utp_cable.jpg" alt="Cat 6 UTP Copper Cable" loading="lazy" /><figcaption>Cat 6 UTP</figcaption></figure>
-        <figure class="osi-mini-photo"><img src="images/tools/rj45_plugs.jpg" alt="8P8C RJ45 Plugs" loading="lazy" /><figcaption>RJ45 Plug</figcaption></figure>
-        <figure class="osi-mini-photo"><img src="images/media/fiber_optic.jpg" alt="Duplex Fiber Optic Cable" loading="lazy" /><figcaption>Fiber Optic</figcaption></figure>
+        <figure class="osi-mini-photo"><img src="images/media/utp_cable.webp" alt="Cat 6 UTP Copper Cable" decoding="async" /><figcaption>Cat 6 UTP</figcaption></figure>
+        <figure class="osi-mini-photo"><img src="images/tools/rj45_plugs.webp" alt="8P8C RJ45 Plugs" decoding="async" /><figcaption>RJ45 Plug</figcaption></figure>
+        <figure class="osi-mini-photo"><img src="images/media/fiber_optic.webp" alt="Duplex Fiber Optic Cable" decoding="async" /><figcaption>Fiber Optic</figcaption></figure>
       </div>
     `
     : '';

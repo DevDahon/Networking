@@ -44,7 +44,9 @@ describe('Real-life photographs for physical networking content', () => {
     expect(images.length).toBeGreaterThanOrEqual(minImages);
     for (const img of images) {
       const src = img.getAttribute('src');
-      expect(src).toMatch(/^images\/.+\.(jpg|jpeg|png|webp)$/);
+      expect(src).toMatch(/^images\/.+\.webp$/);
+      expect(img.getAttribute('loading')).toBeNull();
+      expect(img.getAttribute('decoding')).toBe('async');
       expect(existsSync(resolve(process.cwd(), 'public', src))).toBe(true);
     }
   });
@@ -65,6 +67,9 @@ describe('Real-life photographs for physical networking content', () => {
         expect(images.length).toBeGreaterThan(0);
         for (const img of images) {
           const src = img.getAttribute('src');
+          expect(src).toMatch(/^images\/.+\.webp$/);
+          expect(img.getAttribute('loading')).toBeNull();
+          expect(img.getAttribute('decoding')).toBe('async');
           expect(existsSync(resolve(process.cwd(), 'public', src))).toBe(true);
         }
         if (slide.deviceKey) {
@@ -96,11 +101,11 @@ describe('Real-life photographs for physical networking content', () => {
     const stage = document.createElement('div');
     mediaExplorer(stage);
     const expected = {
-      UTP: 'images/media/utp_cable.jpg',
-      STP: 'images/media/stp_cable.jpg',
-      Fiber: 'images/media/fiber_optic.jpg',
-      Coaxial: 'images/media/coaxial_cable.jpg',
-      Wireless: 'images/devices/ap.jpg'
+      UTP: 'images/media/utp_cable.webp',
+      STP: 'images/media/stp_cable.webp',
+      Fiber: 'images/media/fiber_optic.webp',
+      Coaxial: 'images/media/coaxial_cable.webp',
+      Wireless: 'images/devices/ap.webp'
     };
 
     for (const [medium, imgPath] of Object.entries(expected)) {

@@ -209,7 +209,7 @@ export function rj45PlugColorSVG(standard='B'){
     </g>
    </svg>
    <div class="rj45-real-strip">
-    <img src="images/tools/rj45_crimped_front.jpg" alt="Crimped RJ45 8P8C Plug" class="rj45-real-thumb" loading="lazy" />
+    <img src="images/tools/rj45_crimped_front.webp" alt="Crimped RJ45 8P8C Plug" class="rj45-real-thumb" decoding="async" />
     <div class="rj45-real-note">
      <p class="rj45-real-title">Crimped RJ45 8P8C Plug</p>
     </div>
@@ -317,7 +317,7 @@ export function modularConnectorsVisual() {
       <div class="connectors-pair-grid">
         <div class="connector-photo-card">
           <div class="connector-photo-box">
-            <img src="images/tools/rj45_plugs.jpg" alt="Modular RJ45 8P8C Plugs" class="connector-photo-img" loading="lazy" />
+            <img src="images/tools/rj45_plugs.webp" alt="Modular RJ45 8P8C Plugs" class="connector-photo-img" decoding="async" />
           </div>
           <div class="connector-photo-meta">
             <h4 class="connector-photo-title">RJ45 Modular Plug (8P8C)</h4>
@@ -325,7 +325,7 @@ export function modularConnectorsVisual() {
         </div>
         <div class="connector-photo-card">
           <div class="connector-photo-box">
-            <img src="images/tools/keystone_jack.jpg" alt="110 IDC Keystone Jack" class="connector-photo-img" loading="lazy" />
+            <img src="images/tools/keystone_jack.webp" alt="110 IDC Keystone Jack" class="connector-photo-img" decoding="async" />
           </div>
           <div class="connector-photo-meta">
             <h4 class="connector-photo-title">Keystone Jack (110 IDC)</h4>
