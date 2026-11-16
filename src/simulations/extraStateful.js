@@ -1,42 +1,10 @@
 import {esc,button,input,select,result,wire,read,networkSVG} from '../components/ui.js';
 import {reserveSimulationSpace} from '../components/simulationSpace.js';
-import {LearningSwitch,DNSCache,ReservedPool,PrintQueue} from './extraModels.js';
+import {DNSCache,ReservedPool,PrintQueue} from './extraModels.js';
 import {demoTable} from './extraScenes.js';
 import {createPlayback} from './playback.js';
 import {dotted} from '../utils/network.js';
 
-export function macLearningDemo(root){root.classList.add('extra-stateful');let model=new LearningSwitch(),source='A',destination='B',message='The MAC table begins empty. Send A → B, then B → A to compare flooding with learned forwarding.',ports=[],lastAction=null;
- function draw(){
-  const hostMap={A:1,B:2,C:3};
-  const ingressPort=lastAction?hostMap[lastAction.source]:null;
-  const isFlood=ports.length>1;
-  const hosts=[
-   ['A',95,112,1,'02:00:00:00:00:0A',280,112,165,112,222,98],
-   ['B',705,54,2,'02:00:00:00:00:0B',520,82,635,54,575,52],
-   ['C',705,170,3,'02:00:00:00:00:0C',520,142,635,170,575,176]
-  ];
-  root.innerHTML=`<div class="control-row">${select('Sending host','source',['A','B','C'],source)}${select('Destination host','destination',['A','B','C'],destination)}${button('Send Ethernet frame','send','primary')}${button('Clear learned table','reset')}</div><div class="sim-workbench-grid"><div class="sim-visual-panel"><svg class="extra-topology" viewBox="0 0 800 224" role="img" aria-label="Three hosts connected to separate switch ports">
-   <rect x="280" y="54" width="240" height="116" rx="12" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
-   <text x="400" y="84" text-anchor="middle" font-size="16" font-weight="700" fill="#0f172a">Network Switch</text>
-   <text x="400" y="106" text-anchor="middle" font-size="11" font-family="monospace" fill="#1d4ed8">${lastAction?`Learned: 02:..:0${lastAction.source} on Port ${ingressPort}`:'MAC Table: Waiting for frame'}</text>
-   ${lastAction?`<rect x="312" y="120" width="176" height="24" rx="12" fill="${isFlood?'#fef3c7':'#dcfce7'}" stroke="${isFlood?'#f59e0b':'#16a34a'}"/><text x="400" y="136" text-anchor="middle" font-size="10" font-weight="800" fill="${isFlood?'#b45309':'#15803d'}">${isFlood?'UNKNOWN MAC · FLOOD':'KNOWN MAC · UNICAST'}</text>`:`<text x="400" y="136" text-anchor="middle" font-size="11" fill="#64748b">${Object.keys(model.table).length} learned entr${Object.keys(model.table).length===1?'y':'ies'} · ${model.frames} frame${model.frames===1?'':'s'}</text>`}
-   ${hosts.map(([name,x,y,port,mac,swX,swY,hostEdgeX,hostEdgeY,labelX,labelY])=>{
-    const isIngress=ingressPort===port;
-    const isEgress=ports.includes(port);
-    const midX=(swX+hostEdgeX)/2,midY=(swY+hostEdgeY)/2;
-    const strokeColor=isIngress?'#2563eb':isEgress?(isFlood?'#f59e0b':'#0d9488'):'#94a3b8';
-    return `<line x1="${swX}" y1="${swY}" x2="${hostEdgeX}" y2="${hostEdgeY}" stroke="${strokeColor}" stroke-width="${isIngress||isEgress?'4.5':'3'}" ${isEgress&&isFlood?'stroke-dasharray="7 4"':''}/>
-     <text x="${labelX}" y="${labelY}" text-anchor="middle" font-size="11" font-weight="700" fill="#475569">Port ${port}</text>
-     ${isIngress?`<circle cx="${midX}" cy="${midY}" r="6.5" fill="#2563eb" stroke="#fff" stroke-width="2"/>`:''}
-     ${isEgress?`<circle cx="${midX}" cy="${midY}" r="6.5" fill="${isFlood?'#f59e0b':'#0d9488'}" stroke="#fff" stroke-width="2"/>`:''}
-     <rect x="${x-70}" y="${y-28}" width="140" height="56" rx="9" fill="${isIngress?'#eff6ff':isEgress?'#f0fdf4':'white'}" stroke="${isIngress?'#2563eb':isEgress?'#16a34a':'#64748b'}" stroke-width="2"/>
-     <text x="${x}" y="${y-4}" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a">Host ${name}</text>
-     <text x="${x}" y="${y+14}" text-anchor="middle" font-size="10.5" font-family="monospace" fill="#475569">${mac}</text>`;
-   }).join('')}</svg><div class="extra-port-row">${[1,2,3].map(p=>`<span class="${ports.includes(p)?'active':''}">Port ${p} · ${ports.includes(p)?(isFlood?'Flooded copy':'Unicast forward'):(ingressPort===p?'Ingress (learned)':'Idle')}</span>`).join('')}</div></div><div class="sim-details-panel">${result(message)}${demoTable(['Learned source MAC','Ingress port'],Object.entries(model.table))}</div></div>`;
-  root.querySelector('[name="source"]').onchange=e=>{source=e.target.value;};root.querySelector('[name="destination"]').onchange=e=>{destination=e.target.value;};
-  wire(root,{send:()=>{const frame=model.send(source,destination);ports=frame.ports;lastAction={source,destination};message=frame.text;draw();},reset:()=>{model=new LearningSwitch();ports=[];lastAction=null;message='Learned table cleared. The next unknown unicast will be flooded to eligible non-ingress ports.';draw();}});
- }draw();
-}
 export function dnsCacheDemo(root){root.classList.add('extra-stateful');let model=new DNSCache(),name='classroom.example',message='Resolve a name to populate the cache, then compare a hit, record change, and expiry.',ok=true;
  function draw(){model.expire();root.innerHTML=`<div class="control-row">${select('Name','name',Object.keys(model.records),name)}${select('Resolver service','online',[['yes','Online'],['no','Offline']],model.online?'yes':'no')}${button('Resolve name','resolve','primary')}${button('+30 teaching seconds','time')}${button('Change this server record','change')}${button('Clear client cache','clear')}${button('Reset demonstration','reset')}</div><div class="sim-workbench-grid"><div class="sim-visual-panel">${networkSVG(['Client cache','LAN / IP path','DNS resolver'])}${result(message,ok)}<p class="small">Clock: <b>${model.time}s</b> · Cache TTL: <b>60s</b> · Resolver queries: <b>${model.queries}</b></p></div><div class="sim-details-panel">${demoTable(['Cached name','Cached address','Remaining TTL'],Object.entries(model.entries).map(([n,e])=>[n,e.ip,`${e.expires-model.time}s`]))}${demoTable(['Server record','Current address'],Object.entries(model.records))}</div></div>`;
   root.querySelector('[name="name"]').onchange=e=>{name=e.target.value;};root.querySelector('[name="online"]').onchange=e=>{model.online=e.target.value==='yes';message=model.online?'Resolver online; a cache miss can query it.':'Resolver offline; a still-valid cached address can remain usable for name resolution.';ok=true;draw();};

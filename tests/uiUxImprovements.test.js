@@ -185,15 +185,12 @@ describe('UI/UX and Accessibility Improvements',()=>{
   d2?.();
  });
 
- it('renders clean non-overlapping switch topology and compact workbench panels in macLearningDemo and stateful simulations',()=>{
+ it('renders compact two-column workbench panels across stateful and service simulations',()=>{
   const stage=document.createElement('div');
-  simulations.macLearningDemo(stage);
-  const switchRect=stage.querySelector('svg.extra-topology rect');
-  expect(switchRect).not.toBeNull();
-  expect(Number(switchRect.getAttribute('width'))).toBeGreaterThanOrEqual(220);
-  expect(stage.textContent).not.toContain('CAM Table: Waiting for ingress');
-  expect(stage.textContent).not.toContain('aging, spanning tree, and multicast behavior are not simulated');
-  expect(stage.querySelectorAll('svg.extra-topology line')).toHaveLength(3);
+  expect(simulations.macLearningDemo).toBeUndefined();
+
+  simulations.dnsCacheDemo(stage);
+  expect(stage.querySelector('.sim-workbench-grid')).not.toBeNull();
 
   stage.innerHTML='';
   simulations.router(stage);

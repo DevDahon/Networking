@@ -6,7 +6,6 @@ export const sequenceMoves={
   ['Choose a topology for the task','after','@topology']
  ],
  '04-network-devices':[
-  ['@macLearningDemo','after','Network Switch'],
   ['Read the interfaces along a network path','before','Expand a small office']
  ],
  'osi-reference-model':[],

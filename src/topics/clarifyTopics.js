@@ -43,7 +43,6 @@ const copy = {
     ['Modem (Modulator-Demodulator)', null, 'A modem translates digital network data into modulated signals that can travel over a cable, DSL, or fiber provider line.'],
     ['Wireless Access Point (AP)', null, 'An access point broadcasts Wi-Fi signals so wireless devices can connect into a wired local area network.'],
     ['Network Repeater', null, 'A repeater regenerates weakened electrical, optical, or radio signals so they can travel farther cleanly.'],
-    ['@macLearningDemo', 'How Switches Learn MAC Addresses', 'Watch how a switch learns source MAC addresses on incoming ports and floods unknown destinations.'],
     ['Virtual LANs and Routing Principles', 'VLAN Concepts and Routing Principles', 'VLANs split one physical switch into separate logical groups, and routers connect those groups when needed.'],
     ['Expand a small office', null, 'Add a switch when you need more Ethernet ports, or add an access point when you need wider Wi-Fi coverage.'],
     ['Read the interfaces along a network path', 'Device Roles Along a Network Path', 'Follow how a computer, switch, router, and modem work together to deliver a network request.']

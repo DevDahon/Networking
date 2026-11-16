@@ -1,7 +1,6 @@
 import {addPresenterNotes} from './createTopic.js';
 
 const definitions=[
- ['04-network-devices','Watch a switch learn source MAC addresses','macLearningDemo','Inject frames between three modeled ports and observe flooding, learning, and directed forwarding.','Send A to B with an empty table, then B to A. Read the source-learned table and compare the outgoing port copies. Clear the table to repeat.'],
  ['08-ip-addressing','Compute network bits with address AND mask','bitwiseDemo','Display address bits, mask bits, and the actual bitwise network result.','Enter an address/prefix and reveal mask and AND result step by step. Contrast ordinary broadcast subnets with /31 and /32 conventions.'],
  ['network-protocols-services','DNS cache hits, record changes, and expiry','dnsCacheDemo','Resolve names, change a server record, and advance the client cache lifetime.','Populate the cache, take the resolver offline, and resolve again before expiry. Advance time past TTL and compare the miss. Change a server record to show why a cached answer can persist.'],
  ['11-dhcp','DHCP reservations, exclusions, and active leases','reservedPoolDemo','Allocate a bounded pool while reserving or excluding selected addresses.','Reserve .100 for PC 1, exclude .101, and request other clients. Demonstrate exhaustion and refusal to reserve another client’s active address; release and retry.'],
