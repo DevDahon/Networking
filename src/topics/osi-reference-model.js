@@ -8,76 +8,31 @@ const objectives=[
  'Distinguish upper creation layers (7–5) from lower travel layers (4–1) when tracing real network communication.'
 ];
 
-const deepLayerSlides=[
+const groupedLayerSlides=[
  {
   kind:'concept',
-  title:'Layer 7: Application Layer',
+  title:'Three Upper Layers (7–5): How Data Is Created',
   items:[
-   'Deeper Look: Not the screen button or window itself—these are the network service rules an app calls to request web pages, files, or messages.',
-   'Computer 1 → 2 Example: When Ana hits Send on "Meet at 3 PM!", the chat app hands the message to Layer 7 rules so communication begins.',
-   'What Breaks Here: A site returns "404 Not Found" or DNS fails to look up a server name even when Wi-Fi and cables work.'
+   'Application: Provides network services directly to user apps like web browsers, email, and chat (HTTP/HTTPS, DNS, DHCP).',
+   'Presentation: Formats, compresses, and encrypts data (like UTF-8 text, images, and TLS security) so both devices read it.',
+   'Session: Opens, coordinates, and cleanly closes ongoing two-way conversations between applications.'
   ],
-  visualKey:'osiLayer7'
+  expectedCount:3,
+  itemLabels:['7','6','5'],
+  visualKey:'osiUpperLayers'
  },
  {
   kind:'concept',
-  title:'Layer 6: Presentation Layer',
+  title:'Four Lower Layers (4–1): How Data Travels',
   items:[
-   'Deeper Look: Acts as a translator, shrinker, and lock—formatting character sets, compressing big files, and encrypting private messages.',
-   'Computer 1 → 2 Example: Encodes "Meet at 3 PM!" into standard text bytes (like UTF-8) and encrypts it so outsiders cannot read it.',
-   'What Breaks Here: Garbled symbols from mismatched text encoding, an unsupported video codec, or an expired HTTPS security certificate.'
+   'Transport (Segment): Splits data into numbered segments and uses port numbers (:443, :5000) to reach the right app.',
+   'Network (Packet): Stamps logical source and destination IP addresses so routers can choose paths across networks.',
+   'Data Link (Frame): Wraps packets into frames with local hardware MAC addresses and an FCS error check for switches.',
+   'Physical (Bits): Converts frames into raw 1s and 0s sent as electrical pulses, light flashes, or Wi-Fi radio waves.'
   ],
-  visualKey:'osiLayer6'
- },
- {
-  kind:'concept',
-  title:'Layer 5: Session Layer',
-  items:[
-   'Deeper Look: Opens, coordinates, and cleanly closes ongoing two-way exchanges—keeping logins active and adding checkpoints to resume big uploads.',
-   'Computer 1 → 2 Example: Opens a shared chat session between Computer 1 and Computer 2 so replies stay paired inside the right thread.',
-   'What Breaks Here: Getting signed out mid-task with "Session expired" or having a large transfer restart from 0% when interrupted.'
-  ],
-  visualKey:'osiLayer5'
- },
- {
-  kind:'concept',
-  title:'Layer 4: Transport Layer',
-  items:[
-   'Deeper Look: Starts the travel layers by splitting messages into numbered pieces, tagging each app with port numbers, pacing flow, and handling drops.',
-   'Computer 1 → 2 Example: Tags "Meet at 3 PM!" with Port :5000 so Computer 2 hands it straight to the chat app rather than a web browser.',
-   'What Breaks Here: Basic reachability tests work, yet a host firewall blocks the app port or heavy packet loss stalls the message.'
-  ],
-  visualKey:'osiLayer4'
- },
- {
-  kind:'concept',
-  title:'Layer 3: Network Layer',
-  items:[
-   'Deeper Look: Stamps sender and receiver logical IP addresses onto each packet so routers can pick the best path across different networks.',
-   'Computer 1 → 2 Example: Adds Computer 1 and Computer 2 IP addresses so routers guide the packet even across campus buildings or the Internet.',
-   'What Breaks Here: Missing or wrong default gateway, duplicate IP conflict, or a fallback 169.254.x.x address blocking outside networks.'
-  ],
-  visualKey:'osiLayer3'
- },
- {
-  kind:'concept',
-  title:'Layer 2: Data Link Layer',
-  items:[
-   'Deeper Look: Wraps packets into frames with local hardware MAC addresses and an FCS check trailer for one local switch or Wi-Fi hop.',
-   'Computer 1 → 2 Example: The classroom switch reads Computer 2 MAC address and sends the frame only out the port where Computer 2 connects.',
-   'What Breaks Here: Wrong VLAN switch port assignment, damaged frames failing FCS checks, or unknown destinations flooding every port.'
-  ],
-  visualKey:'osiLayer2'
- },
- {
-  kind:'concept',
-  title:'Layer 1: Physical Layer',
-  items:[
-   'Deeper Look: Converts frames into electrical pulses, light flashes, or wireless waves—defining cables, RJ45 pins, voltage, and radio channels without reading data.',
-   'Computer 1 → 2 Example: Computer 1 network card turns the frame into 01001101… bits traveling over copper cable or Wi-Fi waves to Computer 2.',
-   'What Breaks Here: Loose RJ45 plug, broken copper conductor, bent fiber cord, dead green link LED, or weak Wi-Fi signal.'
-  ],
-  visualKey:'osiLayer1'
+  expectedCount:4,
+  itemLabels:['4','3','2','1'],
+  visualKey:'osiLowerLayers'
  }
 ];
 
@@ -101,14 +56,14 @@ const slides=[
   lead:'The Open Systems Interconnection (OSI) model divides network communication into seven functional layers.',
   itemLabels:['7','6','5','4','3','2','1']
  },
- ...deepLayerSlides,
+ ...groupedLayerSlides,
  {
   kind:'concept',
   title:'Wrap the data, then unwrap it',
   lead:'Encapsulation adds control information as data passes toward the transmission medium.',
   items:[
-   'Encapsulation (Computer 1 Sends, 7 → 1): Computer 1 wraps the message with delivery headers (Port, IP, and MAC) down to bits.',
-   'Decapsulation (Computer 2 Receives, 1 → 7): Computer 2 checks and removes each outer header step by step until the app reads the message.'
+   'Encapsulation (Sending, 7 → 1): Computer 1 wraps the message with delivery headers (Port, IP, and MAC) down to bits.',
+   'Decapsulation (Receiving, 1 → 7): Computer 2 checks and removes each outer header step by step until the app reads the message.'
   ],
   visualKey:'encapsulationExample'
  },

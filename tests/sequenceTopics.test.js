@@ -4,8 +4,9 @@ import { sequenceTopic, sequenceMoves } from '../src/topics/sequenceTopics.js';
 
 const constraints=[
  [2,'@topology','Choosing a Network Topology'],
- [4,'Seven OSI layer responsibilities','Layer 7: Application Layer'],
- [4,'Layer 1: Physical Layer','What Is Encapsulation?'],
+ [4,'Seven OSI layer responsibilities','Three Upper Layers (7–5): How Data Is Created'],
+ [4,'Three Upper Layers (7–5): How Data Is Created','Four Lower Layers (4–1): How Data Travels'],
+ [4,'Four Lower Layers (4–1): How Data Travels','What Is Encapsulation?'],
  [4,'What Is Encapsulation?','Five OSI Protocol Data Units (PDUs)'],
  [7,'The Subnet Mask: The Dividing Boundary','@bitwiseDemo'],
  [8,'Example: two manually configured classroom computers','@asymmetricDemo'],
@@ -26,7 +27,7 @@ it.each(constraints)('keeps the prerequisite beside its demonstration in topic %
 
 it('reviews every topic and retains all slide content, boundaries, and simulation counts',()=>{
  expect(Object.keys(sequenceMoves)).toHaveLength(14);
- expect(topics.reduce((sum,t)=>sum+t.slides.length,0)).toBe(195);
+ expect(topics.reduce((sum,t)=>sum+t.slides.length,0)).toBe(190);
  for(const topic of topics){
   expect(topic.slides[0].kind).toBe('title');expect(topic.slides[1].kind).toBe('objectives');expect(topic.slides.at(-1).kind).toBe('summary');
   if(!['04-network-devices','06-network-cables-media','osi-reference-model'].includes(topic.id))expect(topic.slides.filter(s=>s.type||s.kind==='example').length).toBeGreaterThanOrEqual(2);

@@ -16,13 +16,17 @@ import {renderDeviceSlideVisual, deviceMetadata} from './components/deviceIllust
 import {renderHorizontalToolsSlide, toolsMetadata} from './components/toolsVisuals.js';
 import {performanceExamplesVisual} from './components/performanceVisual.js';
 import {encapsulationExampleVisual} from './components/encapsulationVisual.js';
-import {osiLayerDetailVisual} from './components/osiLayerVisual.js';
+import {osiLayerDetailVisual, osiUpperLayersVisual, osiLowerLayersVisual} from './components/osiLayerVisual.js';
 import {physicalVisualPanels} from './components/physicalVisuals.js';
 import {renderCourseOutline} from './components/courseOutline.js';
 import {preloadImages,topicImageUrls} from './utils/preloadImages.js';
 import {createProjectorSync} from './components/projectorSync.js';
 
-const osiLayerPanels = Object.fromEntries([7, 6, 5, 4, 3, 2, 1].map(n => [`osiLayer${n}`, () => osiLayerDetailVisual(n)]));
+const osiLayerPanels = {
+  osiUpperLayers: osiUpperLayersVisual,
+  osiLowerLayers: osiLowerLayersVisual,
+  ...Object.fromEntries([7, 6, 5, 4, 3, 2, 1].map(n => [`osiLayer${n}`, () => osiLayerDetailVisual(n)]))
+};
 const visualPanels={performanceMeasures:performanceExamplesVisual,encapsulationExample:encapsulationExampleVisual,modularConnectors:modularConnectorsVisual,...physicalVisualPanels,...osiLayerPanels};
 
 const icons={Network,Globe,Workflow,Router,Layers,Cable,PlugZap,Binary,Split,MonitorCog,RefreshCw,Wifi,FolderOpen,Stethoscope,Shield,ArrowUpRight,ArrowLeft,ArrowRight,BookOpen,LayoutGrid,Search,Moon,Sun,Maximize2,Check,HelpCircle};

@@ -26,7 +26,7 @@ function mountTopicSlide(topicId, title) {
 describe('Real-life photographs for physical networking content', () => {
   it.each([
     ['01-introduction-to-networking', 'Basic Network Components', 4],
-    ['osi-reference-model', 'Layer 1: Physical Layer', 3],
+    ['osi-reference-model', 'Four Lower Layers (4–1): How Data Travels', 3],
     ['06-network-cables-media', 'Five network media choices', 5],
     ['06-network-cables-media', 'Three Ethernet cable categories', 1],
     ['06-network-cables-media', 'Fiber-Optic Cable Construction and Types', 2],

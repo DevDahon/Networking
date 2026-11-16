@@ -24,7 +24,7 @@ export function slideImageUrls(slide, topicId) {
   if (slide.visualKey === 'modularConnectors') {
     return ['images/tools/rj45_plugs.webp', 'images/tools/keystone_jack.webp'];
   }
-  if (slide.visualKey === 'osiLayer1') {
+  if (slide.visualKey === 'osiLayer1' || slide.visualKey === 'osiLowerLayers') {
     return ['images/media/utp_cable.webp', 'images/tools/rj45_plugs.webp', 'images/media/fiber_optic.webp'];
   }
   if (slide.visualKey) {
