@@ -6,6 +6,7 @@ import {layouts,reachable} from './models.js';
 import {topologyPath} from './extraModels.js';
 import {createStepPlayback} from './playback.js';
 import {renderTopologyNode,getSavedNodeStyle,setSavedNodeStyle} from '../components/networkSymbols.js';
+import {preloadImages} from '../utils/preloadImages.js';
 function renderCommunicationSVG({ scenario, medium, step, totalSteps, packetPos, activeHop, isComplete }) {
   const isRouted = scenario === 'routed';
   const isFiber = medium === 'Fiber optics';
@@ -412,7 +413,6 @@ export function coverage(root){
 }
 export function topology(root){
   let kind='Star',failed=-1,dead=-1,source=1,target=4,custom=[],step=0,nodeStyle=getSavedNodeStyle();
-  let releaseMotion=()=>{};
 
   function getModel(){
     return kind==='Build your own'
@@ -454,7 +454,6 @@ export function topology(root){
   });
 
   function draw(){
-    releaseMotion();
     const model=getModel();
     if(source>=model.nodes.length)source=0;
     if(target>=model.nodes.length)target=Math.min(model.nodes.length-1,4);
@@ -483,72 +482,70 @@ export function topology(root){
     const packetPos=path.length>0?xy[path[step]]:null;
 
     root.innerHTML=`
-      <div class="control-row">
-        ${select('Topology','kind',[...Object.keys(layouts),'Build your own'],kind)}
-        ${select('Failed cable','failed',[[-1,'None'],...model.edges.map(([a,b],i)=>[i,`${model.nodes[a]} ↔ ${model.nodes[b]}`])],failed)}
-        ${select('Failed device','dead',[[-1,'None'],...model.nodes.map((n,i)=>[i,n])],dead)}
-        ${select('Node display','nodeStyle',[['symbols','Device symbols'],['boxes','Labeled boxes']],nodeStyle)}
-        ${button('Reset faults','reset')}
-      </div>
+      <div class="topology-workbench">
+        <div class="control-row topology-controls">
+          ${select('Topology','kind',[...Object.keys(layouts),'Build your own'],kind)}
+          ${select('Failed cable','failed',[[-1,'None'],...model.edges.map(([a,b],i)=>[i,`${model.nodes[a]} ↔ ${model.nodes[b]}`])],failed)}
+          ${select('Failed device','dead',[[-1,'None'],...model.nodes.map((n,i)=>[i,n])],dead)}
+          ${button('Reset faults','reset')}
+        </div>
 
-      <div class="control-row">
-        ${select('Trace from','source',model.nodes.map((n,i)=>[i,n]),source)}
-        ${select('Trace to','target',model.nodes.map((n,i)=>[i,n]),target)}
-        ${button('Play trace','play','primary')}
-        ${button('Pause','pause')}
-        ${button('Resume','resume')}
-        ${button('Previous step','prev')}
-        ${button('Next step','next')}
-        ${button('Reset trace','resetTrace')}
-        ${select('Animation speed','speed',[['0.5','0.5×'],['1','1×'],['2','2×']],playback.speed)}
-      </div>
+        <div class="control-row topology-controls">
+          ${select('Trace from','source',model.nodes.map((n,i)=>[i,n]),source)}
+          ${select('Trace to','target',model.nodes.map((n,i)=>[i,n]),target)}
+          ${button('Play trace','play','primary')}
+          ${button('Pause','pause')}
+          ${button('Resume','resume')}
+          ${select('Animation speed','speed',[['0.5','0.5×'],['1','1×'],['2','2×']],playback.speed)}
+        </div>
 
-      <svg class="topology-diagram" viewBox="0 0 800 340" role="img" aria-label="${esc(kind)} topology; path: ${esc(visited.map(i=>model.nodes[i]).join(' → ')||'No reachable path')}">
-        ${topologyConnections(kind,model.edges,xy,{failed,dead,path:visited})}
-        ${model.nodes.map((n,i)=>renderTopologyNode({
-          x:xy[i][0],
-          y:xy[i][1],
-          label:n,
-          style:nodeStyle,
-          status:i===dead?'dead':visited.includes(i)?'connected':connected.includes(i)?'default':'unreachable',
-          dataAttrs:`data-node-index="${i}" data-trace-node="${i}"`
-        })).join('')}
-        ${packetPos?`<circle class="packet" data-network-packet cx="${packetPos[0]}" cy="${packetPos[1]}" r="8" fill="#0d9488" stroke="#ffffff" stroke-width="2.5" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.3))"/>`:''}
-      </svg>
+        <div class="topology-workbench-grid">
+          <div class="topology-diagram-panel">
+            <svg class="topology-diagram" viewBox="0 0 800 340" role="img" aria-label="${esc(kind)} topology; path: ${esc(visited.map(i=>model.nodes[i]).join(' → ')||'No reachable path')}">
+              ${topologyConnections(kind,model.edges,xy,{failed,dead,path:visited})}
+              ${model.nodes.map((n,i)=>renderTopologyNode({
+                x:xy[i][0],
+                y:xy[i][1],
+                label:n,
+                style:nodeStyle,
+                status:i===dead?'dead':visited.includes(i)?'connected':connected.includes(i)?'default':'unreachable',
+                dataAttrs:`data-node-index="${i}" data-trace-node="${i}"`
+              })).join('')}
+              ${packetPos?`<circle class="packet" data-network-packet cx="${packetPos[0]}" cy="${packetPos[1]}" r="8" fill="#0d9488" stroke="#ffffff" stroke-width="2.5" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.3))"/>`:''}
+            </svg>
 
-      <p class="callout">${model.note}</p>
+            ${kind==='Build your own'?`
+              <div class="control-row builder-controls" style="margin-top: 10px;">
+                ${select('From','from',model.nodes,'A')}
+                ${select('To','to',model.nodes,'B')}
+                ${button('Add connection','add','primary')}
+                ${button('Clear builder','clear')}
+              </div>
+            `:''}
+          </div>
 
-      ${model.dataFlow ? `
-        <div class="result-grid" style="margin: 12px 0; font-size: 13px; text-align: left;">
-          <div><b>Data Movement:</b><br>${esc(model.dataFlow)}</div>
-          <div><b>Practical Use:</b><br>${esc(model.example)}</div>
-          <div style="grid-column: 1 / -1; margin-top: 4px;">
-            <b style="color:#16a34a;">Advantages:</b> ${esc(model.pros)}<br>
-            <b style="color:#dc2626;">Disadvantages:</b> ${esc(model.cons)}
+          <div class="topology-details-panel">
+            <div class="step-card" aria-live="polite">
+              <b>Path trace · Step ${path.length?step+1:0} of ${path.length} · <span class="extra-play-state">${playback.status}</span></b>
+              <h3>${esc(stepTitle)}</h3>
+              <p>${esc(stepText)}</p>
+              ${path.length===0?'<span class="extra-blocked" style="display:inline-block;margin-top:6px;color:#dc2626;font-weight:600;">Selected failure prevents communication between these devices.</span>':''}
+            </div>
+
+            ${model.pros || model.cons ? `
+              <div class="result-grid" style="margin: 0; font-size: 13.5px; text-align: left;">
+                <div style="grid-column: 1 / -1;">
+                  <b style="color:#16a34a;">Advantages:</b> ${esc(model.pros)}<br>
+                  <b style="color:#dc2626; display:inline-block; margin-top:6px;">Disadvantages:</b> ${esc(model.cons)}
+                </div>
+              </div>
+            ` : ''}
           </div>
         </div>
-      ` : ''}
-
-      <div class="step-card" aria-live="polite">
-        <b>Path trace · Step ${path.length?step+1:0} of ${path.length} · <span class="extra-play-state">${playback.status}</span></b>
-        <h3>${esc(stepTitle)}</h3>
-        <p>${esc(stepText)}</p>
-        ${path.length===0?'<span class="extra-blocked" style="display:inline-block;margin-top:6px;color:#dc2626;font-weight:600;">Selected failure prevents communication between these devices.</span>':''}
       </div>
-
-      ${result(`Reachable from ${model.nodes[source]}: ${connected.map(i=>model.nodes[i]).join(', ')||'none'}. ${model.nodes.length-connected.length} node(s) outside the source component.`,connected.length===model.nodes.length)}
-
-      ${kind==='Build your own'?`
-        <div class="control-row">
-          ${select('From','from',model.nodes,'A')}
-          ${select('To','to',model.nodes,'B')}
-          ${button('Add connection','add','primary')}
-          ${button('Clear builder','clear')}
-        </div>
-      `:''}
     `;
 
-    ['kind','failed','dead','source','target','nodeStyle','speed'].forEach(n=>{
+    ['kind','failed','dead','source','target','speed'].forEach(n=>{
       const el=root.querySelector(`[name="${n}"]`);
       if(!el)return;
       el.onchange=e=>{
@@ -571,9 +568,6 @@ export function topology(root){
         }else if(n==='target'){
           target=+e.target.value;
           step=0;
-        }else if(n==='nodeStyle'){
-          nodeStyle=e.target.value;
-          setSavedNodeStyle(nodeStyle);
         }else if(n==='speed'){
           playback.setSpeed(e.target.value);
         }
@@ -612,18 +606,17 @@ export function topology(root){
 
   draw();
   return ()=>{
-    releaseMotion();
     playback.dispose();
   };
 }
 const layers=[['Application','User-facing protocol services','HTTP, DNS; TCP/IP Application'],['Presentation','Representation, encoding, encryption concepts','Text encoding, data representation; TCP/IP Application'],['Session','Dialog/session management concepts','Session coordination; TCP/IP Application'],['Transport','Process-to-process delivery','TCP segments, UDP datagrams; TCP/IP Transport'],['Network','Logical addressing and routing','IPv4 / IPv6 packets; TCP/IP Internet'],['Data Link','Local frames and media access','Ethernet frames, MAC; TCP/IP Link'],['Physical','Signals and bit transmission','Copper electrical signals, fiber light, radio; TCP/IP Link']];
 export function osi(root){let layer=0,step=0,transport='TCP';const wraps=['Application data','TCP header + data (segment)','IP header + segment (packet)','Ethernet header + packet + trailer (frame)','Signals on the medium','Receiver removes link framing','Receiver processes IP and transport','Application receives data'];function draw(){root.innerHTML=`<div class="osi-grid"><div>${layers.map((l,i)=>`<button data-layer="${i}" aria-pressed="${i===layer}"><b>${7-i}</b> ${l[0]}</button>`).join('')}</div><div><span class="eyebrow">OSI ${7-layer} · ${layers[layer][0]}</span><h2>${layers[layer][1]}</h2><p>${layers[layer][2]}</p></div></div><div class="step-card" aria-live="polite"><b>Encapsulation journey · ${step+1}/8</b><p>${wraps[step]}</p></div><div class="control-row">${button('Previous step','prev')}${button(step===7?'Replay':'Next step','next','primary')}${select('Transport loss demonstration','transport',['TCP','UDP'],transport)}${button('Lose data unit 2','loss')}</div><div id="loss"></div>`;root.querySelector('[name="transport"]').onchange=e=>{transport=e.target.value;};root.querySelectorAll('[data-layer]').forEach(b=>b.onclick=()=>{layer=+b.dataset.layer;draw();});wire(root,{prev:()=>{step=Math.max(0,step-1);draw();},next:()=>{step=(step+1)%8;draw();},loss:()=>root.querySelector('#loss').innerHTML=result(read(root,'transport')==='TCP'?'Units 1 and 3 arrive. TCP detects missing bytes through acknowledgment/sequence behavior and retransmits; the application receives ordered bytes.':'Datagrams 1 and 3 arrive. UDP itself neither retransmits datagram 2 nor restores ordering. The application decides how to handle the loss.')});}draw();}
 const media={
-  UTP:['Four unshielded twisted copper pairs in a PVC/LSZH jacket.','Cat 5e (1 Gb/s at 100 m), Cat 6 (10 Gb/s at 55 m), Cat 6A (10 Gb/s at 100 m).','#d97706','images/media/utp_cable.jpg','Cat 6 UTP Cable'],
-  STP:['Twisted pairs with foil/braided shielding (F/UTP, S/FTP); protects against severe EMI.','Used in industrial, electrical, and data center pathways with proper grounding.','#64748b','images/media/stp_cable.jpg','STP Shielded Cable'],
-  Fiber:['Ultra-pure glass core and cladding transmitting modulated light pulses.','Single-mode (laser, 40+ km) and Multimode (LED/VCSEL, 300–550 m); complete immunity to EMI.','#0d9488','images/media/fiber_optic.jpg','Duplex Fiber-Optic Cable'],
-  Coaxial:['Central copper conductor, dielectric insulator, metallic shield, and outer jacket.','Broadband cable TV/DOCSIS internet and legacy 10BASE2/10BASE5 bus networks.','#2563eb','images/media/coaxial_cable.jpg','Coaxial Cable (F-Connector)'],
-  Wireless:['Radio frequency electromagnetic waves over 2.4 GHz, 5 GHz, and 6 GHz spectrum bands.','Enables user mobility; subject to path loss, solid obstacles, and shared-medium contention.','#8b5cf6','images/devices/ap.jpg','Wi-Fi Access Point']
+  UTP:['Four unshielded twisted copper pairs in a PVC/LSZH jacket.','Cat 5e (1 Gb/s at 100 m), Cat 6 (10 Gb/s at 55 m), Cat 6A (10 Gb/s at 100 m).','#d97706','images/media/utp_cable.webp','Cat 6 UTP Cable'],
+  STP:['Twisted pairs with foil/braided shielding (F/UTP, S/FTP); protects against severe EMI.','Used in industrial, electrical, and data center pathways with proper grounding.','#64748b','images/media/stp_cable.webp','STP Shielded Cable'],
+  Fiber:['Ultra-pure glass core and cladding transmitting modulated light pulses.','Single-mode (laser, 40+ km) and Multimode (LED/VCSEL, 300–550 m); complete immunity to EMI.','#0d9488','images/media/fiber_optic.webp','Duplex Fiber-Optic Cable'],
+  Coaxial:['Central copper conductor, dielectric insulator, metallic shield, and outer jacket.','Broadband cable TV/DOCSIS internet and legacy 10BASE2/10BASE5 bus networks.','#2563eb','images/media/coaxial_cable.webp','Coaxial Cable (F-Connector)'],
+  Wireless:['Radio frequency electromagnetic waves over 2.4 GHz, 5 GHz, and 6 GHz spectrum bands.','Enables user mobility; subject to path loss, solid obstacles, and shared-medium contention.','#8b5cf6','images/devices/ap.webp','Wi-Fi Access Point']
 };
 
 function renderSignalingSvg(mediumName) {
@@ -682,6 +675,7 @@ function renderSignalingSvg(mediumName) {
 }
 
 export function mediaExplorer(root){let name='UTP';
+preloadImages(Object.values(media).map(entry=>entry[3]));
 function draw(){
   const isTwisted = name==='UTP'||name==='STP';
   const isWireless = name==='Wireless';
@@ -696,7 +690,7 @@ function draw(){
     <div class="media-section">
       <svg viewBox="0 0 240 200" role="img" aria-label="${name} schematic cross-section">${svgContent}</svg>
       <figure class="media-real-figure">
-        <img src="${media[name][3]}" alt="${esc(media[name][4])}" class="media-real-photo" loading="lazy" />
+        <img src="${media[name][3]}" alt="${esc(media[name][4])}" class="media-real-photo" decoding="async" />
         <figcaption>${esc(media[name][4])}</figcaption>
       </figure>
       <div>

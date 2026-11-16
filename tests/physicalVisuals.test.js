@@ -4,6 +4,7 @@ import { resolve } from 'node:path';
 import { topics } from '../src/topics/topicRegistry.js';
 import { startApp } from '../src/app.js';
 import { mediaExplorer } from '../src/simulations/foundations.js';
+import { preloadImages, resetPreloadedImages, topicImageUrls } from '../src/utils/preloadImages.js';
 
 let cleanup;
 afterEach(() => {
@@ -115,8 +116,34 @@ describe('Real-life photographs for physical networking content', () => {
       const img = stage.querySelector('.media-real-photo');
       expect(img).not.toBeNull();
       expect(img.getAttribute('src')).toBe(imgPath);
+      expect(img.getAttribute('loading')).toBeNull();
+      expect(img.getAttribute('decoding')).toBe('async');
       expect(existsSync(resolve(process.cwd(), 'public', imgPath))).toBe(true);
     }
+  });
+
+  it('collects and deduplicates WebP slide URLs for instant topic preloading', () => {
+    resetPreloadedImages();
+    const created = [];
+    const createMockImage = () => {
+      const mock = {};
+      created.push(mock);
+      return mock;
+    };
+
+    const allUrls = topics.flatMap(topic => topicImageUrls(topic));
+    expect(allUrls.length).toBeGreaterThan(20);
+    for (const url of allUrls) {
+      expect(url).toMatch(/^images\/.+\.webp$/);
+      expect(existsSync(resolve(process.cwd(), 'public', url))).toBe(true);
+    }
+
+    const rj45 = topics.find(t => t.id === '07-rj45-crimping');
+    const rj45Urls = topicImageUrls(rj45, 2);
+    expect(preloadImages(rj45Urls, createMockImage)).toBe(rj45Urls.length);
+    expect(preloadImages(rj45Urls, createMockImage)).toBe(0);
+    expect(created.every(img => img.decoding === 'async')).toBe(true);
+    resetPreloadedImages();
   });
 });
 

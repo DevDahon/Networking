@@ -19,6 +19,7 @@ import {encapsulationExampleVisual} from './components/encapsulationVisual.js';
 import {osiLayerDetailVisual} from './components/osiLayerVisual.js';
 import {physicalVisualPanels} from './components/physicalVisuals.js';
 import {renderCourseOutline} from './components/courseOutline.js';
+import {preloadImages,topicImageUrls} from './utils/preloadImages.js';
 
 const osiLayerPanels = Object.fromEntries([7, 6, 5, 4, 3, 2, 1].map(n => [`osiLayer${n}`, () => osiLayerDetailVisual(n)]));
 const visualPanels={performanceMeasures:performanceExamplesVisual,encapsulationExample:encapsulationExampleVisual,modularConnectors:modularConnectorsVisual,...physicalVisualPanels,...osiLayerPanels};
@@ -65,6 +66,13 @@ export function startApp(root){
  function enterFullscreen(){fullscreenError='';try{if(!document.fullscreenElement){if(!document.documentElement.requestFullscreen){fullscreenFailure();return;}Promise.resolve(document.documentElement.requestFullscreen()).catch(fullscreenFailure);}}catch{fullscreenFailure();}}
  async function fullscreen(){if(document.fullscreenElement){try{await document.exitFullscreen();}catch{fullscreenFailure();}}else enterFullscreen();}
  function launchTopic(event){const link=event.target.closest?.('a[href^="#/topic/"]');if(!link||event.defaultPrevented||event.button!==0||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;enterFullscreen();}
+ function warmTopic(event){
+  const link=event.target.closest?.('a[href^="#/topic/"]');
+  if(!link)return;
+  const match=link.getAttribute('href')?.match(/^#\/topic\/([^/]+)/);
+  const target=match&&topics.find(item=>item.id===match[1]);
+  if(target)preloadImages(topicImageUrls(target));
+ }
 
  function render(){
   confirmModal.close();
@@ -187,7 +195,7 @@ export function startApp(root){
     if(titleLower.includes('orientation')||s.title==='RJ45 Plugs and Keystone Jacks')extraVisual=connectorOrientationSVG();
     else if(s.title.startsWith('T568A:'))extraVisual=rj45PlugColorSVG('A');
     else if(s.title.startsWith('T568B:'))extraVisual=rj45PlugColorSVG('B');
-    else if(s.title.includes('Straight-through and crossover'))extraVisual=straightVsCrossoverVisualSVG();
+    else if(titleLower.includes('straight-through'))extraVisual=straightVsCrossoverVisualSVG();
    }
    const isGrid = !extraVisual && (s.expectedCount >= 4 || s.items.length >= 4 || (s.kind === 'concept' && s.expectedCount === 2) || Boolean(visualPanels[s.visualKey]));
    const gridClass = !extraVisual && (s.expectedCount >= 7 || s.items.length >= 7) ? 'counted-grid-3' : (isGrid ? 'counted-grid' : '');
@@ -200,6 +208,7 @@ export function startApp(root){
      ?`<div class="physical-split-grid"><div class="physical-split-text">${itemsHtml}</div><div class="physical-split-visual">${visualPanel}</div></div>`
      :listHtml;
   }
+  preloadImages(topicImageUrls(t,index+1));
  }
 
  const onKey=e=>{
@@ -231,10 +240,12 @@ export function startApp(root){
  const onSkip=e=>{e.preventDefault();const main=root.querySelector('#main');if(main){main.focus();main.scrollIntoView({behavior:'smooth'});}};
  if(skipLink)skipLink.addEventListener('click',onSkip);
 
- root.addEventListener('click',launchTopic);window.addEventListener('hashchange',render);window.addEventListener('keydown',onKey);render();
+ root.addEventListener('click',launchTopic);root.addEventListener('pointerover',warmTopic);root.addEventListener('focusin',warmTopic);window.addEventListener('hashchange',render);window.addEventListener('keydown',onKey);render();
  return ()=>{
   if(skipLink)skipLink.removeEventListener('click',onSkip);
   root.removeEventListener('click',launchTopic);
+  root.removeEventListener('pointerover',warmTopic);
+  root.removeEventListener('focusin',warmTopic);
   releaseInk();releaseSimulation();releaseSlide();
   slideGrid.destroy();searchModal.destroy();confirmModal.destroy();
   document.body.classList.remove('presentation-mode');

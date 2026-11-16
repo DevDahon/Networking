@@ -125,9 +125,6 @@ describe('UI/UX and Accessibility Improvements',()=>{
 
  it('standardizes shared two-column workbench grid, CSS variables, and Slide Grid kind badges in light and dark mode',()=>{
   const css=readFileSync(resolve(process.cwd(),'src/styles/main.css'),'utf8');
-
- it('standardizes shared two-column workbench grid, CSS variables, and Slide Grid kind badges in light and dark mode',()=>{
-  const css=readFileSync(resolve(process.cwd(),'src/styles/main.css'),'utf8');
   expect(css).toContain('.sim-workbench-grid');
   expect(css).toContain('--bg-surface:');
   expect(css).toContain('--bg-elevated:');

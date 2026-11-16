@@ -196,3 +196,7 @@ export function renderPhotoPanel(key) {
 export const physicalVisualPanels = Object.fromEntries(
   Object.keys(panelConfigs).map(key => [key, () => renderPhotoPanel(key)])
 );
+
+export function physicalPanelImages(key) {
+  return panelConfigs[key]?.cards.map(card => card.src) || [];
+}
