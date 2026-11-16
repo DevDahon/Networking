@@ -41,24 +41,22 @@ it('renders deeper layer inspection cards for all seven layers without TCP/UDP',
  expect(root.querySelector('.osi-layer-lens').textContent).toContain('Lower Layer 1 · How Data Travels');
  expect(root.querySelector('.osi-layer-lens').textContent).toContain('RJ45 plugs');
 });
-it('renders Computer 1 to Computer 2 encapsulation and decapsulation with upper creation and lower travel layers without TCP/UDP',()=>{
+it('renders Computer 1 to Computer 2 encapsulation and decapsulation in a simplified 5-step comparison without TCP/UDP',()=>{
  mount(12);
  const scenario=root.querySelector('#slide-content .encap-scenario-wrap');
  const visual=root.querySelector('#slide-content .encap-examples-grid');
  expect(scenario).not.toBeNull();
  expect(visual).not.toBeNull();
- expect(scenario.textContent).toContain('Computer 1');
- expect(scenario.textContent).toContain('Computer 2');
  expect(scenario.textContent).toContain('Meet at 3 PM!');
  expect(visual.textContent).toContain('COMPUTER 1 · ENCAPSULATION (7 → 1)');
  expect(visual.textContent).toContain('COMPUTER 2 · DECAPSULATION (1 → 7)');
- expect(visual.textContent).toContain('3 Upper Layers (7–5) · How Data Is Created');
- expect(visual.textContent).toContain('4 Lower Layers (4–1) · How Data Travels');
- expect(visual.textContent).toContain('4 Lower Layers (1–4) · How Data Travels');
- expect(visual.textContent).toContain('3 Upper Layers (5–7) · How Data Is Created');
+ expect(visual.textContent).toContain('7–5 · Upper Layers');
+ expect(visual.textContent).toContain('5–7 · Upper Layers');
  expect(visual.textContent).toContain('+ Port :5000');
- expect(visual.textContent).toContain('+ MAC');
- expect(visual.textContent).toContain('− Port ✓');
+ expect(visual.textContent).toContain('+ IP Header');
+ expect(visual.textContent).toContain('+ MAC & FCS');
+ expect(visual.textContent).toContain('− Port :5000 ✓');
+ expect(root.querySelectorAll('#slide-content .encap-step')).toHaveLength(10);
  expect(scenario.textContent).not.toMatch(/\b(TCP|UDP)\b/);
  expect(root.querySelector('#slide-content .control-row')).toBeNull();
  expect(root.querySelector('#slide-content .list-explanation')).toBeNull();

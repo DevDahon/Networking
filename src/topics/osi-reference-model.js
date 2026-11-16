@@ -107,8 +107,8 @@ const slides=[
   title:'Wrap the data, then unwrap it',
   lead:'Encapsulation adds control information as data passes toward the transmission medium.',
   items:[
-   'Encapsulation (Computer 1 Sends, 7 → 1): The upper 3 layers create the data, and the lower 4 layers wrap it down through ports, IPs, MACs, and bits.',
-   'Decapsulation (Computer 2 Receives, 1 → 7): The lower 4 layers check and unwrap each outer header upward until the upper 3 layers open the message.'
+   'Encapsulation (Computer 1 Sends, 7 → 1): Computer 1 wraps the message with delivery headers (Port, IP, and MAC) down to bits.',
+   'Decapsulation (Computer 2 Receives, 1 → 7): Computer 2 checks and removes each outer header step by step until the app reads the message.'
   ],
   visualKey:'encapsulationExample'
  },

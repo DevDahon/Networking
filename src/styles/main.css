@@ -6180,8 +6180,13 @@ html.dark .slide-context-pill {
 }
 
 /* Encapsulation & Decapsulation Static Visual Example */
+#slide-content:has(.encap-scenario-wrap) > .teaching-points {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
 .encap-scenario-wrap {
-    margin-top: 12px;
+    margin-top: 14px;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -6191,124 +6196,38 @@ html.dark .slide-context-pill {
     margin-top: 0;
 }
 
-.encap-scenario-flow {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    padding: 9px 14px;
-    border-radius: 10px;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    font-size: 13.5px;
-    color: #334155;
-    flex-wrap: wrap;
-}
-
-.encap-host b {
-    color: #0f172a;
-    font-weight: 700;
-}
-
-.encap-host em {
-    font-style: normal;
-    font-weight: 700;
-    color: #065f46;
-}
-
-.encap-flow-arrow {
-    font-size: 12px;
-    font-weight: 700;
-    color: #0f766e;
-    letter-spacing: 0.03em;
-}
-
-.encap-zones {
-    display: flex;
-    flex-direction: column;
-    gap: 9px;
-}
-
-.encap-zone {
-    border-radius: 10px;
-    padding: 8px 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.encap-zone-create {
-    background: #f0f6ff;
-    border: 1px solid #bfdbfe;
-}
-
-.encap-zone-travel {
-    background: #f0fdfa;
-    border: 1px solid #99f6e4;
-}
-
-.encap-zone-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    padding: 0 2px;
-    flex-wrap: wrap;
-}
-
-.encap-zone-title {
-    font-size: 11.5px;
-    font-weight: 800;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-}
-
-.encap-zone-create .encap-zone-title {
-    color: #1d4ed8;
-}
-
-.encap-zone-travel .encap-zone-title {
-    color: #0f766e;
-}
-
-.encap-zone-sub {
-    font-size: 11.5px;
-    font-weight: 600;
-    color: #475569;
-}
-
 .encap-steps {
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 8px;
 }
 
 .encap-step {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 5px 9px;
-    border-radius: 7px;
-    background: #ffffff;
+    gap: 12px;
+    padding: 9px 12px;
+    border-radius: 8px;
+    background: #f8fafc;
     border: 1px solid #e2e8f0;
 }
 
 .encap-layer-label {
-    min-width: 112px;
+    min-width: 140px;
     flex-shrink: 0;
-    font-size: 12px;
+    font-size: 13.5px;
     font-weight: 700;
-    color: #334155;
+    color: #0f172a;
 }
 
 .encap-chips {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
     flex: 1;
     min-width: 0;
 }
@@ -6316,10 +6235,10 @@ html.dark .slide-context-pill {
 .encap-chip {
     display: inline-flex;
     align-items: center;
-    padding: 2px 7px;
-    border-radius: 5px;
-    font-size: 12px;
-    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
     line-height: 1.35;
     white-space: nowrap;
 }
@@ -6328,7 +6247,6 @@ html.dark .slide-context-pill {
     background: #ecfdf5;
     color: #065f46;
     border: 1px solid #6ee7b7;
-    font-weight: 700;
 }
 
 .encap-chip-added {
@@ -6343,22 +6261,17 @@ html.dark .slide-context-pill {
     border: 1px dashed #5eead4;
 }
 
-.encap-chip-inner {
-    background: #ffffff;
-    color: #475569;
-    border: 1px solid #cbd5e1;
-}
-
 .encap-chip-bits {
     background: #f1f5f9;
     color: #1e293b;
     border: 1px solid #cbd5e1;
     font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    font-size: 11.5px;
+    font-size: 12.5px;
 }
 
 .encap-step-note {
-    font-size: 12px;
+    font-size: 13px;
+    font-weight: 500;
     color: #475569;
     margin-left: auto;
 }
@@ -6955,6 +6868,7 @@ html.dark svg text[fill="#b91c1c"] {
 }
 
 @media(max-width:767px) {
+    #slide-content:has(.encap-scenario-wrap) > .teaching-points,
     .perf-examples-grid,
     .osi-lens-grid {
         grid-template-columns: 1fr;
