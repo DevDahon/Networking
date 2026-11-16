@@ -278,4 +278,89 @@ describe('UI/UX and Accessibility Improvements',()=>{
     expect(backToTopicsBtn).not.toBeNull();
     expect(backToTopicsBtn.textContent).toMatch(/Back to Topics/i);
   });
+
+  it('supports PowerPoint-style Extend Display mode and synchronizes slides, simulations, and ink to the projector window', () => {
+    const popupMock = {
+      closed: false,
+      postMessage: vi.fn(),
+      moveTo: vi.fn(),
+      resizeTo: vi.fn(),
+      close: vi.fn(function () { this.closed = true; })
+    };
+    const openSpy = vi.spyOn(window, 'open').mockReturnValue(popupMock);
+
+    history.replaceState(null, '', `/#/topic/${topics[0].id}/slide/1`);
+    cleanup = startApp(document.querySelector('#app'));
+
+    const extendBtn = document.querySelector('#btn-extend-display');
+    expect(extendBtn).not.toBeNull();
+    expect(extendBtn.getAttribute('aria-pressed')).toBe('false');
+    expect(extendBtn.textContent).toMatch(/Extend/i);
+
+    extendBtn.click();
+    expect(openSpy).toHaveBeenCalledOnce();
+    expect(openSpy.mock.calls[0][0]).toContain('?projector=1');
+    expect(openSpy.mock.calls[0][1]).toBe('networking1-projector');
+    expect(extendBtn.getAttribute('aria-pressed')).toBe('true');
+    expect(extendBtn.textContent).toMatch(/Projecting/i);
+    expect(popupMock.postMessage).toHaveBeenCalled();
+
+    // Toggling with keyboard shortcut X closes the projector window
+    document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'x', bubbles: true }));
+    expect(popupMock.close).toHaveBeenCalledOnce();
+    expect(extendBtn.getAttribute('aria-pressed')).toBe('false');
+    cleanup();
+    cleanup = null;
+
+    // Test Projector Display window behavior & live sync
+    const prevName = window.name;
+    window.name = 'networking1-projector';
+    try {
+      document.body.innerHTML = '<div id="app"></div>';
+      history.replaceState(null, '', `/#/topic/${topics[0].id}/slide/1`);
+      cleanup = startApp(document.querySelector('#app'));
+
+      expect(document.body.classList.contains('projector-display-mode')).toBe(true);
+      expect(document.querySelector('.projector-floating-bar')).not.toBeNull();
+
+      // Remote route + theme sync
+      window.dispatchEvent(new MessageEvent('message', {
+        data: {
+          source: 'controller',
+          type: 'route',
+          hash: `#/topic/${topics[0].id}/slide/2`,
+          theme: 'dark'
+        }
+      }));
+      expect(document.documentElement.classList.contains('dark')).toBe(true);
+      expect(location.hash).toBe(`#/topic/${topics[0].id}/slide/2`);
+      window.dispatchEvent(new HashChangeEvent('hashchange'));
+
+      // Remote DOM + Ink sync on the active slide
+      window.dispatchEvent(new MessageEvent('message', {
+        data: {
+          source: 'controller',
+          type: 'dom-sync',
+          hash: location.hash,
+          html: '<div class="synced-sim"><input name="test" value="initial"></div>',
+          controls: [{ value: 'updated-val', checked: false }],
+          details: []
+        }
+      }));
+      expect(document.querySelector('#slide-content .synced-sim')).not.toBeNull();
+      expect(document.querySelector('#slide-content input').value).toBe('updated-val');
+
+      window.dispatchEvent(new MessageEvent('message', {
+        data: {
+          source: 'controller',
+          type: 'ink-sync',
+          hash: location.hash,
+          svgHtml: '<path d="M10,10 L90,90" stroke="#dc2626"/>'
+        }
+      }));
+      expect(document.querySelector('.slide-ink path')).not.toBeNull();
+    } finally {
+      window.name = prevName;
+    }
+  });
 });

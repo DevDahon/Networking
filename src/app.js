@@ -20,6 +20,7 @@ import {osiLayerDetailVisual} from './components/osiLayerVisual.js';
 import {physicalVisualPanels} from './components/physicalVisuals.js';
 import {renderCourseOutline} from './components/courseOutline.js';
 import {preloadImages,topicImageUrls} from './utils/preloadImages.js';
+import {createProjectorSync} from './components/projectorSync.js';
 
 const osiLayerPanels = Object.fromEntries([7, 6, 5, 4, 3, 2, 1].map(n => [`osiLayer${n}`, () => osiLayerDetailVisual(n)]));
 const visualPanels={performanceMeasures:performanceExamplesVisual,encapsulationExample:encapsulationExampleVisual,modularConnectors:modularConnectorsVisual,...physicalVisualPanels,...osiLayerPanels};
@@ -51,16 +52,37 @@ export function startApp(root){
 
  let isDark=localStorage.getItem('networking1-theme')==='dark';
  if(isDark)document.documentElement.classList.add('dark');
+ const slideGrid=createSlideGrid(root,goto);
+ const searchModal=createSearchModal(root,topics,hash=>{location.hash=hash;});
+ const confirmModal=createConfirmModal(root);
+ const projector=createProjectorSync(root,{
+  onRemoteNavigate:hash=>{if(location.hash!==hash)location.hash=hash;},
+  onRemoteTheme:nextDark=>{
+   if(isDark===nextDark)return;
+   isDark=nextDark;
+   document.documentElement.classList.toggle('dark',isDark);
+   localStorage.setItem('networking1-theme',isDark?'dark':'light');
+   const btn=root.querySelector('#btn-theme-toggle');
+   if(btn){btn.innerHTML=icon(isDark?'Sun':'Moon');createIcons({icons,nameAttr:'data-lucide',attrs:{'stroke-width':1.7}});}
+  },
+  onStateChange:()=>updateExtendButton()
+ });
+ function updateExtendButton(){
+  const btn=root.querySelector('#btn-extend-display');
+  if(!btn)return;
+  const active=projector.isActive();
+  btn.classList.toggle('extend-active',active);
+  btn.setAttribute('aria-pressed',String(active));
+  const lbl=btn.querySelector('.extend-label');
+  if(lbl)lbl.textContent=active?' Projecting':' Extend';
+ }
  function toggleTheme(){
   isDark=document.documentElement.classList.toggle('dark');
   localStorage.setItem('networking1-theme',isDark?'dark':'light');
   const btn=root.querySelector('#btn-theme-toggle');
   if(btn){btn.innerHTML=icon(isDark?'Sun':'Moon');createIcons({icons,nameAttr:'data-lucide',attrs:{'stroke-width':1.7}});}
+  projector.notifyThemeChange(isDark);
  }
-
- const slideGrid=createSlideGrid(root,goto);
- const searchModal=createSearchModal(root,topics,hash=>{location.hash=hash;});
- const confirmModal=createConfirmModal(root);
 
  function fullscreenFailure(){fullscreenError='Fullscreen was blocked by the browser. Press F to try again.';const status=root.querySelector('#fullscreen-status');if(status)status.textContent=fullscreenError;}
  function enterFullscreen(){fullscreenError='';try{if(!document.fullscreenElement){if(!document.documentElement.requestFullscreen){fullscreenFailure();return;}Promise.resolve(document.documentElement.requestFullscreen()).catch(fullscreenFailure);}}catch{fullscreenFailure();}}
@@ -82,12 +104,13 @@ export function startApp(root){
   document.body.classList.toggle('presentation-mode',route.kind==='topic');
 
   const themeIcon=isDark?'Sun':'Moon';
+  const extendActive=projector.isActive();
   const headerRight=route.kind==='dashboard'
    ?`<a class="button quiet" href="#/outline" title="View Course Outline">${icon('BookOpen')}<span class="outline-nav-text"> Course Outline</span></a><button type="button" class="button quiet" id="btn-search" title="Search curriculum (Ctrl+K)">${icon('Search')}</button><button type="button" class="button quiet" id="btn-theme-toggle" title="Toggle dark/light mode">${icon(themeIcon)}</button>${button('Reset positions','reset','quiet')}`
    :route.kind==='outline'
    ?`<button type="button" class="button quiet" id="btn-search" title="Search curriculum (Ctrl+K)">${icon('Search')}</button><button type="button" class="button quiet" id="btn-theme-toggle" title="Toggle dark/light mode">${icon(themeIcon)}</button><a class="button quiet" href="#/">${icon('LayoutGrid')}<span class="back-text"> Back to Topics</span></a>`
    :route.kind==='topic'
-   ?`<button type="button" class="button quiet" id="btn-fullscreen" title="Fullscreen (F)">${icon('Maximize2')}</button><button type="button" class="button quiet" id="btn-search" title="Search curriculum (Ctrl+K)">${icon('Search')}</button><button type="button" class="button quiet" id="btn-theme-toggle" title="Toggle dark/light mode">${icon(themeIcon)}</button><a class="button quiet" href="#/">${icon('LayoutGrid')}<span class="back-text"> Back to Topics</span></a>`
+   ?`<button type="button" class="button quiet ${extendActive?'extend-active':''}" id="btn-extend-display" aria-pressed="${extendActive}" title="Extend to Projector Display (X)">${icon('MonitorCog')}<span class="extend-label"> ${extendActive?'Projecting':'Extend'}</span></button><button type="button" class="button quiet" id="btn-fullscreen" title="Fullscreen (F)">${icon('Maximize2')}</button><button type="button" class="button quiet" id="btn-search" title="Search curriculum (Ctrl+K)">${icon('Search')}</button><button type="button" class="button quiet" id="btn-theme-toggle" title="Toggle dark/light mode">${icon(themeIcon)}</button><a class="button quiet" href="#/">${icon('LayoutGrid')}<span class="back-text"> Back to Topics</span></a>`
    :`<a class="button quiet" href="#/">${icon('LayoutGrid')}<span class="back-text"> Back to Topics</span></a>`;
 
   root.innerHTML=`<header class="app-header"><a class="brand" href="#/">${icon('Network')}<span>NETWORKING <b>1</b></span></a><div class="header-right">${headerRight}</div></header>${storageWarning?'<p role="status" class="storage-warning">Browser storage is unavailable; slide positions will last only for this session.</p>':''}<main id="main" tabindex="-1"></main><footer class="site-footer"><span>Networking 1 · Learn it. Model it. Explain it.</span><span>Competency-inspired learning · Not an accredited certification course</span></footer>`;
@@ -100,6 +123,7 @@ export function startApp(root){
   const btnTheme=root.querySelector('#btn-theme-toggle');if(btnTheme)btnTheme.onclick=toggleTheme;
   const btnSearch=root.querySelector('#btn-search');if(btnSearch)btnSearch.onclick=()=>searchModal.toggle();
   const btnFullscreen=root.querySelector('#btn-fullscreen');if(btnFullscreen)btnFullscreen.onclick=fullscreen;
+  const btnExtend=root.querySelector('#btn-extend-display');if(btnExtend)btnExtend.onclick=()=>projector.toggleExtendDisplay();
 
   const shell={querySelectorAll:selector=>[...root.querySelectorAll(selector)].filter(el=>!el.closest('#slide-content'))};
   wire(shell,{
@@ -128,11 +152,12 @@ export function startApp(root){
    releaseSlide=fitSlide(root.querySelector('.slide-stage'));
    const inkKey=route.topic.id+':'+route.index;
    if(!inkBySlide.has(inkKey))inkBySlide.set(inkKey,{strokes:[],undo:[],color:'#dc2626',width:5});
-   releaseInk=mountPenTool(root.querySelector('.slide-stage'),root.querySelector('.header-right'),inkBySlide.get(inkKey));
+   releaseInk=mountPenTool(root.querySelector('.slide-stage'),root.querySelector('.header-right'),inkBySlide.get(inkKey),svgHtml=>projector.syncInk(svgHtml));
 
    const btnGrid=root.querySelector('#btn-slide-grid');
    if(btnGrid)btnGrid.onclick=()=>slideGrid.toggle(route.topic,route.index);
   }
+  projector.notifyRouteChange();
  }
 
  function dashboard(){
@@ -226,6 +251,11 @@ export function startApp(root){
    slideGrid.toggle(route.topic,route.index);
    return;
   }
+  if(e.key==='x'||e.key==='X'){
+   e.preventDefault();
+   projector.toggleExtendDisplay();
+   return;
+  }
   if(['ArrowRight',' ','ArrowLeft','Home','End','f','F'].includes(e.key)){
    e.preventDefault();
    if(e.key==='ArrowRight'||e.key===' ')goto(route.index+1);
@@ -247,7 +277,7 @@ export function startApp(root){
   root.removeEventListener('pointerover',warmTopic);
   root.removeEventListener('focusin',warmTopic);
   releaseInk();releaseSimulation();releaseSlide();
-  slideGrid.destroy();searchModal.destroy();confirmModal.destroy();
+  slideGrid.destroy();searchModal.destroy();confirmModal.destroy();projector.destroy();
   document.body.classList.remove('presentation-mode');
   window.removeEventListener('hashchange',render);window.removeEventListener('keydown',onKey);
  };

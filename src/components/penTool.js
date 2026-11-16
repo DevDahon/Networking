@@ -1,7 +1,7 @@
 import {esc} from './ui.js';
 
 // Coordinates are relative to the slide, so ink stays aligned after resizing.
-export function mountPenTool(stage,header,state){
+export function mountPenTool(stage,header,state,onPaint){
  const ns='http://www.w3.org/2000/svg';
  const svg=document.createElementNS(ns,'svg');
  svg.classList.add('slide-ink');svg.setAttribute('viewBox','0 0 1000 1000');svg.setAttribute('preserveAspectRatio','none');
@@ -32,6 +32,7 @@ export function mountPenTool(stage,header,state){
   }
   toolbar.querySelector('[data-ink="undo"]').disabled=!state.undo.length;
   toolbar.querySelector('[data-ink="clear"]').disabled=!state.strokes.length;
+  onPaint?.(svg.innerHTML);
  }
  function update(){svg.classList.toggle('ink-enabled',open&&mode!=='pointer');svg.classList.toggle('ink-eraser',open&&mode==='eraser');svg.classList.toggle('ink-laser',open&&mode==='laser');toolbar.hidden=!open;toggle.setAttribute('aria-expanded',String(open));toggle.classList.toggle('primary',open);for(const button of toolbar.querySelectorAll('[aria-pressed]'))button.setAttribute('aria-pressed',String(button.dataset.ink===mode));}
  function finish(){if(active===null)return;if(changed)pushUndo(before);const pointer=active;active=null;before=null;changed=false;try{svg.releasePointerCapture?.(pointer);}catch{}paint();}
