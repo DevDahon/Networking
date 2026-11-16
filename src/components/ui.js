@@ -27,22 +27,26 @@ export function networkSVG(labels=['PC 1','Switch','PC 2'],active=0,packetIndex=
  const segX2=100+(activeSegStart+1)*stepSpan-62;
  const midX=(segX1+segX2)/2;
  const arrowChar=isReverse?'◀ ▶'.slice(0,1):'▶';
+ const badgeText=badge?badge.slice(0,34):'';
+ const badgeW=Math.max(148,Math.min(260,Math.round(badgeText.length*7.2+24)));
+ const badgeX=Math.max(badgeW/2+12,Math.min(800-badgeW/2-12,packetX));
  return `<svg class="network-diagram" viewBox="0 0 800 210" role="img" aria-label="${esc(labels.join(' connected to '))}">
   <path d="M140 100H660" stroke="#cbd5e1" stroke-width="5"/>
   ${active>0||direction?`<line x1="${segX1}" y1="100" x2="${segX2}" y2="100" stroke="${fault?'#ef4444':broadcast?'#f59e0b':'#0d9488'}" stroke-width="5" ${broadcast?'stroke-dasharray="8 5"':''} class="active-hop-line"/><text x="${midX}" y="90" text-anchor="middle" font-size="12" font-weight="800" fill="${fault?'#dc2626':broadcast?'#d97706':'#0f766e'}" class="hop-chevrons">${arrowChar} ${arrowChar} ${arrowChar}</text>`:''}
-  ${broadcast?`<circle cx="${packetX}" cy="100" r="24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4 3" class="broadcast-ring"/><circle cx="${packetX}" cy="100" r="38" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="3 4" class="broadcast-ring"/>`:''}
+  ${broadcast?`<circle cx="${packetX}" cy="100" r="24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4 3" class="broadcast-ring"/><circle cx="${packetX}" cy="100" r="36" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="3 4" class="broadcast-ring"/>`:''}
   ${labels.map((l,i)=>{
    const x=100+i*stepSpan;
    const isCurrent=i===active;
    const sub=sublabels[i]||'';
+   const fontSize=l.length>22?13:l.length>17?14:15.5;
    return `<g transform="translate(${x},100)">
     <rect x="-62" y="-38" width="124" height="76" rx="12" fill="${isCurrent?(fault?'#fef2f2':'#eff6ff'):'white'}" stroke="${isCurrent?(fault?'#dc2626':'#2563eb'):'#94a3b8'}" stroke-width="${isCurrent?'2.5':'2'}"/>
     <path d="M-35 -15H35M-35 -3H35M-35 9H10" stroke="${isCurrent?'#60a5fa':'#94a3b8'}" stroke-width="2"/>
-    <text y="64" text-anchor="middle" fill="#0f172a" font-size="16" font-weight="${isCurrent?'700':'500'}">${esc(l)}</text>
+    <text y="64" text-anchor="middle" fill="#0f172a" font-size="${fontSize}" font-weight="${isCurrent?'700':'600'}">${esc(l)}</text>
     ${sub?`<text y="82" text-anchor="middle" fill="#64748b" font-size="11" font-family="monospace">${esc(sub)}</text>`:''}
    </g>`;
   }).join('')}
-  ${badge?`<g transform="translate(${Math.max(95,Math.min(705,packetX))},42)" class="packet-badge-group"><rect x="-85" y="-14" width="170" height="22" rx="11" fill="${fault?'#fef2f2':broadcast?'#fffbeb':'#f0fdfa'}" stroke="${fault?'#ef4444':broadcast?'#f59e0b':'#0d9488'}" stroke-width="1.5"/><text y="1" text-anchor="middle" font-size="11" font-weight="700" font-family="monospace" fill="${fault?'#b91c1c':broadcast?'#b45309':'#0f766e'}">${esc(badge.slice(0,26))}</text></g>`:''}
+  ${badgeText?`<g transform="translate(${badgeX},36)" class="packet-badge-group"><rect x="${-badgeW/2}" y="-13" width="${badgeW}" height="22" rx="11" fill="${fault?'#fef2f2':broadcast?'#fffbeb':'#f0fdfa'}" stroke="${fault?'#ef4444':broadcast?'#f59e0b':'#0d9488'}" stroke-width="1.5"/><text y="2" text-anchor="middle" font-size="11" font-weight="700" font-family="monospace" fill="${fault?'#b91c1c':broadcast?'#b45309':'#0f766e'}">${esc(badgeText)}</text></g>`:''}
   ${fault?`<g transform="translate(${packetX},100)"><circle r="14" fill="#fef2f2" stroke="#dc2626" stroke-width="2"/><path d="M-5 -5L5 5M5 -5L-5 5" stroke="#dc2626" stroke-width="2.5"/></g>`:''}
   <circle class="packet" data-network-packet cx="${packetX}" cy="100" r="7" fill="${fault?'#dc2626':broadcast?'#f59e0b':'#0d9488'}" stroke="#ffffff" stroke-width="2"/>
  </svg>`;

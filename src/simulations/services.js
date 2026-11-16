@@ -94,8 +94,6 @@ export function dhcp(root){
        </tbody>
       </table>
      </div>
-
-     <p class="small">Manual and automatic steps share the same exchange state. Previous DORA step restores the preceding exchange and lease table. Changing client/pool/time cancels that history. Renewal is Request/ACK, not full initial DORA.</p>
     </div>
    </div>
   `;
@@ -199,32 +197,36 @@ export function router(root){
     ${button('Connect a new client','connect','primary')}
    </div>
 
-   ${networkSVG(['LAN Clients (Wired/Wi-Fi)','Router / NAT Gateway','WAN / Internet Gateway'], clients.length > 0 ? 1 : 0, null, 0, {
-    badge: `${band} GHz · ${applied.security}`,
-    sublabels: [`${clients.length} connected`, applied.lan, '203.0.113.1']
-   })}
+   <div class="sim-workbench-grid">
+    <div class="sim-visual-panel">
+     ${networkSVG(['LAN Clients','Router / NAT','WAN Gateway'], clients.length > 0 ? 1 : 0, null, 0, {
+      badge: `${band} GHz · ${applied.security}`,
+      sublabels: [`${clients.length} connected`, applied.lan, '203.0.113.1']
+     })}
 
-   ${clients.length > 0 ? `
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0;padding:10px 12px;background:var(--bg-surface);border:1px solid var(--border-color);border-radius:8px;">
-     <span style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;align-self:center;margin-right:4px;">Connected LAN Topology:</span>
-     ${clients.map(c => `<span style="font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px;background:${c.ip ? 'rgba(20,184,166,0.12)' : 'rgba(245,158,11,0.12)'};color:${c.ip ? '#0d9488' : '#d97706'};border:1px solid ${c.ip ? 'rgba(20,184,166,0.35)' : 'rgba(245,158,11,0.35)'};">${c.medium.includes('Wi-Fi') ? `📶 ${band}G` : '🔌 ETH'} · ${c.name} (${c.ip || 'No IP'})</span>`).join('')}
+     ${clients.length > 0 ? `
+      <div style="display:flex;gap:8px;flex-wrap:wrap;padding:10px 12px;background:var(--bg-surface);border:1px solid var(--border-color);border-radius:8px;">
+       <span style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;align-self:center;margin-right:4px;">Connected LAN Topology:</span>
+       ${clients.map(c => `<span style="font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px;background:${c.ip ? 'rgba(20,184,166,0.12)' : 'rgba(245,158,11,0.12)'};color:${c.ip ? '#0d9488' : '#d97706'};border:1px solid ${c.ip ? 'rgba(20,184,166,0.35)' : 'rgba(245,158,11,0.35)'};">${c.medium.includes('Wi-Fi') ? `📶 ${band}G` : '🔌 ETH'} · ${c.name} (${c.ip || 'No IP'})</span>`).join('')}
+      </div>
+     ` : ''}
     </div>
-   ` : ''}
 
-   ${result(message,!/failed|Invalid|error|disabled/i.test(message))}
+    <div class="sim-details-panel">
+     ${result(message,!/failed|Invalid|error|disabled/i.test(message))}
 
-   <div class="table-wrap">
-    <table>
-     <thead>
-      <tr><th>Client</th><th>Link</th><th>Assigned address</th><th>Local status</th></tr>
-     </thead>
-     <tbody>
-      ${clients.map(c=>`<tr><td>${c.name}</td><td>${c.medium}</td><td>${c.ip||'No lease'}</td><td>${c.ip?'Gateway reachable':'No configured IP connectivity'}</td></tr>`).join('')||'<tr><td colspan="4">No clients connected</td></tr>'}
-     </tbody>
-    </table>
+     <div class="table-wrap">
+      <table>
+       <thead>
+        <tr><th>Client</th><th>Link</th><th>Assigned address</th><th>Local status</th></tr>
+       </thead>
+       <tbody>
+        ${clients.map(c=>`<tr><td>${c.name}</td><td>${c.medium}</td><td>${c.ip||'No lease'}</td><td>${c.ip?'Gateway reachable':'No configured IP connectivity'}</td></tr>`).join('')||'<tr><td colspan="4">No clients connected</td></tr>'}
+       </tbody>
+      </table>
+     </div>
+    </div>
    </div>
-
-   <p class="small">This console never configures a physical router. Applying a LAN/pool change disconnects modeled clients. WAN service, NAT translation tables, guest isolation, radio interference, and vendor interfaces are conceptual here.</p>
   `;
 
   const bandSelect = root.querySelector('[name="band"]');
@@ -299,39 +301,43 @@ export function fileSharing(root){
     ${button('Publish simulated folder','publish','primary')}
    </div>
 
-   ${networkSVG(['PC 1 (Sharing Host)','LAN Switch','PC 2 / PC 3 (Clients)'], 1, null, 0, {
-    badge: 'SMB / TCP 445',
-    sublabels: ['File & Print Host', 'L2 Switch Fabric', 'UNC / Mapped Client']
-   })}
+   <div class="sim-workbench-grid">
+    <div class="sim-visual-panel">
+     ${networkSVG(['PC 1 (Host)','LAN Switch','PC 2 / PC 3'], 1, null, 0, {
+      badge: 'SMB / TCP 445',
+      sublabels: ['File & Print Host', 'L2 Switch Fabric', 'UNC / Mapped Client']
+     })}
 
-   <div class="config-grid">
-    <fieldset>
-     <legend>Folder & File Permissions</legend>
-     ${select('Share permission','share',[[0,'None'],[1,'Read / viewer'],[2,'Change / editor']],1)}
-     ${select('File-system permission','ntfs',[[0,'None'],[1,'Read / viewer'],[2,'Modify / editor']],1)}
-     ${select('Requested action','action',['Read','Write'],'Read')}
-    </fieldset>
-    <fieldset>
-     <legend>Host, Network & Device Settings</legend>
-     ${select('Network Discovery','discovery',[['on','Turned ON (Host visible in Network)'],['off','Turned OFF (Requires direct UNC path)']],discovery)}
-     ${select('Host link / power','online',[['yes','Online'],['no','Offline']],'yes')}
-     ${select('Client account','auth',[['yes','Authenticated and authorized identity'],['no','Not authenticated']],'yes')}
-     ${select('Printer permission','print',[['yes','Print allowed'],['no','Print denied']],'yes')}
-    </fieldset>
+     <div id="perm-pipeline-box" style="background:var(--bg-surface);border:1px solid var(--border-color);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--text-secondary);"></div>
+
+     <div id="access-result" aria-live="polite"></div>
+    </div>
+
+    <div class="sim-details-panel">
+     <div class="config-grid">
+      <fieldset>
+       <legend>Folder & File Permissions</legend>
+       ${select('Share permission','share',[[0,'None'],[1,'Read / viewer'],[2,'Change / editor']],1)}
+       ${select('File-system permission','ntfs',[[0,'None'],[1,'Read / viewer'],[2,'Modify / editor']],1)}
+       ${select('Requested action','action',['Read','Write'],'Read')}
+      </fieldset>
+      <fieldset>
+       <legend>Host, Network & Device Settings</legend>
+       ${select('Network Discovery','discovery',[['on','Turned ON (Host visible in Network)'],['off','Turned OFF (Requires direct UNC path)']],discovery)}
+       ${select('Host link / power','online',[['yes','Online'],['no','Offline']],'yes')}
+       ${select('Client account','auth',[['yes','Authenticated and authorized identity'],['no','Not authenticated']],'yes')}
+       ${select('Printer permission','print',[['yes','Print allowed'],['no','Print denied']],'yes')}
+      </fieldset>
+     </div>
+
+     <div class="control-row">
+      ${button('Access folder','access','primary')}
+      ${button('Map Network Drive (Z:)','map')}
+      ${button('Use shared printer','printer')}
+      ${button('Remove share','remove')}
+     </div>
+    </div>
    </div>
-
-   <div id="perm-pipeline-box" style="background:var(--bg-surface);border:1px solid var(--border-color);border-radius:8px;padding:10px 14px;margin:10px 0;font-size:12px;color:var(--text-secondary);"></div>
-
-   <div class="control-row">
-    ${button('Access folder','access','primary')}
-    ${button('Map Network Drive (Z:)','map')}
-    ${button('Use shared printer','printer')}
-    ${button('Remove share','remove')}
-   </div>
-
-   <div id="access-result" aria-live="polite"></div>
-
-   <p class="small">Simplified single-identity model with no explicit-deny ACLs, groups, or inheritance. Share and NTFS restrictions both apply. Printer model assumes a ready spooler and compatible installed driver.</p>
   `;
 
   function updatePermPipeline(){
@@ -516,8 +522,6 @@ export function troubleshooting(root){
        ${commands.map(c=>`<button type="button" class="quick-cmd" data-cmd="${esc(c)}"><code>${esc(c)}</code></button>`).join('')}
       </div>
      </div>
-
-     <p class="small">${history.length} command(s) run in this session. The latest result is shown above. Outputs derive from the current faulty or repaired state; real command wording, timing, and filtering vary.</p>
     </div>
    </div>
   `;

@@ -145,12 +145,6 @@ export function security(root) {
               <p>${esc(stepTexts[stepIndex])}</p>
             </div>
             ${detailHtml}
-            ${result(stepTexts[stepIndex], isProtected || stepIndex < 2)}
-            <p class="small">
-              <b>Threat:</b> ${esc(sc.threat)}<br>
-              <b>Outcome:</b> ${isProtected ? esc(sc.defenseOn) : esc(sc.defenseOff)}
-            </p>
-            <p class="small">This demonstration is a conceptual instructional model. It illustrates security principles (Confidentiality, Integrity, Availability) without generating real malicious network traffic or modifying local firewall configurations.</p>
           </div>
         </div>
       `;
@@ -388,14 +382,12 @@ export function securityFirewall(root) {
               <b>Step ${stepIndex + 1} / 4 · ${esc(stepTitles[stepIndex])} · ${player.status}</b>
               <p>${esc(stepTexts[stepIndex])}</p>
             </div>
-            ${result(stepTexts[stepIndex], stepIndex < 3 || isAllowed)}
             <p class="small">
               <b>Packet Details:</b> ${esc(pkt.description)}<br>
               <b>Inspection Insight:</b> ${mode === 'stateful'
                 ? 'Stateful firewalls remember outgoing requests so matching response packets pass through automatically without opening permanent incoming ports.'
                 : 'Stateless filters check each packet in isolation, failing to recognize return traffic from legitimate outgoing requests.'}
             </p>
-            <p class="small">This demonstration is a conceptual instructional model. It illustrates packet filtering and stateful inspection without modifying local host firewalls or generating real network traffic.</p>
           </div>
         </div>
       `;

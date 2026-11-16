@@ -171,6 +171,7 @@ describe('UI/UX and Accessibility Improvements',()=>{
   const stage=document.createElement('div');
   const d1=simulations.security(stage);
   expect(stage.querySelector('.sim-workbench-grid')).not.toBeNull();
+  expect(stage.querySelector('.feedback')).toBeNull();
   stage.querySelector('[data-action="advance"]').click();
   expect(stage.querySelector('.step-card').textContent).toContain('Step 2 / 3');
   d1?.();
@@ -178,9 +179,29 @@ describe('UI/UX and Accessibility Improvements',()=>{
   stage.innerHTML='';
   const d2=simulations.securityFirewall(stage);
   expect(stage.querySelector('.sim-workbench-grid')).not.toBeNull();
+  expect(stage.querySelector('.feedback')).toBeNull();
   stage.querySelector('[data-action="advance"]').click();
   expect(stage.querySelector('.step-card').textContent).toContain('Step 2 / 4');
   d2?.();
+ });
+
+ it('renders clean non-overlapping switch topology and compact workbench panels in macLearningDemo and stateful simulations',()=>{
+  const stage=document.createElement('div');
+  simulations.macLearningDemo(stage);
+  const switchRect=stage.querySelector('svg.extra-topology rect');
+  expect(switchRect).not.toBeNull();
+  expect(Number(switchRect.getAttribute('width'))).toBeGreaterThanOrEqual(220);
+  expect(stage.textContent).not.toContain('CAM Table: Waiting for ingress');
+  expect(stage.textContent).not.toContain('aging, spanning tree, and multicast behavior are not simulated');
+  expect(stage.querySelectorAll('svg.extra-topology line')).toHaveLength(3);
+
+  stage.innerHTML='';
+  simulations.router(stage);
+  expect(stage.querySelector('.sim-workbench-grid')).not.toBeNull();
+
+  stage.innerHTML='';
+  simulations.sharing(stage);
+  expect(stage.querySelector('.sim-workbench-grid')).not.toBeNull();
  });
 
  it('renders slide grid modal and toggles dark mode cleanly',()=>{

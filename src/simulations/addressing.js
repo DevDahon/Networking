@@ -178,7 +178,6 @@ export function cable(root){
           </div>
         </div>
        </div>
-       <p class="small">A basic wire map cannot certify signal performance. Duplicate conductor selections model an accidental conductor bridge/short.</p>
       </div>
      `;
      draw();
@@ -531,14 +530,13 @@ Ping statistics for ${target}:
     `).join('')}
    </div>
 
-   <div class="control-row" style="margin-top:16px;">
+   <div class="control-row" style="margin-top:12px;">
     ${select('Physical link','link',[['up','Connected'],['down','Disconnected']],'up')}
     ${select('Routing model','routing',[['none','One LAN; no inter-subnet router'],['router','Router with both subnet interfaces/routes']],'none')}
     ${button('Test numeric-IP connectivity','test','primary')}
     ${button('Load different-subnet example','different')}
    </div>
 
-   <p class="small">DNS is validated as an address but is not used by numeric-IP ping. Router mode assumes the configured local gateways exist and routes work in both directions; ACLs and NAT are outside this model.</p>
    <div id="connectivity" aria-live="polite"></div>
    <div id="static-console-area"></div>
   `;

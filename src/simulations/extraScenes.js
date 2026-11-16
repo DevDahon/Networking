@@ -25,7 +25,7 @@ function scene(root,spec){
   const hasInputs=fields().some(f=>!f.options);
   const markup=stepIndex=>{const current=plan.steps[stepIndex];
    const scrubber=plan.steps.length>1?`<div class="step-scrubber" role="group" aria-label="Simulation steps">${plan.steps.map((s,i)=>`<button type="button" class="scrubber-pill ${i===stepIndex?'active':i<stepIndex?'completed':''}" data-step-jump="${i}" aria-current="${i===stepIndex?'step':'false'}" title="${esc(s.title)}"><span class="scrubber-num">${i+1}</span><span class="scrubber-label">${esc(s.title)}</span></button>`).join('')}</div>`:'';
-   return `<form class="control-row extra-config">${fields().map(f=>f.options?select(f.label,f.name,f.options,config[f.name]):input(f.label,f.name,config[f.name],f.number?'number':'text')).join('')}${hasInputs?'<button type="submit">Apply configuration</button>':''}</form>${error?result(error,false):`<div class="sim-workbench-grid"><div class="sim-visual-panel">${spec.visual?spec.visual(config,stepIndex,plan):networkSVG(plan.labels||['Source','Network','Destination'],Math.min(2,stepIndex),null,null,{badge:current.title,fault:current.ok===false})}${scrubber}</div><div class="sim-details-panel"><div class="step-card" aria-live="polite"><b>Step ${stepIndex+1} of ${plan.steps.length} · <span class="extra-play-state">${playback.status}</span></b><h3>${esc(current.title)}</h3><p>${esc(current.text)}</p>${current.ok===false?'<span class="extra-blocked">Modeled limit or blocked operation</span>':''}</div><p class="small">${esc(spec.note)} Configuration changes pause playback. No real equipment, traffic, or files are accessed.</p></div></div>`}<div class="control-row extra-playback">${button(playback.running?'Restart':'Play / replay','play','primary')}${button('Pause','pause')}${button('Resume','resume')}${button('Previous step','previous')}${button('Next step','advance')}${button('Reset sequence','reset')}${select('Animation speed','speed',[['0.5','0.5×'],['1','1×'],['2','2×']],playback.speed)}</div>`;
+   return `<form class="control-row extra-config">${fields().map(f=>f.options?select(f.label,f.name,f.options,config[f.name]):input(f.label,f.name,config[f.name],f.number?'number':'text')).join('')}${hasInputs?'<button type="submit">Apply configuration</button>':''}</form>${error?result(error,false):`<div class="sim-workbench-grid"><div class="sim-visual-panel">${spec.visual?spec.visual(config,stepIndex,plan):networkSVG(plan.labels||['Source','Network','Destination'],Math.min(2,stepIndex),null,null,{badge:current.title,fault:current.ok===false})}${scrubber}</div><div class="sim-details-panel"><div class="step-card" aria-live="polite"><b>Step ${stepIndex+1} of ${plan.steps.length} · <span class="extra-play-state">${playback.status}</span></b><h3>${esc(current.title)}</h3><p>${esc(current.text)}</p>${current.ok===false?'<span class="extra-blocked">Modeled limit or blocked operation</span>':''}</div></div></div>`}<div class="control-row extra-playback">${button(playback.running?'Restart':'Play / replay','play','primary')}${button('Pause','pause')}${button('Resume','resume')}${button('Previous step','previous')}${button('Next step','advance')}${button('Reset sequence','reset')}${select('Animation speed','speed',[['0.5','0.5×'],['1','1×'],['2','2×']],playback.speed)}</div>`;
   };
   root.innerHTML=markup(index);
   if(!error)reserveSimulationSpace(root,plan.steps.map((_,i)=>markup(i)));
@@ -70,7 +70,7 @@ export function availabilityDemo(root){return scene(root,{
 function topologyDrawing(c,index,plan){
  const m=layouts[c.kind],xy=topologyCoordinates(c.kind,m.nodes.length),visited=plan.path.slice(0,index+1);
  const nodeStyle=getSavedNodeStyle();
- return `<svg class="extra-topology" viewBox="0 0 800 340" role="img" aria-label="${esc(visited.map(i=>m.nodes[i]).join(' → ')||'No reachable path')}">${topologyConnections(c.kind,m.edges,xy,{failed:Number(c.failed),path:visited})}${m.nodes.map((n,i)=>renderTopologyNode({x:xy[i][0],y:xy[i][1],label:n,style:nodeStyle,status:visited.includes(i)?'connected':'default',dataAttrs:`data-trace-node="${i}"`})).join('')}</svg><p class="small">${esc(m.note)}</p>`;
+ return `<svg class="extra-topology" viewBox="0 0 800 340" role="img" aria-label="${esc(visited.map(i=>m.nodes[i]).join(' → ')||'No reachable path')}">${topologyConnections(c.kind,m.edges,xy,{failed:Number(c.failed),path:visited})}${m.nodes.map((n,i)=>renderTopologyNode({x:xy[i][0],y:xy[i][1],label:n,style:nodeStyle,status:visited.includes(i)?'connected':'default',dataAttrs:`data-trace-node="${i}"`})).join('')}</svg>`;
 }
 export function pathTraceDemo(root){return scene(root,{
  defaults:{kind:'Star',source:1,target:4,failed:-1},fields:c=>[field('kind','Topology',null,Object.keys(layouts)),field('source','Source node',null,layouts[c.kind].nodes.map((n,i)=>[i,n])),field('target','Destination node',null,layouts[c.kind].nodes.map((n,i)=>[i,n])),field('failed','Failed link',null,[[-1,'None'],...layouts[c.kind].edges.map(([a,b],i)=>[i,`${layouts[c.kind].nodes[a]} ↔ ${layouts[c.kind].nodes[b]}`])])],change:(name,c)=>{if(name==='kind')c.failed=-1;},
@@ -86,7 +86,7 @@ export function nextHopFrameDemo(root){return scene(root,{
  build:c=>{const frames=hopFrames(c);return {frames,steps:frames.map(f=>step(f.hop,`IP destination stays ${f.destinationIP}. This frame’s destination is ${f.destinationMAC}; transport is ${f.transport}. MAC framing changes between links, while this no-NAT model retains source/destination IPs.`))};},
  visual:(_c,index,p)=>{
   const f=p.frames[index],isHop2=index>0;
-  return `${networkSVG(p.frames.length>1?['PC A','Router','PC B']:['PC A','Switch','PC B'],index===0?1:2,null,index===0?250:550,{badge:`${f.sourceMAC} → ${f.destinationMAC}`})}
+  return `${networkSVG(p.frames.length>1?['PC A','Router','PC B']:['PC A','Switch','PC B'],index===0?1:2,null,index===0?250:550,{badge:`Hop ${index+1}: ${isHop2?'MAC Rewritten':'Initial Frame'}`})}
   <div class="pdu-header-strip" aria-label="Protocol Data Unit Header Inspector">
    <div class="pdu-cell pdu-l2 ${isHop2?'pdu-mutated':''}">
     <span class="pdu-layer-tag">L2 Dst MAC ${isHop2?'(Rewritten!)':'(Hop 1)'}</span>
@@ -112,8 +112,7 @@ export function nextHopFrameDemo(root){return scene(root,{
     <span class="pdu-layer-tag">L2 FCS Trailer</span>
     <b>${isHop2?'New CRC-32':'Initial CRC-32'}</b>
    </div>
-  </div>
-  ${demoTable(['Field','Current value'],Object.entries(f))}`;
+  </div>`;
  },note:'Conceptual no-NAT path with valid ARP/neighbor state and working routes assumed. TCP example targets HTTPS; UDP example targets DNS. Labels are schematic MAC identities, not captured frames.'
  });}
 export function mediumBudgetDemo(root){return scene(root,{
