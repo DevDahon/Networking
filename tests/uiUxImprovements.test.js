@@ -292,23 +292,23 @@ describe('UI/UX and Accessibility Improvements',()=>{
     history.replaceState(null, '', `/#/topic/${topics[0].id}/slide/1`);
     cleanup = startApp(document.querySelector('#app'));
 
-    const extendBtn = document.querySelector('#btn-extend-display');
-    expect(extendBtn).not.toBeNull();
-    expect(extendBtn.getAttribute('aria-pressed')).toBe('false');
-    expect(extendBtn.textContent).toMatch(/Extend/i);
+    const fsBtn = document.querySelector('#btn-fullscreen');
+    expect(fsBtn).not.toBeNull();
+    expect(document.querySelector('#btn-extend-display')).toBeNull();
+    expect(fsBtn.getAttribute('aria-pressed')).toBe('false');
 
-    extendBtn.click();
+    fsBtn.click();
     expect(openSpy).toHaveBeenCalledOnce();
     expect(openSpy.mock.calls[0][0]).toContain('?projector=1');
     expect(openSpy.mock.calls[0][1]).toBe('networking1-projector');
-    expect(extendBtn.getAttribute('aria-pressed')).toBe('true');
-    expect(extendBtn.textContent).toMatch(/Projecting/i);
+    expect(fsBtn.getAttribute('aria-pressed')).toBe('true');
+    expect(fsBtn.classList.contains('extend-active')).toBe(true);
     expect(popupMock.postMessage).toHaveBeenCalled();
 
-    // Toggling with keyboard shortcut X closes the projector window
-    document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'x', bubbles: true }));
+    // Toggling with keyboard shortcut F closes the projector window
+    document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'f', bubbles: true }));
     expect(popupMock.close).toHaveBeenCalledOnce();
-    expect(extendBtn.getAttribute('aria-pressed')).toBe('false');
+    expect(fsBtn.getAttribute('aria-pressed')).toBe('false');
     cleanup();
     cleanup = null;
 

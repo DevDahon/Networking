@@ -177,14 +177,23 @@ export function createProjectorSync(root, { onRemoteNavigate, onRemoteTheme, onS
   root.addEventListener('click', onContentInteract);
 
   async function placeOnExtendedScreen(targetWindow) {
-    if (!targetWindow || typeof window.getScreenDetails !== 'function') return;
+    if (!targetWindow) return;
+    if (typeof window.getScreenDetails === 'function') {
+      try {
+        const details = await window.getScreenDetails();
+        const external = details.screens?.find(s => s !== details.currentScreen) || details.screens?.[0];
+        if (external) {
+          targetWindow.moveTo?.(external.availLeft ?? external.left ?? 0, external.availTop ?? external.top ?? 0);
+          targetWindow.resizeTo?.(external.availWidth ?? external.width ?? 1280, external.availHeight ?? external.height ?? 720);
+          try {
+            await targetWindow.document?.documentElement?.requestFullscreen?.({ navigationUI: 'hide', screen: external });
+          } catch {}
+          return;
+        }
+      } catch {}
+    }
     try {
-      const details = await window.getScreenDetails();
-      const external = details.screens?.find(s => s !== details.currentScreen) || details.screens?.[0];
-      if (external) {
-        targetWindow.moveTo?.(external.availLeft ?? external.left ?? 0, external.availTop ?? external.top ?? 0);
-        targetWindow.resizeTo?.(external.availWidth ?? external.width ?? 1280, external.availHeight ?? external.height ?? 720);
-      }
+      await targetWindow.document?.documentElement?.requestFullscreen?.({ navigationUI: 'hide' });
     } catch {}
   }
 

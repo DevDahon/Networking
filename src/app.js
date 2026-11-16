@@ -65,16 +65,15 @@ export function startApp(root){
    const btn=root.querySelector('#btn-theme-toggle');
    if(btn){btn.innerHTML=icon(isDark?'Sun':'Moon');createIcons({icons,nameAttr:'data-lucide',attrs:{'stroke-width':1.7}});}
   },
-  onStateChange:()=>updateExtendButton()
+  onStateChange:()=>updateFullscreenButton()
  });
- function updateExtendButton(){
-  const btn=root.querySelector('#btn-extend-display');
+ function updateFullscreenButton(){
+  const btn=root.querySelector('#btn-fullscreen');
   if(!btn)return;
-  const active=projector.isActive();
-  btn.classList.toggle('extend-active',active);
+  const active=projector.isActive()||Boolean(document.fullscreenElement);
+  btn.classList.toggle('extend-active',projector.isActive());
   btn.setAttribute('aria-pressed',String(active));
-  const lbl=btn.querySelector('.extend-label');
-  if(lbl)lbl.textContent=active?' Projecting':' Extend';
+  btn.title=projector.isActive()?'Stop Projecting / Exit Fullscreen (F)':'Full Screen & Extend to Projector (F)';
  }
  function toggleTheme(){
   isDark=document.documentElement.classList.toggle('dark');
@@ -86,7 +85,22 @@ export function startApp(root){
 
  function fullscreenFailure(){fullscreenError='Fullscreen was blocked by the browser. Press F to try again.';const status=root.querySelector('#fullscreen-status');if(status)status.textContent=fullscreenError;}
  function enterFullscreen(){fullscreenError='';try{if(!document.fullscreenElement){if(!document.documentElement.requestFullscreen){fullscreenFailure();return;}Promise.resolve(document.documentElement.requestFullscreen()).catch(fullscreenFailure);}}catch{fullscreenFailure();}}
- async function fullscreen(){if(document.fullscreenElement){try{await document.exitFullscreen();}catch{fullscreenFailure();}}else enterFullscreen();}
+ async function fullscreen(){
+  if(projector.isProjector){
+   if(document.fullscreenElement){try{await document.exitFullscreen();}catch{fullscreenFailure();}}
+   else enterFullscreen();
+   return;
+  }
+  if(projector.isActive()||document.fullscreenElement){
+   if(projector.isActive())projector.toggleExtendDisplay();
+   if(document.fullscreenElement){try{await document.exitFullscreen();}catch{fullscreenFailure();}}
+   updateFullscreenButton();
+   return;
+  }
+  const opened=projector.toggleExtendDisplay();
+  if(!opened)enterFullscreen();
+  updateFullscreenButton();
+ }
  function launchTopic(event){const link=event.target.closest?.('a[href^="#/topic/"]');if(!link||event.defaultPrevented||event.button!==0||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;enterFullscreen();}
  function warmTopic(event){
   const link=event.target.closest?.('a[href^="#/topic/"]');
@@ -110,7 +124,7 @@ export function startApp(root){
    :route.kind==='outline'
    ?`<button type="button" class="button quiet" id="btn-search" title="Search curriculum (Ctrl+K)">${icon('Search')}</button><button type="button" class="button quiet" id="btn-theme-toggle" title="Toggle dark/light mode">${icon(themeIcon)}</button><a class="button quiet" href="#/">${icon('LayoutGrid')}<span class="back-text"> Back to Topics</span></a>`
    :route.kind==='topic'
-   ?`<button type="button" class="button quiet ${extendActive?'extend-active':''}" id="btn-extend-display" aria-pressed="${extendActive}" title="Extend to Projector Display (X)">${icon('MonitorCog')}<span class="extend-label"> ${extendActive?'Projecting':'Extend'}</span></button><button type="button" class="button quiet" id="btn-fullscreen" title="Fullscreen (F)">${icon('Maximize2')}</button><button type="button" class="button quiet" id="btn-search" title="Search curriculum (Ctrl+K)">${icon('Search')}</button><button type="button" class="button quiet" id="btn-theme-toggle" title="Toggle dark/light mode">${icon(themeIcon)}</button><a class="button quiet" href="#/">${icon('LayoutGrid')}<span class="back-text"> Back to Topics</span></a>`
+   ?`<button type="button" class="button quiet ${extendActive?'extend-active':''}" id="btn-fullscreen" aria-pressed="${extendActive}" title="${extendActive?'Stop Projecting / Exit Fullscreen (F)':'Full Screen & Extend to Projector (F)'}">${icon('Maximize2')}</button><button type="button" class="button quiet" id="btn-search" title="Search curriculum (Ctrl+K)">${icon('Search')}</button><button type="button" class="button quiet" id="btn-theme-toggle" title="Toggle dark/light mode">${icon(themeIcon)}</button><a class="button quiet" href="#/">${icon('LayoutGrid')}<span class="back-text"> Back to Topics</span></a>`
    :`<a class="button quiet" href="#/">${icon('LayoutGrid')}<span class="back-text"> Back to Topics</span></a>`;
 
   root.innerHTML=`<header class="app-header"><a class="brand" href="#/">${icon('Network')}<span>NETWORKING <b>1</b></span></a><div class="header-right">${headerRight}</div></header>${storageWarning?'<p role="status" class="storage-warning">Browser storage is unavailable; slide positions will last only for this session.</p>':''}<main id="main" tabindex="-1"></main><footer class="site-footer"><span>Networking 1 · Learn it. Model it. Explain it.</span><span>Competency-inspired learning · Not an accredited certification course</span></footer>`;
@@ -123,7 +137,6 @@ export function startApp(root){
   const btnTheme=root.querySelector('#btn-theme-toggle');if(btnTheme)btnTheme.onclick=toggleTheme;
   const btnSearch=root.querySelector('#btn-search');if(btnSearch)btnSearch.onclick=()=>searchModal.toggle();
   const btnFullscreen=root.querySelector('#btn-fullscreen');if(btnFullscreen)btnFullscreen.onclick=fullscreen;
-  const btnExtend=root.querySelector('#btn-extend-display');if(btnExtend)btnExtend.onclick=()=>projector.toggleExtendDisplay();
 
   const shell={querySelectorAll:selector=>[...root.querySelectorAll(selector)].filter(el=>!el.closest('#slide-content'))};
   wire(shell,{
@@ -249,11 +262,6 @@ export function startApp(root){
   if(e.key==='g'||e.key==='G'){
    e.preventDefault();
    slideGrid.toggle(route.topic,route.index);
-   return;
-  }
-  if(e.key==='x'||e.key==='X'){
-   e.preventDefault();
-   projector.toggleExtendDisplay();
    return;
   }
   if(['ArrowRight',' ','ArrowLeft','Home','End','f','F'].includes(e.key)){
