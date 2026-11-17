@@ -13,20 +13,20 @@ export default topic({
     {
       "title": "Two meanings of topology",
       "items": [
-        "Physical topology: How devices and cables are physically arranged and connected.",
-        "Logical topology: The actual path and rules data follows across the network."
+        "Physical topology: The real-world layout you can see and touch—where every computer sits, which switch port each cable enters, and how wires run through walls or trays.",
+        "Logical topology: How data actually travels between devices behind the scenes, shaped by switches, VLANs, and network rules regardless of how cables are arranged."
       ],
       "expectedCount": 2
     },
     {
       "title": "Six network topologies",
       "items": [
-        "Star: All devices connect to a central switch; one broken cable affects only one device.",
-        "Bus: Devices share one main cable; a break in the main cable stops the whole network.",
-        "Ring: Devices connect in a circle; one break stops traffic unless a backup ring exists.",
-        "Full mesh: Every device connects to every other device for high fault tolerance.",
-        "Tree: Star networks arranged in a hierarchy; an upper-link break isolates the branch below.",
-        "Hybrid: Combines two or more topologies, such as star networks joined by a backbone."
+        "Star: Every device plugs into a central switch with its own cable. One broken wire disconnects only that single PC while the rest stay online.",
+        "Bus: Older design where all devices share one main backbone cable. A single cut or loose terminator brings down the entire network.",
+        "Ring: Devices connect end-to-end in a closed loop, passing data around the circle. One break stops traffic unless a backup ring exists.",
+        "Full mesh: Every device has a direct link to every other device. Very reliable with instant backup paths, though it uses lots of cables.",
+        "Tree: Joins multiple star switches in a branching hierarchy from a core root switch. Simple to expand, though an upper-link cut isolates a branch.",
+        "Hybrid: Mixes two or more layouts—such as connecting several classroom star switches together onto a fast building or campus backbone."
       ],
       "expectedCount": 6,
       "lead": "Connection patterns have different costs and failure behavior."
@@ -34,10 +34,9 @@ export default topic({
     {
       "title": "Choose a topology for the task",
       "lead": "A small classroom commonly uses a switched star: easy to expand and isolate cable faults.",
-      "items": [
-        "Port planning: Count all computers, printers, and servers, plus spare switch ports for growth.",
-        "Cable labeling: Use proper cable lengths and label every port for fast troubleshooting.",
-        "Loop prevention: Never connect two switch ports together with an extra cable without loop protection."
+      "paragraphs": [
+        "Start by counting all computers, printers, and servers, then choose a central switch with spare ports for future growth. Use proper cable lengths and label every port so faults can be traced quickly.",
+        "Avoid creating unmanaged loops by connecting two switch ports together with an extra cable unless loop protection such as Spanning Tree Protocol is active."
       ]
     }
   ],

@@ -4,7 +4,7 @@ import {animatePacket,packetPosition} from '../components/packetMotion.js';
 import {esc,button,select,result,wire,read,networkSVG} from '../components/ui.js';
 import {layouts,reachable} from './models.js';
 import {topologyPath} from './extraModels.js';
-import {createStepPlayback} from './playback.js';
+import {createStepPlayback,playbackBar,syncPlaybackRow} from './playback.js';
 import {renderTopologyNode,getSavedNodeStyle,setSavedNodeStyle} from '../components/networkSymbols.js';
 import {preloadImages} from '../utils/preloadImages.js';
 function renderCommunicationSVG({ scenario, medium, step, totalSteps, packetPos, activeHop, isComplete }) {
@@ -294,15 +294,7 @@ export function communication(root){
           </div>
         </div>
 
-        <div class="control-row">
-          ${button(stepIndex===0&&!isRunning?'Send Data':'Play / replay','play','primary')}
-          ${button('Pause','pause')}
-          ${button('Resume','resume')}
-          ${button('Previous step','prev')}
-          ${button('Next step','next')}
-          ${button('Reset','reset')}
-          ${select('Animation speed','speed',[['0.5','0.5×'],['1','1×'],['2','2×']],playback.speed)}
-        </div>
+        ${playbackBar(playback)}
 
         <p class="small">A conceptual network transmission demonstration. Packets follow actual network topology links hop-by-hop. Physical signals move during transmission stages; reduced-motion disables that motion.</p>
       `;
@@ -318,7 +310,7 @@ export function communication(root){
         const pt=packetPosition(nodes,current.route,progress);
         if(pt){marker.setAttribute('cx',pt.x);marker.setAttribute('cy',pt.y);}
       }
-      if((playback.running||(!isTestEnv&&progress===0))&&!reduced){
+      if(playback.running&&!reduced){
         releaseMotion=animatePacket(svg,nodes,current.route,{
           progress,
           duration:(isTestEnv?2000:1800)/playback.speed,
@@ -339,7 +331,7 @@ export function communication(root){
     }
 
     const scenSelect=root.querySelector('[name="scenario"]');
-    if(scenSelect)scenSelect.onchange=e=>{scenario=e.target.value;step=0;progress=0;playback.reset();draw();};
+    if(scenSelect)scenSelect.onchange=e=>{scenario=e.target.value;step=0;progress=0;playback.stop();draw();};
 
     const medSelect=root.querySelector('[name="medium"]');
     if(medSelect)medSelect.onchange=e=>{medium=e.target.value;playback.pause();draw();};
@@ -347,16 +339,13 @@ export function communication(root){
     const spdSelect=root.querySelector('[name="speed"]');
     if(spdSelect)spdSelect.onchange=e=>{playback.setSpeed(e.target.value);draw();};
 
-    root.querySelector('[data-action="prev"]').disabled=step===0;
-    root.querySelector('[data-action="next"]').disabled=step===stages.length-1;
+    syncPlaybackRow(root,playback);
 
     wire(root,{
-      play:()=>{progress=0;playback.replay();},
+      play:()=>{progress=0;playback.play();},
       pause:()=>{playback.pause();draw();},
-      resume:()=>playback.resume(),
-      prev:()=>{playback.previous();draw();},
-      next:()=>{playback.next();draw();},
-      reset:()=>{playback.reset();progress=0;medium='Copper Ethernet';scenario='local';playback.setSpeed(1);draw();}
+      resume:()=>{progress=0;playback.resume();},
+      stop:()=>{playback.stop();progress=0;draw();}
     });
   }
 
@@ -487,16 +476,9 @@ export function topology(root){
           ${select('Topology','kind',[...Object.keys(layouts),'Build your own'],kind)}
           ${select('Failed cable','failed',[[-1,'None'],...model.edges.map(([a,b],i)=>[i,`${model.nodes[a]} ↔ ${model.nodes[b]}`])],failed)}
           ${select('Failed device','dead',[[-1,'None'],...model.nodes.map((n,i)=>[i,n])],dead)}
-          ${button('Reset faults','reset')}
-        </div>
-
-        <div class="control-row topology-controls">
           ${select('Trace from','source',model.nodes.map((n,i)=>[i,n]),source)}
           ${select('Trace to','target',model.nodes.map((n,i)=>[i,n]),target)}
-          ${button('Play trace','play','primary')}
-          ${button('Pause','pause')}
-          ${button('Resume','resume')}
-          ${select('Animation speed','speed',[['0.5','0.5×'],['1','1×'],['2','2×']],playback.speed)}
+          ${button('Reset faults','resetFaults')}
         </div>
 
         <div class="topology-workbench-grid">
@@ -542,6 +524,8 @@ export function topology(root){
             ` : ''}
           </div>
         </div>
+
+        ${playbackBar(playback,{extraClass:'topology-controls'})}
       </div>
     `;
 
@@ -549,23 +533,27 @@ export function topology(root){
       const el=root.querySelector(`[name="${n}"]`);
       if(!el)return;
       el.onchange=e=>{
-        playback.pause();
         if(n==='kind'){
+          playback.stop();
           kind=e.target.value;
           failed=dead=-1;
           source=kind==='Star'?1:0;
           target=layouts[kind]?.nodes.length?layouts[kind].nodes.length-1:4;
           step=0;
         }else if(n==='failed'){
+          playback.stop();
           failed=+e.target.value;
           step=0;
         }else if(n==='dead'){
+          playback.stop();
           dead=+e.target.value;
           step=0;
         }else if(n==='source'){
+          playback.stop();
           source=+e.target.value;
           step=0;
         }else if(n==='target'){
+          playback.stop();
           target=+e.target.value;
           step=0;
         }else if(n==='speed'){
@@ -575,30 +563,20 @@ export function topology(root){
       };
     });
 
-    const prevBtn=root.querySelector('[data-action="prev"]');
-    if(prevBtn)prevBtn.disabled=path.length===0||step===0;
-    const nextBtn=root.querySelector('[data-action="next"]');
-    if(nextBtn)nextBtn.disabled=path.length===0||step===path.length-1;
-    const playBtn=root.querySelector('[data-action="play"]');
-    if(playBtn)playBtn.disabled=path.length===0;
+    syncPlaybackRow(root,playback,{disabled:path.length===0});
 
     wire(root,{
-      reset:()=>{failed=dead=-1;step=0;playback.reset();draw();},
-      resetFaults:()=>{failed=dead=-1;step=0;playback.reset();draw();},
-      resetTrace:()=>{step=0;playback.reset();draw();},
-      play:()=>{step=0;playback.replay();},
+      stop:()=>{step=0;playback.stop();draw();},
+      resetFaults:()=>{failed=dead=-1;step=0;playback.stop();draw();},
+      play:()=>{if(playback.completed)step=0;playback.play();},
       pause:()=>{playback.pause();draw();},
-      resume:()=>playback.resume(),
-      prev:()=>{playback.previous();draw();},
-      previous:()=>{playback.previous();draw();},
-      next:()=>{playback.next();draw();},
-      advance:()=>{playback.next();draw();},
-      clear:()=>{custom=[];failed=dead=-1;step=0;playback.reset();draw();},
+      resume:()=>{if(playback.completed)step=0;playback.resume();},
+      clear:()=>{custom=[];failed=dead=-1;step=0;playback.stop();draw();},
       add:()=>{
         const a=model.nodes.indexOf(read(root,'from')),b=model.nodes.indexOf(read(root,'to'));
         if(a!==b&&!custom.some(([x,y])=>x===a&&y===b||x===b&&y===a))custom.push([a,b]);
         step=0;
-        playback.reset();
+        playback.stop();
         draw();
       }
     });
@@ -610,7 +588,7 @@ export function topology(root){
   };
 }
 const layers=[['Application','User-facing protocol services','HTTP, DNS; TCP/IP Application'],['Presentation','Representation, encoding, encryption concepts','Text encoding, data representation; TCP/IP Application'],['Session','Dialog/session management concepts','Session coordination; TCP/IP Application'],['Transport','Process-to-process delivery','TCP segments, UDP datagrams; TCP/IP Transport'],['Network','Logical addressing and routing','IPv4 / IPv6 packets; TCP/IP Internet'],['Data Link','Local frames and media access','Ethernet frames, MAC; TCP/IP Link'],['Physical','Signals and bit transmission','Copper electrical signals, fiber light, radio; TCP/IP Link']];
-export function osi(root){let layer=0,step=0,transport='TCP';const wraps=['Application data','TCP header + data (segment)','IP header + segment (packet)','Ethernet header + packet + trailer (frame)','Signals on the medium','Receiver removes link framing','Receiver processes IP and transport','Application receives data'];function draw(){root.innerHTML=`<div class="osi-grid"><div>${layers.map((l,i)=>`<button data-layer="${i}" aria-pressed="${i===layer}"><b>${7-i}</b> ${l[0]}</button>`).join('')}</div><div><span class="eyebrow">OSI ${7-layer} · ${layers[layer][0]}</span><h2>${layers[layer][1]}</h2><p>${layers[layer][2]}</p></div></div><div class="step-card" aria-live="polite"><b>Encapsulation journey · ${step+1}/8</b><p>${wraps[step]}</p></div><div class="control-row">${button('Previous step','prev')}${button(step===7?'Replay':'Next step','next','primary')}${select('Transport loss demonstration','transport',['TCP','UDP'],transport)}${button('Lose data unit 2','loss')}</div><div id="loss"></div>`;root.querySelector('[name="transport"]').onchange=e=>{transport=e.target.value;};root.querySelectorAll('[data-layer]').forEach(b=>b.onclick=()=>{layer=+b.dataset.layer;draw();});wire(root,{prev:()=>{step=Math.max(0,step-1);draw();},next:()=>{step=(step+1)%8;draw();},loss:()=>root.querySelector('#loss').innerHTML=result(read(root,'transport')==='TCP'?'Units 1 and 3 arrive. TCP detects missing bytes through acknowledgment/sequence behavior and retransmits; the application receives ordered bytes.':'Datagrams 1 and 3 arrive. UDP itself neither retransmits datagram 2 nor restores ordering. The application decides how to handle the loss.')});}draw();}
+export function osi(root){let layer=0,step=0,transport='TCP';const wraps=['Application data','TCP header + data (segment)','IP header + segment (packet)','Ethernet header + packet + trailer (frame)','Signals on the medium','Receiver removes link framing','Receiver processes IP and transport','Application receives data'];const playback=createStepPlayback({length:()=>wraps.length,getIndex:()=>step,setIndex:n=>{step=n;},render:draw});function draw(){const markup=s=>`<div class="control-row">${select('Transport loss demonstration','transport',['TCP','UDP'],transport)}${button('Lose data unit 2','loss')}</div><div class="osi-grid"><div>${layers.map((l,i)=>`<button data-layer="${i}" aria-pressed="${i===layer}"><b>${7-i}</b> ${l[0]}</button>`).join('')}</div><div><span class="eyebrow">OSI ${7-layer} · ${layers[layer][0]}</span><h2>${layers[layer][1]}</h2><p>${layers[layer][2]}</p></div></div><div class="step-card" aria-live="polite"><b>Encapsulation journey · ${s+1}/8 · ${playback.status}</b><p>${wraps[s]}</p></div>${playbackBar(playback)}<div id="loss"></div>`;root.innerHTML=markup(step);reserveSimulationSpace(root,wraps.map((_,i)=>markup(i)));root.querySelector('[name="transport"]').onchange=e=>{transport=e.target.value;};root.querySelector('[name="speed"]').onchange=e=>playback.setSpeed(e.target.value);syncPlaybackRow(root,playback);root.querySelectorAll('[data-layer]').forEach(b=>b.onclick=()=>{layer=+b.dataset.layer;draw();});wire(root,{play:()=>playback.play(),pause:()=>{playback.pause();draw();},resume:()=>playback.resume(),stop:()=>{playback.stop();draw();},loss:()=>root.querySelector('#loss').innerHTML=result(read(root,'transport')==='TCP'?'Units 1 and 3 arrive. TCP detects missing bytes through acknowledgment/sequence behavior and retransmits; the application receives ordered bytes.':'Datagrams 1 and 3 arrive. UDP itself neither retransmits datagram 2 nor restores ordering. The application decides how to handle the loss.')});}draw();return ()=>playback.dispose();}
 const media={
   UTP:['Four unshielded twisted copper pairs in a PVC/LSZH jacket.','Cat 5e (1 Gb/s at 100 m), Cat 6 (10 Gb/s at 55 m), Cat 6A (10 Gb/s at 100 m).','#d97706','images/media/utp_cable.webp','Cat 6 UTP Cable'],
   STP:['Twisted pairs with foil/braided shielding (F/UTP, S/FTP); protects against severe EMI.','Used in industrial, electrical, and data center pathways with proper grounding.','#64748b','images/media/stp_cable.webp','STP Shielded Cable'],

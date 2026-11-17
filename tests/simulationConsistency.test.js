@@ -15,36 +15,44 @@ const position=()=>{
 };
 const types=['transferDemo','availabilityDemo','pathTraceDemo','layerBoundaryDemo','nextHopFrameDemo','mediumBudgetDemo','pairScanDemo','bitwiseDemo','partitionDemo','asymmetricDemo','guestIsolationDemo','ttlTraceDemo','protocolArp','protocolWeb','protocolMail','osiJourney','communication'];
 
-it.each(types)('%s resumes a manually displayed final step before completing',type=>{
+it.each(types)('%s resumes from the final step when Resume is clicked after Pause and restarts on Play after Complete',type=>{
  dispose=simulations[type](root);
- const next=type==='communication'?'next':'advance';
+ expect(vi.getTimerCount()).toBe(0);
  const count=position()[1];
- for(let i=1;i<count;i++)click(next);
- expect(position()[0]).toBe(count);expect(position()[2]).toContain('Paused');
- expect(root.querySelector(`[data-action="${next}"]`).disabled).toBe(true);
- click(type==='osiJourney'?'toggle':'resume');
+ click('play');
+ vi.advanceTimersByTime((count-1)*2000);
+ expect(position()[0]).toBe(count);
+ click('pause');
+ expect(position()[0]).toBe(count);
+ expect(position()[2]).toContain('Paused');
+ expect(root.querySelector('[data-action="stop"]')).not.toBeNull();
+ click('resume');
  expect(position()[0]).toBe(count);expect(position()[2]).toContain('Playing');
  vi.advanceTimersByTime(1000);expect(position()[0]).toBe(count);
- click(type==='osiJourney'?'toggle':'pause');vi.advanceTimersByTime(5000);expect(position()[0]).toBe(count);
- click(type==='osiJourney'?'toggle':'resume');vi.advanceTimersByTime(2000);
+ click('pause');vi.advanceTimersByTime(5000);expect(position()[0]).toBe(count);
+ click('resume');vi.advanceTimersByTime(2000);
  expect(position()[2]).toContain('Complete');expect(vi.getTimerCount()).toBe(0);
- if(type==='osiJourney')click('reset');else click('play');expect(position()[0]).toBe(1);
+ expect(root.querySelector('[data-action="play"]')).not.toBeNull();
+ expect(root.querySelector('[data-action="pause"]').disabled).toBe(true);
+ click('play');expect(position()[0]).toBe(1);expect(position()[2]).toContain('Playing');
+ click('stop');expect(position()[0]).toBe(1);expect(vi.getTimerCount()).toBe(0);
+ expect(root.querySelector('[data-action="play"]')).not.toBeNull();
+ expect(root.querySelector('[data-action="pause"]').disabled).toBe(true);
  dispose();dispose=null;expect(vi.getTimerCount()).toBe(0);
 });
 
 const examples=topics.flatMap(t=>t.slides.filter(s=>s.kind==='example').map(s=>[t.number,s.title,t,s]));
-it.each(examples)('topic %i example %s preserves the final step and foreground marker',(_n,_name,topic,slide)=>{
+it.each(examples)('topic %i example %s preserves the final step and foreground marker after manual Play',(_n,_name,topic,slide)=>{
  dispose=automaticExample(root,slide,topic.id);
  const [initial,total]=positionForExample();
  expect(initial).toBe(1);
- for(let i=1;i<total;i++)click('example-next');
  expect(root.querySelector('.example-state').textContent).toBe('Paused');
+ expect(vi.getTimerCount()).toBe(0);
+ click('play');vi.advanceTimersByTime((total-1)*2000);
+ expect(positionForExample()[0]).toBe(total);
  const marker=root.querySelector('[data-example-packet]');
  if(marker)expect(marker.parentElement.lastElementChild).toBe(marker);
- click('example-toggle');vi.advanceTimersByTime(1000);
- expect(positionForExample()[0]).toBe(total);
- expect(root.querySelector('.example-state').textContent).toBe('Playing automatically');
- vi.advanceTimersByTime(1000);
+ vi.advanceTimersByTime(2000);
  expect(root.querySelector('.example-state').textContent).toBe('Complete');
  expect(vi.getTimerCount()).toBe(0);
 });
@@ -60,12 +68,12 @@ it('keeps static markers above devices at the selected node',()=>{
  }
 });
 
-it('retains an acknowledged lease instead of silently restarting DHCP on Resume',()=>{
- dispose=simulations.dhcp(root);for(let i=0;i<4;i++)click('step');
+it('retains an acknowledged lease and restarts DORA cleanly only on Play after completion',()=>{
+ dispose=simulations.dhcp(root);click('play');vi.advanceTimersByTime(8000);
  const leases=root.querySelector('tbody').textContent;
- expect(root.querySelector('[data-action="resume"]').disabled).toBe(true);
- click('resume');vi.advanceTimersByTime(10000);
- expect(root.querySelector('tbody').textContent).toBe(leases);
  expect(root.querySelector('.dora .current').textContent).toContain('ACK');
+ expect(root.querySelector('[data-action="play"]').disabled).toBe(false);
+ expect(root.querySelector('[data-action="pause"]').disabled).toBe(true);
+ expect(root.querySelector('tbody').textContent).toBe(leases);
  expect(vi.getTimerCount()).toBe(0);
 });

@@ -13,48 +13,38 @@ export default topic({
     {
       "title": "Observe before changing",
       "lead": "Define the symptom and scope, gather evidence, make one justified change, then retest and document.",
-      "items": [
-        "Check Layer 1 first: Inspect power, cables, switch link lights, and Wi-Fi connection.",
-        "Check IP settings: Verify the IP address, subnet mask, gateway, and DHCP status.",
-        "Isolate the layer: If ping works by IP but websites fail by name, check DNS."
+      "paragraphs": [
+        "Start troubleshooting at Layer 1 by checking power cables, Ethernet plugs, switch link lights, and Wi-Fi association before changing any software settings.",
+        "Next, verify IPv4 address, subnet mask, default gateway, and DHCP status, isolating each layer one step at a time—for instance, if pinging an IP works while opening a domain name fails, focus on DNS."
       ]
     },
     {
       "title": "Six Windows diagnostic commands",
       "lead": "Run these on your own authorized Windows lab PC; browser output in the simulation is a model.",
       "items": [
-        "ipconfig: Displays current IPv4 address, subnet mask, and default gateway.",
-        "ipconfig /all: Shows MAC address, DHCP server, lease times, and DNS servers.",
-        "ping: Sends ICMP Echo messages to test reachability and round-trip time.",
-        "tracert: Maps each router hop along the path to a remote destination.",
-        "nslookup: Queries a DNS server to check if domain names resolve to IPs.",
-        "arp -a: Lists the local table of IPv4 addresses matched to MAC addresses."
+        "ipconfig: Quick check showing your PC’s active IPv4 address, subnet mask, and default gateway—great for spotting missing or APIPA settings.",
+        "ipconfig /all: Full network report adding your physical MAC address, which DHCP server gave your lease, when it expires, and DNS servers.",
+        "ping: Sends test Echo messages to an IP or name to verify basic reachability, packet loss, and round-trip speed in milliseconds.",
+        "tracert: Traces each router hop along the path so you can see exactly where distant packets slow down or stop.",
+        "nslookup: Asks your DNS server to look up a website name, separating naming failures from broken network cables or routing.",
+        "arp -a: Lists the local memory table pairing nearby LAN IP addresses with hardware MAC addresses found on your switch."
       ],
       "expectedCount": 6
     },
     {
       "title": "Test the theory and verify the repair",
       "lead": "Different problems can produce similar symptoms, so compare independent evidence.",
-      "items": [
-        "169.254.x.x (APIPA): Means the PC could not reach a DHCP server.",
-        "Local vs. remote: A bad gateway breaks Internet access while local subnet pings still work.",
-        "Document the fix: Record network diagrams, IP tables, and change logs after verifying repairs."
+      "paragraphs": [
+        "Interpret clues carefully: a 169.254.x.x APIPA address shows DHCP failed, whereas working local LAN pings paired with unreachable websites point to a missing gateway or DNS fault.",
+        "After applying a targeted fix, repeat the exact test that previously failed to verify recovery, then record updated IP tables and change notes."
       ]
     },
     {
-      "title": "Nine modeled network faults",
-      "items": [
-        "Ethernet cable disconnected.",
-        "Incorrect static IP address.",
-        "Incorrect subnet mask.",
-        "Duplicate IP address.",
-        "DHCP server unavailable.",
-        "Incorrect default gateway.",
-        "DNS server problem.",
-        "File-sharing permission denied.",
-        "Wireless client disconnected."
+      "title": "Common Network Fault Symptoms",
+      "paragraphs": [
+        "In practice, connectivity failures usually fall into physical link issues (an unplugged Ethernet cable or disconnected Wi-Fi client) or addressing errors (wrong static IP, mismatched subnet mask, duplicate IP conflict, or unavailable DHCP server resulting in APIPA).",
+        "Higher-layer symptoms include a wrong default gateway blocking outside traffic, a failing DNS server blocking domain names while numeric pings still work, or denied share/NTFS permissions blocking shared folders."
       ],
-      "expectedCount": 9,
       "lead": "The diagnostic demonstration shows each fault separately and the effect of its targeted repair."
     }
   ],
@@ -62,15 +52,6 @@ export default topic({
     "type": "troubleshoot",
     "title": "Diagnostic command bench",
     "lead": "Modeled network • nine deterministic fault states. Inspect commands, select a cause, apply a targeted repair, and retest."
-  },
-  "application": {
-    "title": "“The network is down”",
-    "lead": "A student can reach the gateway by IP, but cannot open a website by its name.",
-    "items": [
-      "Check numeric external reachability and DNS responses to separate routing from name resolution.",
-      "Do not assume the cable is faulty when the gateway is responding.",
-      "Even working DNS and ping do not prove a web service or permission is functioning."
-    ]
   },
   "installation": {
     "equipment": "Two lab PCs, switch/router, test cable, approved diagnostic access.",

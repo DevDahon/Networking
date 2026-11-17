@@ -2,7 +2,7 @@ import {mountPenTool} from './components/penTool.js';
 import {createSlideGrid} from './components/slideGrid.js';
 import {createSearchModal} from './components/searchModal.js';
 import {createConfirmModal} from './components/confirmModal.js';
-import {createIcons,Network,Globe,Workflow,Router,Layers,Cable,PlugZap,Binary,Split,MonitorCog,RefreshCw,Wifi,FolderOpen,Stethoscope,Shield,ArrowUpRight,ArrowLeft,ArrowRight,BookOpen,LayoutGrid,Search,Moon,Sun,Maximize2,Check,HelpCircle} from 'lucide';
+import {createIcons,Network,Globe,Workflow,Router,Layers,Cable,PlugZap,Binary,Split,MonitorCog,RefreshCw,RotateCcw,Wifi,FolderOpen,Stethoscope,Shield,ArrowUpRight,ArrowLeft,ArrowRight,BookOpen,LayoutGrid,Search,Moon,Sun,Maximize2,Check,HelpCircle} from 'lucide';
 import {topics} from './topics/topicRegistry.js';
 import {esc,formatItemText,button,networkSVG,wire} from './components/ui.js';
 import {titleVisual} from './components/titleVisual.js';
@@ -29,7 +29,7 @@ const osiLayerPanels = {
 };
 const visualPanels={performanceMeasures:performanceExamplesVisual,encapsulationExample:encapsulationExampleVisual,modularConnectors:modularConnectorsVisual,...physicalVisualPanels,...osiLayerPanels};
 
-const icons={Network,Globe,Workflow,Router,Layers,Cable,PlugZap,Binary,Split,MonitorCog,RefreshCw,Wifi,FolderOpen,Stethoscope,Shield,ArrowUpRight,ArrowLeft,ArrowRight,BookOpen,LayoutGrid,Search,Moon,Sun,Maximize2,Check,HelpCircle};
+const icons={Network,Globe,Workflow,Router,Layers,Cable,PlugZap,Binary,Split,MonitorCog,RefreshCw,RotateCcw,Wifi,FolderOpen,Stethoscope,Shield,ArrowUpRight,ArrowLeft,ArrowRight,BookOpen,LayoutGrid,Search,Moon,Sun,Maximize2,Check,HelpCircle};
 const icon=n=>`<i data-lucide="${n.replace(/([a-z0-9])([A-Z])/g,'$1-$2').toLowerCase()}" aria-hidden="true"></i>`;
 
 export function startApp(root){
@@ -124,7 +124,7 @@ export function startApp(root){
   const themeIcon=isDark?'Sun':'Moon';
   const extendActive=projector.isActive();
   const headerRight=route.kind==='dashboard'
-   ?`<a class="button quiet" href="#/outline" title="View Course Outline">${icon('BookOpen')}<span class="outline-nav-text"> Course Outline</span></a><button type="button" class="button quiet" id="btn-search" title="Search curriculum (Ctrl+K)">${icon('Search')}</button><button type="button" class="button quiet" id="btn-theme-toggle" title="Toggle dark/light mode">${icon(themeIcon)}</button>${button('Reset positions','reset','quiet')}`
+   ?`<a class="button quiet" href="#/outline" title="View Course Outline">${icon('BookOpen')}<span class="outline-nav-text"> Course Outline</span></a><button type="button" class="button quiet" id="btn-search" title="Search curriculum (Ctrl+K)">${icon('Search')}</button><button type="button" class="button quiet" id="btn-theme-toggle" title="Toggle dark/light mode">${icon(themeIcon)}</button><button type="button" class="button quiet" id="btn-reset" data-action="reset" title="Reset saved slide positions" aria-label="Reset positions">${icon('RotateCcw')}</button>`
    :route.kind==='outline'
    ?`<button type="button" class="button quiet" id="btn-search" title="Search curriculum (Ctrl+K)">${icon('Search')}</button><button type="button" class="button quiet" id="btn-theme-toggle" title="Toggle dark/light mode">${icon(themeIcon)}</button><a class="button quiet" href="#/">${icon('LayoutGrid')}<span class="back-text"> Back to Topics</span></a>`
    :route.kind==='topic'
@@ -184,23 +184,15 @@ export function startApp(root){
 
  function presentation(){
   const {topic:t,index}=route,s=t.slides[index];progress.lastTopic=t.id;const p=progress.topics[t.id]||={};p.slide=index;persist();const total=t.slides.length;
-  let parentConcept='';
-  if(s.kind==='example'||s.kind==='demo'){
-   for(let k=index-1;k>=2;k--){
-    if(t.slides[k].kind==='concept'||(s.kind==='demo'&&t.slides[k].kind==='walkthrough')){parentConcept=t.slides[k].title;break;}
-   }
-  }
-  const contextPill=parentConcept?`<div class="slide-context-pill">${s.kind==='example'?'EXAMPLE':'SIMULATION'} · ${esc(parentConcept)}</div>`:'';
-  const nextSlide=t.slides[index+1];
-  const nextLabel=nextSlide?.kind==='example'?'Next: Example ':nextSlide?.kind==='demo'?'Next: Simulation ':'Next slide ';
+  const nextLabel='Next Slide ';
   const currentTopicIndex=topics.findIndex(item=>item.id===t.id);
   const prevTopic=topics[currentTopicIndex-1];
   const nextTopic=topics[currentTopicIndex+1];
   const prevLabel=index===0&&prevTopic?' Previous topic':' Previous';
   const lastAction=nextTopic
-   ?`<a class="button primary" href="#/topic/${nextTopic.id}/slide/1">Next topic ${icon('ArrowRight')}</a>`
+   ?`<a class="button primary" href="#/topic/${nextTopic.id}/slide/1">Next Topic ${icon('ArrowRight')}</a>`
    :`<a class="button primary" href="#/">Back to Topics ${icon('LayoutGrid')}</a>`;
-  root.querySelector('main').innerHTML=`<div class="slide-stage"><article class="slide slide-${s.kind}"><div class="slide-kicker"><span>NETWORKING 1 / ${String(t.number).padStart(2,'0')}</span><span>${String(index+1).padStart(2,'0')} / ${total}</span></div><div class="slide-body">${contextPill}<h2>${esc(s.title)}</h2>${s.lead?`<p class="slide-lead">${esc(s.lead)}</p>`:''}<div id="slide-content" class="${s.type?'simulation-container':''}"></div></div></article></div><div class="slide-navigation"><div><button type="button" class="button quiet" id="btn-slide-grid" title="Slide Grid (G)">${icon('LayoutGrid')} Grid</button><span class="slide-count">${index+1} of ${total}</span></div><div>${button(icon('ArrowLeft')+prevLabel,'prev')}${index<total-1?button(nextLabel+icon('ArrowRight'),'next','primary'):lastAction}</div></div><div class="lesson-progress"><span style="width:${(index+1)/total*100}%"></span></div><p id="fullscreen-status" role="status">${esc(fullscreenError)}</p>`;
+  root.querySelector('main').innerHTML=`<div class="slide-stage"><article class="slide slide-${s.kind}"><div class="slide-kicker"><span>NETWORKING 1 / ${String(t.number).padStart(2,'0')}</span><span>${String(index+1).padStart(2,'0')} / ${total}</span></div><div class="slide-body"><h2>${esc(s.title)}</h2>${s.lead?`<p class="slide-lead">${esc(s.lead)}</p>`:''}<div id="slide-content" class="${s.type||s.kind==='example'?'simulation-container':''}"></div></div></article></div><div class="slide-navigation"><div><button type="button" class="button quiet" id="btn-slide-grid" title="Slide Grid (G)">${icon('LayoutGrid')} Grid</button><span class="slide-count">${index+1} of ${total}</span></div><div>${button(icon('ArrowLeft')+prevLabel,'prev')}${index<total-1?button(nextLabel+icon('ArrowRight'),'next','primary'):lastAction}</div></div><div class="lesson-progress"><span style="width:${(index+1)/total*100}%"></span></div><p id="fullscreen-status" role="status">${esc(fullscreenError)}</p>`;
   root.querySelector('[data-action="prev"]').disabled=index===0&&!prevTopic;
   const nextTopicLink=index===total-1&&nextTopic?root.querySelector('.slide-navigation a[href^="#/topic/"]'):null;
   if(nextTopicLink){
@@ -224,7 +216,10 @@ export function startApp(root){
   else if(s.deviceKey && deviceMetadata[s.deviceKey]){
    const meta=deviceMetadata[s.deviceKey];
    const roleHtml=`<div class="device-role-card"><h4 class="role-title">${esc(meta.name)}</h4><p class="role-desc">${esc(meta.desc)}</p></div>`;
-   const listHtml=`<ul class="teaching-points">${s.items.map((item,i)=>`<li><span class="point-index">${esc(s.itemLabels?.[i]??String(i+1).padStart(2,'0'))}</span><p>${formatItemText(item)}</p></li>`).join('')}</ul>`;
+   const hasParagraphs=Array.isArray(s.paragraphs)&&s.paragraphs.length>0;
+   const listHtml=hasParagraphs
+    ?`<div class="slide-prose">${s.paragraphs.map(p=>`<p>${formatItemText(p)}</p>`).join('')}</div>`
+    :`<ul class="teaching-points">${(s.items||[]).map((item,i)=>`<li><span class="point-index">${esc(s.itemLabels?.[i]??String(i+1).padStart(2,'0'))}</span><p>${formatItemText(item)}</p></li>`).join('')}</ul>`;
    content.innerHTML=`<div class="device-slide-grid"><div class="device-visuals-col">${renderDeviceSlideVisual(s.deviceKey)}</div><div class="device-content-col">${roleHtml}${listHtml}</div></div>`;
   }
   else if(s.toolKey && toolsMetadata[s.toolKey]){
@@ -239,10 +234,14 @@ export function startApp(root){
     else if(s.title.startsWith('T568B:'))extraVisual=rj45PlugColorSVG('B');
     else if(titleLower.includes('straight-through'))extraVisual=straightVsCrossoverVisualSVG();
    }
-   const isGrid = !extraVisual && (s.expectedCount >= 4 || s.items.length >= 4 || (s.kind === 'concept' && s.expectedCount === 2) || Boolean(visualPanels[s.visualKey]));
-   const gridClass = !extraVisual && (s.expectedCount >= 7 || s.items.length >= 7) ? 'counted-grid-3' : (isGrid ? 'counted-grid' : '');
    const visualPanel = visualPanels[s.visualKey]?.() || '';
-   const itemsHtml=`<${s.kind==='objectives'?'ol':'ul'} class="teaching-points ${gridClass}"${s.expectedCount?` data-item-count="${s.expectedCount}"`: ''}>${s.items.map((item,i)=>`<li><span class="point-index">${esc(s.itemLabels?.[i]??String(i+1).padStart(2,'0'))}</span><p>${formatItemText(item)}</p></li>`).join('')}</${s.kind==='objectives'?'ol':'ul'}>`;
+   const hasParagraphs = Array.isArray(s.paragraphs) && s.paragraphs.length > 0;
+   const isGrid = !extraVisual && !hasParagraphs && (s.expectedCount >= 4 || s.items?.length >= 4 || (s.kind === 'concept' && s.expectedCount === 2) || Boolean(visualPanels[s.visualKey]));
+   const gridClass = !extraVisual && (s.expectedCount >= 7 || s.items?.length >= 7) ? 'counted-grid-3' : (isGrid ? 'counted-grid' : '');
+   const stackedClass = s.stackedDescriptions ? 'stacked-items' : '';
+   const itemsHtml=hasParagraphs
+    ?`<div class="slide-prose">${s.paragraphs.map(p=>`<p>${formatItemText(p)}</p>`).join('')}</div>`
+    :`<${s.kind==='objectives'?'ol':'ul'} class="teaching-points ${[gridClass,stackedClass].filter(Boolean).join(' ')}"${s.expectedCount?` data-item-count="${s.expectedCount}"`: ''}>${(s.items||[]).map((item,i)=>`<li><span class="point-index">${esc(s.itemLabels?.[i]??String(i+1).padStart(2,'0'))}</span><p>${formatItemText(item,Boolean(s.stackedDescriptions))}</p></li>`).join('')}</${s.kind==='objectives'?'ol':'ul'}>`;
    const listHtml=`${itemsHtml}${visualPanel}`;
    content.innerHTML=extraVisual
     ?`<div class="rj45-slide-grid">${extraVisual}<div class="rj45-slide-content">${listHtml}</div></div>`

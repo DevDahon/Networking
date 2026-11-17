@@ -1,6 +1,6 @@
 import {reserveSimulationSpace} from '../components/simulationSpace.js';
 import {esc,button,select,result,wire,read,networkSVG} from '../components/ui.js';
-import {createStepPlayback} from './playback.js';
+import {createStepPlayback,playbackBar,syncPlaybackRow} from './playback.js';
 
 export const securityScenarios = [
   {
@@ -117,15 +117,10 @@ export function security(root) {
         <div class="control-row">
           ${select('Security scenario', 'scenario', securityScenarios.map((s, i) => [i, s.name]), selected)}
           ${select('Security defense state', 'defense', [['enabled', 'Defenses Active (Protected)'], ['disabled', 'Defenses Disabled (Vulnerable)']], defenseActive)}
-          ${button(player.running ? 'Pause simulation' : 'Simulate Threat Event', 'simulate', 'primary')}
-          ${button('Previous step', 'previous')}
-          ${button('Next step', 'advance')}
-          ${button('Reset Scenario', 'reset')}
-          ${select('Speed', 'speed', [['0.5', '0.5×'], ['1', '1×'], ['2', '2×']], player.speed)}
         </div>
         <div class="sim-workbench-grid">
           <div class="sim-visual-panel">
-            ${networkSVG(sc.labels, nodeForStep, null, nodeForStep > 0 ? nodeForStep - 1 : 0, {
+            ${networkSVG(sc.labels, nodeForStep, nodeForStep, null, {
               direction: 'reverse',
               badge: stepIndex === 0 ? 'Threat Origin' : stepIndex === 1 ? 'Inspecting...' : (isProtected ? 'BLOCKED ✓' : 'BREACH !'),
               fault: stepIndex === 2 && isProtected
@@ -147,6 +142,7 @@ export function security(root) {
             ${detailHtml}
           </div>
         </div>
+        ${playbackBar(player)}
       `;
     };
 
@@ -155,13 +151,13 @@ export function security(root) {
 
     root.querySelector('[name="scenario"]').onchange = e => {
       selected = Number(e.target.value);
-      player.reset();
+      player.stop();
       draw();
     };
 
     root.querySelector('[name="defense"]').onchange = e => {
       defenseActive = e.target.value;
-      player.reset();
+      player.stop();
       draw();
     };
 
@@ -177,28 +173,21 @@ export function security(root) {
       };
     });
 
-    root.querySelector('[data-action="previous"]').disabled = step === 0;
-    root.querySelector('[data-action="advance"]').disabled = step === 2;
+    syncPlaybackRow(root, player);
 
     wire(root, {
-      simulate: () => {
-        if (player.running) {
-          player.pause();
-          draw();
-        } else {
-          player.replay();
-        }
+      play: () => {
+        player.play();
       },
-      previous: () => {
-        player.previous();
+      pause: () => {
+        player.pause();
         draw();
       },
-      advance: () => {
-        player.next();
-        draw();
+      resume: () => {
+        player.resume();
       },
-      reset: () => {
-        player.reset();
+      stop: () => {
+        player.stop();
         draw();
       }
     });
@@ -354,15 +343,10 @@ export function securityFirewall(root) {
         <div class="control-row">
           ${select('Select test packet', 'packet', firewallPackets.map((p, i) => [i, p.name]), selected)}
           ${select('Firewall mode', 'mode', [['stateful', 'Stateful Inspection (Connection Tracking)'], ['stateless', 'Stateless Packet Filter (ACLs only)']], mode)}
-          ${button(player.running ? 'Pause simulation' : 'Start Simulation', 'evaluate', 'primary')}
-          ${button('Previous step', 'previous')}
-          ${button('Next step', 'advance')}
-          ${button('Reset', 'reset')}
-          ${select('Speed', 'speed', [['0.5', '0.5×'], ['1', '1×'], ['2', '2×']], player.speed)}
         </div>
         <div class="sim-workbench-grid">
           <div class="sim-visual-panel">
-            ${networkSVG(labels, nodeForStep, null, nodeForStep > 0 ? nodeForStep - 1 : 0, {
+            ${networkSVG(labels, nodeForStep, nodeForStep, null, {
               direction: pkt.direction === 'outbound' ? 'reverse' : 'forward',
               badge: `${pkt.proto} ${stepIndex === 3 ? (isAllowed ? 'PERMIT ✓' : 'DROP ✕') : ''}`,
               fault: stepIndex === 3 && !isAllowed
@@ -375,13 +359,6 @@ export function securityFirewall(root) {
                 </button>
               `).join('')}
             </div>
-            ${buildRulesHtml(stepIndex)}
-          </div>
-          <div class="sim-details-panel">
-            <div class="step-card" aria-live="polite">
-              <b>Step ${stepIndex + 1} / 4 · ${esc(stepTitles[stepIndex])} · ${player.status}</b>
-              <p>${esc(stepTexts[stepIndex])}</p>
-            </div>
             <p class="small">
               <b>Packet Details:</b> ${esc(pkt.description)}<br>
               <b>Inspection Insight:</b> ${mode === 'stateful'
@@ -389,7 +366,15 @@ export function securityFirewall(root) {
                 : 'Stateless filters check each packet in isolation, failing to recognize return traffic from legitimate outgoing requests.'}
             </p>
           </div>
+          <div class="sim-details-panel">
+            <div class="step-card" aria-live="polite">
+              <b>Step ${stepIndex + 1} / 4 · ${esc(stepTitles[stepIndex])} · ${player.status}</b>
+              <p>${esc(stepTexts[stepIndex])}</p>
+            </div>
+            ${buildRulesHtml(stepIndex)}
+          </div>
         </div>
+        ${playbackBar(player)}
       `;
     };
 
@@ -398,13 +383,13 @@ export function securityFirewall(root) {
 
     root.querySelector('[name="packet"]').onchange = e => {
       selected = Number(e.target.value);
-      player.reset();
+      player.stop();
       draw();
     };
 
     root.querySelector('[name="mode"]').onchange = e => {
       mode = e.target.value;
-      player.reset();
+      player.stop();
       draw();
     };
 
@@ -420,28 +405,21 @@ export function securityFirewall(root) {
       };
     });
 
-    root.querySelector('[data-action="previous"]').disabled = step === 0;
-    root.querySelector('[data-action="advance"]').disabled = step === 3;
+    syncPlaybackRow(root, player);
 
     wire(root, {
-      evaluate: () => {
-        if (player.running) {
-          player.pause();
-          draw();
-        } else {
-          player.replay();
-        }
+      play: () => {
+        player.play();
       },
-      previous: () => {
-        player.previous();
+      pause: () => {
+        player.pause();
         draw();
       },
-      advance: () => {
-        player.next();
-        draw();
+      resume: () => {
+        player.resume();
       },
-      reset: () => {
-        player.reset();
+      stop: () => {
+        player.stop();
         draw();
       }
     });

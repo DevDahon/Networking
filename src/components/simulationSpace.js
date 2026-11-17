@@ -1,7 +1,7 @@
 // Measure all steps at the same logical width before animation starts. The
 // invisible probes do not take part in layout or receive keyboard focus.
 const measured=new WeakMap();
-const panels=['.example-current','.step-card','.feedback'];
+const panels=['.example-current','.step-card','.feedback','.result-grid','.firewall-rules-box','.osi-wrapper-view','.delivery-units','.sim-visual-panel','.sim-details-panel'];
 export function reserveSimulationSpace(root,variants){
  const width=root.offsetWidth;
  if(!width||!root.parentElement)return;

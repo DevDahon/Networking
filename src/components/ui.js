@@ -1,12 +1,12 @@
 export const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-export function formatItemText(item){
+export function formatItemText(item,stacked=false){
  if(!item)return '';
  if(item.includes('**'))return esc(item).replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
  const colonIndex=item.indexOf(': ');
- if(colonIndex>0&&colonIndex<40&&!item.slice(0,colonIndex).includes('\n')){
+ if(colonIndex>0&&colonIndex<50&&!item.slice(0,colonIndex).includes('\n')){
   const label=item.slice(0,colonIndex);
   const rest=item.slice(colonIndex+2);
-  return `<strong>${esc(label)}:</strong> ${esc(rest)}`;
+  return `<strong>${esc(label)}${stacked?'':':'}</strong> ${esc(rest)}`;
  }
  return esc(item);
 }

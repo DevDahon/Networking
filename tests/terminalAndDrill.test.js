@@ -67,30 +67,17 @@ it('addressExplorer allows switching between calculator and problem generator ta
  expect(root.querySelector('.subnet-drill-container')).toBeNull();
 });
 
-it('staticIP provides an interactive command prompt with live configuration output and pinging',()=>{
+it('staticIP displays the Windows TCP/IPv4 Properties dialog visual and step-by-step configuration procedure',()=>{
  staticIP(root);
- expect(root.querySelector('#static-console-area')).not.toBeNull();
- expect(root.querySelector('#static-console-area .terminal')).not.toBeNull();
-
- // Click PC 1 console quick command ipconfig /all
- const quickChip = root.querySelector('#static-console-area [data-console-cmd="ipconfig /all"]');
- quickChip.click();
- expect(root.querySelector('#static-console-area .terminal').textContent).toContain('192.168.1.10');
- expect(root.querySelector('#static-console-area .terminal').textContent).toContain('255.255.255.0');
-
- // Ping PC 2
- const pingChip = root.querySelector('#static-console-area [data-console-cmd="ping 192.168.1.20"]');
- pingChip.click();
- expect(root.querySelector('#static-console-area .terminal').textContent).toContain('Reply from 192.168.1.20');
- expect(root.querySelector('#static-console-area .terminal').textContent).toContain('0% loss');
-
- // Switch to PC 2 Console
- const pc2Btn = root.querySelector('[data-pc="1"]');
- pc2Btn.click();
- expect(root.querySelector('.terminal-title').textContent).toContain('PC 2');
- const pc2Quick = root.querySelector('#static-console-area [data-console-cmd="ipconfig /all"]');
- pc2Quick.click();
- expect(root.querySelector('#static-console-area .terminal').textContent).toContain('192.168.1.20');
+ expect(root.querySelector('.static-guide-grid')).not.toBeNull();
+ expect(root.querySelector('.win-ipv4-dialog-svg')).not.toBeNull();
+ expect(root.querySelector('#static-console-area')).toBeNull();
+ expect(root.querySelectorAll('input, button')).toHaveLength(0);
+ const steps = [...root.querySelectorAll('.static-procedure-list li')];
+ expect(steps).toHaveLength(5);
+ expect(root.textContent).toContain('ncpa.cpl');
+ expect(root.textContent).toContain('192.168.1.10');
+ expect(root.textContent).toContain('ipconfig /all');
 });
 
 it('troubleshooting provides an interactive prompt supporting typed commands, quick chips, help and cls',()=>{

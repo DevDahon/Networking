@@ -1,29 +1,167 @@
 import { esc } from './ui.js';
 
+const protocolOverviewSvg = `
+  <svg class="physical-photo-svg" viewBox="0 0 220 112" role="img" aria-label="Network protocol rules diagram">
+    <rect x="14" y="10" width="192" height="24" rx="6" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="110" y="26" text-anchor="middle" font-size="11" font-weight="700" fill="#1d4ed8">HTTP · DNS · DHCP</text>
+    <rect x="14" y="42" width="192" height="24" rx="6" fill="#ecfdf5" stroke="#0d9488" stroke-width="1.5"/>
+    <text x="110" y="58" text-anchor="middle" font-size="11" font-weight="700" fill="#065f46">TCP · UDP · IP Rules</text>
+    <rect x="14" y="74" width="192" height="24" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+    <text x="110" y="90" text-anchor="middle" font-size="10.5" font-weight="600" fill="#475569">Format · Address · Deliver</text>
+  </svg>
+`;
+
+const clientNodesSvg = `
+  <svg class="physical-photo-svg" viewBox="0 0 220 112" role="img" aria-label="Workstation and laptop client end devices">
+    <rect x="20" y="16" width="84" height="54" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <line x1="62" y1="70" x2="62" y2="86" stroke="#2563eb" stroke-width="3"/>
+    <line x1="40" y1="86" x2="84" y2="86" stroke="#2563eb" stroke-width="3" stroke-linecap="round"/>
+    <text x="62" y="47" text-anchor="middle" font-size="11" font-weight="700" fill="#1d4ed8">Desktop PC</text>
+    <rect x="122" y="26" width="76" height="46" rx="5" fill="#ecfdf5" stroke="#0d9488" stroke-width="2"/>
+    <polygon points="112,72 208,72 214,86 106,86" fill="#ecfdf5" stroke="#0d9488" stroke-width="2"/>
+    <text x="160" y="53" text-anchor="middle" font-size="11" font-weight="700" fill="#065f46">Laptop</text>
+  </svg>
+`;
+
+const peripheralNodesSvg = `
+  <svg class="physical-photo-svg" viewBox="0 0 220 112" role="img" aria-label="Smartphone and network printer end devices">
+    <rect x="28" y="16" width="44" height="76" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <circle cx="50" cy="82" r="3" fill="#2563eb"/>
+    <text x="50" y="54" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1d4ed8">Phone</text>
+    <rect x="108" y="20" width="76" height="22" rx="4" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+    <rect x="94" y="38" width="104" height="36" rx="6" fill="#ecfdf5" stroke="#0d9488" stroke-width="2"/>
+    <rect x="114" y="64" width="64" height="22" rx="3" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+    <text x="146" y="57" text-anchor="middle" font-size="10.5" font-weight="700" fill="#065f46">Printer</text>
+  </svg>
+`;
+
+const protocolFormatSvg = `
+  <svg class="physical-photo-svg" viewBox="0 0 220 112" role="img" aria-label="Protocol message structure">
+    <rect x="14" y="20" width="54" height="40" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.8"/>
+    <text x="41" y="44" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1d4ed8">Header</text>
+    <rect x="74" y="20" width="84" height="40" rx="6" fill="#ecfdf5" stroke="#0d9488" stroke-width="1.8"/>
+    <text x="116" y="44" text-anchor="middle" font-size="10.5" font-weight="700" fill="#065f46">User Data</text>
+    <rect x="164" y="20" width="42" height="40" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.8"/>
+    <text x="185" y="44" text-anchor="middle" font-size="10" font-weight="700" fill="#475569">Check</text>
+    <text x="110" y="88" text-anchor="middle" font-size="10.5" font-weight="600" fill="#475569">Consistent Format &amp; Encoding</text>
+  </svg>
+`;
+
+const protocolDeliverySvg = `
+  <svg class="physical-photo-svg" viewBox="0 0 220 112" role="img" aria-label="Protocol addressing and acknowledgment timing">
+    <rect x="16" y="20" width="64" height="32" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.8"/>
+    <text x="48" y="40" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1d4ed8">Sender</text>
+    <rect x="140" y="20" width="64" height="32" rx="6" fill="#ecfdf5" stroke="#0d9488" stroke-width="1.8"/>
+    <text x="172" y="40" text-anchor="middle" font-size="10.5" font-weight="700" fill="#065f46">Receiver</text>
+    <line x1="84" y1="30" x2="134" y2="30" stroke="#2563eb" stroke-width="2" stroke-linecap="round"/>
+    <line x1="136" y1="44" x2="86" y2="44" stroke="#0d9488" stroke-width="2" stroke-dasharray="4 3" stroke-linecap="round"/>
+    <text x="110" y="76" text-anchor="middle" font-size="10.5" font-weight="600" fill="#475569">Address · Request · Reply</text>
+    <text x="110" y="94" text-anchor="middle" font-size="10" font-weight="600" fill="#64748b">Flow &amp; Error Control</text>
+  </svg>
+`;
+
 const panelConfigs = {
   basicComponentsPhotos: {
     variant: 'strip-4',
-    label: 'Basic network hardware',
+    label: 'Four core components of computer networks',
     cards: [
       {
         src: 'images/devices/server.webp',
-        alt: 'Enterprise Rackmount Server',
-        title: 'Enterprise Server'
+        alt: 'Enterprise Rackmount Server and workstation endpoint hardware',
+        title: '1. End Devices (Nodes)'
       },
       {
         src: 'images/devices/switch.webp',
-        alt: '24-Port Managed Ethernet Switch',
-        title: 'Ethernet Switch'
-      },
-      {
-        src: 'images/devices/ap.webp',
-        alt: 'Wireless Access Point',
-        title: 'Wi-Fi Access Point'
+        alt: '24-Port Managed Ethernet Switch for connecting network endpoints',
+        title: '2. Networking Devices'
       },
       {
         src: 'images/media/utp_cable.webp',
+        alt: 'Cat 6 Twisted-Pair Copper Cable for signal transmission',
+        title: '3. Transmission Media'
+      },
+      {
+        svg: protocolOverviewSvg,
+        title: '4. Protocols'
+      }
+    ]
+  },
+  endDevicesComponent: {
+    variant: 'strip-3',
+    label: 'End devices and host nodes on a network',
+    cards: [
+      {
+        src: 'images/devices/server.webp',
+        alt: 'Enterprise Rackmount Server providing files and services',
+        title: 'Servers (Service Providers)'
+      },
+      {
+        svg: clientNodesSvg,
+        title: 'Workstations & Laptops (Clients)'
+      },
+      {
+        svg: peripheralNodesSvg,
+        title: 'Phones & Network Printers'
+      }
+    ]
+  },
+  networkingDevicesComponent: {
+    variant: 'strip-3',
+    label: 'Intermediary networking devices',
+    cards: [
+      {
+        src: 'images/devices/switch.webp',
+        alt: '24-Port Managed Ethernet Switch',
+        title: 'Switch (Local Wired LAN)'
+      },
+      {
+        src: 'images/devices/ap.webp',
+        alt: 'Wireless Access Point bridging Wi-Fi to LAN',
+        title: 'Access Point (Wi-Fi Bridge)'
+      },
+      {
+        src: 'images/devices/router.webp',
+        alt: 'Enterprise Router forwarding traffic between networks',
+        title: 'Router (Between Networks)'
+      }
+    ]
+  },
+  transmissionMediaComponent: {
+    variant: 'strip-3',
+    label: 'Wired and wireless transmission media',
+    cards: [
+      {
+        src: 'images/media/utp_cable.webp',
         alt: 'Cat 6 Twisted-Pair Copper Cable',
-        title: 'Cat 6 UTP Copper Cable'
+        title: 'Copper Cable (Electrical)'
+      },
+      {
+        src: 'images/media/fiber_optic.webp',
+        alt: 'Duplex LC Fiber Optic Patch Cable',
+        title: 'Fiber Optic (Light Pulses)'
+      },
+      {
+        src: 'images/devices/ap.webp',
+        alt: 'Wireless Access Point transmitting radio waves',
+        title: 'Wireless Radio (Wi-Fi)'
+      }
+    ]
+  },
+  protocolsComponent: {
+    variant: 'strip-3',
+    label: 'Network protocol functions and open standards',
+    cards: [
+      {
+        svg: protocolFormatSvg,
+        title: 'Formatting & Structure'
+      },
+      {
+        svg: protocolDeliverySvg,
+        title: 'Addressing & Reliability'
+      },
+      {
+        svg: protocolOverviewSvg,
+        title: 'Core Open Standards'
       }
     ]
   },
@@ -181,7 +319,7 @@ export function renderPhotoPanel(key) {
         ${cfg.cards.map(card => `
           <figure class="physical-photo-card">
             <div class="physical-photo-box">
-              <img src="${card.src}" alt="${esc(card.alt)}" class="physical-photo-img" decoding="async" />
+              ${card.svg ? card.svg : `<img src="${card.src}" alt="${esc(card.alt)}" class="physical-photo-img" decoding="async" />`}
             </div>
             <figcaption class="physical-photo-meta">
               <h4 class="physical-photo-title">${esc(card.title)}</h4>
@@ -198,5 +336,5 @@ export const physicalVisualPanels = Object.fromEntries(
 );
 
 export function physicalPanelImages(key) {
-  return panelConfigs[key]?.cards.map(card => card.src) || [];
+  return panelConfigs[key]?.cards.map(card => card.src).filter(Boolean) || [];
 }

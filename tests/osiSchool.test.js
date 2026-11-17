@@ -4,7 +4,7 @@ import {topics} from '../src/topics/topicRegistry.js';
 
 let dispose;
 afterEach(()=>{dispose?.();dispose=null;vi.useRealTimers();});
-it.each([7,6,5,4,3,2,1])('plays the three focused Layer %i stages and disposes its timer',number=>{
+it.each([7,6,5,4,3,2,1])('plays the three focused Layer %i stages on Play and disposes its timer',number=>{
  vi.useFakeTimers();document.body.innerHTML='<div id="school"></div>';const root=document.querySelector('#school');
  dispose=schoolLayer(root,number);
  expect(root.textContent).toContain(schoolJobs[number].question);
@@ -12,18 +12,21 @@ it.each([7,6,5,4,3,2,1])('plays the three focused Layer %i stages and disposes i
  vi.advanceTimersByTime(6000);
  expect(root.querySelector('.step-card').textContent).toContain('1 / 3');
  expect(vi.getTimerCount()).toBe(0);
- root.querySelector('[data-action="advance"]').click();
+ root.querySelector('[data-step-jump="1"]').click();
  expect(root.querySelector('.step-card').textContent).toContain('2 / 3');
  expect(vi.getTimerCount()).toBe(0);
  root.querySelector('[data-action="play"]').click();
- root.querySelector('[data-action="toggle"]').click();
+ root.querySelector('[data-action="stop"]').click();
+ expect(root.querySelector('.step-card').textContent).toContain('1 / 3');
+ root.querySelector('[data-action="play"]').click();
  vi.advanceTimersByTime(4000);
  expect(root.querySelector('.step-card').textContent).toContain(schoolJobs[number].steps[2][1]);
  vi.advanceTimersByTime(2000);expect(root.textContent).toContain('Complete');
  expect(vi.getTimerCount()).toBe(0);
- root.querySelector('[data-action="previous"]').click();
- expect(root.querySelector('.step-card').textContent).toContain('2 / 3');
- root.querySelector('[data-action="toggle"]').click();expect(vi.getTimerCount()).toBe(1);
+ root.querySelector('[data-action="play"]').click();expect(vi.getTimerCount()).toBe(1);
+ root.querySelector('[data-action="pause"]').click();expect(vi.getTimerCount()).toBe(0);
+ expect(root.querySelector('[data-action="resume"]')).not.toBeNull();
+ expect(root.querySelector('[data-action="stop"]')).not.toBeNull();
  dispose();dispose=null;expect(vi.getTimerCount()).toBe(0);
 });
 it('removes individual OSI layer simulations from osi-reference-model while keeping external transport demos scoped cleanly',()=>{
@@ -34,8 +37,8 @@ it('removes individual OSI layer simulations from osi-reference-model while keep
 });
 it('shows actual text bytes and explicitly distinguishes dialog from a TCP connection',()=>{
  vi.useFakeTimers();const root=document.createElement('div');document.body.append(root);
- dispose=schoolLayer(root,6);root.querySelector('[data-action="advance"]').click();
+ dispose=schoolLayer(root,6);root.querySelector('[data-step-jump="1"]').click();
  expect(root.querySelector('.encoded-bytes').textContent).toBe('53 63 68 6f 6f 6c 20 6e 65 77 73');
- root.querySelector('[data-action="advance"]').click();expect(root.querySelector('.encoded-bytes').textContent).toBe('School news');dispose();
+ root.querySelector('[data-step-jump="2"]').click();expect(root.querySelector('.encoded-bytes').textContent).toBe('School news');dispose();
  dispose=schoolLayer(root,5);expect(root.textContent).toContain('does not require a separate Session-layer protocol');
 });

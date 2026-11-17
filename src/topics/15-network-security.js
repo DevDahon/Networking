@@ -14,30 +14,28 @@ export default topic({
     {
       "title": "Network security and the CIA triad",
       "lead": "Network security protects interconnected systems, transmissions, and data from unauthorized access, modification, or disruption.",
-      "items": [
-        "Confidentiality: Only authorized users can read data, enforced by encryption and access controls.",
-        "Integrity: Data stays accurate and unaltered, verified by cryptographic hashes.",
-        "Availability: Network services and data remain online and ready for authorized users."
+      "paragraphs": [
+        "Security rests on three pillars known as the CIA triad: Confidentiality ensures only authorized users can read sensitive data (using encryption and access control), while Integrity ensures data arrives accurately without tampering (verified through cryptographic hashes).",
+        "Availability ensures that network links, servers, and applications remain online and responsive whenever legitimate users need them."
       ]
     },
     {
       "title": "Four common network security threats",
       "lead": "Modern networks face diverse automated and human threats targeting devices, users, and service capacity.",
       "items": [
-        "Malware: Harmful software like viruses, worms, trojans, and ransomware.",
-        "Phishing: Fake emails or messages that trick users into revealing passwords or clicking bad links.",
-        "Unauthorized access: Attackers breaking in through weak passwords or unpatched flaws.",
-        "Denial-of-Service (DoS): Flooding a server or network with traffic so real users cannot connect."
+        "Malware: Harmful programs like viruses, worms, trojans, and ransomware that steal data, lock files for money, or damage systems.",
+        "Phishing: Tricky look-alike emails or chat messages that fool users into typing passwords or opening dangerous downloads.",
+        "Unauthorized access: Attackers sneaking into folders, routers, or accounts by guessing weak passwords or exploiting unpatched software.",
+        "Denial-of-Service (DoS): Overwhelming a website, router, or server with huge floods of fake traffic so normal users cannot connect."
       ],
       "expectedCount": 4
     },
     {
       "title": "Network Firewalls and Boundary Defense",
       "lead": "A firewall acts as a security barrier between trusted internal networks and untrusted external networks.",
-      "items": [
-        "Packet filtering: Checks source/destination IPs, protocols, and ports against allow/block rules.",
-        "Stateful inspection: Remembers active outgoing connections and allows their matching replies back in.",
-        "Boundary & host defense: Router firewalls guard the network edge; OS firewalls guard each PC."
+      "paragraphs": [
+        "Firewalls evaluate source and destination IPs, protocols, and ports against allow or block rules. Modern stateful firewalls track active outgoing requests so legitimate return replies pass through while unsolicited external probes are dropped.",
+        "Together, a router firewall guards the network perimeter while each computer’s operating system firewall defends the local host."
       ]
     },
     {
@@ -48,28 +46,26 @@ export default topic({
     {
       "title": "Endpoint Protection and Security Updates",
       "lead": "Securing the individual devices connected to the network is just as vital as protecting the perimeter.",
-      "items": [
-        "Antivirus and EDR: Scans files, memory, and processes to block malware on computers.",
-        "Security patching: Installs vendor fixes to close newly discovered software bugs.",
-        "Automatic updates: Keeps OS, browser, and router firmware patched against known attacks."
+      "paragraphs": [
+        "Antivirus and Endpoint Detection and Response (EDR) tools continuously scan files, memory, and active processes to stop malware directly on user workstations.",
+        "Enabling automatic security updates for operating systems, web browsers, and router firmware closes known vulnerabilities quickly before attackers can exploit them."
       ]
     },
     {
       "title": "HTTPS, TLS, and Secure Data in Transit",
       "lead": "Unencrypted transmissions over cables or Wi-Fi can be intercepted and read by anyone along the communication path.",
-      "items": [
-        "Cleartext risk: Plain HTTP and Telnet send passwords and data as readable text.",
-        "TLS encryption: Scrambles traffic between client and server into unreadable ciphertext.",
-        "Digital certificates: Verify that a website is genuine and not an impostor."
+      "paragraphs": [
+        "Plain HTTP and Telnet transmit usernames, passwords, and messages as readable cleartext that anyone monitoring the wire or airwaves can capture.",
+        "HTTPS protects web sessions with TLS encryption—scrambling traffic into unreadable ciphertext—and uses digital certificates so browsers can verify the server is genuine."
       ]
     },
     {
       "title": "Three habits for responsible network use",
       "lead": "User awareness and disciplined operational habits form the first and most effective line of defense.",
       "items": [
-        "Strong credentials & MFA: Use long unique passphrases plus Multi-Factor Authentication.",
-        "Verify links & senders: Check email addresses and URLs carefully before clicking or logging in.",
-        "Least privilege: Use a standard user account for daily work instead of an admin account."
+        "Strong credentials & MFA: Use unique, long passphrases for every account and turn on a second login check like Multi-Factor Authentication (MFA).",
+        "Verify links & senders: Pause to inspect sender addresses and website links before clicking or signing in so phishing traps fail.",
+        "Least privilege: Use a regular standard account for everyday browsing and switch to administrator access only when installing trusted changes."
       ],
       "expectedCount": 3
     }
@@ -78,15 +74,6 @@ export default topic({
     "type": "security",
     "title": "Network security defense workbench",
     "lead": "Modeled defense • simulate inbound scans, phishing intercepts, TLS encryption, DoS mitigation, and MFA authentication."
-  },
-  "application": {
-    "title": "Secure a small office workstation and network",
-    "lead": "A newly deployed office workstation connects to a shared local network and requires baseline security hardening.",
-    "items": [
-      "Enable host and boundary firewall rules to block unsolicited incoming connection probes.",
-      "Install authorized endpoint protection and verify that automated security updates are scheduled.",
-      "Require multi-factor authentication and unique passphrases rather than sharing administrator credentials."
-    ]
   },
   "installation": {
     "equipment": "Target workstation, network firewall, endpoint security software, test credentials.",

@@ -6,8 +6,9 @@ export function renderCourseOutline(container) {
       title: 'Introduction to Computer Networking',
       subtopics: [
         'Data communications and computers',
-        'Network advantages, uses, and limitations',
-        'Network components and end devices',
+        'Network uses, importance, and limitations',
+        'Overview of network components: end devices (nodes), networking devices, transmission media, and protocols',
+        'Characteristics of computer networking',
         'Peer-to-peer and client-server networks'
       ]
     },
@@ -22,7 +23,7 @@ export function renderCourseOutline(container) {
     {
       title: 'Networking Basics',
       subtopics: [
-        'Network components',
+        'Network components (end devices, networking devices, media, protocols)',
         'Network models',
         'Network types'
       ]

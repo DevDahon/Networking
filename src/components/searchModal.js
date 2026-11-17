@@ -43,7 +43,7 @@ export function createSearchModal(root,topics,onNavigate){
     subtitle:`Topic ${String(t.number).padStart(2,'0')} · Slide ${idx+1}`,
     lead:s.lead||'',
     hash:`#/topic/${t.id}/slide/${idx+1}`,
-    query:`${s.title.toLowerCase()} ${s.lead?.toLowerCase()||''} ${(s.items||[]).join(' ').toLowerCase()} topic ${t.number} ${t.title.toLowerCase()}`
+    query:`${s.title.toLowerCase()} ${s.lead?.toLowerCase()||''} ${(s.items||s.paragraphs||[]).join(' ').toLowerCase()} topic ${t.number} ${t.title.toLowerCase()}`
    });
   });
  });

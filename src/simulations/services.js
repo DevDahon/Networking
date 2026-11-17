@@ -1,8 +1,8 @@
 import {reserveSimulationSpace} from '../components/simulationSpace.js';
 import {esc,button,input,select,result,wire,read,networkSVG} from '../components/ui.js';
-import {DHCP,sharing,classify,subnet} from '../utils/network.js';
+import {DHCP,classify,subnet} from '../utils/network.js';
 import {faults,diagnosticState,diagnose} from './models.js';
-import {createPlayback} from './playback.js';
+import {createPlayback,playbackBar,syncPlaybackRow} from './playback.js';
 
 export function dhcp(root){
  let server=new DHCP(),stage=-1,client='PC 1',offered='',log='Ready. A lease is committed only at Acknowledgment.',history=[];
@@ -30,7 +30,7 @@ export function dhcp(root){
   return true;
  }
 
- function stopExchange(){playback.pause();history=[];stage=-1;}
+ function stopExchange(){playback.stop();history=[];stage=-1;}
 
  function draw(){
   const curStep = stage >= 0 ? doraSteps[stage] : null;
@@ -45,12 +45,10 @@ export function dhcp(root){
 
    <div class="control-row">
     ${select('Client','client',['PC 1','PC 2','PC 3','PC 4'],client)}
-    ${button(stage<0?'Start Discover':'Next DORA step','step','primary')}
-    ${button('Previous DORA step','previous')}
-    ${button('Play / replay DORA','play')}
-    ${button('Pause','pause')}
-    ${button('Resume','resume')}
-    ${select('Animation speed','speed',[['0.5','0.5×'],['1','1×'],['2','2×']],playback.speed)}
+    ${button('Release lease','release')}
+    ${button('Renew lease','renew')}
+    ${button('+30 teaching seconds','time')}
+    ${button(server.online?'Take server offline':'Bring server online','online')}
    </div>
 
    <div class="sim-workbench-grid">
@@ -74,14 +72,6 @@ export function dhcp(root){
     <div class="sim-details-panel">
      ${result(log,!/exhausted|No DHCP|No active|error/i.test(log))}
 
-     <div class="control-row">
-      ${button('Release lease','release')}
-      ${button('Renew lease','renew')}
-      ${button('+30 teaching seconds','time')}
-      ${button(server.online?'Take server offline':'Bring server online','online')}
-      ${button('Reset exchange','reset')}
-     </div>
-
      <p class="small">${playback.running?'Automatic playback running':stage===3?'Exchange complete':'Playback paused'} · Clock ${server.time}s · Lease 60 teaching seconds · Mask ${subnet(server.gateway,server.prefix).mask} · Gateway ${esc(server.gateway)} · DNS ${esc(server.dns)}</p>
 
      <div class="table-wrap">
@@ -96,6 +86,8 @@ export function dhcp(root){
      </div>
     </div>
    </div>
+
+   ${playbackBar(playback)}
   `;
 
   // Reserve the pending lease row before playback can commit it.
@@ -105,8 +97,7 @@ export function dhcp(root){
   if(feedback)feedback.textContent=`ACK: ${client} holds 192.168.255.254 until teaching time ${server.time+60}s. The lease and address configuration are confirmed.`;
   reserveSimulationSpace(root,[root.innerHTML,pending.innerHTML]);
 
-  root.querySelector('[data-action="previous"]').disabled=!history.length;
-  root.querySelector('[data-action="resume"]').disabled=stage===3;
+  syncPlaybackRow(root,playback);
   root.querySelector('[name="client"]').onchange=e=>{client=e.target.value;stopExchange();log=`${client} selected. Start a new exchange.`;draw();};
   root.querySelector('[name="speed"]').onchange=e=>playback.setSpeed(e.target.value);
   root.querySelector('#pool').onsubmit=e=>{
@@ -123,16 +114,14 @@ export function dhcp(root){
   };
 
   wire(root,{
-   step:()=>{playback.pause();advance();draw();},
-   previous:()=>{playback.pause();const saved=history.pop();if(saved){stage=saved.stage;offered=saved.offered;log=saved.log;server.leases=saved.leases;}draw();},
-   play:()=>{stopExchange();log='Automatic DORA begins with Discover; the lease is committed at ACK.';playback.play();},
+   play:()=>{if(stage<0||stage===3){stopExchange();log='Automatic DORA begins with Discover; the lease is committed at ACK.';}playback.play();},
    pause:()=>{playback.pause();draw();},
-   resume:()=>{if(stage!==3)playback.play();},
+   resume:()=>{playback.play();},
+   stop:()=>{stopExchange();log='Exchange stopped; active leases are preserved. Use Release or Apply pool to change them.';draw();},
    release:()=>{stopExchange();server.release(client);log=`${client} released its lease; the address is available again.`;draw();},
    renew:()=>{stopExchange();try{if(!server.leases[client])throw new Error('No active lease to renew. Start Discover.');const lease=server.request(client);log=`Request / ACK: ${client} renewed ${lease.ip} to ${lease.expires}s.`;}catch(e){log=e.message;}draw();},
    time:()=>{stopExchange();server.tick();log='Clock advanced 30 seconds; expired leases removed and pending exchange reset.';draw();},
-   online:()=>{stopExchange();server.online=!server.online;log=server.online?'Server reachable again.':'Server offline. Existing leases remain valid until expiry; new requests/renewals fail.';draw();},
-   reset:()=>{stopExchange();log='Exchange reset; active leases are preserved. Use Release or Apply pool to change them.';draw();}
+   online:()=>{stopExchange();server.online=!server.online;log=server.online?'Server reachable again.':'Server offline. Existing leases remain valid until expiry; new requests/renewals fail.';draw();}
   });
  }
  draw();
@@ -199,7 +188,7 @@ export function router(root){
 
    <div class="sim-workbench-grid">
     <div class="sim-visual-panel">
-     ${networkSVG(['LAN Clients','Router / NAT','WAN Gateway'], clients.length > 0 ? 1 : 0, null, 0, {
+     ${networkSVG(['LAN Clients','Router / NAT','WAN Gateway'], clients.length > 0 ? 1 : 0, null, null, {
       badge: `${band} GHz · ${applied.security}`,
       sublabels: [`${clients.length} connected`, applied.lan, '203.0.113.1']
      })}
@@ -284,169 +273,170 @@ export function router(root){
  draw();
 }
 
+function windowsSharingDialogSvg(tab){
+ const isFolder = tab === 'folder';
+ const isSecurity = tab === 'security';
+ const isPrinter = tab === 'printer';
+ const title = isPrinter ? 'ClassroomPrinter Properties' : 'ClassFiles Properties';
+
+ const body = isFolder ? `
+   <rect x="20" y="78" width="380" height="106" rx="5" fill="#f8fafc" stroke="#cbd5e1"/>
+   <text x="32" y="96" font-size="11" font-weight="700" fill="#0f172a">Network File and Folder Sharing</text>
+   <text x="32" y="114" font-size="10.5" fill="#475569">ClassFiles is shared on this network.</text>
+   <text x="32" y="132" font-size="10" fill="#64748b">Network Path:</text>
+   <rect x="32" y="138" width="248" height="22" rx="3" fill="#ffffff" stroke="#cbd5e1"/>
+   <text x="40" y="153" font-size="11" font-family="monospace" font-weight="600" fill="#1d4ed8">\\\\HOST-PC\\ClassFiles</text>
+   <rect x="292" y="137" width="96" height="24" rx="4" fill="#f1f5f9" stroke="#cbd5e1"/>
+   <text x="340" y="153" text-anchor="middle" font-size="10.5" font-weight="600" fill="#334155">Share...</text>
+
+   <rect x="20" y="196" width="380" height="132" rx="5" fill="#f8fafc" stroke="#cbd5e1"/>
+   <text x="32" y="214" font-size="11" font-weight="700" fill="#0f172a">Advanced Sharing Settings</text>
+   <rect x="32" y="226" width="13" height="13" rx="2" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+   <path d="M35 232.5 L37.5 235.5 L42 229.5" fill="none" stroke="#2563eb" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+   <text x="53" y="236.5" font-size="11" font-weight="600" fill="#0f172a">Share this folder</text>
+
+   <text x="32" y="261" font-size="10.5" fill="#334155">Share name:</text>
+   <rect x="118" y="246" width="268" height="21" rx="3" fill="#ffffff" stroke="#2563eb" stroke-width="1.2"/>
+   <text x="126" y="260" font-size="11" font-family="monospace" font-weight="600" fill="#0f172a">ClassFiles</text>
+
+   <rect x="32" y="281" width="128" height="24" rx="4" fill="#eff6ff" stroke="#2563eb" stroke-width="1.3"/>
+   <text x="96" y="297" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1d4ed8">Permissions...</text>
+   <text x="172" y="297" font-size="10" fill="#475569">Everyone: Read · Teacher: Change</text>
+
+   <text x="32" y="348" font-size="10" fill="#475569">Tip: Open the Security tab next to match local NTFS rules.</text>
+ ` : isSecurity ? `
+   <text x="22" y="84" font-size="10.5" font-weight="600" fill="#334155">Group or user names:</text>
+   <rect x="20" y="92" width="380" height="72" rx="4" fill="#ffffff" stroke="#cbd5e1"/>
+   <text x="32" y="110" font-size="10.5" fill="#334155">SYSTEM</text>
+   <rect x="22" y="116" width="376" height="21" rx="2" fill="#eff6ff"/>
+   <text x="32" y="130" font-size="10.5" font-weight="700" fill="#1d4ed8">ClassStudents (HOST-PC\\ClassStudents)</text>
+   <text x="32" y="151" font-size="10.5" fill="#334155">Administrators (HOST-PC\\Administrators)</text>
+
+   <rect x="312" y="170" width="88" height="22" rx="4" fill="#f1f5f9" stroke="#cbd5e1"/>
+   <text x="356" y="185" text-anchor="middle" font-size="10.5" font-weight="600" fill="#334155">Edit...</text>
+
+   <text x="22" y="188" font-size="10.5" font-weight="600" fill="#334155">Permissions for ClassStudents</text>
+   <rect x="20" y="198" width="380" height="154" rx="4" fill="#ffffff" stroke="#cbd5e1"/>
+   <rect x="20" y="198" width="380" height="22" fill="#f8fafc"/>
+   <line x1="20" y1="220" x2="400" y2="220" stroke="#e2e8f0"/>
+   <text x="292" y="213" text-anchor="middle" font-size="10" font-weight="700" fill="#475569">Allow</text>
+   <text x="358" y="213" text-anchor="middle" font-size="10" font-weight="700" fill="#475569">Deny</text>
+
+   ${[
+    ['Full control', false],
+    ['Modify', false],
+    ['Read & execute', true],
+    ['List folder contents', true],
+    ['Read', true],
+    ['Write', false]
+   ].map(([label, checked], idx) => {
+    const y = 236 + idx * 19;
+    return `
+     <text x="32" y="${y}" font-size="10.5" fill="#1e293b">${label}</text>
+     <rect x="286" y="${y - 9}" width="11" height="11" rx="2" fill="${checked ? '#eff6ff' : '#ffffff'}" stroke="${checked ? '#2563eb' : '#94a3b8'}" stroke-width="1.3"/>
+     ${checked ? `<path d="M288.5 ${y - 3.5} L290.8 ${y - 1} L294.8 ${y - 6}" fill="none" stroke="#2563eb" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>` : ''}
+     <rect x="352" y="${y - 9}" width="11" height="11" rx="2" fill="#ffffff" stroke="#94a3b8"/>
+    `;
+   }).join('')}
+ ` : `
+   <rect x="20" y="78" width="380" height="134" rx="5" fill="#f8fafc" stroke="#cbd5e1"/>
+   <text x="32" y="96" font-size="11" font-weight="700" fill="#0f172a">Share This Printer on the Local Network</text>
+   <rect x="32" y="108" width="13" height="13" rx="2" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+   <path d="M35 114.5 L37.5 117.5 L42 111.5" fill="none" stroke="#2563eb" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+   <text x="53" y="118.5" font-size="11" font-weight="600" fill="#0f172a">Share this printer</text>
+
+   <text x="32" y="144" font-size="10.5" fill="#334155">Share name:</text>
+   <rect x="118" y="129" width="268" height="22" rx="3" fill="#ffffff" stroke="#2563eb" stroke-width="1.2"/>
+   <text x="126" y="144" font-size="11" font-family="monospace" font-weight="600" fill="#0f172a">ClassroomPrinter</text>
+
+   <rect x="32" y="164" width="13" height="13" rx="2" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+   <path d="M35 170.5 L37.5 173.5 L42 167.5" fill="none" stroke="#2563eb" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+   <text x="53" y="174.5" font-size="10.5" fill="#334155">Render print jobs on client computers</text>
+
+   <rect x="32" y="186" width="150" height="18" rx="4" fill="#ffffff" stroke="#cbd5e1"/>
+   <text x="107" y="199" text-anchor="middle" font-size="9.8" font-weight="600" fill="#334155">Additional Drivers...</text>
+
+   <rect x="20" y="224" width="380" height="114" rx="5" fill="#f8fafc" stroke="#cbd5e1"/>
+   <text x="32" y="242" font-size="11" font-weight="700" fill="#0f172a">Same Pattern: Permissions & Client Connection</text>
+   <text x="32" y="262" font-size="10.5" fill="#334155">1. Use the Security tab to grant Print access to users.</text>
+   <text x="32" y="280" font-size="10.5" fill="#334155">2. Share network path:</text>
+   <rect x="32" y="288" width="354" height="22" rx="3" fill="#ffffff" stroke="#cbd5e1"/>
+   <text x="40" y="303" font-size="11" font-family="monospace" font-weight="600" fill="#1d4ed8">\\\\HOST-PC\\ClassroomPrinter</text>
+   <text x="32" y="326" font-size="10" fill="#64748b">Client PC: Settings -> Printers -> Add a printer by name</text>
+ `;
+
+ return `<svg class="win-sharing-dialog-svg" viewBox="0 0 420 400" role="img" aria-label="${esc(title)} showing Windows file and printer sharing configuration">
+   <rect x="2" y="2" width="416" height="396" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+   <rect x="2" y="2" width="416" height="32" rx="8" fill="#f1f5f9"/>
+   <rect x="2" y="24" width="416" height="10" fill="#f1f5f9"/>
+   <line x1="2" y1="34" x2="418" y2="34" stroke="#cbd5e1" stroke-width="1"/>
+   <text x="14" y="22" font-size="11.5" font-weight="600" fill="#0f172a">${esc(title)}</text>
+   <text x="400" y="22" text-anchor="middle" font-size="13" fill="#64748b">×</text>
+
+   <rect x="18" y="45" width="70" height="21" rx="3" fill="#f1f5f9" stroke="#e2e8f0"/>
+   <text x="53" y="59" text-anchor="middle" font-size="10" fill="#64748b">General</text>
+
+   <rect x="92" y="44" width="76" height="22" rx="4" fill="${(isFolder||isPrinter)?'#ffffff':'#f1f5f9'}" stroke="${(isFolder||isPrinter)?'#cbd5e1':'#e2e8f0'}"/>
+   ${(isFolder||isPrinter)?'<rect x="93" y="62" width="74" height="5" fill="#ffffff"/>':''}
+   <text x="130" y="59" text-anchor="middle" font-size="10.5" font-weight="${(isFolder||isPrinter)?'700':'500'}" fill="${(isFolder||isPrinter)?'#0f172a':'#64748b'}">Sharing</text>
+
+   <rect x="172" y="44" width="78" height="22" rx="4" fill="${isSecurity?'#ffffff':'#f1f5f9'}" stroke="${isSecurity?'#cbd5e1':'#e2e8f0'}"/>
+   ${isSecurity?'<rect x="173" y="62" width="76" height="5" fill="#ffffff"/>':''}
+   <text x="211" y="59" text-anchor="middle" font-size="10.5" font-weight="${isSecurity?'700':'500'}" fill="${isSecurity?'#0f172a':'#64748b'}">Security</text>
+
+   <rect x="254" y="45" width="90" height="21" rx="3" fill="#f1f5f9" stroke="#e2e8f0"/>
+   <text x="299" y="59" text-anchor="middle" font-size="10" fill="#64748b">${isPrinter ? 'Ports' : 'Customize'}</text>
+   <line x1="16" y1="66" x2="404" y2="66" stroke="#cbd5e1"/>
+
+   ${body}
+
+   <line x1="16" y1="358" x2="404" y2="358" stroke="#e2e8f0"/>
+   <rect x="234" y="366" width="78" height="24" rx="4" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+   <text x="273" y="382" text-anchor="middle" font-size="11" font-weight="700" fill="#1d4ed8">OK</text>
+   <rect x="320" y="366" width="78" height="24" rx="4" fill="#f1f5f9" stroke="#cbd5e1"/>
+   <text x="359" y="382" text-anchor="middle" font-size="11" font-weight="600" fill="#334155">Cancel</text>
+  </svg>`;
+}
+
 export function fileSharing(root){
- let created=false;
- let mappedDrive=false;
- let discovery='on';
+ let activeTab='folder';
+ const steps=[
+  'Enable Private Sharing: Open Network and Sharing Center -> Advanced sharing settings, ensure the network profile is Private, and turn on Network discovery plus File and printer sharing.',
+  'Open Properties -> Sharing: Right-click the folder in File Explorer (or right-click the printer in Printers & scanners -> Printer properties), then select the Sharing tab.',
+  'Enable Share & Set Name: For a folder, click Advanced Sharing... and check "Share this folder" (e.g., ClassFiles). For a printer, check "Share this printer" (e.g., ClassroomPrinter).',
+  'Set Matching Permissions: Click Permissions to assign Read or Change access, then verify the Security tab (NTFS rules for folders, Print permission for printers)—the stricter rule always wins.',
+  'Connect from Client PC: On another PC in the same LAN, open Run (Win + R) and enter \\\\HOST-PC\\ClassFiles for files or add \\\\HOST-PC\\ClassroomPrinter under Printers & scanners to verify access.'
+ ];
 
- function draw(){
-  const sharePerms=['None','Read / viewer','Change / editor'];
-  const ntfsPerms=['None','Read / viewer','Modify / editor'];
-
-  root.innerHTML=`
-   <div class="control-row">
-    ${select('Sharing host','host',['PC 1','PC 2','PC 3'],'PC 1')}
-    ${select('Client','client',['PC 1','PC 2','PC 3'],'PC 2')}
-    ${input('Folder share name','folder','ClassFiles')}
-    ${button('Publish simulated folder','publish','primary')}
-   </div>
-
-   <div class="sim-workbench-grid">
-    <div class="sim-visual-panel">
-     ${networkSVG(['PC 1 (Host)','LAN Switch','PC 2 / PC 3'], 1, null, 0, {
-      badge: 'SMB / TCP 445',
-      sublabels: ['File & Print Host', 'L2 Switch Fabric', 'UNC / Mapped Client']
-     })}
-
-     <div id="perm-pipeline-box" style="background:var(--bg-surface);border:1px solid var(--border-color);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--text-secondary);"></div>
-
-     <div id="access-result" aria-live="polite"></div>
-    </div>
-
-    <div class="sim-details-panel">
-     <div class="config-grid">
-      <fieldset>
-       <legend>Folder & File Permissions</legend>
-       ${select('Share permission','share',[[0,'None'],[1,'Read / viewer'],[2,'Change / editor']],1)}
-       ${select('File-system permission','ntfs',[[0,'None'],[1,'Read / viewer'],[2,'Modify / editor']],1)}
-       ${select('Requested action','action',['Read','Write'],'Read')}
-      </fieldset>
-      <fieldset>
-       <legend>Host, Network & Device Settings</legend>
-       ${select('Network Discovery','discovery',[['on','Turned ON (Host visible in Network)'],['off','Turned OFF (Requires direct UNC path)']],discovery)}
-       ${select('Host link / power','online',[['yes','Online'],['no','Offline']],'yes')}
-       ${select('Client account','auth',[['yes','Authenticated and authorized identity'],['no','Not authenticated']],'yes')}
-       ${select('Printer permission','print',[['yes','Print allowed'],['no','Print denied']],'yes')}
-      </fieldset>
+ function render(){
+  const tabs=[
+   ['folder','Folder: Sharing tab'],
+   ['security','Security (NTFS) tab'],
+   ['printer','Printer: Sharing tab']
+  ];
+  root.innerHTML=`<div class="static-guide-grid">
+   <div class="static-guide-visual">
+    <div class="static-dialog-card">
+     <div class="sharing-dialog-tabs" role="tablist" aria-label="Windows Sharing Dialog Views">
+      ${tabs.map(([id,label])=>`<button type="button" role="tab" aria-selected="${activeTab===id}" class="sharing-tab-btn${activeTab===id?' active':''}" data-sharing-tab="${id}">${esc(label)}</button>`).join('')}
      </div>
-
-     <div class="control-row">
-      ${button('Access folder','access','primary')}
-      ${button('Map Network Drive (Z:)','map')}
-      ${button('Use shared printer','printer')}
-      ${button('Remove share','remove')}
-     </div>
+     ${windowsSharingDialogSvg(activeTab)}
     </div>
    </div>
-  `;
+   <div class="static-guide-steps">
+    <ol class="teaching-points static-procedure-list">
+     ${steps.map((step,i)=>{const colon=step.indexOf(': ');const title=step.slice(0,colon);const body=step.slice(colon+2);return `<li><span class="point-index">${String(i+1).padStart(2,'0')}</span><p><strong>${esc(title)}:</strong> ${esc(body)}</p></li>`;}).join('')}
+    </ol>
+   </div>
+  </div>`;
 
-  function updatePermPipeline(){
-   const box = root.querySelector('#perm-pipeline-box');
-   if(!box) return;
-   const sLvl = Number(read(root,'share') ?? 1);
-   const nLvl = Number(read(root,'ntfs') ?? 1);
-   const effLvl = Math.min(sLvl, nLvl);
-   const labels = ['None (Denied)','Read-Only (Viewer)','Read + Write (Editor)'];
-   const hostName = read(root,'host') || 'PC 1';
-   const folderName = read(root,'folder') || 'ClassFiles';
-   box.innerHTML = `
-    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px;">
-     <b>Effective Network Permission Pipeline (Most Restrictive Wins):</b>
-     <span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;background:${created ? 'rgba(20,184,166,0.14)' : 'rgba(148,163,184,0.15)'};color:${created ? '#0d9488' : 'var(--text-muted)'};">
-      ${created ? `Shared: \\\\${hostName}\\${folderName}` : 'Share Not Published'}
-     </span>
-    </div>
-    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:6px 0;">
-     <span style="padding:4px 10px;border-radius:6px;background:var(--bg-panel);border:1px solid var(--border-color);font-weight:600;">Share: <b>${sharePerms[sLvl]}</b></span>
-     <span style="font-weight:800;color:var(--text-muted);">&cap;</span>
-     <span style="padding:4px 10px;border-radius:6px;background:var(--bg-panel);border:1px solid var(--border-color);font-weight:600;">NTFS: <b>${ntfsPerms[nLvl]}</b></span>
-     <span style="font-weight:800;color:var(--text-muted);">&rarr;</span>
-     <span style="padding:4px 12px;border-radius:6px;background:${effLvl === 0 ? 'rgba(239,68,68,0.14)' : effLvl === 1 ? 'rgba(59,130,246,0.14)' : 'rgba(22,163,74,0.14)'};color:${effLvl === 0 ? '#dc2626' : effLvl === 1 ? '#2563eb' : '#16a34a'};font-weight:800;border:1px solid currentColor;">
-      Effective: ${labels[effLvl]}
-     </span>
-    </div>
-    <div style="margin-top:6px;">
-     ${mappedDrive ? `<span style="color:#16a34a;font-weight:700;">&bull; Drive Z: is currently mapped to \\\\${hostName}\\${folderName}</span>` : '<span>&bull; No network drive mapped.</span>'}
-    </div>
-   `;
-  }
-
-  updatePermPipeline();
-
-  ['share','ntfs','folder'].forEach(name => {
-   const el = root.querySelector(`[name="${name}"]`);
-   if(el) el.addEventListener('change', updatePermPipeline);
-  });
-
-  root.querySelector('[name="discovery"]').onchange = e => {
-   discovery = e.target.value;
-   updatePermPipeline();
-   show(`Network discovery is ${discovery==='on'?'enabled: other PCs can see this host in Network Places':'disabled: host is hidden from network browsing; direct UNC path required'}.`, true);
-  };
-
-  root.querySelector('[name="host"]').onchange=()=>{
-   created=false;
-   mappedDrive=false;
-   updatePermPipeline();
-   show('Host changed. Publish the folder on the selected host before remote access.');
-  };
-
-  wire(root,{
-   publish:()=>{
-    if(!read(root,'folder').trim()){
-     show('Enter a share name.',false);
-     return;
-    }
-    created=true;
-    updatePermPipeline();
-    show('Published '+String.fromCharCode(92,92)+read(root,'host')+String.fromCharCode(92)+read(root,'folder')+' in the simulation.');
-   },
-   remove:()=>{
-    created=false;
-    mappedDrive=false;
-    updatePermPipeline();
-    show('The simulated folder share has been removed.');
-   },
-   map:()=>{
-    if(!created){
-     show('Cannot map drive: folder has not been shared on the network.', false);
-     return;
-    }
-    if(read(root,'host')===read(root,'client')){
-     show('Cannot map network drive to own local computer in this model.', false);
-     return;
-    }
-    mappedDrive=true;
-    updatePermPipeline();
-    show(`Successfully mapped drive Z: to \\\\${read(root,'host')}\\${read(root,'folder')} (net use Z: \\\\${read(root,'host')}\\${read(root,'folder')}). Available in File Explorer.`, true);
-   },
-   access:()=>{
-    if(read(root,'host')===read(root,'client')){
-     show('Choose a different PC to test remote share access.',false);
-     return;
-    }
-    const t=sharing({
-     share:read(root,'share'),
-     ntfs:read(root,'ntfs'),
-     action:read(root,'action'),
-     online:read(root,'online')==='yes',
-     shared:created,
-     authenticated:read(root,'auth')==='yes'
-    });
-    show(t,t.startsWith('Allowed'));
-   },
-   printer:()=>{
-    const ok=read(root,'host')!==read(root,'client')&&read(root,'online')==='yes'&&read(root,'auth')==='yes'&&read(root,'print')==='yes';
-    show(ok?'Print job accepted by the modeled shared printer. Host online, authenticated account, and print permission verified.':'Print denied: use a remote client and check host availability, authentication, and printer permission.',ok);
-   }
+  root.querySelectorAll('[data-sharing-tab]').forEach(btn=>{
+   btn.onclick=()=>{activeTab=btn.dataset.sharingTab;render();};
   });
  }
 
- function show(t,ok=true){
-  root.querySelector('#access-result').innerHTML=result(t,ok);
- }
-
- draw();
+ render();
+ return ()=>{};
 }
 
 export function troubleshooting(root){

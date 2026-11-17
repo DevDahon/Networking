@@ -10,25 +10,25 @@ const objectives=[
  'Trace a modeled network exchange and relate its stages to OSI and TCP/IP.'
 ];
 const counted=(title,items)=>({kind:'concept',title,items,expectedCount:items.length});
-const profile=id=>{const p=protocolCatalog.find(p=>p.id===id);return {kind:'concept',title:`${id}: ${p.name}`,lead:p.purpose,items:[`Practical application: ${p.use}`,p.detail,...p.ports.map(b=>`${b.transport} ${b.number}: ${b.role}.`)]};};
+const profile=id=>{const p=protocolCatalog.find(p=>p.id===id);const portsSummary=p.ports.map(b=>`${b.transport} ${b.number} (${b.role})`).join('; ');return {kind:'concept',title:`${id}: ${p.name}`,lead:p.purpose,paragraphs:[`${p.use} ${p.detail}`,`Default port or identifier: ${portsSummary}.`]};};
 const demo=(title,type,lead,guidance,extra={})=>({kind:'demo',title,type,lead,demo:guidance,...extra});
 const slides=[
  {kind:'title',title},
  {kind:'objectives',title:'Learning Objectives',lead:'At the end of this discussion, students should be able to:',items:objectives},
  counted('Three different ideas: protocol, service, and port',[
-  'Protocol: The agreed rules and format for messages (such as HTTP or DNS).',
-  'Service: The running program that answers requests (such as a web server).',
-  'Port: The numeric door (such as TCP 443) that directs traffic to the right app.'
+  'Protocol: The shared rulebook that defines how messages look and behave (such as HTTP for web requests or DNS for name lookups).',
+  'Service: The background program running on a host or server that listens for incoming requests and sends back useful answers.',
+  'Port: The numbered logical doorway (such as TCP 443) that lets one server run several services and steer traffic to the right app.'
  ]),
  counted('Four TCP/IP responsibility groups',[
-  'Application (Layer 7): User and network services like HTTP, HTTPS, DNS, DHCP, and SSH.',
-  'Transport (Layer 4): Process-to-process delivery using TCP and UDP port numbers.',
-  'Internet (Layer 3): Logical IP addressing, routing, and ICMP diagnostic messages.',
-  'Link (Layer 1–2): Local Ethernet framing and ARP MAC address resolution.'
+  'Application (Layer 7): Provides user-facing network services like HTTP, HTTPS, DNS, DHCP, and SSH.',
+  'Transport (Layer 4): Delivers data directly between running programs using numbered TCP or UDP ports.',
+  'Internet (Layer 3): Handles logical IP addressing, choosing routes across networks, and ICMP diagnostics.',
+  'Link (Layer 1–2): Handles physical signals, local Ethernet switching, and ARP MAC-address lookup.'
  ]),
  counted('Two transport services: TCP and UDP',[
-  'TCP: Reliable, ordered delivery that numbers bytes, acknowledges receipts, and resends lost data.',
-  'UDP: Fast, low-overhead delivery without built-in acknowledgments or retransmission.'
+  'TCP: Checks delivery carefully—numbers every piece, waits for receipts, and resends anything lost so websites and files arrive intact.',
+  'UDP: Sends datagrams right away without waiting for receipts or resends—keeping live video calls, audio, and games responsive.'
  ]),
  demo('Transport delivery with and without loss','osiLayer','Compare TCP and UDP using the same modeled missing data unit.','Select TCP or UDP and a loss condition, then use the delivery steps. Explain ports, recovery, and the difference between transport delivery and application processing.',{layer:4}),
  profile('IP'),
@@ -42,10 +42,9 @@ const slides=[
  demo('A web request uses several services','protocolWeb','Follow ARP, classic DNS, IP, TCP, TLS, and HTTP; change a condition to see exactly where the operation differs.','Play the healthy exchange, then compare a DNS failure, certificate failure, and HTTP 503. Pause at each layer boundary and relate the outcome to the evidence.'),
  profile('SSH'),
  demo('Protocol functions and common port directory','protocolDirectory','Inspect all ten core protocols individually, including transport and layer relationships.','Select each protocol and each port binding. Distinguish TCP/UDP port numbers from ICMP protocol identifiers and Ethernet ARP identifiers. Explain SSH remote administration versus web delivery.'),
- {kind:'concept',title:'Read both endpoints, not just one number',items:[
-  'Source & destination ports: A client uses a random high port (e.g., 53001) to reach a server port (e.g., 443).',
-  'Port ranges: System ports (0–1023), registered ports (1024–49151), and dynamic client ports (49152–65535).',
-  'Separate checks: A working ping proves IP reachability, not that the web server port is open.'
+ {kind:'concept',title:'Read both endpoints, not just one number',paragraphs:[
+  'Every active transport connection pairs two endpoints: a client chooses a temporary dynamic port (49152–65535, such as 53001) while sending requests to a server listening on a system or registered port (such as TCP 443 for HTTPS).',
+  'System ports (0–1023) identify standard services and registered ports (1024–49151) serve vendor applications. Always verify both service availability and port state separately—a working ping proves IP reachability, not that an application port is open.'
  ]},
  {kind:'summary',title:'Summary of the Discussion',items:[
   'Protocols, Services & Ports: Protocols set rules, services run apps, and ports direct traffic to the right process.',

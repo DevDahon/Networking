@@ -4,14 +4,18 @@
 const copy = {
   '01-introduction-to-networking': [
     ['What Is a Computer Network?', null, 'A computer network connects two or more devices so they can share data and resources using agreed rules called protocols.'],
-    ['Everyday Uses of Networks', null, 'Networks support daily messaging, private organizational Intranets, partner Extranets, and small-office connections.'],
-    ['Basic Network Components', null, 'Every network relies on three parts: end devices, connecting devices, and physical or wireless links.'],
+    ['Overview of the Components of Computer Networks (1–2)', 'Overview of the Components of Computer Networks', 'Four core components work together so devices can create, forward, carry, and interpret data.'],
+    ['Overview of the Components of Computer Networks (3–4)', 'Overview of the Components of Computer Networks', 'Every message travels over a wired or wireless channel and follows shared communication rules.'],
     ['@introConnections', null, 'Devices connect to a network using either physical Ethernet cables or wireless radio signals.'],
     ['@introConnectivity', null, 'A local network connects nearby devices, while the Internet links local networks to the wider world.'],
     ['Five parts of a conversation', 'Five Elements of Data Communication', 'Every network exchange requires five elements: a sender, receiver, message, medium, and protocol.'],
     ['@introExchange', null, 'When one computer requests a file and the other replies, their sender and receiver roles switch.'],
-    ['Three practical benefits of networking', 'Three Benefits of Networking', 'Networks save time and money by letting users share hardware, collaborate on files, and centralize backups.'],
+    ['Uses and Importance of Networking (1–4)', 'Uses and Importance of Networking', 'Computer networks improve everyday communication, resource sharing, centralized storage, and team collaboration.'],
+    ['Uses and Importance of Networking (5–7)', 'Uses and Importance of Networking', 'From digital media and daily business workflows to global classrooms, networks support modern life.'],
     ['Two risks of shared infrastructure', 'Two Risks of Networking', 'Connected networks face two main challenges: unauthorized access to shared data and equipment failures that affect multiple users.'],
+    ['Characteristics of Computer Networking (1–3)', 'Characteristics of Computer Networking', 'Dependable networks protect sensitive data, remain consistently available, and scale as users grow.'],
+    ['Characteristics of Computer Networking (4–6)', 'Characteristics of Computer Networking', 'Smooth data transfer, responsive speed, and alternate recovery paths keep users productive without interruption.'],
+    ['Characteristics of Computer Networking (7–8)', 'Characteristics of Computer Networking', 'Traffic prioritization and cross-system compatibility ensure critical tasks and diverse devices work smoothly together.'],
     ['Two performance measures', 'Two Performance Measures: Bandwidth vs Latency', 'Bandwidth measures how much data a link can carry per second, while latency measures the time delay.'],
     ['Four network coverage types', null, 'Network coverage classifies networks by their geographic scope: PAN, LAN, MAN, and WAN.'],
     ['Personal Area Network (PAN)', null, 'A Personal Area Network connects devices around one person. It usually covers a short range and can use Bluetooth or wired connections.'],
@@ -43,11 +47,13 @@ const copy = {
     ['Wireless Access Point (AP)', null, 'An access point broadcasts Wi-Fi signals so wireless devices can connect into a wired local area network.'],
     ['Network Repeater', null, 'A repeater regenerates weakened electrical, optical, or radio signals so they can travel farther cleanly.'],
     ['Virtual LANs and Routing Principles', 'VLAN Concepts and Routing Principles', 'VLANs split one physical switch into separate logical groups, and routers connect those groups when needed.'],
-    ['Expand a small office', null, 'Add a switch when you need more Ethernet ports, or add an access point when you need wider Wi-Fi coverage.'],
     ['Read the interfaces along a network path', 'Device Roles Along a Network Path', 'Follow how a computer, switch, wireless access point, and router work together to deliver a network request.']
   ],
   'osi-reference-model': [
+    ['Why Networking Standards Are Needed', null, 'Networking standards let hardware and software from different manufacturers communicate reliably using shared rules.'],
+    ['Five Networking Standards Organizations', null, 'Five major organizations publish the hardware, cabling, wireless, and layered communication standards used in networking.'],
     ['@osiIntroduction', 'What Is the OSI Reference Model?', 'OSI splits network communication into 7 clear steps—from opening an app down to sending signals over cables or Wi-Fi.'],
+    ['Layered Tasks: The Postal Mail Analogy', null, 'Layering splits one complex network delivery into smaller, specialized steps—just like sending and receiving a postal letter.'],
     ['Seven OSI layer responsibilities', null, 'Each OSI layer owns one clear duty—the 3 upper layers (7–5) prepare how data is created, while the 4 lower layers (4–1) handle how data travels.'],
     ['Three Upper Layers (7–5): How Data Is Created', null, 'Layers 7, 6, and 5 work inside applications to create, format, protect, and coordinate the user’s message as Data.'],
     ['Four Lower Layers (4–1): How Data Travels', null, 'Layers 4, 3, 2, and 1 wrap the data with port numbers, IP addresses, and MAC addresses before sending it as physical bits.'],
@@ -61,10 +67,7 @@ const copy = {
     ['Coaxial Cable and Shielding', 'Coaxial Cable Construction and Shielding', 'Coaxial cable uses a braided metal shield around a copper core to carry broadband Internet and TV signals.'],
     ['Unguided Media and Wireless Radio', 'Unguided Media: Wireless Radio Frequencies', 'Wireless networks send radio waves through the air to connect mobile devices without physical cables.'],
     ['@media', 'Transmission Media Comparison Workbench', 'Inspect the physical structure, signaling method, and maximum reach of copper, fiber, and wireless media.'],
-    ['Connect two buildings', 'Campus Inter-Building Media Selection', 'Use fiber-optic cable between buildings to exceed the 100-meter copper limit and avoid outdoor electrical hazards.'],
-    ['Select media for a campus installation', 'Campus Media Selection Walkthrough', 'Match each link to the right medium by checking distance, electrical interference, and required speed.']
-  ],
-  '07-rj45-crimping': [
+    ['Select media for a campus installation', 'Campus Media Selection Walkthrough', 'Match each link to the right medium by checking distance, electrical interference, and required speed.'],
     ['Modular Connectors: RJ45 and Keystone Jack', 'RJ45 Plugs and Keystone Jacks', 'Ethernet patch cords end in 8-pin RJ45 plugs, while wall outlets use punch-down keystone jacks.'],
     ['Tools and Equipment for RJ45 Cable Crimping', 'RJ45 Cable Crimping Tools', 'Prepare a cable stripper, modular crimper, RJ45 plugs, and Cat 5e/Cat 6 cable before terminating a patch cord.'],
     ['Tools and Equipment for Keystone Jack Punch-Down', 'Keystone Jack Punch-Down Tools', 'Use a 110 impact punch-down tool and palm holder to seat solid-core wires cleanly into a wall keystone jack.'],
@@ -74,7 +77,6 @@ const copy = {
     ['Example: a straight-through patch cable', null, 'A straight-through patch cord connects a computer to a switch with Pin 1 wired to Pin 1 through Pin 8 to Pin 8.'],
     ['Three common wire-map faults', null, 'A cable tester checks all eight wires to catch open circuits, short circuits, and crossed wires.'],
     ['@cable', '8P8C Modular Cable Termination Workbench', 'Wire both ends of an RJ45 cable and run the animated 1-to-8 pin tester to verify continuity.'],
-    ['Repair a failed classroom patch cable', 'Patch Cable Troubleshooting and Repair', 'If a damaged patch cord drops link speed or disconnects, cut off the faulty plug and crimp a fresh RJ45 connector.'],
     ['Termination sequence: inspect before crimping', 'Cable Termination and Testing Walkthrough', 'Strip the jacket, untwist and flatten the eight wires in color order, push them fully into the plug, crimp, and test.']
   ],
   '08-ip-addressing': [
@@ -89,9 +91,8 @@ const copy = {
     ['Example: read one classroom address', null, 'A host with 192.168.10.25/24 talks directly to local peers on 192.168.10.0/24 and sends outside traffic to its gateway.'],
     ['Classful history versus modern CIDR', 'Classful History vs Modern Subnetting', 'Modern CIDR replaces rigid old Class A, B, and C sizes so admins can create subnets of any size without wasting IPs.'],
     ['Three private IPv4 ranges', 'Three Private IPv4 Address Ranges', 'Private IP ranges (10.x.x.x, 172.16–31.x.x, and 192.168.x.x) are used inside local networks and require NAT to reach the Internet.'],
-    ['Eight common special-purpose IPv4 ranges', 'Eight Special-Purpose IPv4 Ranges', 'Special IPv4 ranges handle self-testing (127.0.0.1), automatic fallback (169.254.x.x), multicast, and documentation.'],
-    ['Introduction to IPv6 Basics', 'Introduction to IPv6 Basics', 'IPv6 uses 128-bit hexadecimal addresses to provide an almost limitless supply of IPs for modern devices.'],
-    ['Plan a 28-host classroom subnet', 'Subnet Sizing and Address Planning', 'Choose a subnet prefix that fits all your computers, the router gateway, and room for future growth.']
+    ['Special-Purpose IPv4 Ranges', null, 'Special IPv4 ranges handle self-testing (127.0.0.1), automatic fallback (169.254.x.x), multicast, and documentation.'],
+    ['Introduction to IPv6 Basics', 'Introduction to IPv6 Basics', 'IPv6 uses 128-bit hexadecimal addresses to provide an almost limitless supply of IPs for modern devices.']
   ],
   '10-static-ip': [
     ['Two ways to assign an address', 'Two Ways to Assign an IP Address', 'Use DHCP for everyday computers and phones, and use Static IPs for servers, printers, and routers that need a fixed address.'],
@@ -100,9 +101,14 @@ const copy = {
     ['Same subnet is a two-sided decision', 'How Hosts Decide if a Peer is Local', 'Both computers must agree they are in the same subnet for a local request and its reply to succeed.'],
     ['Example: two manually configured classroom computers', null, 'Two computers with unique IPs in 192.168.1.0/24 can communicate directly through a switch without needing a router.'],
     ['@asymmetricDemo', 'When Subnet Masks Do Not Match', 'See how a mismatched subnet mask causes one computer to treat a local neighbor as remote, breaking two-way communication.'],
-    ['Windows static-IP configuration', 'Windows Static Address Configuration Procedure', 'Follow the step-by-step Windows TCP/IPv4 setup flow and test both local and remote connectivity.'],
-    ['@static', 'Static IP Compatibility and Testing', 'Configure two hosts, a gateway, and DNS, then test connectivity in the interactive command prompt.'],
-    ['Read a classroom configuration and configure a static printer', 'Configuring a Static LAN Printer', 'Assign a shared printer a static IP inside the local subnet but outside the router’s automatic DHCP range.']
+    ['@static', 'Windows TCP/IPv4 Properties & Step-by-Step Setup', 'Use the Windows Internet Protocol Version 4 (TCP/IPv4) Properties dialog and follow these step-by-step instructions to configure and verify a static IP.'],
+    ['A lease supplies configuration', 'What Is a DHCP Lease?', 'A DHCP server lends each client a temporary IP address along with its subnet mask, default gateway, and DNS server.'],
+    ['Four messages in the initial DHCP exchange', null, 'DHCP assigns an IP address in four steps called DORA: Discover, Offer, Request, and Acknowledgment.'],
+    ['Example: a laptop receives a lease', null, 'When a laptop joins the LAN, it completes the four DORA steps to receive a unique IP lease from the server.'],
+    ['DHCP Lease Lifecycle and Common Faults', null, 'Clients renew leases before they expire, release them when leaving, or fall back to 169.254.x.x if no server responds.'],
+    ['Read a DHCP configuration and lease', 'Reading a DHCP Lease Configuration', 'Use ipconfig /all to check which DHCP server assigned your IP and when your current lease expires.'],
+    ['@dhcp', 'DHCP Allocation and Renewal', 'Step through the DORA process, assign leases from the pool, and test what happens when the server is offline or full.'],
+    ['@reservedPoolDemo', 'DHCP Reservations and Exclusions', 'Use DHCP reservations to give a printer the same IP every time, and exclusions to protect static server IPs.']
   ],
   'network-protocols-services': [
     ['Three different ideas: protocol, service, and port', 'Three Core Terms: Protocol, Service, Port', 'A protocol is the rulebook, a service is the app feature (like web or email), and a port number directs traffic to the right app.'],
@@ -124,16 +130,6 @@ const copy = {
     ['SSH: Secure Shell', 'Secure Shell (SSH)', 'SSH provides an encrypted command-line connection on TCP port 22 for managing remote servers and switches safely.'],
     ['@protocolDirectory', 'Common Protocols and Port Numbers', 'Explore the ten essential networking protocols, their transport types, and their default port numbers.']
   ],
-  '11-dhcp': [
-    ['A lease supplies configuration', 'What Is a DHCP Lease?', 'A DHCP server lends each client a temporary IP address along with its subnet mask, default gateway, and DNS server.'],
-    ['Four messages in the initial DHCP exchange', null, 'DHCP assigns an IP address in four steps called DORA: Discover, Offer, Request, and Acknowledgment.'],
-    ['Example: a laptop receives a lease', null, 'When a laptop joins the LAN, it completes the four DORA steps to receive a unique IP lease from the server.'],
-    ['Five lease lifecycle and failure events', null, 'Clients renew leases before they expire, release them when leaving, or fall back to 169.254.x.x if no server responds.'],
-    ['Read a DHCP configuration and lease', 'Reading a DHCP Lease Configuration', 'Use ipconfig /all to check which DHCP server assigned your IP and when your current lease expires.'],
-    ['@dhcp', 'DHCP Allocation and Renewal', 'Step through the DORA process, assign leases from the pool, and test what happens when the server is offline or full.'],
-    ['@reservedPoolDemo', 'DHCP Reservations and Exclusions', 'Use DHCP reservations to give a printer the same IP every time, and exclusions to protect static server IPs.'],
-    ['Thirty laptops join a lab', null, 'If 30 laptops connect to a router with only 20 pooled IPs, the extra 10 laptops will connect to Wi-Fi but get no IP address.']
-  ],
   '12-router-wireless': [
     ['Three gateway interface and translation concepts', null, 'A home or small-office router links your private LAN to the ISP’s WAN and uses NAT to share one public IP.'],
     ['Wireless identity and protection', 'SSID, Authentication, and Isolation', 'The SSID is your Wi-Fi network’s name, WPA2/WPA3 passphrase controls who can join, and guest isolation protects private LAN devices.'],
@@ -142,29 +138,25 @@ const copy = {
     ['Change settings in a safe order', 'Coordinating Router, Pool, and Wi-Fi', 'When changing a router’s LAN IP, update its DHCP pool to match so connected devices stay in the same subnet.'],
     ['Router configuration sequence', 'Applying and Testing Router Settings', 'Configure the router’s LAN subnet, DHCP range, and Wi-Fi security, then reconnect clients to verify access.'],
     ['@router', 'Router LAN and Wi-Fi Workbench', 'Configure LAN IP, DHCP settings, and Wi-Fi security, then connect wired and wireless clients to test your setup.'],
-    ['@guestIsolationDemo', 'Guest Wi-Fi Isolation and Internet', 'See how Guest Wi-Fi isolation lets visitors browse the Internet while blocking them from internal staff computers.'],
-    ['A small training center', null, 'Give visitors an isolated Guest Wi-Fi SSID so they can use the Internet without seeing internal office files or printers.']
+    ['@guestIsolationDemo', 'Guest Wi-Fi Isolation and Internet', 'See how Guest Wi-Fi isolation lets visitors browse the Internet while blocking them from internal staff computers.']
   ],
   '13-file-printer-sharing': [
     ['A host provides a shared resource', 'What Is a Network Share?', 'File and printer sharing lets authorized users open folders or print documents hosted on another computer over the LAN.'],
     ['Two permission gates for remote file access', null, 'When accessing a shared folder over the network, Windows checks both Share permissions and NTFS permissions—the stricter rule wins.'],
     ['Example: students read a shared reference folder', null, 'If Share permission is Read and NTFS permission is Modify, students connecting over the network can only read files.'],
     ['Share safely on trusted networks', 'Securing Shared Files and Printers', 'Turn on file sharing only on private, trusted networks and grant users the minimum permission they need.'],
-    ['Windows folder sharing', 'Publishing and Accessing a Windows Shared Folder', 'Share a folder on the host PC, set Share and NTFS permissions, and connect from a client using a \\\\Host\\Share UNC path.'],
-    ['@sharing', 'Share vs NTFS Permissions', 'Test different combinations of Share and NTFS permissions to see whether a remote user can read, write, or print.'],
-    ['@printQueueDemo', 'How Shared Printer Queues Work', 'Watch how a shared printer processes jobs in First-In, First-Out (FIFO) order and holds jobs if the printer goes offline.'],
-    ['Read-only reference files and controlled editing', 'Read-Only vs Editable Sharing', 'Give students Read-Only access to lesson handouts and give teachers Modify access to upload and edit files.']
+    ['@sharing', 'Windows File & Printer Sharing Properties & Procedure', 'Inspect the authentic Windows Sharing and Security tabs for folders and printers alongside the unified step-by-step setup procedure.'],
+    ['@printQueueDemo', 'How Shared Printer Queues Work', 'Watch how a shared printer processes jobs in First-In, First-Out (FIFO) order and holds jobs if the printer goes offline.']
   ],
   '14-network-troubleshooting': [
     ['Observe before changing', 'Systematic Troubleshooting Process', 'Fix network problems systematically: identify the symptom, test one layer at a time, change one setting, and retest.'],
     ['Six Windows diagnostic commands', null, 'Six built-in Windows commands—ipconfig, ipconfig /all, ping, tracert, nslookup, and arp -a—reveal where a connection is failing.'],
-    ['Nine modeled network faults', null, 'Different problems—like an unplugged cable, 169.254.x.x APIPA address, missing gateway, or dead DNS—leave distinct clues.'],
+    ['Common Network Fault Symptoms', null, 'Different problems—like an unplugged cable, 169.254.x.x APIPA address, missing gateway, or dead DNS—leave distinct clues.'],
     ['Example: numeric access works but a name fails', null, 'If pinging an IP address works but opening a website name fails, the network path is fine—the issue is DNS.'],
     ['@ttlTraceDemo', 'Understanding Traceroute Results', 'See how tracert uses Time-to-Live (TTL) values to map each router hop along the path to a destination.'],
     ['Test the theory and verify the repair', 'Verifying a Network Repair', 'After fixing a network setting, always repeat the exact action that originally failed to confirm the problem is solved.'],
     ['A fault-to-repair demonstration', 'Troubleshooting Workflow: Symptom to Fix', 'Walk through checking the cable, verifying IP settings with ipconfig, testing the gateway with ping, and checking DNS.'],
-    ['@troubleshoot', 'Diagnosing Network Faults Workbench', 'Pick a fault scenario, run diagnostic commands in the terminal, and identify the exact root cause.'],
-    ['“The network is down”', 'Local Network vs Internet vs DNS', 'When a user says "the Internet is down," test local subnet, gateway, public IP, and DNS separately to pinpoint the real failure.']
+    ['@troubleshoot', 'Diagnosing Network Faults Workbench', 'Pick a fault scenario, run diagnostic commands in the terminal, and identify the exact root cause.']
   ],
   '15-network-security': [
     ['Network security and the CIA triad', 'The CIA Triad: Confidentiality, Integrity, Availability', 'Network security protects the CIA Triad: keeping data private (Confidentiality), accurate (Integrity), and reachable (Availability).'],
@@ -175,7 +167,6 @@ const copy = {
     ['HTTPS, TLS, and Secure Data in Transit', null, 'HTTPS with TLS encrypts data in transit so attackers on the same network cannot read passwords or messages.'],
     ['Three habits for responsible network use', null, 'Strong passwords, Multi-Factor Authentication (MFA), and checking links before clicking stop most everyday cyberattacks.'],
     ['@security', 'Network Security Defense Workbench', 'Simulate common cyberattacks and toggle defenses on or off to see how firewalls, TLS, rate-limiting, and MFA protect the network.'],
-    ['Secure a small office workstation and network', 'Hardening a Classroom or Small-Office Workstation', 'Protect office computers by turning on the firewall, enabling automatic updates, using WPA2/WPA3 Wi-Fi, and requiring MFA.'],
     ['Layered defense in practice', 'Applying Defense in Depth Step by Step', 'Combine firewall rules, endpoint antivirus, HTTPS encryption, and MFA so that if one defense fails, another stops the attack.']
   ]
 };

@@ -548,17 +548,18 @@ main:focus {
 }
 
 .slide-body>h2 {
-    font-size: clamp(27px, 3vw, 42px);
+    font-size: 34px;
     font-weight: 700;
     max-width: 1050px;
-    margin: 0 0 20px
+    margin: 0 0 10px
 }
 
 .slide-lead {
-    font-size: 20px;
-    line-height: 1.65;
+    font-size: 18px;
+    line-height: 1.5;
     color: #475569;
-    max-width: 1000px
+    max-width: 1050px;
+    margin: 0 0 14px
 }
 
 .slide-title .slide-body {
@@ -586,18 +587,18 @@ main:focus {
 
 .teaching-points {
     list-style: none;
-    margin: 16px 0 0;
+    margin: 12px 0 0;
     padding: 0;
     display: grid;
     grid-template-columns: 1fr;
-    gap: 14px
+    gap: 10px
 }
 
 .teaching-points li {
     display: flex;
-    gap: 22px;
+    gap: 16px;
     align-items: start;
-    padding: 16px 20px;
+    padding: 12px 18px;
     background: #f8fafc;
     border: 1px solid #edf0f5;
     border-radius: 10px
@@ -607,17 +608,69 @@ main:focus {
     font-size: 13px;
     font-weight: 700;
     color: var(--blue);
-    padding-top: 7px
+    padding-top: 4px
 }
 
 .teaching-points p {
-    font-size: 20px;
-    line-height: 1.65;
+    font-size: 18px;
+    line-height: 1.5;
     margin: 0
 }
 
 .teaching-points strong {
     font-weight: 700;
+}
+
+.slide-prose {
+    display: grid;
+    gap: 16px;
+    max-width: 1020px;
+    margin: 14px 0 0;
+}
+
+.slide-prose p {
+    font-size: 18px;
+    line-height: 1.65;
+    margin: 0;
+    color: #1e293b;
+}
+
+.slide-prose strong {
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.teaching-points.stacked-items,
+.presentation-mode .teaching-points.stacked-items {
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+.teaching-points.stacked-items li,
+.presentation-mode .teaching-points.stacked-items li {
+    padding: 12px 18px;
+    gap: 16px;
+}
+
+.teaching-points.stacked-items p,
+.presentation-mode .teaching-points.stacked-items p {
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.teaching-points.stacked-items strong,
+.presentation-mode .teaching-points.stacked-items strong {
+    display: block;
+    font-size: 19px;
+    line-height: 1.3;
+    margin-bottom: 4px;
+    color: var(--text-primary, #0f172a);
+}
+
+.teaching-points.stacked-items .point-index {
+    font-size: 14px;
+    padding-top: 3px;
+    min-width: 24px;
 }
 
 .discussion {
@@ -736,7 +789,90 @@ main:focus {
 }
 
 .control-row button {
-    flex-shrink: 0
+    flex-shrink: 0;
+    min-height: 38px;
+    box-sizing: border-box
+}
+
+.control-row select,
+.control-row input {
+    min-height: 38px;
+    box-sizing: border-box
+}
+
+.control-row.sim-playback-row {
+    align-items: center;
+    margin: 10px 0 12px;
+    gap: 10px 12px
+}
+
+.control-row.sim-playback-row label:has(select),
+.presentation-mode .control-row.sim-playback-row label:has(select) {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    flex: 0 1 auto;
+    width: auto;
+    min-width: 0;
+    max-width: 100%;
+    white-space: nowrap;
+    margin: 0
+}
+
+.control-row.sim-playback-row label:has(select) select,
+.presentation-mode .control-row.sim-playback-row label:has(select) select {
+    width: auto;
+    max-width: 100%
+}
+
+.control-row [data-action="example-toggle"] {
+    min-width: 132px;
+    text-align: center
+}
+
+.control-row [data-action="toggle"] {
+    min-width: 136px;
+    text-align: center
+}
+
+.control-row [data-action="play"],
+.control-row [data-action="stop"] {
+    min-width: 128px;
+    text-align: center
+}
+
+.control-row [data-action="step"] {
+    min-width: 148px;
+    text-align: center
+}
+
+.control-row [data-action="simulate"] {
+    min-width: 196px;
+    text-align: center
+}
+
+.control-row [data-action="evaluate"] {
+    min-width: 162px;
+    text-align: center
+}
+
+.control-row [data-action="advance"],
+.control-row [data-action="next"] {
+    min-width: 126px;
+    text-align: center
+}
+
+.control-row [data-action="previous"],
+.control-row [data-action="prev"] {
+    min-width: 96px;
+    text-align: center
+}
+
+.control-row [data-action="pause"],
+.control-row [data-action="resume"] {
+    min-width: 108px;
+    text-align: center
 }
 
 .callout {
@@ -1950,7 +2086,8 @@ body.presentation-mode {
         gap: 12px
     }
 
-    .presentation-mode .teaching-points p {
+    .presentation-mode .teaching-points p,
+    .presentation-mode .slide-prose p {
         font-size: 16px
     }
 
@@ -2289,7 +2426,7 @@ body.presentation-mode {
 }
 
 .slide-summary .teaching-points p {
-    font-size: 19px;
+    font-size: 18px;
     line-height: 1.5
 }
 
@@ -2396,36 +2533,36 @@ body.presentation-mode {
 .teaching-points.counted-grid,
 .presentation-mode .teaching-points.counted-grid {
     grid-template-columns: 1fr;
-    gap: 11px;
+    gap: 9px;
 }
 
 .teaching-points.counted-grid-3,
 .presentation-mode .teaching-points.counted-grid-3 {
     grid-template-columns: 1fr;
-    gap: 8px;
+    gap: 6px;
 }
 
 .counted-grid li,
 .presentation-mode .counted-grid li {
-    padding: 12px 18px;
-    gap: 16px;
+    padding: 10px 16px;
+    gap: 14px;
 }
 
 .counted-grid p,
 .presentation-mode .counted-grid p {
-    font-size: 17px;
+    font-size: 18px;
     line-height: 1.48;
 }
 
 .counted-grid-3 li,
 .presentation-mode .counted-grid-3 li {
-    padding: 9px 16px;
-    gap: 14px;
+    padding: 7px 14px;
+    gap: 12px;
 }
 
 .counted-grid-3 p,
 .presentation-mode .counted-grid-3 p {
-    font-size: 15.5px;
+    font-size: 18px;
     line-height: 1.4;
 }
 
@@ -2662,29 +2799,38 @@ body.presentation-mode {
 
 .example-explanation {
     display: grid;
-    gap: 14px;
+    gap: 12px;
     margin: 0;
-    padding-left: 26px;
-    font-size: 23px;
+    padding-left: 24px;
+    font-size: 18px;
     line-height: 1.5;
     color: #334155
 }
 
 .example-heading {
-    font-size: 25px;
+    font-size: 18px;
+    font-weight: 700;
     color: #1d4ed8;
-    margin: 12px 0 0
+    margin: 0 0 8px
+}
+
+.automatic-example .sim-visual-panel {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 14px 18px;
+    box-sizing: border-box
 }
 
 .automatic-example .classroom-example {
     width: 100%;
     height: auto;
-    max-height: 300px;
-    margin: 6px 0 8px;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 8px 16px;
+    max-height: 290px;
+    margin: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 8px;
+    padding: 4px 8px;
     box-sizing: border-box
 }
 
@@ -2697,8 +2843,8 @@ body.presentation-mode {
 }
 
 .automatic-example .example-heading {
-    font-size: 21px;
-    margin: 6px 0 4px
+    font-size: 18px;
+    margin: 0 0 6px
 }
 
 .automatic-example .control-row {
@@ -3588,6 +3734,14 @@ html.dark .teaching-points p {
     color: #f1f5f9
 }
 
+html.dark .slide-prose p {
+    color: #e2e8f0
+}
+
+html.dark .slide-prose strong {
+    color: #f8fafc
+}
+
 html.dark button,
 html.dark .button {
     background: #1e293b;
@@ -4077,7 +4231,8 @@ html.dark .device-photo-specs {
     gap: 14px;
 }
 
-.device-content-col .teaching-points {
+.device-content-col .teaching-points,
+.device-content-col .slide-prose {
     margin-top: 0;
 }
 
@@ -6536,6 +6691,7 @@ html.dark .osi-intro-points b {
     color: #f8fafc;
 }
 
+html.dark .automatic-example .sim-visual-panel,
 html.dark .automatic-example .classroom-example {
     background: #0f172a;
     border-color: #334155;
@@ -6896,6 +7052,81 @@ html.dark svg text[fill="#b91c1c"] {
 }
 
 /* Physical Hardware & Media Photograph Panels */
+.static-guide-grid {
+    display: grid;
+    grid-template-columns: 440px minmax(0, 1fr);
+    gap: 28px;
+    align-items: start;
+}
+
+.static-dialog-card {
+    background: var(--bg-surface, #ffffff);
+    border: 1px solid var(--border-color, #e2e8f0);
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+.win-ipv4-dialog-svg,
+.win-sharing-dialog-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.sharing-dialog-tabs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.sharing-tab-btn {
+    padding: 6px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid var(--border-color, #cbd5e1);
+    background: #f8fafc;
+    color: #334155;
+    cursor: pointer;
+    text-align: center;
+}
+
+.sharing-tab-btn.active {
+    background: #eff6ff;
+    border-color: var(--blue, #2563eb);
+    color: #1d4ed8;
+}
+
+html.dark .sharing-tab-btn {
+    background: #0f172a;
+    border-color: #334155;
+    color: #cbd5e1;
+}
+
+html.dark .sharing-tab-btn.active {
+    background: rgba(37, 99, 235, 0.22);
+    border-color: #60a5fa;
+    color: #bfdbfe;
+}
+
+.static-guide-steps .teaching-points {
+    margin-top: 0;
+    gap: 10px;
+}
+
+html.dark .static-dialog-card {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+@media(max-width:960px) {
+    .static-guide-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 .physical-split-grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 560px;
@@ -6903,7 +7134,9 @@ html.dark svg text[fill="#b91c1c"] {
     align-items: start;
 }
 
-.physical-split-text .teaching-points {
+.physical-split-text .teaching-points,
+.physical-split-text .slide-prose,
+.rj45-slide-content .slide-prose {
     margin-top: 0;
 }
 
@@ -6930,6 +7163,11 @@ html.dark svg text[fill="#b91c1c"] {
 .physical-cards-grid {
     display: grid;
     gap: 12px;
+}
+
+.physical-panel-strip-3 .physical-cards-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 8px;
 }
 
 .physical-panel-strip-4 .physical-cards-grid {
@@ -7016,11 +7254,17 @@ html.dark svg text[fill="#b91c1c"] {
 }
 
 .physical-photo-img,
+.physical-photo-svg,
 .connector-photo-img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
     display: block;
+}
+
+.physical-photo-svg {
+    width: 100%;
+    height: 100%;
 }
 
 .physical-photo-meta,
@@ -7336,10 +7580,86 @@ html.dark .rj45-real-note .rj45-real-title {
 }
 
 @media(max-width:960px) {
-    .physical-split-grid {
+    .static-guide-grid {
+    display: grid;
+    grid-template-columns: 440px minmax(0, 1fr);
+    gap: 28px;
+    align-items: start;
+}
+
+.static-dialog-card {
+    background: var(--bg-surface, #ffffff);
+    border: 1px solid var(--border-color, #e2e8f0);
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+.win-ipv4-dialog-svg,
+.win-sharing-dialog-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.sharing-dialog-tabs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.sharing-tab-btn {
+    padding: 6px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid var(--border-color, #cbd5e1);
+    background: #f8fafc;
+    color: #334155;
+    cursor: pointer;
+    text-align: center;
+}
+
+.sharing-tab-btn.active {
+    background: #eff6ff;
+    border-color: var(--blue, #2563eb);
+    color: #1d4ed8;
+}
+
+html.dark .sharing-tab-btn {
+    background: #0f172a;
+    border-color: #334155;
+    color: #cbd5e1;
+}
+
+html.dark .sharing-tab-btn.active {
+    background: rgba(37, 99, 235, 0.22);
+    border-color: #60a5fa;
+    color: #bfdbfe;
+}
+
+.static-guide-steps .teaching-points {
+    margin-top: 0;
+    gap: 10px;
+}
+
+html.dark .static-dialog-card {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+@media(max-width:960px) {
+    .static-guide-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.physical-split-grid {
         grid-template-columns: 1fr;
     }
 
+    .physical-panel-strip-3 .physical-cards-grid,
     .physical-panel-strip-4 .physical-cards-grid,
     .physical-panel-strip-5 .physical-cards-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -7347,6 +7667,7 @@ html.dark .rj45-real-note .rj45-real-title {
 }
 
 @media(max-width:640px) {
+    .physical-panel-strip-3 .physical-cards-grid,
     .physical-panel-strip-4 .physical-cards-grid,
     .physical-panel-strip-5 .physical-cards-grid,
     .router-ports-callout-grid,

@@ -31,6 +31,7 @@ export function exampleOptions(topic,slide){
  if(slide.diagram?.nodes?.some(n=>n.kind==='printer')&&slide.diagram?.nodes?.length===7)return [['healthy','Connected source cable'],['fault','Disconnected source cable']];
  if(slide.title==='Example: a straight-through patch cable')return [['healthy','Correct pin mapping'],['fault','Open conductor at pin 7']];
  if(slide.title==='Example: two manually configured classroom computers')return [['healthy','Both hosts use /24'],['fault','Different host masks']];
+ if(slide.title==='Example: a laptop receives a lease')return [['healthy','Server online'],['fault','Server offline']];
  const options={
   '06-network-cables-media':[['healthy','Matching fiber optics'],['fault','180 m copper channel']],
   '07-rj45-crimping':[['healthy','Correct pin mapping'],['fault','Open conductor at pin 7']],
@@ -68,6 +69,12 @@ export function examplePlan(topic,slide,{scenario='healthy',source='3'}={}){
   const result=pairIntegrity(fault?'open':'standard');
   return [...result.mapping.map((pins,i)=>stage(`Test conductor ${i+1}`,pins.length?`End A pin ${i+1} connects cleanly to End B pin ${pins[0]}.`:`End A pin ${i+1} is broken and has no continuous path.`,[0,1,2],[],pins.length===1,[['End A color',result.a[i]],['End B pin',pins.join(', ')||'Open']])),
    stage(result.open?'Open circuit detected':'All eight conductors map straight through',result.open?'Pin 7 is open; re-crimp the damaged plug and test all eight pins again.':'All eight pins match 1-to-1 from End A to End B for a valid straight-through cable.',[0,2],[],!result.open)];
+ }
+ if(slide.title==='Example: a laptop receives a lease'||topic==='11-dhcp'){
+  const server=new DHCP('192.168.1.100','192.168.1.103');server.online=!fault;
+  if(fault)return [stage('Broadcast Discover','The laptop broadcasts a DHCP Discover message to find a server on the LAN.',[0,1],[0,1]),stage('No server response','The DHCP server is offline, so no Offer arrives and the laptop gets no IP lease.',[2],[],false,[['Active leases','0']])];
+  const lease=server.request('Laptop');
+  return [stage('Discover','The new laptop broadcasts a DHCP Discover message to locate a server.',[0,1,2],[0,1,2],true,[['Active leases','0']]),stage('Offer','The DHCP server replies with an Offer proposing an available IP address.',[2,1,0],[2,1,0],true,[['Proposed address',lease.ip]]),stage('Request','The laptop broadcasts a DHCP Request asking to use that offered IP address.',[0,1,2],[0,1,2],true,[['Active leases','0']]),stage('Acknowledge','The server sends an ACK confirming the IP lease, subnet mask, and gateway.',[2,1,0],[2,1,0],true,[['Leased address',lease.ip],['Mask','255.255.255.0'],['Gateway',server.gateway]])];
  }
  if(slide.title==='Example: two manually configured classroom computers'||topic==='10-static-ip'){
   const result=asymmetricSubnet({a:'192.168.1.10',b:fault?'192.168.1.200':'192.168.1.20',aPrefix:24,bPrefix:fault?25:24});

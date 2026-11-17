@@ -1,6 +1,7 @@
 import {esc,button,input,select,result,wire,read} from '../components/ui.js';
 import {reserveSimulationSpace} from '../components/simulationSpace.js';
-import {subnet,classify,connectivity,T568A,T568B,cableTest,ipv4} from '../utils/network.js';
+import {subnet,classify,T568A,T568B,cableTest,ipv4} from '../utils/network.js';
+import {createStepPlayback,playbackBar,syncPlaybackRow} from './playback.js';
 import {renderSubnetDrill} from './subnetDrill.js';
 
 const colors={'Green':'#15803d','Orange':'#c2410c','Blue':'#1d4ed8','Brown':'#92400e'};
@@ -17,14 +18,15 @@ export function cable(root){
   'Crimp using an 8P8C crimping tool with steady pressure; keep fingers clear of jaws.',
   'Connect both ends to a wire-map LAN tester and record the pin-to-pin continuity results.'
  ];
+ const playback=createStepPlayback({length:()=>stages.length,getIndex:()=>step,setIndex:n=>{step=n;},render:draw});
 
  function draw(){
-  root.innerHTML=`
+  const markup=s=>`
    <div class="control-row">
     ${select('Reference standard','standard',['A','B'],standard)}
     ${button('Load reference at end 1','load1')}
     ${button('Load reference at end 2','load2')}
-    ${button('Clear both ends','reset')}
+    ${button('Clear both ends','clear')}
    </div>
 
    <div class="presets-row">
@@ -73,15 +75,18 @@ export function cable(root){
      <div class="feedback" role="status">${esc(message)}</div>
      <div id="wire-map">${wireMapHtml}</div>
      <div class="step-card">
-      <b>Crimping sequence · ${step+1}/6</b>
-      <p>${stages[step]}</p>
-      ${button('Previous step','prev')}
-      ${button(step===5?'Replay sequence':'Next step','next')}
+      <b>Crimping sequence · ${s+1}/6 · ${playback.status}</b>
+      <p>${stages[s]}</p>
      </div>
     </div>
    </div>
+
+   ${playbackBar(playback)}
   `;
-  reserveSimulationSpace(root,stages.map((st,idx)=>root.innerHTML.replace(stages[step],st).replace(`${step+1}/6`,`${idx+1}/6`)));
+  root.innerHTML=markup(step);
+  reserveSimulationSpace(root,stages.map((_,idx)=>markup(idx)));
+  root.querySelector('[name="speed"]').onchange=e=>playback.setSpeed(e.target.value);
+  syncPlaybackRow(root,playback);
 
   // Wire select changes
   root.querySelectorAll('[data-end]').forEach(s=>{
@@ -116,7 +121,8 @@ export function cable(root){
   wire(root,{
    load1:()=>{ends[0]=[...(standard==='A'?T568A:T568B)];message='End 1 loaded. Inspect all eight labels before testing.';draw();},
    load2:()=>{ends[1]=[...(standard==='A'?T568A:T568B)];message='End 2 loaded. Test both ends together.';draw();},
-   reset:()=>{wireMapHtml='';ends=[Array(8).fill(''),Array(8).fill('')];step=0;message='Both ends cleared; select a reference standard to demonstrate termination.';draw();},
+   clear:()=>{wireMapHtml='';ends=[Array(8).fill(''),Array(8).fill('')];step=0;playback.reset();message='Both ends cleared; select a reference standard to demonstrate termination.';draw();},
+   reset:()=>{wireMapHtml='';ends=[Array(8).fill(''),Array(8).fill('')];step=0;playback.reset();message='Both ends cleared; select a reference standard to demonstrate termination.';draw();},
    validate:()=>{
     const ref=standard==='A'?T568A:T568B;
     message=ends.flatMap((end,e)=>end.flatMap((w,i)=>w===ref[i]?[]:[`End ${e+1}, pin ${i+1}: expected ${ref[i]}, found ${w||'open'}.`])).join(' ')||`Both ends correctly follow T568${standard}.`;
@@ -184,12 +190,15 @@ export function cable(root){
     },
    open:()=>{ends[1][0]='';message='End 2 pin 1 disconnected. Run the tester to trace the missing path.';draw();},
    short:()=>{ends[1][1]=ends[1][0]||'Orange';ends[1][0]=ends[1][1];message='End 2 pins 1 and 2 share one conductor. Run the tester.';draw();},
-   prev:()=>{step=Math.max(0,step-1);draw();},
-   next:()=>{step=(step+1)%6;draw();}
+   play:()=>{playback.play();},
+   pause:()=>{playback.pause();draw();},
+   resume:()=>{playback.resume();},
+   stop:()=>{step=0;playback.stop();draw();}
   });
  }
 
  draw();
+ return ()=>playback.dispose();
 }
 
 export function addressExplorer(root,isSubnet=false){
@@ -318,330 +327,85 @@ export function addressExplorer(root,isSubnet=false){
  render();
 }
 
+function windowsIpv4PropertiesSvg(){
+ return `<div class="static-dialog-card">
+  <svg class="win-ipv4-dialog-svg" viewBox="0 0 420 430" role="img" aria-label="Windows Internet Protocol Version 4 (TCP/IPv4) Properties dialog showing static IPv4, subnet mask, default gateway, and DNS server fields">
+   <rect x="2" y="2" width="416" height="426" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+   <rect x="2" y="2" width="416" height="32" rx="8" fill="#f1f5f9"/>
+   <rect x="2" y="24" width="416" height="10" fill="#f1f5f9"/>
+   <line x1="2" y1="34" x2="418" y2="34" stroke="#cbd5e1" stroke-width="1"/>
+   <text x="14" y="22" font-size="11.5" font-weight="600" fill="#0f172a">Internet Protocol Version 4 (TCP/IPv4) Properties</text>
+   <text x="400" y="22" text-anchor="middle" font-size="13" fill="#64748b">×</text>
+
+   <rect x="16" y="44" width="66" height="22" rx="4" fill="#ffffff" stroke="#cbd5e1"/>
+   <rect x="17" y="62" width="64" height="5" fill="#ffffff"/>
+   <text x="49" y="59" text-anchor="middle" font-size="10.5" font-weight="600" fill="#0f172a">General</text>
+   <rect x="84" y="46" width="124" height="20" rx="3" fill="#f1f5f9" stroke="#e2e8f0"/>
+   <text x="146" y="60" text-anchor="middle" font-size="10" fill="#64748b">Alternate Configuration</text>
+   <line x1="16" y1="66" x2="404" y2="66" stroke="#cbd5e1"/>
+
+   <text x="18" y="84" font-size="10" fill="#475569">You can get IP settings assigned automatically if your network</text>
+   <text x="18" y="97" font-size="10" fill="#475569">supports this capability. Otherwise, set your IPv4 values below.</text>
+
+   <circle cx="28" cy="118" r="6" fill="#ffffff" stroke="#64748b" stroke-width="1.5"/>
+   <text x="42" y="122" font-size="11" fill="#334155">Obtain an IP address automatically</text>
+
+   <circle cx="28" cy="141" r="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.8"/>
+   <circle cx="28" cy="141" r="3" fill="#2563eb"/>
+   <text x="42" y="145" font-size="11" font-weight="600" fill="#0f172a">Use the following IP address:</text>
+
+   <rect x="38" y="154" width="356" height="82" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+   <text x="50" y="175" font-size="11" fill="#334155">IP address:</text>
+   <rect x="186" y="160" width="194" height="20" rx="3" fill="#ffffff" stroke="#2563eb" stroke-width="1.2"/>
+   <text x="283" y="174" text-anchor="middle" font-size="11.5" font-family="monospace" font-weight="600" fill="#0f172a">192 . 168 .   1 .  10</text>
+
+   <text x="50" y="200" font-size="11" fill="#334155">Subnet mask:</text>
+   <rect x="186" y="185" width="194" height="20" rx="3" fill="#ffffff" stroke="#94a3b8"/>
+   <text x="283" y="199" text-anchor="middle" font-size="11.5" font-family="monospace" font-weight="600" fill="#0f172a">255 . 255 . 255 .   0</text>
+
+   <text x="50" y="225" font-size="11" fill="#334155">Default gateway:</text>
+   <rect x="186" y="210" width="194" height="20" rx="3" fill="#ffffff" stroke="#94a3b8"/>
+   <text x="283" y="224" text-anchor="middle" font-size="11.5" font-family="monospace" font-weight="600" fill="#0f172a">192 . 168 .   1 .   1</text>
+
+   <circle cx="28" cy="256" r="6" fill="#ffffff" stroke="#64748b" stroke-width="1.5"/>
+   <text x="42" y="260" font-size="11" fill="#334155">Obtain DNS server address automatically</text>
+
+   <circle cx="28" cy="279" r="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.8"/>
+   <circle cx="28" cy="279" r="3" fill="#2563eb"/>
+   <text x="42" y="283" font-size="11" font-weight="600" fill="#0f172a">Use the following DNS server addresses:</text>
+
+   <rect x="38" y="292" width="356" height="58" rx="6" fill="#f8fafc" stroke="#cbd5e1"/>
+   <text x="50" y="313" font-size="11" fill="#334155">Preferred DNS server:</text>
+   <rect x="186" y="298" width="194" height="20" rx="3" fill="#ffffff" stroke="#94a3b8"/>
+   <text x="283" y="312" text-anchor="middle" font-size="11.5" font-family="monospace" font-weight="600" fill="#0f172a">192 . 168 .   1 .   1</text>
+
+   <text x="50" y="338" font-size="11" fill="#334155">Alternate DNS server:</text>
+   <rect x="186" y="323" width="194" height="20" rx="3" fill="#ffffff" stroke="#94a3b8"/>
+   <text x="283" y="337" text-anchor="middle" font-size="11.5" font-family="monospace" font-weight="600" fill="#0f172a">  8 .   8 .   8 .   8</text>
+
+   <rect x="22" y="362" width="12" height="12" rx="2" fill="#ffffff" stroke="#64748b"/>
+   <text x="42" y="372" font-size="10.5" fill="#475569">Validate settings upon exit</text>
+
+   <rect x="306" y="356" width="88" height="24" rx="4" fill="#f1f5f9" stroke="#cbd5e1"/>
+   <text x="350" y="372" text-anchor="middle" font-size="10.5" font-weight="600" fill="#334155">Advanced...</text>
+
+   <line x1="16" y1="388" x2="404" y2="388" stroke="#e2e8f0"/>
+   <rect x="234" y="396" width="78" height="24" rx="4" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+   <text x="273" y="412" text-anchor="middle" font-size="11" font-weight="700" fill="#1d4ed8">OK</text>
+   <rect x="320" y="396" width="78" height="24" rx="4" fill="#f1f5f9" stroke="#cbd5e1"/>
+   <text x="359" y="412" text-anchor="middle" font-size="11" font-weight="600" fill="#334155">Cancel</text>
+  </svg>
+ </div>`;
+}
+
 export function staticIP(root){
- let configs=[
-  {ip:'192.168.1.10',mask:'255.255.255.0',gateway:'192.168.1.1',dns:'192.168.1.1'},
-  {ip:'192.168.1.20',mask:'255.255.255.0',gateway:'192.168.1.1',dns:'192.168.1.1'}
+ const steps=[
+  'Open Network Connections: Press Win + R, type ncpa.cpl, and press Enter to view your network adapters.',
+  'Open TCP/IPv4 Properties: Right-click Ethernet (or Wi-Fi), click Properties, select Internet Protocol Version 4 (TCP/IPv4), and click Properties.',
+  'Assign Static IPv4 Values: Select "Use the following IP address", then type IP address (192.168.1.10), Subnet mask (255.255.255.0), and Default gateway (192.168.1.1).',
+  'Configure DNS & Save: Select "Use the following DNS server addresses", enter Preferred DNS (192.168.1.1) and optional Alternate DNS (8.8.8.8), then click OK to apply.',
+  'Verify Connectivity: Open Command Prompt, run ipconfig /all to check the saved settings, then run ping 192.168.1.1 and ping a local peer.'
  ];
- let modes=['static','static'];
- let activePC = 0;
- let consoleHistory = [];
- let consoleCmd = 'ipconfig /all';
-
- function getActiveConfig(index){
-  return Object.fromEntries(Object.keys(configs[index]).map(k=>[k,read(root,`${index}-${k}`)]));
- }
-
- function runConsoleCommand(cmd){
-  const c = (cmd || '').trim();
-  if(!c) return;
-  if(c.toLowerCase()==='cls'||c.toLowerCase()==='clear'){
-   consoleHistory = [];
-   drawConsole();
-   return;
-  }
-  consoleCmd = c;
-  const cfg = getActiveConfig(activePC);
-  const otherPCIndex = activePC === 0 ? 1 : 0;
-  const otherCfg = getActiveConfig(otherPCIndex);
-  const isUp = read(root,'link')==='up';
-  const isRouted = read(root,'routing')==='router';
-  const lower = c.toLowerCase();
-
-  let res = '';
-  if(lower==='help'){
-   res = `Supported commands:
-  ipconfig          Display IP, subnet mask, default gateway
-  ipconfig /all     Display full network adapter configuration
-  ping <ip>         Test ICMP reachability to destination
-  cls / clear       Clear terminal output screen`;
-  } else if(lower==='ipconfig'||lower==='ipconfig /all'){
-   res = `Windows IP Configuration
-
-Ethernet adapter Ethernet0:
-   Connection-specific DNS Suffix  . : classroom.local
-   Link status . . . . . . . . . . . : ${isUp?'Connected':'Media disconnected'}
-   IPv4 Address. . . . . . . . . . . : ${cfg.ip}
-   Subnet Mask . . . . . . . . . . . : ${cfg.mask}
-   Default Gateway . . . . . . . . . : ${cfg.gateway||'(not configured)'}${lower.endsWith('/all')?`\n   DNS Servers . . . . . . . . . . . : ${cfg.dns||'(not configured)'}\n   Physical Address. . . . . . . . . : 02-00-00-00-00-0${activePC+1}`:''}`;
-  } else if(lower.startsWith('ping')){
-   const target = c.split(' ')[1]||'';
-   if(!isUp){
-    res = `Pinging ${target} with 32 bytes of data:\nPING: transmit failed. General failure (Physical link disconnected).`;
-   } else if(target==='127.0.0.1'||target.toLowerCase()==='localhost'||target===cfg.ip){
-    res = `Pinging ${target} with 32 bytes of data:
-Reply from ${target}: bytes=32 time<1ms TTL=128
-Reply from ${target}: bytes=32 time<1ms TTL=128
-Reply from ${target}: bytes=32 time<1ms TTL=128
-Reply from ${target}: bytes=32 time<1ms TTL=128
-
-Ping statistics for ${target}:
-    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)`;
-   } else if(target===otherCfg.ip){
-    const r = connectivity(cfg, otherCfg, isRouted, isUp);
-    if(r.ok){
-     res = `Pinging ${target} with 32 bytes of data:
-Reply from ${target}: bytes=32 time<1ms TTL=128
-Reply from ${target}: bytes=32 time<1ms TTL=128
-Reply from ${target}: bytes=32 time<1ms TTL=128
-Reply from ${target}: bytes=32 time<1ms TTL=128
-
-Ping statistics for ${target}:
-    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)
-(${r.text})`;
-    } else {
-     res = `Pinging ${target} with 32 bytes of data:
-Destination host unreachable.
-Destination host unreachable.
-Destination host unreachable.
-Destination host unreachable.
-
-Ping statistics for ${target}:
-    Packets: Sent = 4, Received = 0, Lost = 4 (100% loss)
-(${r.text})`;
-    }
-   } else if(cfg.gateway && target===cfg.gateway){
-    res = `Pinging ${target} with 32 bytes of data:
-Reply from ${target}: bytes=32 time<1ms TTL=64
-Reply from ${target}: bytes=32 time<1ms TTL=64
-Reply from ${target}: bytes=32 time<1ms TTL=64
-Reply from ${target}: bytes=32 time<1ms TTL=64
-
-Ping statistics for ${target}:
-    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)`;
-   } else {
-    res = `Pinging ${target} with 32 bytes of data:
-Request timed out.
-Request timed out.
-Request timed out.
-Request timed out.
-
-Ping statistics for ${target}:
-    Packets: Sent = 4, Received = 0, Lost = 4 (100% loss)`;
-   }
-  } else {
-   res = `'${c}' is not recognized as an internal or external command. Type 'help' for available commands.`;
-  }
-
-  consoleHistory.push(`> ${c}\n${res}`);
-  drawConsole();
- }
-
- function drawConsole(){
-  const consoleBox = root.querySelector('#static-console-area');
-  if(!consoleBox) return;
-  const cfg = getActiveConfig(activePC);
-  const otherPCIndex = activePC === 0 ? 1 : 0;
-  const otherCfg = getActiveConfig(otherPCIndex);
-  const quickList = ['ipconfig', 'ipconfig /all', `ping ${otherCfg.ip}`, 'ping 127.0.0.1', ...(cfg.gateway?[`ping ${cfg.gateway}`]:[]), 'help', 'cls'];
-
-  consoleBox.innerHTML = `
-   <div class="terminal-container">
-    <div class="terminal-header-bar">
-     <div class="terminal-dots"><span></span><span></span><span></span></div>
-     <div class="terminal-title">Command Prompt - PC ${activePC+1} (${esc(cfg.ip)})</div>
-     <div style="margin-left:auto;display:flex;gap:6px;">
-      <button type="button" class="quick-cmd ${activePC===0?'active':''}" data-pc="0" style="${activePC===0?'background:#2563eb!important;color:white!important;':''}">PC 1 Console</button>
-      <button type="button" class="quick-cmd ${activePC===1?'active':''}" data-pc="1" style="${activePC===1?'background:#2563eb!important;color:white!important;':''}">PC 2 Console</button>
-     </div>
-    </div>
-    <pre class="terminal" role="log" aria-live="polite">${esc(consoleHistory.at(-1)||'Run "ipconfig /all" or ping the other workstation to test reachability from PC '+(activePC+1)+'.')}</pre>
-    <form class="terminal-prompt-form control-row" id="static-terminal-form">
-     <span class="terminal-prompt-label">C:\\Users\\Student&gt;</span>
-     <input type="text" name="static-cmd" class="terminal-prompt-input" value="${esc(consoleCmd)}" placeholder="Type command (e.g. ping ${otherCfg.ip}, ipconfig /all)..." autocomplete="off" spellcheck="false" />
-     <button type="submit" class="primary">Execute</button>
-    </form>
-    <div class="quick-cmd-list">
-     <span class="quick-cmd-label">Quick commands (PC ${activePC+1}):</span>
-     ${quickList.map(c=>`<button type="button" class="quick-cmd" data-console-cmd="${esc(c)}"><code>${esc(c)}</code></button>`).join('')}
-    </div>
-   </div>
-  `;
-
-  consoleBox.querySelectorAll('[data-pc]').forEach(b=>{
-   b.onclick=()=>{
-    activePC = Number(b.dataset.pc);
-    consoleHistory = [];
-    drawConsole();
-   };
-  });
-
-  const form = consoleBox.querySelector('#static-terminal-form');
-  if(form){
-   form.onsubmit = e => {
-    e.preventDefault();
-    const inputEl = consoleBox.querySelector('[name="static-cmd"]');
-    runConsoleCommand(inputEl?.value || '');
-   };
-  }
-
-  consoleBox.querySelectorAll('[data-console-cmd]').forEach(b=>{
-   b.onclick=()=>{
-    consoleCmd = b.dataset.consoleCmd;
-    runConsoleCommand(consoleCmd);
-   };
-  });
- }
-
- function renderUI(){
-  root.innerHTML = `
-   <div class="presets-row" style="margin-bottom:14px;">
-    <span class="presets-label">Configuration Scenarios:</span>
-    <div class="presets">
-     <button type="button" data-static-preset="working">Same Subnet /24 (Working LAN)</button>
-     <button type="button" data-static-preset="diff-subnet">Different Subnets (No Router)</button>
-     <button type="button" data-static-preset="conflict">Duplicate IP Conflict</button>
-     <button type="button" data-static-preset="bad-gw">Mismatched Gateway</button>
-     <button type="button" data-static-preset="reset">Reset to Defaults</button>
-    </div>
-   </div>
-
-   <div class="config-grid">
-    ${configs.map((c,i)=>`
-     <div class="win-card" style="background:var(--bg-surface);border:1px solid var(--border-color);border-radius:10px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.05);">
-      <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border-color);padding-bottom:10px;margin-bottom:12px;">
-       <div style="display:flex;align-items:center;gap:8px;">
-        <span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${i===0?'#2563eb':'#0d9488'};"></span>
-        <b style="font-size:15px;color:var(--text-primary);">PC ${i+1} · TCP/IPv4 Properties</b>
-       </div>
-       <span class="badge" style="font-size:11px;padding:2px 8px;border-radius:12px;background:var(--bg-elevated);border:1px solid var(--border-color);color:var(--text-secondary);">${modes[i]==='dhcp'?'DHCP Mode':'Static Mode'}</span>
-      </div>
-
-      <div style="display:flex;gap:12px;margin-bottom:12px;font-size:13px;">
-       <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
-        <input type="radio" name="pc-${i}-mode" value="dhcp" ${modes[i]==='dhcp'?'checked':''} data-mode-pc="${i}">
-        <span>Obtain automatically (DHCP)</span>
-       </label>
-       <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
-        <input type="radio" name="pc-${i}-mode" value="static" ${modes[i]==='static'?'checked':''} data-mode-pc="${i}">
-        <span>Use following IP (Static)</span>
-       </label>
-      </div>
-
-      <fieldset style="border:1px solid var(--border-color);border-radius:8px;padding:12px 14px;margin-bottom:10px;">
-       <legend style="font-size:12px;font-weight:700;color:var(--text-muted);padding:0 6px;">IP & Gateway Configuration</legend>
-       ${input('IPv4 address',`${i}-ip`,c.ip)}
-       ${input('Subnet mask',`${i}-mask`,c.mask)}
-       ${input('Default gateway (optional)',`${i}-gateway`,c.gateway)}
-       ${input('Preferred DNS (optional)',`${i}-dns`,c.dns)}
-      </fieldset>
-      <div id="pc-${i}-analysis" style="font-size:12px;color:var(--text-secondary);padding:6px 8px;background:var(--bg-elevated);border-radius:6px;"></div>
-     </div>
-    `).join('')}
-   </div>
-
-   <div class="control-row" style="margin-top:12px;">
-    ${select('Physical link','link',[['up','Connected'],['down','Disconnected']],'up')}
-    ${select('Routing model','routing',[['none','One LAN; no inter-subnet router'],['router','Router with both subnet interfaces/routes']],'none')}
-    ${button('Test numeric-IP connectivity','test','primary')}
-    ${button('Load different-subnet example','different')}
-   </div>
-
-   <div id="connectivity" aria-live="polite"></div>
-   <div id="static-console-area"></div>
-  `;
-
-  // Attach mode radio listeners
-  root.querySelectorAll('[data-mode-pc]').forEach(radio=>{
-   radio.onchange=()=>{
-    const pcIdx = Number(radio.dataset.modePc);
-    modes[pcIdx] = radio.value;
-    if(modes[pcIdx]==='dhcp'){
-     root.querySelector(`[name="${pcIdx}-ip"]`).value = `192.168.1.10${pcIdx}`;
-     root.querySelector(`[name="${pcIdx}-mask"]`).value = '255.255.255.0';
-     root.querySelector(`[name="${pcIdx}-gateway"]`).value = '192.168.1.1';
-     root.querySelector(`[name="${pcIdx}-dns"]`).value = '192.168.1.1';
-    }
-    test();
-    drawConsole();
-   };
-  });
-
-  // Attach preset buttons
-  root.querySelectorAll('[data-static-preset]').forEach(btn=>{
-   btn.onclick=()=>{
-    const p = btn.dataset.staticPreset;
-    if(p==='working'){
-     modes=['static','static'];
-     root.querySelector('[name="0-ip"]').value='192.168.1.10';
-     root.querySelector('[name="0-mask"]').value='255.255.255.0';
-     root.querySelector('[name="0-gateway"]').value='192.168.1.1';
-     root.querySelector('[name="1-ip"]').value='192.168.1.20';
-     root.querySelector('[name="1-mask"]').value='255.255.255.0';
-     root.querySelector('[name="1-gateway"]').value='192.168.1.1';
-     root.querySelector('[name="routing"]').value='none';
-    } else if(p==='diff-subnet'){
-     modes=['static','static'];
-     root.querySelector('[name="0-ip"]').value='192.168.1.10';
-     root.querySelector('[name="0-mask"]').value='255.255.255.0';
-     root.querySelector('[name="0-gateway"]').value='192.168.1.1';
-     root.querySelector('[name="1-ip"]').value='192.168.2.20';
-     root.querySelector('[name="1-mask"]').value='255.255.255.0';
-     root.querySelector('[name="1-gateway"]').value='192.168.2.1';
-     root.querySelector('[name="routing"]').value='none';
-    } else if(p==='conflict'){
-     modes=['static','static'];
-     root.querySelector('[name="0-ip"]').value='192.168.1.10';
-     root.querySelector('[name="1-ip"]').value='192.168.1.10';
-    } else if(p==='bad-gw'){
-     modes=['static','static'];
-     root.querySelector('[name="0-ip"]').value='192.168.1.10';
-     root.querySelector('[name="0-gateway"]').value='10.0.0.1';
-    } else if(p==='reset'){
-     modes=['static','static'];
-     root.querySelector('[name="0-ip"]').value='192.168.1.10';
-     root.querySelector('[name="0-mask"]').value='255.255.255.0';
-     root.querySelector('[name="0-gateway"]').value='192.168.1.1';
-     root.querySelector('[name="0-dns"]').value='192.168.1.1';
-     root.querySelector('[name="1-ip"]').value='192.168.1.20';
-     root.querySelector('[name="1-mask"]').value='255.255.255.0';
-     root.querySelector('[name="1-gateway"]').value='192.168.1.1';
-     root.querySelector('[name="1-dns"]').value='192.168.1.1';
-     root.querySelector('[name="link"]').value='up';
-     root.querySelector('[name="routing"]').value='none';
-    }
-    test();
-    drawConsole();
-   };
-  });
-
-  wire(root,{
-   different:()=>{
-    root.querySelector('[name="1-ip"]').value='192.168.2.20';
-    root.querySelector('[name="1-gateway"]').value='192.168.2.1';
-    test();
-    drawConsole();
-   },
-   test
-  });
- }
-
- function updateHostAnalysis(index, cfg){
-  const el = root.querySelector(`#pc-${index}-analysis`);
-  if(!el) return;
-  try{
-   ipv4(cfg.ip);
-   ipv4(cfg.mask);
-   const octets = cfg.ip.split('.');
-   const maskOctets = cfg.mask.split('.');
-   if(cfg.mask==='255.255.255.0'){
-    el.innerHTML = `<b>Network:</b> <code>${octets[0]}.${octets[1]}.${octets[2]}.0/24</code> · <b>Host ID:</b> <code>.${octets[3]}</code>`;
-   } else {
-    el.innerHTML = `<b>Configured IP:</b> <code>${cfg.ip}</code> · <b>Mask:</b> <code>${cfg.mask}</code>`;
-   }
-  }catch(e){
-   el.innerHTML = `<span style="color:#ef4444;">Invalid IP or Subnet Mask format</span>`;
-  }
- }
-
- function test(){
-  configs=configs.map((c,i)=>Object.fromEntries(Object.keys(c).map(k=>[k,read(root,`${i}-${k}`)])));
-  configs.forEach((c,i)=>updateHostAnalysis(i,c));
-  const r=connectivity(...configs,read(root,'routing')==='router',read(root,'link')==='up');
-  root.querySelector('#connectivity').innerHTML=result(r.text,r.ok);
- }
-
- renderUI();
- test();
- drawConsole();
+ root.innerHTML=`<div class="static-guide-grid"><div class="static-guide-visual">${windowsIpv4PropertiesSvg()}</div><div class="static-guide-steps"><ol class="teaching-points static-procedure-list">${steps.map((step,i)=>{const colon=step.indexOf(': ');const title=step.slice(0,colon);const body=step.slice(colon+2);return `<li><span class="point-index">${String(i+1).padStart(2,'0')}</span><p><strong>${esc(title)}:</strong> ${esc(body)}</p></li>`;}).join('')}</ol></div></div>`;
+ return ()=>{};
 }

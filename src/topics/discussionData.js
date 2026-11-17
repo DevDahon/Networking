@@ -10,7 +10,9 @@ export const discussionData={
   ]},
   summary:[
    'Core Purpose: A network connects devices to share data, files, and hardware resources.',
-   'Three Building Blocks: End devices, connecting devices (switches/routers), and links work together.',
+   'Uses & Importance: Networks power real-time communication, resource sharing, centralized storage, collaboration, entertainment, business operations, and education.',
+   'Four Core Components: End devices (nodes), networking devices, transmission media, and protocols work together.',
+   'Network Characteristics: Security, reliability, scalability, data flow, high performance, fault tolerance, QoS, and compatibility support dependable networks.',
    'Coverage vs. Role: PAN, LAN, MAN, and WAN describe size; Peer-to-Peer and Client-Server describe service roles.',
    'Performance: Bandwidth measures link capacity (Mbps/Gbps), while latency measures delay (ms).'
   ]
@@ -44,17 +46,19 @@ export const discussionData={
   ]
  },
  '06-network-cables-media':{
-  walkthrough:{title:'Select media for a campus installation',items:[
-   'Check Distance: Use Cat 6 copper for indoor runs under 100 meters, and fiber-optic cable for longer runs.',
-   'Check Interference: Use STP or optical fiber near heavy motors, power lines, or outdoor lightning zones.',
-   'Pick Fiber Type: Choose Multi-Mode Fiber (MMF) within buildings and Single-Mode Fiber (SMF) across campus.',
-   'Verify Connectors: Match RJ45 plugs to copper ports and LC/SC optical transceivers to fiber ports.'
+  walkthrough:{title:'Termination sequence: inspect before crimping',items:[
+   'Strip Jacket: Score and remove about 1 inch of outer cable jacket without nicking the inner wire insulation.',
+   'Untwist & Align: Untwist pairs, flatten the 8 wires in exact T568A or T568B color order, and trim evenly.',
+   'Insert & Crimp: Push wires fully to the front of the RJ45 plug (clip facing down) with jacket inside strain relief, then crimp.',
+   'Test Continuity: Plug both ends into a LAN cable tester and verify LEDs 1 through 8 light up in order.'
   ]},
   summary:[
    'Three Media Types: Copper uses electrical pulses, fiber uses light pulses, and wireless uses radio waves.',
    'Twisted Pair (UTP/STP): Wire twists cancel crosstalk; copper Ethernet supports up to 100 meters.',
    'Fiber-Optic Advantage: Glass fibers carry high-speed light over kilometers with zero electrical interference.',
-   'Coaxial & Wireless: Coaxial shields broadband connections, while Wi-Fi trades cable speed for mobility.'
+   'T568A vs. T568B: Both standards wire 8 pins; T568B swaps the orange (pins 1–2) and green (pins 3, 6) pairs.',
+   'Cable Arrangements: Straight-through (B-to-B) connects PC to Switch; Crossover (A-to-B) connects like devices.',
+   'Wire-Map Testing: A cable tester detects Open (broken), Short (touching), Miswired, and Split-Pair faults.'
   ]
  },
  '07-rj45-crimping':{
@@ -86,17 +90,19 @@ export const discussionData={
   ]
  },
  '10-static-ip':{
-  walkthrough:{title:'Windows static-IP configuration',items:[
-   'Open Adapter Settings: Press Win+R, run ncpa.cpl, right-click the Ethernet/Wi-Fi adapter, and open IPv4 Properties.',
-   'Enter Local Settings: Type a unique IP (e.g., 192.168.1.10), Subnet Mask (255.255.255.0), and Default Gateway (192.168.1.1).',
-   'Enter DNS Server: Add a DNS server IP (such as 192.168.1.1 or 8.8.8.8) so website names resolve.',
-   'Verify with CLI: Run ipconfig /all to confirm the settings, then ping a local peer and the default gateway.'
+  walkthrough:{title:'Read a DHCP configuration and lease',items:[
+   'Configure Pool: Set the router’s DHCP range inside its LAN subnet (e.g., .100 to .199), excluding static server IPs.',
+   'Run DORA Exchange: The client broadcasts Discover, receives an Offer, sends a Request, and gets an ACK.',
+   'Inspect Lease: Run ipconfig /all on Windows to view the leased IP, DHCP server address, and expiration time.',
+   'Refresh Lease: Use ipconfig /release to give back an IP and ipconfig /renew to request a fresh lease.'
   ]},
   summary:[
    'Static vs. Dynamic: Use Static IPs for servers, printers, and routers; use DHCP for everyday client devices.',
    'Four Required Fields: IP Address, Subnet Mask, Default Gateway (for outside networks), and DNS Server (for names).',
    'Two-Way Agreement: Both hosts must have unique IPs and matching subnet masks to talk on a local network.',
-   'Always Verify: Valid numbers alone do not guarantee connection—always test with ipconfig and ping.'
+   'Four DORA Steps: Discover (client broadcast) → Offer (server proposal) → Request (client choice) → ACK (confirmed).',
+   'Lease Lifecycle: Leases are temporary; clients renew them halfway through or release them when disconnecting.',
+   'Common Faults: An exhausted pool or offline DHCP server causes clients to fall back to a 169.254.x.x APIPA address.'
   ]
  },
  '11-dhcp':{

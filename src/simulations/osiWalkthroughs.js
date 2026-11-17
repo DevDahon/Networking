@@ -1,5 +1,5 @@
-import {esc,button,input,wire} from '../components/ui.js';
-import {createStepPlayback} from './playback.js';
+import {esc,button,input,select,wire} from '../components/ui.js';
+import {createStepPlayback,playbackBar,syncPlaybackRow} from './playback.js';
 import {reserveSimulationSpace} from '../components/simulationSpace.js';
 import {osiLayers,journeySteps} from './osiModel.js';
 import {packetPosition} from '../components/packetMotion.js';
@@ -59,16 +59,17 @@ export function encapsulationWalkthrough(root){
   const wrappers=[['Transport information','Application ports: 50000 → 5000'],['Network addresses','192.168.1.10 → 192.168.1.20'],['Local-link information','Ethernet addresses: Computer A → Computer B']];
   for(let n=0;n<state.depth;n++)payload=`<div class="osi-wrapper wrapper-${n}"><div><b>${wrappers[n][0]}</b><span>${wrappers[n][1]}</span></div>${payload}${n===2?'<small>Ethernet error-check information (not calculated here)</small>':''}</div>`;
   const parts=journeySteps[i];
-  return `<form class="encapsulation-message control-row">${input('Message (up to 24 characters)','encapsulation-message',message)}<button type="submit">Use message</button></form><div class="journey-heading"><span>${i<4?'Computer A':i===4?'Connection':'Computer B'}</span><b>${i<4?'Adding delivery information':i===4?'Sending as signals':'Removing delivery information'}</b><span>${i+1} / 9 · ${player.status}</span></div><div class="encapsulation-path"><div class="${i<4?'active':''}">Computer A<br><small>Sender ↓</small></div><span>→ connection →</span><div class="${i>4?'active':''}">Computer B<br><small>Receiver ↑</small></div></div><div class="osi-wrapper-view" aria-label="Delivery wrappers">${payload}</div>${i===4?`<p class="osi-binary-preview"><b>Message bits${state.bytes.length>8?' (first 8 bytes)':''}:</b> ${state.bytes.slice(0,8).map(n=>n.toString(2).padStart(8,'0')).join(' ')}</p>`:''}<div class="step-card" aria-live="polite"><b>${esc(parts.unit)}</b><p>${explanations[i]}</p></div><div class="control-row">${button('Previous','previous')}${button('Next step','advance','primary')}${button('Reset','reset')}${button(player.running?'Pause autoplay':'Autoplay','toggle')}</div><p class="small">Illustrative Transmission Control Protocol (TCP), Internet Protocol (IP), and Ethernet delivery on one local network. Ports are example values; wrappers are explanatory, not real transmitted packets. Text uses Universal Character Set Transformation Format, 8-bit (UTF-8) encoding.</p>`;
+  return `<form class="encapsulation-message control-row">${input('Message (up to 24 characters)','encapsulation-message',message)}<button type="submit">Use message</button></form><div class="journey-heading"><span>${i<4?'Computer A':i===4?'Connection':'Computer B'}</span><b>${i<4?'Adding delivery information':i===4?'Sending as signals':'Removing delivery information'}</b><span>${i+1} / 9 · ${player.status}</span></div><div class="encapsulation-path"><div class="${i<4?'active':''}">Computer A<br><small>Sender ↓</small></div><span>→ connection →</span><div class="${i>4?'active':''}">Computer B<br><small>Receiver ↑</small></div></div><div class="osi-wrapper-view" aria-label="Delivery wrappers">${payload}</div>${i===4?`<p class="osi-binary-preview"><b>Message bits${state.bytes.length>8?' (first 8 bytes)':''}:</b> ${state.bytes.slice(0,8).map(n=>n.toString(2).padStart(8,'0')).join(' ')}</p>`:'<p class="osi-binary-preview" aria-hidden="true" style="visibility:hidden">&nbsp;</p>'}<div class="step-card" aria-live="polite"><b>${esc(parts.unit)}</b><p>${explanations[i]}</p></div>${playbackBar(player)}<p class="small">Illustrative Transmission Control Protocol (TCP), Internet Protocol (IP), and Ethernet delivery on one local network. Ports are example values; wrappers are explanatory, not real transmitted packets. Text uses Universal Character Set Transformation Format, 8-bit (UTF-8) encoding.</p>`;
  }
  function draw(){
   root.innerHTML=markup(index);reserveSimulationSpace(root,Array.from({length:9},(_,i)=>markup(i)));
   const field=root.querySelector('[name="encapsulation-message"]');field.maxLength=24;
-  field.onfocus=()=>{player.pause();root.querySelector('.journey-heading>span:last-child').textContent=`${index+1} / 9 · ${player.status}`;root.querySelector('[data-action="toggle"]').textContent='Autoplay';};
-  root.querySelector('form').onsubmit=e=>{e.preventDefault();const value=field.value;if(!value.trim()){field.setCustomValidity('Enter a short message.');field.reportValidity();return;}field.setCustomValidity('');message=value.slice(0,24);player.reset();draw();};
+  field.onfocus=()=>{if(player.running){player.pause();root.querySelector('.journey-heading>span:last-child').textContent=`${index+1} / 9 · ${player.status}`;syncPlaybackRow(root,player);}};
+  root.querySelector('form').onsubmit=e=>{e.preventDefault();const value=field.value;if(!value.trim()){field.setCustomValidity('Enter a short message.');field.reportValidity();return;}field.setCustomValidity('');message=value.slice(0,24);player.stop();draw();};
   field.oninput=()=>field.setCustomValidity('');
-  wire(root,{previous:()=>{player.previous();draw();},advance:()=>{player.next();draw();},reset:()=>{player.reset();draw();},toggle:()=>{if(player.running){player.pause();draw();}else player.resume();}});
-  root.querySelector('[data-action="previous"]').disabled=index===0;root.querySelector('[data-action="advance"]').disabled=index===8;
+  root.querySelector('[name="speed"]').onchange=e=>player.setSpeed(e.target.value);
+  syncPlaybackRow(root,player);
+  wire(root,{play:()=>player.play(),pause:()=>{player.pause();draw();},resume:()=>player.resume(),stop:()=>{player.stop();draw();}});
  }
  draw();return ()=>player.dispose();
 }

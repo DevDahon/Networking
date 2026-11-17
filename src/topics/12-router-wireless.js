@@ -16,19 +16,18 @@ export default topic({
       "visualLayout": "split",
       "lead": "A small-office gateway often combines routing, switching, wireless access, DHCP, NAT, and firewall policy.",
       "items": [
-        "LAN interface: Connects and serves devices inside the local network.",
-        "WAN interface: Connects the router to the Internet Service Provider.",
-        "NAT: Translates private LAN IPs into one public WAN IP for Internet access."
+        "LAN interface: Faces inward toward your room or office, connecting local computers and Wi-Fi devices through private IP addresses.",
+        "WAN interface: Faces outward to your Internet Service Provider (ISP) modem so the router can reach websites and cloud apps.",
+        "NAT: Automatically swaps private classroom IPs for the router’s single public WAN address so everyone can share one Internet connection."
       ],
       "expectedCount": 3
     },
     {
       "title": "Wireless identity and protection",
       "lead": "An SSID names a wireless network. Association and authentication come before useful IP connectivity.",
-      "items": [
-        "Strong encryption: Always choose WPA3-Personal (strongest) or WPA2-Personal AES; never use WEP or open Wi-Fi for private data.",
-        "Separate passwords: Use a strong Wi-Fi passphrase and a different router admin password.",
-        "Guest isolation: Place visitors on an isolated Guest Wi-Fi so they cannot access private LAN folders."
+      "paragraphs": [
+        "Always protect Wi-Fi networks with WPA3-Personal or WPA2-Personal (AES) rather than legacy WEP or open wireless, and keep your router’s admin password separate from the shared Wi-Fi passphrase.",
+        "For classrooms and small offices, place visitors on an isolated Guest Wi-Fi SSID so guests gain Internet access without reaching internal office computers or shared printers."
       ]
     },
     {
@@ -36,21 +35,17 @@ export default topic({
       "visualKey": "wifiRouterHardwarePhoto",
       "visualLayout": "split",
       "lead": "Wireless networks operate over unlicensed radio frequencies using standardized IEEE 802.11 protocols.",
-      "items": [
-        "2.4 GHz Band: Longer range through walls, but slower and prone to interference.",
-        "5 GHz Band: Much faster with less interference, but shorter range through walls.",
-        "Wi-Fi 4 (802.11n): Dual-band standard supporting speeds up to 600 Mbps.",
-        "Wi-Fi 5 (802.11ac): High-speed 5 GHz standard delivering gigabit wireless speeds.",
-        "Wi-Fi 6 (802.11ax): Modern standard across 2.4/5/6 GHz built for crowded schools and offices."
+      "paragraphs": [
+        "The 2.4 GHz band penetrates walls and covers wider rooms at lower throughput, whereas the 5 GHz and 6 GHz bands deliver higher speeds with less crowding over shorter distances.",
+        "IEEE standards have evolved from dual-band Wi-Fi 4 (802.11n, up to 600 Mbps) and high-speed 5 GHz Wi-Fi 5 (802.11ac) to modern Wi-Fi 6 (802.11ax), designed for dense classrooms and offices."
       ]
     },
     {
       "title": "Change settings in a safe order",
       "lead": "Record the current configuration and use authorized administrative access on a dedicated lab router.",
-      "items": [
-        "Set LAN & DHCP together: Pick a private LAN IP and matching DHCP pool inside the same subnet.",
-        "Reconnect after IP changes: Changing the router's LAN IP drops your session until you renew your lease.",
-        "Verify step by step: Connect one wired and one wireless device, then test gateway and Internet access."
+      "paragraphs": [
+        "Keep the router’s LAN IP address and DHCP pool aligned inside the same subnet before saving. If you change the router’s LAN address, expect your browser admin session to drop until client devices renew their IP leases.",
+        "After applying changes, connect one wired computer and one wireless client to verify both local DHCP assignment and WAN Internet reachability."
       ]
     }
   ],
@@ -58,15 +53,6 @@ export default topic({
     "type": "router",
     "title": "Educational router console",
     "lead": "Browser-only model • configure LAN and Wi-Fi, apply settings, then add wired or authenticated wireless clients."
-  },
-  "application": {
-    "title": "A small training center",
-    "lead": "Staff PCs and visitor phones share one provider connection, but visitors should not browse staff folders.",
-    "items": [
-      "Use a private staff LAN and a properly isolated guest WLAN supported by the equipment.",
-      "Document WAN requirements from the provider instead of guessing settings.",
-      "Confirm guests cannot access staff resources while approved Internet access remains possible."
-    ]
   },
   "installation": {
     "equipment": "Isolated router/AP, wired PC, wireless client, approved admin access.",

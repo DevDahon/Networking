@@ -52,6 +52,7 @@ export function expandLessonTerms(topic){
   const expanded={...slide};
   for(const field of ['lead'])if(expanded[field])expanded[field]=expand(expanded[field]);
   if(expanded.items)expanded.items=slide.kind==='objectives'?[...objectives]:expanded.items.map(expand);
+  if(expanded.paragraphs)expanded.paragraphs=expanded.paragraphs.map(expand);
   return expanded;
  })};
 }

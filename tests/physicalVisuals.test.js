@@ -25,18 +25,17 @@ function mountTopicSlide(topicId, title) {
 
 describe('Real-life photographs for physical networking content', () => {
   it.each([
-    ['01-introduction-to-networking', 'Basic Network Components', 4],
     ['osi-reference-model', 'Four Lower Layers (4–1): How Data Travels', 3],
     ['06-network-cables-media', 'Five network media choices', 5],
     ['06-network-cables-media', 'Three Ethernet cable categories', 1],
     ['06-network-cables-media', 'Fiber-Optic Cable Construction and Types', 2],
     ['06-network-cables-media', 'Coaxial Cable Construction and Shielding', 2],
     ['06-network-cables-media', 'Unguided Media: Wireless Radio Frequencies', 2],
-    ['07-rj45-crimping', 'RJ45 Plugs and Keystone Jacks', 2],
-    ['07-rj45-crimping', 'T568A: eight conductor positions', 1],
-    ['07-rj45-crimping', 'T568B: eight conductor positions', 1],
-    ['07-rj45-crimping', 'Straight-Through vs Crossover Cables', 1],
-    ['07-rj45-crimping', 'Three common wire-map faults', 2],
+    ['06-network-cables-media', 'RJ45 Plugs and Keystone Jacks', 2],
+    ['06-network-cables-media', 'T568A: eight conductor positions', 1],
+    ['06-network-cables-media', 'T568B: eight conductor positions', 1],
+    ['06-network-cables-media', 'Straight-Through vs Crossover Cables', 1],
+    ['06-network-cables-media', 'Three common wire-map faults', 2],
     ['12-router-wireless', 'Three gateway interface and translation concepts', 1],
     ['12-router-wireless', 'Wi-Fi Frequencies and Standards', 1]
   ])('renders actual image files on %s -> %s', (topicId, title, minImages) => {
@@ -139,7 +138,7 @@ describe('Real-life photographs for physical networking content', () => {
       expect(existsSync(resolve(process.cwd(), 'public', url))).toBe(true);
     }
 
-    const rj45 = topics.find(t => t.id === '07-rj45-crimping');
+    const rj45 = topics.find(t => t.id === '06-network-cables-media');
     const rj45Urls = topicImageUrls(rj45, 2);
     expect(preloadImages(rj45Urls, createMockImage)).toBe(rj45Urls.length);
     expect(preloadImages(rj45Urls, createMockImage)).toBe(0);

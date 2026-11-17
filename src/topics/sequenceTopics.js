@@ -5,14 +5,10 @@ export const sequenceMoves={
  '03-network-topologies':[
   ['Choose a topology for the task','after','@topology']
  ],
- '04-network-devices':[
-  ['Read the interfaces along a network path','before','Expand a small office']
- ],
+ '04-network-devices':[],
  'osi-reference-model':[],
  '06-network-cables-media':[
-  ['Select media for a campus installation','before','@media']
- ],
- '07-rj45-crimping':[
+  ['Select media for a campus installation','before','@media'],
   ['Termination sequence: inspect before crimping','before','@cable']
  ],
  '08-ip-addressing':[
@@ -22,16 +18,13 @@ export const sequenceMoves={
  ],
  '10-static-ip':[
   ['@asymmetricDemo','after','Example: two manually configured classroom computers'],
-  ['Windows static-IP configuration','before','@static']
+  ['Read a DHCP configuration and lease','before','@dhcp'],
+  ['@reservedPoolDemo','after','@dhcp']
  ],
  'network-protocols-services':[
   ['Read both endpoints, not just one number','after','Two transport services: TCP and UDP'],
   ['@dnsCacheDemo','after','DNS: Domain Name System'],
   ['Example: open a protected school website','before','@protocolWeb']
- ],
- '11-dhcp':[
-  ['Read a DHCP configuration and lease','before','@dhcp'],
-  ['@reservedPoolDemo','after','@dhcp']
  ],
  '12-router-wireless':[
   ['Wi-Fi Frequencies and Standards','before','Wireless identity and protection'],
@@ -39,14 +32,13 @@ export const sequenceMoves={
   ['@guestIsolationDemo','after','@router']
  ],
  '13-file-printer-sharing':[
-  ['Windows folder sharing','before','@sharing'],
   ['@printQueueDemo','after','@sharing']
  ],
  '14-network-troubleshooting':[
-  ['Test the theory and verify the repair','after','Six Windows diagnostic commands'],
-  ['Nine modeled network faults','before','Example: numeric access works but a name fails'],
+  ['Common Network Fault Symptoms','before','Example: numeric access works but a name fails'],
   ['@ttlTraceDemo','after','Example: numeric access works but a name fails'],
-  ['A fault-to-repair demonstration','before','@troubleshoot']
+  ['A fault-to-repair demonstration','before','@troubleshoot'],
+  ['Test the theory and verify the repair','after','@troubleshoot']
  ],
  '15-network-security':[
   ['Layered defense in practice','before','@security']

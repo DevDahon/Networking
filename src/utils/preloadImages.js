@@ -33,7 +33,7 @@ export function slideImageUrls(slide, topicId) {
   if (slide.type === 'media') {
     return physicalPanelImages('mediaChoicesPhotos');
   }
-  if (topicId === '07-rj45-crimping' && (slide.title?.startsWith('T568A:') || slide.title?.startsWith('T568B:'))) {
+  if ((topicId === '06-network-cables-media' || topicId === '07-rj45-crimping') && (slide.title?.startsWith('T568A:') || slide.title?.startsWith('T568B:'))) {
     return ['images/tools/rj45_crimped_front.webp'];
   }
   return [];

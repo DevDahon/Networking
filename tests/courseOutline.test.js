@@ -91,10 +91,10 @@ describe('Course Outline Module', () => {
     expect(backBtn).not.toBeNull();
   });
 
-  it('keeps the 14 instructional topics count unchanged and preserves dashboard integrity', () => {
+  it('keeps the 12 instructional topics count aligned with the syllabus and preserves dashboard integrity', () => {
     app('#/');
-    expect(topics).toHaveLength(14);
-    expect(document.querySelectorAll('.topic-card')).toHaveLength(14);
+    expect(topics).toHaveLength(12);
+    expect(document.querySelectorAll('.topic-card')).toHaveLength(12);
 
     // Course Outline link stays in the header and is removed from the dashboard hero
     expect(document.querySelector('.intro-actions a[href="#/outline"]')).toBeNull();

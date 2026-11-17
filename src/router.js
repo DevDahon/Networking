@@ -1,6 +1,8 @@
 const topicAliases={
  '02-network-types-architecture':'01-introduction-to-networking',
- '05-network-communication':'osi-reference-model'
+ '05-network-communication':'osi-reference-model',
+ '07-rj45-crimping':'06-network-cables-media',
+ '11-dhcp':'10-static-ip'
 };
 
 export function parseRoute(hash,topics,progress={topics:{}}){

@@ -2,7 +2,7 @@ import {topologyCoordinates,topologyConnections} from '../components/topologyDia
 import {renderTopologyNode,getSavedNodeStyle} from '../components/networkSymbols.js';
 import {reserveSimulationSpace} from '../components/simulationSpace.js';
 import {esc,button,input,select,wire,networkSVG,result} from '../components/ui.js';
-import {createStepPlayback} from './playback.js';
+import {createStepPlayback,playbackBar,syncPlaybackRow} from './playback.js';
 import {layouts} from './models.js';
 import {transferModel,serviceAvailability,topologyPath,layerEvidence,hopFrames,mediaProfiles,mediaBudget,pairIntegrity,bitwiseAddress,partitionSubnet,asymmetricSubnet,guestPolicy,traceProbe} from './extraModels.js';
 export const demoTable=(headings,rows)=>`<div class="table-wrap"><table><thead><tr>${headings.map(h=>`<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(row=>`<tr>${row.map(cell=>`<td>${esc(cell)}</td>`).join('')}</tr>`).join('')||`<tr><td colspan="${headings.length}">No entries</td></tr>`}</tbody></table></div>`;
@@ -17,7 +17,7 @@ function scene(root,spec){
   playback.pause();
   if(changed){const el=root.querySelector(`[name="${changed}"]`);if(el)config[changed]=el.value;}
   for(const f of fields()){const el=root.querySelector(`[name="${f.name}"]`);if(el)config[f.name]=f.number?Number(el.value):el.value;}
-  spec.change?.(changed,config);playback.reset();draw();
+  spec.change?.(changed,config);playback.stop();draw();
  }
  function draw(){
   let error='';try{plan=spec.build(config);}catch(e){error=e.message;plan={steps:[]};}
@@ -25,7 +25,7 @@ function scene(root,spec){
   const hasInputs=fields().some(f=>!f.options);
   const markup=stepIndex=>{const current=plan.steps[stepIndex];
    const scrubber=plan.steps.length>1?`<div class="step-scrubber" role="group" aria-label="Simulation steps">${plan.steps.map((s,i)=>`<button type="button" class="scrubber-pill ${i===stepIndex?'active':i<stepIndex?'completed':''}" data-step-jump="${i}" aria-current="${i===stepIndex?'step':'false'}" title="${esc(s.title)}"><span class="scrubber-num">${i+1}</span><span class="scrubber-label">${esc(s.title)}</span></button>`).join('')}</div>`:'';
-   return `<form class="control-row extra-config">${fields().map(f=>f.options?select(f.label,f.name,f.options,config[f.name]):input(f.label,f.name,config[f.name],f.number?'number':'text')).join('')}${hasInputs?'<button type="submit">Apply configuration</button>':''}</form>${error?result(error,false):`<div class="sim-workbench-grid"><div class="sim-visual-panel">${spec.visual?spec.visual(config,stepIndex,plan):networkSVG(plan.labels||['Source','Network','Destination'],Math.min(2,stepIndex),null,null,{badge:current.title,fault:current.ok===false})}${scrubber}</div><div class="sim-details-panel"><div class="step-card" aria-live="polite"><b>Step ${stepIndex+1} of ${plan.steps.length} · <span class="extra-play-state">${playback.status}</span></b><h3>${esc(current.title)}</h3><p>${esc(current.text)}</p>${current.ok===false?'<span class="extra-blocked">Modeled limit or blocked operation</span>':''}</div></div></div>`}<div class="control-row extra-playback">${button(playback.running?'Restart':'Play / replay','play','primary')}${button('Pause','pause')}${button('Resume','resume')}${button('Previous step','previous')}${button('Next step','advance')}${button('Reset sequence','reset')}${select('Animation speed','speed',[['0.5','0.5×'],['1','1×'],['2','2×']],playback.speed)}</div>`;
+   return `<form class="control-row extra-config">${fields().map(f=>f.options?select(f.label,f.name,f.options,config[f.name]):input(f.label,f.name,config[f.name],f.number?'number':'text')).join('')}${hasInputs?'<button type="submit">Apply configuration</button>':''}</form>${error?result(error,false):`<div class="sim-workbench-grid"><div class="sim-visual-panel">${spec.visual?spec.visual(config,stepIndex,plan):networkSVG(plan.labels||['Source','Network','Destination'],Math.min(2,stepIndex),null,null,{badge:current.title,fault:current.ok===false})}${scrubber}</div><div class="sim-details-panel"><div class="step-card" aria-live="polite"><b>Step ${stepIndex+1} of ${plan.steps.length} · <span class="extra-play-state">${playback.status}</span></b><h3>${esc(current.title)}</h3><p>${esc(current.text)}</p>${current.ok===false?'<span class="extra-blocked">Modeled limit or blocked operation</span>':''}</div></div></div>`}${playbackBar(playback,{extraClass:'extra-playback'})}`;
   };
   root.innerHTML=markup(index);
   if(!error)reserveSimulationSpace(root,plan.steps.map((_,i)=>markup(i)));
@@ -40,12 +40,10 @@ function scene(root,spec){
     el.oninput=()=>apply(f.name);
    }
   }
-  root.querySelector('form').onfocusin=()=>{playback.pause();const indicator=root.querySelector('.extra-play-state');if(indicator)indicator.textContent='Paused';};
+  root.querySelector('form').onfocusin=()=>{if(playback.running){playback.pause();const indicator=root.querySelector('.extra-play-state');if(indicator)indicator.textContent='Paused';syncPlaybackRow(root,playback,{disabled:Boolean(error)});}};
   root.querySelector('[name="speed"]').onchange=e=>playback.setSpeed(e.target.value);
-  root.querySelectorAll('.extra-playback button').forEach(b=>b.disabled=!!error);
-  root.querySelector('[data-action="previous"]').disabled=!!error||index===0;
-  root.querySelector('[data-action="advance"]').disabled=!!error||index===plan.steps.length-1;
-  wire(root,{play:()=>playback.replay(),pause:()=>{playback.pause();draw();},resume:()=>playback.resume(),previous:()=>{playback.previous();draw();},advance:()=>{playback.next();draw();},reset:()=>{playback.reset();draw();}});
+  syncPlaybackRow(root,playback,{disabled:Boolean(error)});
+  wire(root,{play:()=>playback.play(),pause:()=>{playback.pause();draw();},resume:()=>playback.resume(),stop:()=>{playback.stop();draw();}});
  }
  draw();return ()=>playback.dispose();
 }

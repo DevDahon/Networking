@@ -13,28 +13,26 @@ export default topic({
     {
       "title": "A host provides a shared resource",
       "lead": "A shared folder or printer is available over a network from a device providing that service.",
-      "items": [
-        "Peer-to-peer sharing: Uses Workgroups and Hostnames; the sharing PC must stay turned on.",
-        "Dedicated server: Centralizes shared files, user accounts, and 24/7 availability.",
-        "UNC paths & mapped drives: Reach shares directly via \\\\HOST\\Share or map a drive letter like Z:."
+      "paragraphs": [
+        "In a small workgroup, any PC can act as a peer host sharing a folder or USB printer as long as it stays powered on, whereas a dedicated file server centralizes user accounts and stays available around the clock.",
+        "Users connect across the LAN using a UNC path (such as \\\\HOST\\Share) or map a persistent network drive letter like Z:."
       ]
     },
     {
       "title": "Two permission gates for remote file access",
       "lead": "On Windows NTFS-hosted network shares, share permissions and file-system permissions both apply.",
       "items": [
-        "Share permissions: Controls who can enter the folder over the network.",
-        "File-system permissions: NTFS rules that control local and remote file access."
+        "Share permissions: The outer doorway over the network—controls whether a remote PC can even enter the shared folder (Read, Change, or Full Control).",
+        "File-system permissions: Detailed NTFS Security rules saved on the actual disk folders. Whenever both apply remotely, the stricter rule always wins."
       ],
       "expectedCount": 2
     },
     {
       "title": "Share safely on trusted networks",
       "lead": "Use least privilege, authenticated accounts, and an approved private network profile.",
-      "items": [
-        "Advanced Sharing: Share only the needed folder with specific user accounts.",
-        "Private Network Profile: Turn on Network Discovery only on trusted private networks.",
-        "Shared printers: Require a reachable host, a matching printer driver, and print permission."
+      "paragraphs": [
+        "Enable Network Discovery only on trusted private networks and use Advanced Sharing to grant specific authenticated accounts only the access they need—never open Everyone to Full Control on sensitive folders.",
+        "For shared printers, ensure the host stays reachable, installs compatible drivers for clients, and grants print permission to authorized users."
       ]
     }
   ],
@@ -43,15 +41,7 @@ export default topic({
     "title": "Resource access and permissions",
     "lead": "Modeled permissions • select host and client, publish a folder, choose both permission levels, and attempt access."
   },
-  "application": {
-    "title": "Read-only reference files and controlled editing",
-    "lead": "An organization distributes read-only reference files and grants editing only to named contributors.",
-    "items": [
-      "Avoid making one broad writable share for sensitive documents.",
-      "Use named accounts and verify permissions from a remote client.",
-      "A shared printer also needs a reachable host, driver, and permission to print."
-    ]
-  },
+  "walkthrough": false,
   "installation": {
     "equipment": "Two Windows PCs, working LAN, authorized test accounts, non-sensitive test file.",
     "mistakes": "Changing share permissions while ignoring NTFS; testing with an unintended cached identity.",

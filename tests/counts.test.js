@@ -25,14 +25,14 @@ it('rejects lesson data that groups a claimed count into too few entries',()=>{
  expect(()=>addPresenterNotes([{title:'Five parts',expectedCount:5,items:['Sender + receiver','Message + medium','Protocol']}],{title:'Example',description:'Example',example:'Example'})).toThrow('must display 5 separate items');
 });
 it('both wiring reference slides enumerate the exact eight standard pins',()=>{
- const cable=topics.find(t=>t.id==='07-rj45-crimping');
+ const cable=topics.find(t=>t.id==='06-network-cables-media');
  for(const [standard,order] of [['A',T568A],['B',T568B]]){
   const slide=cable.slides.find(s=>s.title.startsWith(`T568${standard}:`));
   expect(slide.items).toEqual(order.map((color,i)=>`Pin ${i+1}: ${color}.`));
  }
 });
 it('the four DHCP messages are displayed independently in protocol order',()=>{
- const slide=topics.find(t=>t.id==='11-dhcp').slides.find(s=>s.expectedCount===4);
+ const slide=topics.find(t=>t.id==='10-static-ip').slides.find(s=>s.title==='Four messages in the initial DHCP exchange');
  expect(slide.items.map(item=>item.split(':')[0])).toEqual(['Discover','Offer','Request','Acknowledgment (ACK)']);
 });
 it('the seven OSI rows use layer numbers rather than merged mapping groups',()=>{

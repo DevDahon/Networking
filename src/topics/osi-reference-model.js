@@ -39,18 +39,49 @@ const groupedLayerSlides=[
 const slides=[
  {kind:'title',title:'Open Systems Interconnection (OSI) Reference Model and Network Communication',ask:'When a webpage fails, how can we decide where to begin looking?',emphasis:'OSI is a reference model for responsibilities, not a protocol that transmits a message.',demo:'Point to the stack from 7 to 1. Explain that the sender uses lower-layer services and the receiver interprets the result.'},
  {kind:'objectives',title:'Learning Objectives',lead:'At the end of this discussion, students should be able to:',items:objectives,ask:'Which objective would help you explain why a cable replacement does not fix every network problem?',emphasis:'Ask for an explanation and a tested example, not only a memorized list.',demo:'Invite learners to choose an objective they want to demonstrate before the lesson ends.'},
+ {
+  kind:'concept',
+  title:'Why Networking Standards Are Needed',
+  lead:'Networking standards let hardware and software from different manufacturers communicate reliably using shared rules.',
+  paragraphs:[
+   'Without shared rules, devices from different brands could not understand one another. Standards allow multi-vendor compatibility and competition—much like USB lets keyboards, flash drives, and laptops from different companies work together.',
+   'Standards can be formal (approved by official bodies) or de facto (widely adopted by industry practice) and typically mature through three steps: specifying the problem, selecting the best solution, and gaining industry-wide acceptance.'
+  ]
+ },
+ {
+  kind:'concept',
+  title:'Five Networking Standards Organizations',
+  lead:'Five major organizations publish the hardware, cabling, wireless, and layered communication standards used in networking.',
+  items:[
+   'ANSI (American National Standards Institute): Coordinates U.S. technology and safety standards and represents them internationally.',
+   'EIA (Electronic Industries Alliance): Industry group of electronics manufacturers known for foundational cabling and connector wiring standards.',
+   'IEEE (Institute of Electrical and Electronic Engineers): Engineering society that maintains IEEE 802 standards, including 802.3 Ethernet and 802.11 Wi-Fi.',
+   'ISO (International Organization for Standardization): Global federation across 130+ countries that created the 7-layer OSI model (ISO is the group; OSI is the model).',
+   'ITU (International Telecommunication Union): United Nations agency coordinating global telecom infrastructure, satellite links, and radio frequencies.'
+  ],
+  expectedCount:5
+ },
  {kind:'concept',title:'What is the OSI model?',lead:'Open Systems Interconnection is a reference model for describing communication responsibilities. Layers let us discuss one part of a complicated system at a time.',type:'osiIntroduction',ask:'Could a reference diagram deliver a message without an implemented protocol?',emphasis:'It helps learning, design discussions, and troubleshooting. It is not itself a network protocol or a mandatory seven-step program.',demo:'Use the two-device drawing. Trace a message from sender to receiver and ask which responsibilities are needed at both ends.'},
+ {
+  kind:'concept',
+  title:'Layered Tasks: The Postal Mail Analogy',
+  lead:'Layering splits one complex network delivery into smaller, specialized steps—just like sending and receiving a postal letter.',
+  paragraphs:[
+   'When you mail a letter, you write and seal it in an envelope (higher layers), the local post office sorts and addresses it (middle layers), and a carrier transports it physically across roads (lower layers). At the destination, the steps reverse until your friend opens and reads the letter.',
+   'Inside the OSI model, each layer only communicates directly with the layer immediately above and below it on the same computer, while logically matching the corresponding layer on the receiving computer.'
+  ]
+ },
  {
   kind:'concept',
   title:'Seven OSI layer responsibilities',
   items:[
-   'Application: Network services used by apps like browsers and email (HTTP, DNS, DHCP).',
-   'Presentation: Formats, compresses, and encrypts data (like UTF-8 text or HTTPS) so both ends read it.',
-   'Session: Opens, tracks, and closes an ongoing conversation between two apps.',
-   'Transport: Uses port numbers to reach the right app and checks or tracks delivery across a connection.',
-   'Network: Uses logical IP addresses and routers to forward packets across different networks.',
-   'Data Link: Wraps packets into frames and delivers them locally using MAC addresses and switches.',
-   'Physical: Sends raw 1s and 0s across copper cables, fiber light, or wireless radio.'
+   'Application: Faces user software—web browsers and email apps use protocols like HTTP, DNS, and DHCP here.',
+   'Presentation: Translates data formats, compresses files, and encrypts messages (like HTTPS) so both ends read them.',
+   'Session: Starts, keeps open, and cleanly closes ongoing two-way conversations between applications.',
+   'Transport: Adds port numbers to reach the exact app on a host and optionally checks that no segments were lost.',
+   'Network: Stamps logical source and destination IP addresses so routers can choose paths across separate networks.',
+   'Data Link: Packages data into frames with local hardware MAC addresses so switches deliver them on the same link.',
+   'Physical: Turns everything into raw 1s and 0s sent as voltage pulses, fiber light flashes, or radio waves.'
   ],
   expectedCount:7,
   lead:'The Open Systems Interconnection (OSI) model divides network communication into seven functional layers.',
@@ -72,11 +103,11 @@ const slides=[
   title:'Five OSI Protocol Data Units (PDUs)',
   lead:'Each OSI layer gives the message a specific PDU name as delivery headers and trailers are added.',
   items:[
-   'Data (Layers 7–5): Original application message prepared for sending.',
-   'Segment (Layer 4): Adds source and destination port numbers to reach the right app.',
-   'Packet (Layer 3): Adds logical source and destination IP addresses for routing.',
-   'Frame (Layer 2): Adds local MAC addresses plus a Frame Check Sequence (FCS) trailer.',
-   'Bits (Layer 1): Raw 1s and 0s transmitted as electrical pulses, light flashes, or radio waves.'
+   'Data (Layers 7–5): The original user message or file prepared inside the upper layers before transport splitting.',
+   'Segment (Layer 4): Adds source and destination port numbers so the message reaches the exact program on each host.',
+   'Packet (Layer 3): Adds logical source and destination IP addresses so routers can guide it from network to network.',
+   'Frame (Layer 2): Wraps the packet with local hardware MAC addresses plus an FCS trailer to catch transmission errors.',
+   'Bits (Layer 1): Raw binary 1s and 0s sent physically over cables, optical glass fiber, or wireless Wi-Fi radio.'
   ],
   expectedCount:5,
   itemLabels:['7–5','4','3','2','1']

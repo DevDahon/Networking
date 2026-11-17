@@ -157,7 +157,7 @@ describe('UI/UX and Accessibility Improvements',()=>{
  });
 
  it('matches RJ45 connector orientation and straight-through visuals on clarified Topic 6 titles',()=>{
-  const rj45=topics.find(t=>t.id==='07-rj45-crimping');
+  const rj45=topics.find(t=>t.id==='06-network-cables-media');
   const straightSlideIdx=rj45.slides.findIndex(s=>s.title==='Straight-Through vs Crossover Cables');
   expect(straightSlideIdx).toBeGreaterThan(-1);
 
@@ -172,17 +172,34 @@ describe('UI/UX and Accessibility Improvements',()=>{
   const d1=simulations.security(stage);
   expect(stage.querySelector('.sim-workbench-grid')).not.toBeNull();
   expect(stage.querySelector('.feedback')).toBeNull();
-  stage.querySelector('[data-action="advance"]').click();
+  expect(Number(stage.querySelector('[data-network-packet]')?.getAttribute('cx'))).toBeGreaterThanOrEqual(100);
+  stage.querySelector('[data-step-jump="1"]').click();
   expect(stage.querySelector('.step-card').textContent).toContain('Step 2 / 3');
+  expect(stage.querySelector('[data-action="previous"]')).toBeNull();
+  expect(stage.querySelector('[data-action="advance"]')).toBeNull();
   d1?.();
 
   stage.innerHTML='';
   const d2=simulations.securityFirewall(stage);
   expect(stage.querySelector('.sim-workbench-grid')).not.toBeNull();
   expect(stage.querySelector('.feedback')).toBeNull();
-  stage.querySelector('[data-action="advance"]').click();
+  expect(Number(stage.querySelector('[data-network-packet]')?.getAttribute('cx'))).toBeGreaterThanOrEqual(100);
+  expect(stage.querySelector('.sim-visual-panel .result-grid')).toBeNull();
+  expect(stage.querySelector('.sim-details-panel .result-grid')).not.toBeNull();
+  stage.querySelector('[data-step-jump="1"]').click();
   expect(stage.querySelector('.step-card').textContent).toContain('Step 2 / 4');
   d2?.();
+
+  stage.innerHTML='';
+  const cleanupRouter=simulations.router(stage);
+  expect(Number(stage.querySelector('[data-network-packet]')?.getAttribute('cx'))).toBeGreaterThanOrEqual(100);
+  cleanupRouter?.();
+
+  stage.innerHTML='';
+  const cleanupSharing=simulations.sharing(stage);
+  expect(stage.querySelector('.static-guide-grid')).not.toBeNull();
+  expect(stage.querySelector('.win-sharing-dialog-svg')).not.toBeNull();
+  cleanupSharing?.();
  });
 
  it('renders compact two-column workbench panels across stateful and service simulations',()=>{
@@ -198,7 +215,7 @@ describe('UI/UX and Accessibility Improvements',()=>{
 
   stage.innerHTML='';
   simulations.sharing(stage);
-  expect(stage.querySelector('.sim-workbench-grid')).not.toBeNull();
+  expect(stage.querySelector('.static-guide-grid')).not.toBeNull();
  });
 
  it('renders slide grid modal and toggles dark mode cleanly',()=>{
@@ -255,12 +272,30 @@ describe('UI/UX and Accessibility Improvements',()=>{
 
     // Intermediate topic: Topic 1 last slide
     const firstTopic = topics[0];
+    const lanSlideIdx = firstTopic.slides.findIndex(s => s.title === 'Local Area Network (LAN)');
+    history.replaceState(null, '', '/#/topic/' + firstTopic.id + '/slide/' + (lanSlideIdx + 1));
+    window.dispatchEvent(new HashChangeEvent('hashchange'));
+    const exampleContent = document.querySelector('#slide-content');
+    expect(exampleContent.classList.contains('simulation-container')).toBe(true);
+    const visualPanel = exampleContent.querySelector('.sim-visual-panel');
+    expect(visualPanel).not.toBeNull();
+    expect(visualPanel.querySelector('.example-heading')?.textContent).toContain('Example: Five computers share one network printer');
+    expect(visualPanel.querySelector('svg.classroom-example')).not.toBeNull();
+
+    // Before a demo slide, the Next button should still read "Next Slide" (not "Next: Simulation")
+    const beforeDemoIdx = firstTopic.slides.findIndex(s => s.kind === 'demo') - 1;
+    history.replaceState(null, '', '/#/topic/' + firstTopic.id + '/slide/' + (beforeDemoIdx + 1));
+    window.dispatchEvent(new HashChangeEvent('hashchange'));
+    const nextBtn = document.querySelector('[data-action="next"]');
+    expect(nextBtn).not.toBeNull();
+    expect(nextBtn.textContent.trim()).toBe('Next Slide');
+
     history.replaceState(null, '', '/#/topic/' + firstTopic.id + '/slide/' + firstTopic.slides.length);
     window.dispatchEvent(new HashChangeEvent('hashchange'));
 
     const nextTopicBtn = document.querySelector('.slide-navigation a[href^="#/topic/"]');
     expect(nextTopicBtn).not.toBeNull();
-    expect(nextTopicBtn.textContent).toMatch(/Next topic/i);
+    expect(nextTopicBtn.textContent.trim()).toBe('Next Topic');
     expect(nextTopicBtn.getAttribute('href')).toBe('#/topic/' + topics[1].id + '/slide/1');
     expect(document.querySelector('.slide-navigation a[href="#/"]')).toBeNull();
 
@@ -362,5 +397,80 @@ describe('UI/UX and Accessibility Improvements',()=>{
     } finally {
       window.name = prevName;
     }
+  });
+
+  it('renders dashboard Reset positions control as an icon-only header button matching Search and Theme', () => {
+    saveProgress({ version: 1, topics: { [topics[0].id]: { slide: 3 } } });
+    history.replaceState(null, '', '/#/');
+    cleanup = startApp(document.querySelector('#app'));
+
+    const resetBtn = document.querySelector('#btn-reset[data-action="reset"]');
+    expect(resetBtn).not.toBeNull();
+    expect(resetBtn.textContent.trim()).toBe('');
+    expect(resetBtn.getAttribute('aria-label')).toBe('Reset positions');
+    expect(resetBtn.getAttribute('title')).toContain('Reset');
+    expect(resetBtn.querySelector('svg')).not.toBeNull();
+
+    vi.spyOn(window, 'confirm').mockReturnValue(true);
+    resetBtn.click();
+    expect(document.querySelector('.card-resume')).toBeNull();
+  });
+
+  it('places simulation playback bars consistently below dynamic panels without Previous/Next step buttons', () => {
+    const stage = document.createElement('div');
+    const checks = [
+      () => simulations.transferDemo(stage),
+      () => simulations.protocolArp(stage),
+      () => simulations.security(stage),
+      () => simulations.securityFirewall(stage),
+      () => simulations.osiJourney(stage),
+      () => simulations.osiLayer(stage, { layer: 4 }),
+      () => simulations.dhcp(stage),
+      () => simulations.topology(stage)
+    ];
+    for (const mountSim of checks) {
+      stage.innerHTML = '';
+      const stopSim = mountSim();
+      const row = stage.querySelector('.sim-playback-row');
+      const dynamicBox = stage.querySelector('.sim-workbench-grid, .topology-workbench-grid, .osi-wrapper-view, .step-card');
+      expect(row).not.toBeNull();
+      expect(dynamicBox).not.toBeNull();
+      expect(Boolean(row.compareDocumentPosition(dynamicBox) & Node.DOCUMENT_POSITION_PRECEDING)).toBe(true);
+      expect(row.querySelector('[data-action="play"]')).not.toBeNull();
+      expect(row.querySelector('[data-action="pause"]').disabled).toBe(true);
+      expect(row.querySelector('[data-action="reset"]')).toBeNull();
+      row.querySelector('[data-action="play"]').click();
+      const runningRow = stage.querySelector('.sim-playback-row');
+      expect(runningRow.querySelector('[data-action="stop"]')).not.toBeNull();
+      expect(runningRow.querySelector('[data-action="pause"]').disabled).toBe(false);
+      runningRow.querySelector('[data-action="pause"]').click();
+      const pausedRow = stage.querySelector('.sim-playback-row');
+      expect(pausedRow.querySelector('[data-action="stop"]')).not.toBeNull();
+      expect(pausedRow.querySelector('[data-action="resume"]')).not.toBeNull();
+      pausedRow.querySelector('[data-action="stop"]').click();
+      expect(stage.querySelector('.sim-playback-row [data-action="play"]')).not.toBeNull();
+      expect(stage.querySelector('[data-action="previous"], [data-action="prev"], [data-action="advance"], [data-action="next"]')).toBeNull();
+      stopSim?.();
+    }
+
+    const lanTopic = topics[0];
+    const lanSlideIdx = lanTopic.slides.findIndex(s => s.title === 'Local Area Network (LAN)');
+    history.replaceState(null, '', `/#/topic/${lanTopic.id}/slide/${lanSlideIdx + 1}`);
+    cleanup = startApp(document.querySelector('#app'));
+    const exRow = document.querySelector('#slide-content .example-controls.sim-playback-row');
+    const exGrid = document.querySelector('#slide-content .sim-workbench-grid');
+    expect(exRow).not.toBeNull();
+    expect(exGrid).not.toBeNull();
+    expect(Boolean(exRow.compareDocumentPosition(exGrid) & Node.DOCUMENT_POSITION_PRECEDING)).toBe(true);
+    expect(exRow.querySelector('[data-action="play"]')).not.toBeNull();
+    expect(exRow.querySelector('[data-action="pause"]').disabled).toBe(true);
+    expect(exRow.querySelector('[data-action="reset"]')).toBeNull();
+
+    const css = readFileSync('src/styles/main.css', 'utf8');
+    expect(css).toContain('.control-row.sim-playback-row');
+    expect(css).toContain('.control-row [data-action="play"]');
+    expect(css).toContain('.control-row [data-action="stop"]');
+    expect(css).toContain('.control-row [data-action="pause"]');
+    expect(css).toContain('.control-row [data-action="resume"]');
   });
 });
