@@ -84,7 +84,10 @@ export function cable(root){
    ${playbackBar(playback)}
   `;
   root.innerHTML=markup(step);
-  reserveSimulationSpace(root,stages.map((_,idx)=>markup(idx)));
+  const testedVariant=root.cloneNode(true);
+  const testedMap=testedVariant.querySelector('#wire-map');
+  if(testedMap&&!wireMapHtml)testedMap.innerHTML='<div class="wire-map-results"><div class="wire-map"><span>End 1 pin 1 &rarr; 1</span></div><div class="lan-tester-visual" style="margin:14px 0;height:210px;padding:14px;"></div></div>';
+  reserveSimulationSpace(root,[...stages.map((_,idx)=>markup(idx)),testedVariant.innerHTML]);
   root.querySelector('[name="speed"]').onchange=e=>playback.setSpeed(e.target.value);
   syncPlaybackRow(root,playback);
 

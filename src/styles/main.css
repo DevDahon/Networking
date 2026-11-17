@@ -7782,5 +7782,132 @@ body.projector-display-mode .slide {
     border-radius: 999px !important;
 }
 
+.ip-visual-card {
+    background: var(--surface, #ffffff);
+    border: 1px solid var(--border, #cbd5e1);
+    border-radius: 12px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ip-visual-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--text, #0f172a);
+    letter-spacing: 0.01em;
+}
+
+.ip-visual-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11.2px;
+    line-height: 1.32;
+}
+
+.ip-visual-table th {
+    background: #1d4ed8;
+    color: #ffffff;
+    text-align: left;
+    padding: 5px 6px;
+    font-weight: 700;
+    border: 1px solid #1d4ed8;
+}
+
+.ip-visual-table td {
+    padding: 4.5px 6px;
+    border: 1px solid var(--border, #cbd5e1);
+    color: var(--text, #0f172a);
+    vertical-align: middle;
+}
+
+.ip-visual-table tbody tr:nth-child(even) td {
+    background: rgba(148, 163, 184, 0.08);
+}
+
+.ip-td-strong {
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.ip-td-code {
+    font-family: Consolas, 'Courier New', monospace;
+    font-weight: 700;
+    color: var(--blue, #1d4ed8);
+    white-space: nowrap;
+}
+
+.ip-visual-note {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--muted, #475569);
+}
+
+.ip-compare-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+.ip-compare-card {
+    border-radius: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--border, #cbd5e1);
+    background: var(--surface, #ffffff);
+}
+
+.ip-compare-warn {
+    border-color: #fca5a5;
+    background: #fff5f5;
+}
+
+.ip-compare-ok {
+    border-color: #86efac;
+    background: #f0fdf4;
+}
+
+body.dark-theme .ip-compare-warn {
+    background: rgba(127, 29, 29, 0.24);
+    border-color: rgba(248, 113, 113, 0.45);
+}
+
+body.dark-theme .ip-compare-ok {
+    background: rgba(6, 78, 59, 0.24);
+    border-color: rgba(52, 211, 153, 0.45);
+}
+
+.ip-compare-badge {
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    color: var(--muted, #475569);
+    margin-bottom: 2px;
+}
+
+.ip-compare-card h4 {
+    margin: 0 0 6px;
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--text, #0f172a);
+}
+
+.ip-compare-svg {
+    width: 100%;
+    height: auto;
+    max-height: 108px;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.ip-compare-card p {
+    margin: 0;
+    font-size: 12.5px;
+    line-height: 1.38;
+    color: var(--muted, #334155);
+}
+
+
 
 

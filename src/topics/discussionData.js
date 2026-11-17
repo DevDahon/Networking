@@ -83,9 +83,9 @@ export const discussionData={
    'Check Private vs. Special: 192.168.x.x is a private LAN IP, 127.0.0.1 tests the local PC, and 169.254.x.x means DHCP failed.'
   ]},
   summary:[
-   'IPv4 Format: Four decimal octets (0–255) totaling 32 bits, split into a Network portion and a Host portion.',
-   'Subnet Boundaries: Every subnet reserves the first IP as Network ID, the last as Broadcast, and Total − 2 for hosts.',
-   'CIDR & Private IPs: Slash notation (/24) replaces rigid classes; 10.x.x.x, 172.16–31.x.x, and 192.168.x.x are private.',
+   'IPv4 & Classes: Four 8-bit octets (binary weights 128–1) form 32 bits; historical Classes A–E use leading priority bits 0, 10, 110, 1110, and 1111.',
+   'Subnet Boundaries: Every subnet reserves its first IP as Network ID, its last as Broadcast, and middle hosts (2^h − 2) for devices.',
+   '5-Step Manual Subnetting & CIDR: Borrow bits for needed subnets (2^n), compute block size (256 − octet value), list ranges, or apply CIDR (/24–/30) and RFC 1918 private IPs.',
    'IPv6 Evolution: IPv6 uses 128-bit hexadecimal addresses (with :: zero compression) so addresses never run out.'
   ]
  },

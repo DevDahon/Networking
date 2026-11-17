@@ -28,7 +28,7 @@ it.each(constraints)('keeps the prerequisite beside its demonstration in topic %
 
 it('reviews every topic and retains all slide content, boundaries, and simulation counts',()=>{
  expect(Object.keys(sequenceMoves)).toHaveLength(12);
- expect(topics.reduce((sum,t)=>sum+t.slides.length,0)).toBe(179);
+ expect(topics.reduce((sum,t)=>sum+t.slides.length,0)).toBe(181);
  for(const topic of topics){
   expect(topic.slides[0].kind).toBe('title');expect(topic.slides[1].kind).toBe('objectives');expect(topic.slides.at(-1).kind).toBe('summary');
   expect(topic.slides.some(s=>s.kind==='application')).toBe(false);

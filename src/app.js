@@ -18,6 +18,7 @@ import {performanceExamplesVisual} from './components/performanceVisual.js';
 import {encapsulationExampleVisual} from './components/encapsulationVisual.js';
 import {osiLayerDetailVisual, osiUpperLayersVisual, osiLowerLayersVisual} from './components/osiLayerVisual.js';
 import {physicalVisualPanels} from './components/physicalVisuals.js';
+import {ipClassesVisual, subnetComparisonVisual, cidrCheatsheetVisual} from './components/ipAddressingVisuals.js';
 import {renderCourseOutline} from './components/courseOutline.js';
 import {preloadImages,topicImageUrls} from './utils/preloadImages.js';
 import {createProjectorSync} from './components/projectorSync.js';
@@ -27,7 +28,7 @@ const osiLayerPanels = {
   osiLowerLayers: osiLowerLayersVisual,
   ...Object.fromEntries([7, 6, 5, 4, 3, 2, 1].map(n => [`osiLayer${n}`, () => osiLayerDetailVisual(n)]))
 };
-const visualPanels={performanceMeasures:performanceExamplesVisual,encapsulationExample:encapsulationExampleVisual,modularConnectors:modularConnectorsVisual,...physicalVisualPanels,...osiLayerPanels};
+const visualPanels={performanceMeasures:performanceExamplesVisual,encapsulationExample:encapsulationExampleVisual,modularConnectors:modularConnectorsVisual,...physicalVisualPanels,...osiLayerPanels,ipClassesVisual,subnetComparisonVisual,cidrCheatsheetVisual};
 
 const icons={Network,Globe,Workflow,Router,Layers,Cable,PlugZap,Binary,Split,MonitorCog,RefreshCw,RotateCcw,Wifi,FolderOpen,Stethoscope,Shield,ArrowUpRight,ArrowLeft,ArrowRight,BookOpen,LayoutGrid,Search,Moon,Sun,Maximize2,Check,HelpCircle};
 const icon=n=>`<i data-lucide="${n.replace(/([a-z0-9])([A-Z])/g,'$1-$2').toLowerCase()}" aria-hidden="true"></i>`;

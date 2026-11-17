@@ -529,6 +529,11 @@ export function topology(root){
       </div>
     `;
 
+    const blockedProbe=root.cloneNode(true);
+    const probeCard=blockedProbe.querySelector('.step-card');
+    if(probeCard&&!probeCard.querySelector('.extra-blocked'))probeCard.insertAdjacentHTML('beforeend','<span class="extra-blocked" style="display:inline-block;margin-top:6px;font-weight:600;">Selected failure prevents communication between these devices.</span>');
+    reserveSimulationSpace(root,[root.innerHTML,blockedProbe.innerHTML]);
+
     ['kind','failed','dead','source','target','speed'].forEach(n=>{
       const el=root.querySelector(`[name="${n}"]`);
       if(!el)return;

@@ -82,6 +82,7 @@ const copy = {
   '08-ip-addressing': [
     ['An address for a network interface', 'What Is an Internet Protocol Address?', 'An IP address is a logical Layer 3 number that identifies a device and its network so routers can deliver packets to it.'],
     ['Two parts of an IP address', 'Two Parts of an IP Address: Network and Host', 'Every IPv4 address has two parts: the network ID (which street) and the host ID (which house).'],
+    ['Five IPv4 Address Classes (A–E) and Priority Bits', 'Five IPv4 Address Classes (A–E) and Priority Bits', 'Leading priority bits in the first octet classify historical IPv4 addresses into five classes with distinct ranges and default masks.'],
     ['What is a subnet and why do we subnet?', 'What Is a Subnet and Why Do We Subnet?', 'Subnetting splits a large network into smaller groups—like Students, Staff, and Guests—to improve speed and security.'],
     ['The subnet mask separates network and host', 'The Subnet Mask: The Dividing Boundary', 'A subnet mask uses binary 1s to lock in the network portion and binary 0s to mark the host portion.'],
     ['@bitwiseDemo', 'How an Address and Mask Identify the Network', 'See how a device combines its IP address and subnet mask with a bitwise AND operation to find its Network ID.'],
@@ -90,6 +91,7 @@ const copy = {
     ['@subnet', 'Subnet Calculator Demo', 'Drag the CIDR slider or pick a prefix to see how the network boundary, broadcast address, and usable host count change.'],
     ['Example: read one classroom address', null, 'A host with 192.168.10.25/24 talks directly to local peers on 192.168.10.0/24 and sends outside traffic to its gateway.'],
     ['Classful history versus modern CIDR', 'Classful History vs Modern Subnetting', 'Modern CIDR replaces rigid old Class A, B, and C sizes so admins can create subnets of any size without wasting IPs.'],
+    ['Five Steps to Subnet a Network (With Example)', 'Five Steps to Subnet a Network (With Example)', 'Borrow bits, calculate the new mask and block size, and list each subnet’s Network ID, usable hosts, and Broadcast IP.'],
     ['Three private IPv4 ranges', 'Three Private IPv4 Address Ranges', 'Private IP ranges (10.x.x.x, 172.16–31.x.x, and 192.168.x.x) are used inside local networks and require NAT to reach the Internet.'],
     ['Special-Purpose IPv4 Ranges', null, 'Special IPv4 ranges handle self-testing (127.0.0.1), automatic fallback (169.254.x.x), multicast, and documentation.'],
     ['Introduction to IPv6 Basics', 'Introduction to IPv6 Basics', 'IPv6 uses 128-bit hexadecimal addresses to provide an almost limitless supply of IPs for modern devices.']

@@ -5,18 +5,18 @@ export default topic({
   "icon": "Binary",
   "description": "Understand IPv4 address structure, decimal octets, classes, private ranges, subnet boundaries, and IPv6 fundamentals.",
   "objectives": [
-    "Explain the structure of an IPv4 address, binary octets, and network vs. host portions.",
-    "Differentiate Class A, B, and C address spaces and identify RFC 1918 private IP ranges.",
-    "Calculate subnet boundaries, Network IDs, and Broadcast IPs using the /24 prefix.",
-    "Describe the need for IPv6 and its 128-bit hexadecimal addressing format."
+    "Explain IPv4 structure, 8-bit binary-to-decimal conversion, and network vs. host portions.",
+    "Identify the five IPv4 address classes (A–E), priority bits, default masks, and RFC 1918 private ranges.",
+    "Apply CIDR notation and a five-step manual process to calculate subnet masks, block sizes, and host ranges.",
+    "Describe why IPv6 is needed and recognize its 128-bit hexadecimal addressing format."
   ],
   "concepts": [
     {
       "title": "An address for a network interface",
       "lead": "An IP address identifies a device’s connection to a network, letting routers forward packets to the correct destination.",
       "paragraphs": [
-        "Unlike a permanent physical MAC address burned into hardware, an IPv4 address is a logical Layer 3 identity assigned by network configuration so traffic can be routed hierarchically.",
-        "Each IPv4 address consists of four decimal octets ranging from 0 to 255 (representing 8 binary bits per octet, or 32 bits in total)."
+        "Unlike a permanent physical MAC address burned into hardware, an IPv4 address is a logical Layer 3 identity assigned by network configuration so traffic can be routed across networks.",
+        "Each IPv4 address has 32 binary bits split into four 8-bit octets separated by dots (0–255 in decimal). Within each octet, bits carry binary place values of 128, 64, 32, 16, 8, 4, 2, and 1 (from 2⁷ down to 2⁰)—so 11000000 equals 128 + 64 = 192."
       ]
     },
     {
@@ -29,12 +29,28 @@ export default topic({
       "lead": "Every IP address is divided into two parts: network and host."
     },
     {
+      "title": "Five IPv4 Address Classes (A–E) and Priority Bits",
+      "items": [
+        "Class A (priority bit 0 · 0–127): Format N.H.H.H with default mask 255.0.0.0 (/8); supports 126 usable networks and 16,777,214 hosts each for huge networks.",
+        "Class B (priority bits 10 · 128–191): Format N.N.H.H with default mask 255.255.0.0 (/16); supports 16,384 networks and 65,534 hosts each for medium-to-large organizations.",
+        "Class C (priority bits 110 · 192–223): Format N.N.N.H with default mask 255.255.255.0 (/24); supports 2,097,152 networks and 254 hosts each for small LANs.",
+        "Class D (priority bits 1110 · 224–239): Reserved for multicast group traffic where one packet is delivered simultaneously to subscribed receivers.",
+        "Class E (priority bits 1111 · 240–255): Reserved for experimental testing, future standards research, and development rather than public host assignment."
+      ],
+      "expectedCount": 5,
+      "lead": "Leading priority bits in the first octet determine which of the five historical IPv4 classes an address belongs to.",
+      "visualKey": "ipClassesVisual",
+      "visualLayout": "split"
+    },
+    {
       "title": "What is a subnet and why do we subnet?",
       "lead": "A subnet is a smaller, organized group of computers within a network, such as separating Students, Staff, and Guest Wi-Fi.",
       "paragraphs": [
         "Subnetting divides a larger IP address space into structured rooms, departments, or VLANs so right-sized address blocks are allocated without waste.",
         "Keeping broadcast traffic contained within each subnet preserves local speed and forces traffic between subnets through a router where firewall policies apply."
-      ]
+      ],
+      "visualKey": "subnetComparisonVisual",
+      "visualLayout": "split"
     },
     {
       "title": "The subnet mask separates network and host",
@@ -64,7 +80,21 @@ export default topic({
       "paragraphs": [
         "Early classful addressing restricted networks to fixed Class A (/8), Class B (/16), or Class C (/24) sizes, wasting millions of addresses inside oversized allocations.",
         "Modern Classless Inter-Domain Routing (CIDR) lets network administrators pair any prefix length with any address block—for example, carving 10.0.0.0/8 into neat /24 classroom subnets."
-      ]
+      ],
+      "visualKey": "cidrCheatsheetVisual",
+      "visualLayout": "split"
+    },
+    {
+      "title": "Five Steps to Subnet a Network (With Example)",
+      "items": [
+        "Step 1 — Count borrowed bits (2ⁿ ≥ subnets): Dividing 192.168.10.0/24 into 4 subnets needs n = 2 borrowed bits because 2² = 4.",
+        "Step 2 — Find the new mask (/26): Adding 2 borrowed bits to /24 gives /26 (11111111.11111111.11111111.11000000 = 255.255.255.192).",
+        "Step 3 — Compute block size (256 − mask octet): 256 − 192 = 64 addresses per subnet, with 2⁶ − 2 = 62 usable hosts each.",
+        "Step 4 — List all subnet Network IDs: Increment the fourth octet by 64 → 192.168.10.0, .64, .128, and .192.",
+        "Step 5 — Identify usable host & broadcast ranges: Subnet 1 spans .0–.63 (hosts .1–.62, broadcast .63); Subnet 2 spans .64–.127 (hosts .65–.126, broadcast .127), continuing through .255."
+      ],
+      "expectedCount": 5,
+      "lead": "Divide 192.168.10.0/24 into 4 equal subnets step by step using binary bit borrowing."
     },
     {
       "title": "Three private IPv4 ranges",

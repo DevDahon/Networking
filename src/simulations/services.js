@@ -90,11 +90,15 @@ export function dhcp(root){
    ${playbackBar(playback)}
   `;
 
-  // Reserve the pending lease row before playback can commit it.
+  // Reserve the pending lease row and DORA summary box before playback starts.
   const pending=root.cloneNode(true),table=pending.querySelector('tbody');
   if(Object.keys(server.leases).length&&!server.leases[client])table.insertAdjacentHTML('beforeend','<tr><td>PC 4</td><td>192.168.1.100</td><td>60s</td></tr>');
   const feedback=pending.querySelector('.feedback');
   if(feedback)feedback.textContent=`ACK: ${client} holds 192.168.255.254 until teaching time ${server.time+60}s. The lease and address configuration are confirmed.`;
+  if(!curStep){
+   const offer=doraSteps[1];
+   pending.querySelector('.sim-visual-panel')?.insertAdjacentHTML('beforeend',`<div class="result-grid" style="margin:0;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));"><div><b>Message Type:</b><br><code>${offer.msg}</code></div><div><b>Direction:</b><br><span style="font-size:12px;">${offer.direction}</span></div><div><b>Source &amp; Dest Ports:</b><br><code style="font-size:12px;">${offer.src} &rarr; ${offer.dst}</code></div><div><b>Educational Summary:</b><br><span style="font-size:12px;">${offer.desc}</span></div></div>`);
+  }
   reserveSimulationSpace(root,[root.innerHTML,pending.innerHTML]);
 
   syncPlaybackRow(root,playback);
