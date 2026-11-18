@@ -1,0 +1,272 @@
+
+PAGE 1
+Computer Networks
+Marlon L. Castro
+
+PAGE 2
+Introduction
+• A computer network is an interconnection of two or
+more computers that are able to exchange information.
+• The computer may be connected via any data
+communication link, like copper wires, radio links, etc.
+• They may be personal computers or large main frames.
+
+PAGE 3
+Introduction
+• The computer network may be located in a room,
+building, city, country, or anywhere in the world.
+• Computer networks have opened up an entire frontier
+in the world of computing called the client/server model.
+
+PAGE 4
+Introduction
+
+
+PAGE 5
+Advantage of Computer Network
+• FILE SHARING – Networks offer a quick and easy way
+to share files directly.
+• RESOURCE SHARING – All computers in the network
+can share resources such as printers, fax machines,
+scanners, and modems.
+• COMMUNICATION –Those on the network can
+communicate with each other via e-mail, instant messages,
+etc.
+
+PAGE 6
+Advantage of Computer Network
+• FILE SHARING – Networks offer a quick and easy way
+to share files directly.
+• RESOURCE SHARING – All computers in the network
+can share resources such as printers, fax machines,
+scanners, and modems.
+• COMMUNICATION –Those on the network can
+communicate with each other via e-mail, instant
+messages, etc.
+
+PAGE 7
+Uses of Computer Network
+
+
+PAGE 8
+Types of Network
+The different types of network are based on following:
+Size of the network – Refers to the area over which the
+network is spread.
+Connection – Refers to the transmission media and
+protocols used for connecting.
+Network topology – Arrangement of computers on the
+network.
+
+PAGE 9
+On the Basis of Size
+
+
+PAGE 10
+
+
+PAGE 11
+LAN
+• LAN is a computer network widely used for local
+communication.
+• LAN connects computers in a small area like a room,
+building, office, or a campus spread up to a few kilometers.
+• They are privately owned networks, to exchange
+information.
+
+PAGE 12
+LAN
+• Star, Bus, and Ring are some of the common LAN
+networking topologies.
+• LAN runs at a speed of 10 mbps to 100 mbps and has
+low delays.
+• A LAN based on wifi wireless network technology is
+called wireless local area network(WLAN).
+
+PAGE 13
+LAN
+
+
+PAGE 14
+
+
+PAGE 15
+MAN
+• MAN is a computer network spread over a city. The
+computers in a MAN are connected using cables.
+• MAN connects several LAN spread over a city.
+• It covers the distance upto 30-50 km.
+• Example- Cable television network.
+
+PAGE 16
+MAN
+
+
+PAGE 17
+
+
+PAGE 18
+WAN
+• WAN is a network that connects computers over long
+distances like cities, countries, continents or world wide.
+• WAN uses public, leased, or private communication
+links to spread over long distances.
+• WAN uses telephone lines, satellite link and radio link to
+connect.
+
+PAGE 19
+WAN
+• The need to be able to connect any number of
+computers at any number of sites, results in WAN
+technology to be different from the LAN technology.
+• It is slower and less reliable than a LAN.
+• INTERNET is a common example of WAN.
+
+PAGE 20
+WAN
+
+
+PAGE 21
+Topologies
+• It is the physical way in which computers are interconnected.
+• Five basic network structures are :
+
+
+PAGE 22
+Star Topology
+• Devices are connected to a central computer called
+HUB.
+• A Star network is particularly appropriate for
+organizations that require a centralized data base or a
+centralized processing facility.
+• For example, a star network may be used in banking
+for centralized record keeping in an on-line branch office
+environment.
+
+PAGE 23
+Star Topology
+
+
+PAGE 24
+Advantages
+• It is easy to add new and remove nodes.
+• A node failure does not bring let down the entire
+network.
+• It is easier to diagnose network problems through a
+central hub.
+
+PAGE 25
+Disadvantages
+• If the central hub fails, the whole network ceases to
+function.
+• It costs more to cable a star configuration than other
+topologies because more cable is required than other
+topologies.
+
+PAGE 26
+Bus Topology
+• In Bus topology a single network cable runs in the
+building or campus and all nodes are linked along with
+this communication line with two endpoints called the
+bus or backbone.
+• This structure is very popular for local area networks
+
+PAGE 27
+Bus Topology
+
+
+PAGE 28
+Advantages
+• Reliable in very small networks as well as easy to use
+and understand.
+• Requires the least amount of cable to connect the
+computers together and therefore is less expensive than
+other cabling arrangements.
+
+PAGE 29
+Disadvantages
+• Heavy network traffic can slow a bus considerably.
+• Each connection between cables weakens the
+electrical signal.
+
+PAGE 30
+Ring Topology
+• In Ring topology the network cable passes from one
+node to another until all nodes are connected in the form
+of a “loop or ring”.
+• Transmits in only one direction.
+• Used in LAN’S and WAN’S.
+
+PAGE 31
+Ring Topology
+
+
+PAGE 32
+Advantages
+• Ring networks can span longer distances than other
+types of networks.
+• Ring networks are easily extendable.
+
+PAGE 33
+Disadvantages
+• Relatively expensive and difficult to install.
+• Failure of one computer on the network can affect the
+whole network.
+• Adding or removing computers can disrupt the
+network.
+
+PAGE 34
+Mesh Topology
+• In mesh network, there is random connection of nodes
+using communication links.
+• Mesh topology is the general topology for wide area
+network.
+• A mesh network may be fully connected or connected
+with only partial links.
+
+PAGE 35
+Mesh Topology
+
+
+PAGE 36
+Advantages
+• The reliability is very high as there are always alternate
+paths available if direct link between two nodes is down.
+• Yields the greatest amount of redundancy in the event
+that one of the nodes fails where network traffic can be
+redirected to another node.
+
+PAGE 37
+Disadvantages
+• The cost of installation and maintenance is high ( more
+cable is required than any other configuration).
+
+PAGE 38
+Tree Topology
+• A tree topology connects one star network to the other
+star network.
+• It is an extension of star topology.
+• Here, we divided the whole network into segment
+which can be easily managed and maintained.
+
+PAGE 39
+Tree Topology
+
+
+PAGE 40
+Advantages
+• Each segment is provided with dedicated point-to-point
+wiring to central hub.
+• Error detection and correction is easy.
+• If one segment is damaged, other segment are not
+affected.
+• Expansion of network is possible and easy.
+
+PAGE 41
+Disadvantages
+• As multiple segments are connected to a central hub,
+the networks depend heavily on the hub. Its failure
+affects the entire network.
+• Maintenance is not easy and cost are high.
+• With increase in size beyond a point, the management
+becomes difficult.

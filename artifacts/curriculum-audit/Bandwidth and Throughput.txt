@@ -1,0 +1,85 @@
+
+PAGE 1
+Bandwidth and 
+throughput 
+Marlon L. Castro
+
+PAGE 2
+How much data can it carry?
+Almost everything can be measured in some way - How
+tall are you? How old are you? How clever are you? and
+so on.
+Communication channels are just the same - there are
+ways of describing their most important attributes.
+One of those attributes is "How much data can it carry".
+This measure is called "BANDWIDTH".
+
+PAGE 3
+What does bandwidth measure?
+Bandwidth measures of the capacity of a communications
+channel.
+Digital Bandwidth is the maximum amount of data that can
+travel along a communications channel in a given time.
+The smallest piece of digital data is the 'bit' and time
+interval is measured in seconds.
+And so a sensible measure of data capacity is "bits per
+second".
+
+PAGE 4
+Bandwidth and the Internet
+Machines on the Internet are connected to each other 
+through a network of some kind.
+Most of the computers are connected 
+by physical cables such as copper 
+cable or perhaps optical fibre. 
+However there are alternatives such 
+as wireless, microwave or even laser.
+No matter what the method used, it is the bandwidth of the 
+communication channel that determines how much data travels over 
+any given time.
+
+
+PAGE 5
+Bandwidth and the Internet
+If your computer is connected to a remote server somewhere,
+what determines the maximum speed of data transfer is the
+part of the connection that has the lowest bandwidth - this
+becomes the bottleneck.
+Quite often the bottleneck is the "last mile" between your
+house and the local telephone exchange. This is because the
+connection is making use of plain old telephone wires that
+were originally designed to only carry voice signals.
+Therefore 'bandwidth' determines the overall performance
+limit of a network
+
+PAGE 6
+Bandwidth Speed
+Modern internet links are measured in Kilobits per second (Kbps) i.e
+thousands of bits per second. Or, in Megabits (Mbps) - Millions of bits per
+second.
+These are the bandwidths of some connections to the Internet:
+• 300 - 9600 bits per second : Early modems
+• 56 kilobits per second: Bandwidth of dial-up modem (some people in
+remote areas still have to use these)
+• 64 - 128Kbps: ISDN, obsolete, replaced by ADSL broadband
+• 512kbps - 20Mbps: Bandwidth of most home ADSL internet links
+• 20Mbps - 100Mbps: Superfast broadband
+
+PAGE 7
+Throughput
+• Throughput is the quantity of error free data
+transmitted per unit of time
+• Measured in Bps, or Packets Per Second(PPS)
+
+PAGE 8
+Factors that affect throughput
+• The size of packets
+• Inter-frame gaps between packets
+• Packets-per-second ratings of devices that forward packets
+• Client speed(CPU, Memory, and HD Access Speed)
+• Server speed(CPU, Memory, and HD Access Speed)
+• Network design
+• Protocols
+• Distance
+• Errors 
+• Time of Day

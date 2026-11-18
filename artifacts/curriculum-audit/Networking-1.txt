@@ -1,0 +1,443 @@
+
+word/document.xml
+APPROVAL SHEET
+This syllabus, prepared and submitted by  ROD ALLEN B. AGREGADO   for   BSIT   students has been reviewed and approved for use by the faculty and students of the  College of Information Technology.  
+Course Code
+ITE PC 204
+Course Title
+Networking 1
+Number of Units for Lecture and Laboratory
+
+3 Units
+Number of Contact Hours per Week
+
+5 Hours
+Prerequisite
+ITE 201
+Course Description
+Networking 1 examines the fundamental principles and practices of computer networking, including network components, architectures, topologies, communication models, protocols, and IP addressing. It emphasizes network connectivity, proper cabling procedures, network configuration, and basic network security.
+
+Through lectures, demonstrations, guided laboratory exercises, and hands-on learning activities, students explore network types, OSI and TCP/IP models, Ethernet technologies, network media and connectors, IPv4 addressing and subnetting, peer-to-peer networking, wireless networking, and basic network security. Students use Cisco Packet Tracer, actual routers, Wi-Fi dongles, and appropriate networking tools to simulate, construct, configure, test, and troubleshoot basic wired and wireless networks.
+
+At the end of the course, students are expected to identify, design, implement, configure, test, and troubleshoot basic computer networks using appropriate networking devices, tools, protocols, and configuration techniques.
+Prepared by:
+
+
+ROD ALLEN B. AGREGADO
+Instructor
+
+453390 -254000 0 0 Noted/Checked by:
+
+
+LOIDA F. HERMOSURA, PC p E, MSIT
+Dean, College of Information Technology
+
+1197610 -111760 0 0 Approved by:
+
+
+CLEMENTE P. CLARO, JR., PhD, CPA
+Vice President for Academic Affairs
+Date: 1 1 / 10 /202 6
+
+Date: 
+Date:
+VISION:
+Northeastern College was envisioned to stand as one “True Mint of Wisdom” this part of the region could be proud of.
+
+MISSION:
+To contribute to the literacy uplift of the valley; build-up the social, moral and spiritual values of its educands; produce well prepared individuals for economic responsibilities; and assist the community discover its potentials towards enjoyment of progressive and peaceful life of its members
+CORE VALUES:
+Nurtured and Competitive
+PHILOSOPHY:
+Northeastern College believes that quality education is affordable not only to those who are economically capable but also to those who are economically insufficient. 
+
+It believes that through quality education its educands could break the economic barrier, develop their God-given potentials attain maximum growth, assume diversified social duties and responsibilities and withstand the challenges that come along life’s varied avenues. 
+INSTITUTIONAL OUTCOMES:
+A GRADUATE of Northeastern College is:
+God Fearing
+Patriotic
+Socially responsible
+Effective communicator
+Multi-disciplinary professionals
+Lifelong Learners
+COLLEGE OBJECTIVES:
+The College of information Technology aims to:
+1. Provide the latest technical know-how in Information Technology.
+2. Prepare its students to become Information Technology professionals that are highly competent in providing solutions for 
+            business, government and educational institution’s needs;
+3. Support research programs, faculty development program and strengthen its linkages with other institutions; and 
+4. Seek partnership with Information Technology Industries in providing quality avenues to expose its students in actual 
+            organization through strengthening on – the job training programs.
+COLLEGE OUTCOMES:
+A Graduate of College of  Information Technology  is:
+The s tudents demonstrate proficiency in using cutting-edge technologies and tools relevant to information technology.  And  acquire the necessary skills and knowledge to provide effective solutions for the needs of business, government, and educational institutions.
+
+The  faculty members engage in ongoing research, contributing to the advancement of knowledge in the field of information technology.
+The college establishes and maintains collaborations with other academic and research institutions, fostering a network for knowledge exchange and mutual support.
+The college establishes strong ties with IT industries, creating opportunities for students to gain real-world experience through internships and collaborative projects.  And the s tudents have quality avenues to gain practical experience through internships and on-the-job training, enhancing their readiness for professional roles.
+
+Program Educational Outcomes (PEO)
+Based on CMO # 25s. 2015
+
+Graduates of Bachelor of Science in Information Technology are able to:
+IT101
+Common   to   all   programs   in   all   types   of   schools
+a.)   Articulate and discuss the latest developments in the specific field of practice.
+b.)   Effectively communicate orally and in writing using both English and Filipino
+c.)   Work effectively and independently in multi-disciplinary and multi-cultural teams.
+d.)   Act in recognition of professional, social, and ethical responsibility.
+e.)   Preserve and promote “Filipino historical and cultural heritage”.
+
+IT102
+Common to the discipline
+f.) Analyze complex problems, and identify and define the computing requirements needed to design an appropriate solution
+g.)   Apply computing and other knowledge domains to address real-world problems.
+h.)   Design and develop computing solutions using a system-level perspective.
+i.) Utilize modern computing tools
+  
+Specific to Bachelor of Science in Information Technology
+j.) Apply knowledge of computing, science, and mathematics appropriate to the discipline.
+k.)   Understand best practices and standards and their applications.
+l.) Analyze complex problems, and identify and define the computing requirements appropriate to its solution.
+m.)   Identify and analyze user needs and take them into account in the selection, creation, evaluation and administration of computer-based systems.
+n.)   Design, implement and evaluate computer-based systems, processes, components, or programs to meet desired needs and requirements under various constraints.
+o.)   Integrate IT-based solutions into the user environment effectively.
+p.)   Apply knowledge through the use of current techniques, skills, tools and practices necessary for the IT profession.
+q.)   Function effectively as a member or leader of a development team recognizing the different roles within a team to accomplish a common goal.
+r.) Assist in the creation of an effective IT project plan.
+s.)   Communicate effectively with the computing community and with society at large about complex computing activities through logical writing, presentations and clear instructions
+t.) Analyze the local and global impact of computing information technology on individuals, organizations, and society.
+ u.)   Understand professional, ethical, legal, security, and social issues and responsibilities in the utilization of information technology.
+v.)   Recognize the need for and engage in planning self-learning and improving performance as a foundation for continuing professional development.
+
+
+COUR SE OUTCOMES AND RELATIONSHIP TO PROGRAM OUTCOMES
+Course Outcomes (CO)
+Program Educational Outcomes (PEO)
+
+j
+k
+l
+m
+n
+o
+p
+q
+r
+s
+t
+u
+v
+CO1
+Identify, classify, and simulate computer network types, topologies, devices, and basic communication protocols using Cisco Packet Tracer based on given network specifications.
+E
+E
+E
+
+
+E
+
+
+
+
+
+
+
+CO2
+Design and implement a basic wired network using (1) UTP cables, (2) RJ45 connectors, (3) keystone jacks, and (4) appropriate network devices, following standard cabling procedures and network topology requirements.
+E
+E
+E
+
+
+E
+
+
+
+
+
+
+
+C03
+Configure, test, and troubleshoot a basic wired and wireless network using Cisco Packet Tracer, actual routers, and Wi-Fi dongles based on given (1) IP addressing, (2) network connectivity, (3) wireless configuration, and (4) basic network security requirements.
+E
+E
+E
+
+
+E
+
+
+
+
+
+
+
+
+
+LEARNING PLAN
+
+Week/Hours
+Course
+Outcome
+Intended Learning Outcomes
+Course Topic
+Intended Learning Activities (ILAs)
+Assessment Task (ATs)
+Week 1
+
+
+Discuss institutional vision, mission, program outcomes,  course outcomes, academic integrity, assessment policies, and expected project outputs.
+Orientation
+Course Orientation
+Program and Course Outcomes
+Course Requirements and
+Grading System
+Academic Integrity and Responsible Technology Use
+Instructor-led discussion
+Syllabus orientation
+Project expectations briefing
+Orientation
+participation
+Syllabus
+acknowledgment
+Week 2
+CO1
+Explain basic networking concepts and compare common network architectures.
+Introduction to Computer Networking
+Data Communications and Computers
+Network Advantages, Uses and Limitations
+Network Components and End Devices
+Peer-to-Peer and Client Server Networks
+Lecture and Discussion
+Guided Network Identification
+Quizzes
+Oral Recitation
+Week  3
+CO1
+Differentiate network types and determine their appropriate applications.
+Types of Networks
+PAN, LAN, WLAN, MAN and WAN
+Internet, Intranet and Extranet
+Small Office/Home Office Networks
+Lecture and Discussion
+Collaborative Learning
+Quizzes
+Case Analysis
+Week 4
+CO1
+Identify network devices and design a basic network topology based on given requirements.
+Networking Basics
+Network Components
+Network Models  
+Network Types
+Class Discussion  and  Demonstration
+Guided Hands-on
+Quizzes
+Network  Simulation
+Week  5
+PRELIM EXAMINATION
+Week  6
+CO1
+Explain the OSI and TCP/IP models and how data travels through network layers.
+Networking Reference Models
+Seven Layers of the OSI Model
+TCP/IP Model and Layer Mapping
+Encapsulation and Decapsulation
+Class Discussion   and   Demonstration
+Quizzes
+Hands-on Exercises
+Week  7
+CO2
+Identify network media and demonstrate proper Ethernet  cable construction and testing.
+Network Media and Connectors
+Copper, Fiber-Optic and Wireless Media
+UTP/STP, RJ45 Connectors and Cable Categories
+T568A and T568B Color Coding
+Straight-Through Cabling and Cable Testing
+Class Demonstrations
+Guided Hands-on
+Laboratory Activity
+Quizzes
+Practical Examination
+Week  8
+CO1
+Explain Ethernet communication and analyze the functions of common networking protocols.
+Ethernet and Basic Network Protocols
+MAC Addressing, Frames and Switching
+TCP and UDP; IP and ICMP
+ARP, DNS, DHCP, HTTP and HTTPS
+Ports and Common Network Services
+Lecture and Discussion
+Network Simulation
+Quizzes
+Hands-on Exercises
+Week  9
+MIDTERM EXAMINATION
+Week  10
+CO3
+Classify IPv4 addresses and determine appropriate network addressing information.
+Introduction to IP Addressing
+IPv4 Structure and Dotted Decimal Notation
+Public and Private IPv4 Addresses
+Subnet Masks, Default Gateways and DNS
+IPv4 Addressing Classes
+Classroom Discussion
+Guided Hands-on
+
+
+Quizzes
+Written Exercises
+Week  11
+CO3
+Calculate subnet information and allocate IP addresses based on network requirements.
+Fundamentals of IPv4 Subnetting
+Binary and Decimal Conversion
+CIDR Prefix and Subnet Masks
+Network, Broadcast and Usable Host Addresses
+Basic Subnet Allocation
+Classroom Discussion
+Collaborative Learning
+Guided Hands-on
+
+Quizzes
+Problem-Solving Exercises
+Week  12
+CO3
+Differentiate IP addressing methods and configure basic network settings.
+IP Configuration and IPv6 Fundamentals
+Static and Dynamic (DHCP) IP Configuration
+Windows Network Adapter Settings
+ipconfig /all, DHCP Lease and Connectivity Checks
+IPv6 Address Format and Basic Address Types
+Class Demonstrations
+Guided Hands-on
+Laboratory Activity
+Quizzes
+Practical Examination
+Week  13
+CO3
+Configure a peer-to-peer network and apply appropriate file-sharing permissions.
+Peer-to-Peer Networking and File Sharing
+Workgroup and Hostname Configuration
+Windows Network Discovery and File Sharing
+Private Network Profile and Sharing Permissions
+Mapped Network Drives and Connectivity Testing
+Class Demonstrations
+Guided Hands-on
+Laboratory Activity
+Quizzes
+Hands-on Exercises
+Week  14-15
+CO3
+Configure a basic wireless network using appropriate connectivity and security settings.
+Identify common network threats and apply basic security measures.
+Wireless Networking and Router Configuration
+Wi-Fi Networks, SSID and Frequency Bands
+Wireless Access Points and Home Routers
+Basic LAN/WAN and DHCP Settings
+WPA2/WPA3, Strong Passwords and Safe Administration
+Class Demonstrations
+Guided Hands-on
+Laboratory Activity
+Quizzes
+Practical Examination
+Week  16-17
+CO3
+Troubleshoot basic network problems and document network configurations and solutions. Create and maintain network documentation.
+Introduction to Network Security
+Malware, Phishing, Unauthorized Access and DoS Concepts
+Network Firewalls and Endpoint Protection
+HTTPS/TLS Concepts and Secure Wireless Practices
+Updates, Password Security and Responsible Use
+Class Lecture and Discussion
+Class Demonstrations
+Guided Hands-on
+Laboratory Activity
+Quizzes
+Case Analysis
+Practical Examination
+Project Presentation
+WEEK 1 8
+FINAL EXAMINATION
+
+INSTRUCTIONAL MATERIALS
+Router
+LAN Tester
+Wi-Fi Dongles
+Ethernet Cables
+Cisco Packet Tracer
+RJ45 and Keystone Jack
+Crimping Tool and Punch Down Tool
+Course handouts and presentation slides
+
+
+COURSE REQUIREMENTS AND CLASS POLICY
+COURSE REQUIREMENT
+As evidence of attaining the above course outcomes, students are required to do and submit the following during the indicated dates of the term. The rubrics for these outputs are provided.
+
+Individual Work ( Powerpoint, Reports,Case Studies )
+Term Examinations (Preliminary, Midterm, and Final Examination)
+Attendance
+Group Work :  Network Structure Diagram with IP Custom Subnetting
+
+CLASS POLICY
+Students are required to attend at least 80% of the class discussion
+Requirements must be submitted on time.
+Any missed quizzes, exams, outputs, and other course requirements will be given a grade of zero.
+Practice Academic Integrity at all times. Any form of dishonesty or deceit will automatically get a grade of zero
+Please refer to the Student Handbook for more information
+
+GRADING SYSTEM
+REFERENCE
+Final Grade is computed based on the student’s handbook
+Class Standing (CS)    40%
+Term Exams     (TE)     60%
+                                    100%
+
+Prelim Grade (PG)        =    PG Midterm Grade (MG)      =   (PG+M)/2 Final Grade (FG)          =    (MG+F)/2
+BOOKS
+Data Communication and Networks, 3G E-Learning
+Computer Systems and Networking Technology, 3G E-Learning
+
+INTERNET
+https://brendanpshea.github.io/intro_network_notes/
+https://intronetworks.cs.luc.edu/
+https://www.netacad.com/
+
+
+
+INSTRUCTORS INFORMATION
+Name
+ROD ALLEN B. AGREGADO
+Contact Number
+09770317480
+Email Address
+r odallenagregado19 @gmail.com
+Consultation Hours
+5 hours per week
+
+
+Prepared by:
+
+
+
+ROD ALLEN B. AGREGADO
+Instructor
+
+                 
+Noted/Checked by:
+
+829945 -478155 0 0
+
+LOIDA   F.   HERMOSURA,   CpE,   MSIT
+Dean , College of  Information Technology
+
+1197610 40640 0 0
+Approved by:
+
+
+
+CLEMENTE P. CLARO JR., CPA, PHD
+Vice President for Academic Affairs
+8776335 5467350 0 0

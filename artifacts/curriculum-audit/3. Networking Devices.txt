@@ -1,0 +1,279 @@
+
+PAGE 1
+Basics of Network 
+Devices
+Marlon L. Castro
+
+PAGE 2
+Network Interface Card(NIC)
+• A hardware component that connects your computer to a local data
+network or the Internet.
+• A device that takes a signal from a network and converts it to a signal that a
+computer can understand and Translates computer data into electrical
+signals it sends through the network.
+• Provides an interface onto a network (usually a LAN) for a computer
+system.
+• A NIC is also known as a network interface controller (NIC), network
+interface controller card, expansion card, computer circuit board, network
+card, LAN card, network adapter or network adapter card (NAC).
+
+PAGE 3
+NIC Looks like
+
+
+PAGE 4
+Network Interface Card(NIC)
+• It’s a plastic circuit board about the size of a playing card.
+• It has several computer chips that process signals from the network and the
+PC.
+• The card slides into the PC’s framework with a connector on the
+motherboard.
+• A steel bracket holds the card in place.
+• The bracket may have a network cable jack or an antenna.
+• The bracket also has light-emitting diodes that indicate network status and
+activity.
+• Need drivers (software code that helps to run NIC).
+
+PAGE 5
+NIC Function
+• Middleman/ Interface between your computer and the data
+network.
+• For example:
+• When you log in to a website, the PC passes the site information to the
+network card, which converts the address into electrical impulses.
+• Network cables carry these impulses to a Web server somewhere on the
+Internet, which responds by sending a Web page back to you, once
+again in the form of electronic signals.
+• The card receives these signals and turns them into data that your PC
+displays.
+
+PAGE 6
+NIC Types
+• Work with Wi-Fi wireless networks: these cards have an
+antenna to send data signals via radio waves.
+• Wired Ethernet connections: these cables have a
+rectangular plug which mates with a jack on the network
+card's bracket.
+
+PAGE 7
+Repeater
+• A repeater operates at the physical layer.
+• Its job is to regenerate the signal over the same network before
+the signal becomes too weak or corrupted.
+• It extend the length to which the signal can be transmitted over
+the same network.
+• An important point to be noted about repeaters is that they do
+not amplify the signal.
+• When the signal becomes weak, they copy the signal bit by bit
+and regenerate it at the original strength.
+
+PAGE 8
+Repeater
+
+
+PAGE 9
+BRIDGE
+• Hardware device, works at data link layer.
+• It provides interconnection with other bridge networks that use the
+same protocol.
+• Connecting two different networks together and providing
+communication between them.
+• Bridges are similar to repeaters and hubs in that they broadcast data
+to every node.
+• Bridges maintain the media access control (MAC) address table as
+soon as they discover new segments, so subsequent transmissions
+are sent to only to the desired recipient.
+
+PAGE 10
+BRIDGE
+
+
+PAGE 11
+How BRIDGEs Work
+• A bridge uses a database to discover where to pass,
+transmit or discard the data frame.
+• If the frame received by the bridge is meant for a
+segment that resides on the same host network, it will
+pass the frame to that node and the receiving bridge will
+then discard it.
+• If the bridge receives a frame whose node MAC address
+is of the connected network, it will forward the frame
+toward it.
+
+PAGE 12
+HUB
+• A Hardware device, physical layer device.
+• A common connection point for devices in a network –
+connects multiple computers or other network devices
+together.
+• Hubs connect segments of a LAN.
+• Work as repeaters.
+• It has no routing tables or intelligence on where to send
+information – broadcasts all network data across each
+connection.
+
+PAGE 13
+HUB
+• In the past, network hubs were popular because they
+were cheaper than a switch or router.
+• Today, switches do not cost much more than a hub and
+are a much better solution for any network.
+
+PAGE 14
+HUB
+
+
+PAGE 15
+Types of HUB
+
+
+PAGE 16
+How Network HUB Works 
+• A hub is an inexpensive way to connect devices on a
+network.
+• Data travels around a network in 'packets' and a hub
+forwards these data packets out to all the devices
+connected to its ports.
+• As a hub distributes packets to every device on the network,
+when a packet is destined for only one device, every other
+device connected to the hub receives that packet.
+• Sometimes slow down the network because of traffic
+collision.
+
+PAGE 17
+SWITCH
+• Hardware device.
+• A high-speed device that receives incoming data packets
+and redirects them to their destination on a local area
+network (LAN).
+• A LAN switch operates at the data link layer or the network
+layer of the OSI Model.
+• A switch, however, keeps a record of the MAC addresses of
+all the devices connected to it.
+• Switches also run in full duplex mode.
+
+PAGE 18
+SWITCH
+
+
+PAGE 19
+How SWITCH Work
+• Reads incoming TCP/IP data packets/frames containing
+destination information as they pass into one or more
+input ports.
+• The destination information in the packets is used to
+determine which output ports will be used to send the
+data on to its intended destination.
+• Node-to-node communication in the same network.
+
+PAGE 20
+Similarities between Switches and HUBs
+• Switches are similar to hubs, but smarter than hubs.
+• A hub simply connects all the nodes on the network –
+communication in broadcast – resulting in many
+collisions.
+• A switch, on the other hand, creates an electronic tunnel
+between source and destination ports – no other traffic
+can enter.
+• This results in communication without collisions.
+
+PAGE 21
+Routers
+• Network Layer device
+• A router is a device like a switch that routes data
+packets based on their IP addresses.
+• Routers normally connect LANs and WANs together or a
+LAN and its ISP's network –for example, your PC and
+your service provider.
+• Have a dynamically updating routing table based on
+which they make decisions on routing the data packets.
+
+PAGE 22
+Routers
+• Routers are located at gateways, the places
+where two or more networks connect.
+• Routers use packet headers and forwarding
+tables to determine the best path for forwarding
+the packets.
+• And they use protocols to communicate with each
+other and configure the best route between any
+two hosts.
+
+PAGE 23
+Router
+
+
+PAGE 24
+Router
+
+
+PAGE 25
+Gateway
+• A gateway, as the name suggests, is a passage to connect
+two networks together that may work upon different
+networking models.
+• They basically works as the messenger agents that take
+data from one system, interpret it, and transfer it to another
+system.
+• Gateways are also called protocol converters and can
+operate at any network layer.
+• Gateways are generally more complex than switch or router.
+
+PAGE 26
+Gateway
+
+
+PAGE 27
+Gateway
+• Gateways serve as the entry and exit point of a network; all data
+routed inward or outward must first pass through and
+communicate with the gateway in order to use routing paths.
+• Generally, a router is configured to work as a gateway device in
+computer networks.
+• The gateway (or default gateway) is implemented at the
+boundary of a network to manage all the data communication
+that is routed internally or externally from that network.
+• Besides routing packets, gateways also possess information
+about the host network's internal paths.
+
+PAGE 28
+Devices Symbols
+
+
+PAGE 29
+MODEM
+• Modem is short for Modulator / Demodulator.
+• It is a hardware component that allows a computer or other
+device, such as a router or switch, to connect to the Internet.
+• It converts or modulates an analog signal from a telephone
+or cable wire to a digital signal that a computer can
+recognize.
+• Similarly, it converts outgoing digital data from a computer
+or other device to an analog signal.
+
+PAGE 30
+MODEM
+
+
+PAGE 31
+MODEM
+• The first modems were dial-up meaning they had to dial
+a phone number to connect to an ISP.
+• These modems operated over standard analog phone
+lines and used the same frequencies as telephone calls,
+which limited their maximum data transfer rate to 56
+Kbps.
+• Dial-up modems also required full use of the local
+telephone line, meaning voice calls would interrupt the
+Internet connection.
+
+PAGE 32
+MODEM
+• Modern modems are typically DSL or cable
+modems, which are considered broadband
+devices.
+• DSL modems operate over standard telephone
+lines, but use a wider frequency range.
+• This allows for higher data transfer rates than
+dialup modems and enables them to not interfere
+with phone calls.

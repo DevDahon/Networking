@@ -1,0 +1,148 @@
+
+PAGE 1
+Introduction to I.P
+Subnetting
+
+
+PAGE 2
+Objectives
+Explain the purpose of subnetting and how it divides IP
+addresses into network and host portions.
+Calculate subnet masks using CIDR notation and determine the
+number of possible subnets and hosts.
+Design subnetting schemes for practical scenarios, assigning
+valid IP ranges to hosts.
+Reflect on how subnetting improves efficiency, scalability, and
+traffic management in networks.
+
+PAGE 3
+IP Subnetting
+Subnetting is the process of dividing a
+large IP network into smaller, more
+manageable sub-networks (subnets).
+It helps optimize IP address usage,
+reduce network congestion, and
+improve security by controlling traffic
+within each subnet.
+
+PAGE 4
+Without Subnetting
+
+PAGE 5
+Without Subnetting
+
+
+PAGE 6
+Department 1
+Department 2
+Department 1
+Department 2
+
+PAGE 7
+Without Subnetting
+All devices share one large network, causing heavy broadcast traffic.
+IP addresses are often wasted because the network cannot be divided
+efficiently.
+Network administration becomes complex and less efficient when all
+devices are placed in a single large network.
+
+PAGE 8
+With Subnetting
+The network is divided into smaller subnets, reducing congestion and
+improving performance.
+IP addresses are used more efficiently, matching the exact needs of
+each subnet.
+Security and management are easier since departments or groups can
+be isolated and controlled.
+
+PAGE 9
+ IP Address & Subnet Mask
+Basics
+
+PAGE 10
+IPv4 Address Structure
+IPv4 addresses are 32-bit numbers divided into 4 octets (8 bits each).
+Written in dotted decimal notation.
+Each octet can have values from 0 to 255.
+
+PAGE 11
+Network vs. Host Portion
+Network Portion
+Identifies the subnet or “group” of devices.
+Determined by the subnet mask.
+Same for all devices within the same subnet.
+Host Portion
+Identifies the specific device (computer, printer, router) inside the subnet.
+Varies for each device.
+Must be unique within the subnet.
+
+PAGE 12
+Network vs. Host Portion by Class
+
+PAGE 13
+Class Subnet Mask Network Host Usable Hosts
+A 255.0.0.0 8 24 ~16 million
+B 255.255.0.0 16 16 ~65,000
+C 255.255.255.0 24 8 254
+Network vs. Host Portion by Class
+
+PAGE 14
+What Makes a Network?
+IP Address - Unique identifier for each device in a network.
+Subnet Mask - Defines which part of the IP is the network portion and
+which part is the host portion.
+Network Address - The first IP in a subnet, representing the subnet
+itself.
+Broadcast Address - The last IP in a subnet, used to send data to all
+devices in that subnet.
+Usable Host IP Addresses -  All IPs between the network and
+broadcast addresses.
+
+PAGE 15
+192.168.10.25
+
+PAGE 16
+ CIDR Notation (Classless Inter-Domain Routing)
+CIDR notation is a compact way of writing subnet masks.
+Written as an IP address followed by a slash (/) and the number of
+network bits. 
+Show that the remaining bits (after the slash) are for hosts.
+Unlike fixed classes (A, B, C), CIDR allows custom subnetting.
+Example: 192.168.10.0/24
+/24 → 24 bits are used for the network portion.
+
+PAGE 17
+CIDR Subnet Mask Network Bits Host Bits Usable Hosts
+/8 255.000 8 24 16,777,214
+/16 25.525.500 16 16 65,534
+/24 2.552.552.550 24 8 254
+/25 255.255.255.128 25 7 126
+/26 255.255.255.192 26 6 62
+/27 255.255.255.224 27 5 30
+/28 255.255.255.240 28 4 14
+/29 255.255.255.248 29 3 6
+/30 255.255.255.252 30 2 2
+ CIDR Notation (Classless Inter-Domain Routing)
+
+PAGE 18
+How to Subnet?
+
+PAGE 19
+Steps in Subnetting 
+Step 1: Identify requirements
+Step 2: Borrow bits from the host portion.
+Step 3: Calculate the new subnet mask.
+Step 4: Determine block size.
+Step 5: List network addresses, usable ranges, and broadcast
+addresses.
+
+PAGE 20
+Subnetting Cheatsheat
+
+PAGE 21
+Example
+192.168.10.0 /24
+divide into 4 subnets
+
+PAGE 22
+Thank You

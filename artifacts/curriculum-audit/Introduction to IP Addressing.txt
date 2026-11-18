@@ -1,0 +1,91 @@
+
+ppt/slides/slide1.xml
+IP Addressing
+Marlon L. Castro
+
+ppt/slides/slide2.xml
+IP Addressing
+IP Addressing is Logical Addressing
+It works on Network Layer (Layer 3)
+Two Versions of Addressing Scheme
+IP version 4 – 32 bit addressing
+IP version 6 – 128 bit addressing
+
+
+ppt/slides/slide3.xml
+IP Version 4
+Bit is a value that will represent 0’s or 1’s (i.e. Binary)
+01010101000001011011111100000001
+• 32 bits are divided into 4 Octets known as Dotted 
+Decimal Notation
+
+ppt/slides/slide4.xml
+IP Version 6
+128-bit address is divided along 16-bit boundaries, and each 16-bit block is converted to a 4-digit hexadecimal number and separated by colons (Colon-Hex Notation) 
+
+ppt/slides/slide5.xml
+Binary to Decimal Conversion
+Taking Example for First Octet : 
+Total 8 bits, Value will be 0’s and 1’s 
+i.e. 28 = 256 combination
+
+
+
+ppt/slides/slide6.xml
+IP Address Classes
+
+ppt/slides/slide7.xml
+Priority Bit Concept
+To identify the range of each class, a bit called priority bit is used.
+Priority Bit is the left most bits in the First Octet
+CLASS A priority bit is 0 
+CLASS B priority bit is 10 
+CLASS C priority bit is 110 
+CLASS D priority bit is 1110 
+CLASS E priority bit is 1111 
+
+ppt/slides/slide8.xml
+CLASS A Range
+
+ppt/slides/slide9.xml
+CLASS B Range
+
+ppt/slides/slide10.xml
+CLASS C Range
+
+ppt/slides/slide11.xml
+Octet Format
+
+ppt/slides/slide12.xml
+CLASS A – No. Networks & Host 
+
+ppt/slides/slide13.xml
+CLASS B – No. Networks & Host
+
+ppt/slides/slide14.xml
+
+
+ppt/slides/slide15.xml
+Network & Broadcast Address
+The network address  is represented with all bits as ZERO in the host portion of the address 
+The broadcast address  is represented with all bits as ONES in the host portion of the address 
+Valid IP Addresses lie between the Network Address and the Broadcast Address. 
+Only Valid IP Addresses are assigned to hosts/clients
+
+ppt/slides/slide16.xml
+Example - Class A
+
+ppt/slides/slide17.xml
+Example - Class B
+
+ppt/slides/slide18.xml
+Example - Class C
+
+ppt/slides/slide19.xml
+Private IP Address
+
+ppt/slides/slide20.xml
+Subnet Mask
+
+ppt/slides/slide21.xml
+Subnet Mask - Examples

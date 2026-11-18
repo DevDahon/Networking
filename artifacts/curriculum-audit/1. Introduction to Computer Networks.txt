@@ -1,0 +1,239 @@
+
+ppt/slides/slide1.xml
+INTRODUCTION TO 
+COMPUTER NETWORKS
+
+
+
+
+
+
+
+
+
+
+
+“ The Internet is becoming the town square for the global village of tomorrow ” - Bill Gates
+Jay-ar Mesquiola
+
+ppt/slides/slide2.xml
+What is Computer Networking?
+A computer network is a system of interconnected computing devices—ranging from traditional to cloud-based environments—that communicate and share resources with one another.
+I BM
+Defines networking as the interconnection of devices and systems using hardware and protocols to enable communication and data exchange
+Network World
+
+ppt/slides/slide3.xml
+
+Key Milestones in the History of Computer Networking
+1960s – The Beginning
+1980s – The Internet Emerges
+2000s – Global Expansion
+Networking started with ARPANET, a U.S. defense project that connected universities and research centers. It was the first real computer network.
+1970s – Protocols Developed
+1990s – World Wide Web
+
+
+
+
+Researchers Vinton Cerf and Robert Kahn created TCP/IP protocols (Transmission Control Protocol / Internet Protocol). These became the standard rules for how computers communicate.
+ARPANET officially adopted TCP/IP in 1983, marking the birth of the internet. Local Area Networks (LANs) also became common in schools and businesses.
+Tim Berners-Lee introduced the World Wide Web (WWW) in 1991, making the internet accessible to the public with websites and browsers.
+Wi-Fi, mobile data (3G/4G), and broadband spread worldwide. Networking became part of everyday life. 
+
+ppt/slides/slide4.xml
+End Devices (Nodes)
+Networking Devices
+Transmission Media
+Protocols
+Components of Computer Networks
+
+ppt/slides/slide5.xml
+Overview of the Components of Computer Networks
+These are the devices that people use to access the network.
+Their purpose is to generate, send, and receive data such as messages, files, or requests.
+They represent the “users” of the network.
+
+End Devices (Nodes)
+
+ppt/slides/slide6.xml
+Overview of the Components of Computer Networks
+These are the devices that connect and manage communication between end devices.
+Their purpose is to direct traffic, control access, and ensure data reaches the correct destination.
+They act like the “traffic managers” of the network.
+
+Networking Devices
+
+ppt/slides/slide7.xml
+Overview of the Components of Computer Networks
+This is the pathway that data travels through.
+It can be wired (cables, fiber optics) or wireless (Wi-Fi, Bluetooth).
+Its purpose is to carry signals from one device to another.
+
+Transmission Media
+
+ppt/slides/slide8.xml
+Overview of the Components of Computer Networks
+These are the rules of communication that all devices follow.
+Th eir purpose is to make sure data is sent, received, and understood correctly.
+Withou t protocols, devices wouldn’t “speak the same language.”
+
+Protocols
+
+ppt/slides/slide9.xml
+How Computer 
+Networking Works?
+Internet
+Firewall
+Router
+Laptop
+Desktop
+Networking Device
+End Device
+End Device
+Security Layer
+Entry Point
+
+ppt/slides/slide10.xml
+PERSONAL AREA NETWORK
+LOCAL AREA NETWORK
+METROPOLITAN AREA NETWORK
+WIDE ARE NETWORK
+Types of Computer Networks
+
+ppt/slides/slide11.xml
+Types of Computer Networks
+A PAN is the smallest type of network, typically used by a single person within a few meters. It connects personal devices like smartphones, laptops, and wearable tech using Bluetooth or USB. PANs are ideal for short-range communication and device syncing.
+
+Examples:
+
+Connecting a smartphone to wireless earbuds via Bluetooth
+
+Syncing a smartwatch with a laptop
+
+
+Personal Area Network (PAN)
+
+ppt/slides/slide12.xml
+Types of Computer Networks
+A LAN covers a small geographic area such as a home, office, or school. It connects computers and devices within the same building using Ethernet cables or Wi-Fi. LANs are fast, secure, and commonly used for sharing files, printers, and internet access.
+
+Examples:
+
+School computer lab network
+
+Office network connecting employee desktops and printers
+
+Local Area Network (LAN)
+
+ppt/slides/slide13.xml
+Types of Computer Networks
+A MAN spans a city or large campus, connecting multiple LANs within a metropolitan area. It’s larger than a LAN but smaller than a WAN, often used by government agencies, universities, or large companies to link buildings or branches.
+
+Examples:
+
+City-wide public Wi-Fi network
+
+Un iversity campus network connecting multiple buildings
+
+Metropolitan Area Network (MAN)
+
+ppt/slides/slide14.xml
+Types of Computer Networks
+A WAN covers a large geographic area, often connecting multiple cities, countries, or continents. It uses leased telecommunication lines and satellites to link networks over long distances. 
+
+Examples:
+
+The global inter n et
+
+A multinational company’s network connecting offices worldwide
+
+Wide Area Network (WAN)
+
+ppt/slides/slide15.xml
+Characteristics of Computer Networking
+Networks must protect data from unauthorized access, hacking, and malware. Security features like firewalls, encryption, and authentication help safeguard sensitive information and ensure privacy.
+1. Security
+A reliable network ensures consistent availability of data and services. Backup systems and redundancy help maintain operations even during failures or disruptions.
+
+2. Reliability
+
+ppt/slides/slide16.xml
+Characteristics of Computer Networking
+Scalable networks can grow by adding more devices or users without losing performance. This is essential for expanding businesses, schools, or online platforms.
+3. Scalability
+Networking enables smooth data transfer between devices. Whether sharing files or accessing cloud services, networks ensure that information moves efficiently.
+4. Flow of Data
+
+ppt/slides/slide17.xml
+Characteristics of Computer Networking
+Performance refers to speed and responsiveness. Fast data transfer, low latency, and high bandwidth improve user experience and support real-time communication.
+5. High Performance
+Fault-tolerant networks continue to operate even when part of the system fails. Alternate paths or backup connections ensure uninterrupted communication.
+6. Fault Tolerance
+
+ppt/slides/slide18.xml
+Characteristics of Computer Networking
+QoS prioritizes certain types of data (like video calls or urgent messages) to ensure smooth delivery. It helps manage bandwidth and reduce delays for critical tasks.
+7. Quality of Service (QoS)
+Networks should support various devices and applications. Compatibility ensures that different systems can work together, improving flexibility and resource use.
+8. Compatibility with Hardware and Software
+
+ppt/slides/slide19.xml
+Uses and Importance of Networking
+Networking makes communication faster and easier by connecting people through email, instant messaging, video calls, and social media. It allows individuals and organizations to exchange information in real time, regardless of distance.
+Communication
+
+ppt/slides/slide20.xml
+Uses and Importance of Networking
+Networks allow multiple users to share resources such as printers, files, and applications. This reduces costs and improves efficiency since devices and data can be accessed by anyone connected to the network.
+Resource Sharing
+
+ppt/slides/slide21.xml
+Uses and Importance of Networking
+Networking enables centralized data storage in servers or cloud systems. This makes information easier to manage, secure, and retrieve, ensuring that users can access the same updated data from different locations.
+Data Access and Storage
+
+ppt/slides/slide22.xml
+Uses and Importance of Networking
+Through networking, teams can work together on shared platforms like Google Drive or Microsoft Teams. It supports group projects, online learning, and business operations by allowing multiple users to edit and access documents simultaneously.
+
+
+Collaboration
+
+ppt/slides/slide23.xml
+Uses and Importance of Networking
+Networking powers online gaming, video streaming, and music platforms. It connects users to digital content instantly, making entertainment more interactive and accessible worldwide.
+Entertainment
+
+ppt/slides/slide24.xml
+Uses and Importance of Networking
+Companies rely on networking for e-commerce, banking, logistics, and customer service. It ensures smooth transactions, secure communication, and efficient management of business processes.
+ Business Operations
+
+ppt/slides/slide25.xml
+Uses and Importance of Networking
+Networking supports online classes, digital libraries, and research collaboration. Students and educators can access learning materials, share knowledge, and connect with experts globally, making education more flexible and inclusive.
+Education and Research
+
+ppt/slides/slide26.xml
+Thank You
+
+
+
+
+
+
+
+
+
+
+
+ppt/slides/slide27.xml
+References
+https://www.ibm.com/think/topics/networking
+https://www.networkworld.com/article/970224/networking-terms-and-definitions.html
+https://www.livescience.com/20727-internet-history.html
+https://www.educative.io/answers/what-are-the-main-components-of-a-computer-network
+https://www.geeksforgeeks.org/computer-networks/importance-of-computer-networking/
+https://www.naukri.com/code360/library/basic-characteristics-of-computer-networks

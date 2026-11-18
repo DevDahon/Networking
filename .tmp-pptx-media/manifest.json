@@ -1,0 +1,170 @@
+{
+  "images/devices/ap.webp": {
+    "file": "images_devices_ap.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_devices_ap.png",
+    "width": 960,
+    "height": 868
+  },
+  "images/devices/hub.webp": {
+    "file": "images_devices_hub.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_devices_hub.png",
+    "width": 960,
+    "height": 717
+  },
+  "images/devices/nic.webp": {
+    "file": "images_devices_nic.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_devices_nic.png",
+    "width": 960,
+    "height": 717
+  },
+  "images/devices/repeater.webp": {
+    "file": "images_devices_repeater.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_devices_repeater.png",
+    "width": 960,
+    "height": 540
+  },
+  "images/devices/router.webp": {
+    "file": "images_devices_router.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_devices_router.png",
+    "width": 960,
+    "height": 717
+  },
+  "images/devices/server.webp": {
+    "file": "images_devices_server.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_devices_server.png",
+    "width": 960,
+    "height": 717
+  },
+  "images/devices/switch.webp": {
+    "file": "images_devices_switch.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_devices_switch.png",
+    "width": 960,
+    "height": 536
+  },
+  "images/media/coaxial_cable.webp": {
+    "file": "images_media_coaxial_cable.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_media_coaxial_cable.png",
+    "width": 448,
+    "height": 320
+  },
+  "images/media/coaxial_cutaway.webp": {
+    "file": "images_media_coaxial_cutaway.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_media_coaxial_cutaway.png",
+    "width": 960,
+    "height": 536
+  },
+  "images/media/ethernet_categories.webp": {
+    "file": "images_media_ethernet_categories.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_media_ethernet_categories.png",
+    "width": 1100,
+    "height": 614
+  },
+  "images/media/fiber_optic.webp": {
+    "file": "images_media_fiber_optic.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_media_fiber_optic.png",
+    "width": 800,
+    "height": 195
+  },
+  "images/media/fiber_types.webp": {
+    "file": "images_media_fiber_types.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_media_fiber_types.png",
+    "width": 960,
+    "height": 536
+  },
+  "images/media/stp_cable.webp": {
+    "file": "images_media_stp_cable.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_media_stp_cable.png",
+    "width": 960,
+    "height": 536
+  },
+  "images/media/utp_cable.webp": {
+    "file": "images_media_utp_cable.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_media_utp_cable.png",
+    "width": 960,
+    "height": 536
+  },
+  "images/router/router_rear.webp": {
+    "file": "images_router_router_rear.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_router_router_rear.png",
+    "width": 1100,
+    "height": 385
+  },
+  "images/router/wifi_router.webp": {
+    "file": "images_router_wifi_router.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_router_wifi_router.png",
+    "width": 960,
+    "height": 717
+  },
+  "images/tools/cable_tester.webp": {
+    "file": "images_tools_cable_tester.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_tools_cable_tester.png",
+    "width": 960,
+    "height": 717
+  },
+  "images/tools/ethernet_patch_cable.webp": {
+    "file": "images_tools_ethernet_patch_cable.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_tools_ethernet_patch_cable.png",
+    "width": 960,
+    "height": 717
+  },
+  "images/tools/flush_cutters.webp": {
+    "file": "images_tools_flush_cutters.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_tools_flush_cutters.png",
+    "width": 960,
+    "height": 960
+  },
+  "images/tools/keystone_jack.webp": {
+    "file": "images_tools_keystone_jack.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_tools_keystone_jack.png",
+    "width": 960,
+    "height": 717
+  },
+  "images/tools/punchdown_stand.webp": {
+    "file": "images_tools_punchdown_stand.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_tools_punchdown_stand.png",
+    "width": 960,
+    "height": 960
+  },
+  "images/tools/punchdown_tool.webp": {
+    "file": "images_tools_punchdown_tool.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_tools_punchdown_tool.png",
+    "width": 960,
+    "height": 717
+  },
+  "images/tools/rj45_crimped_front.webp": {
+    "file": "images_tools_rj45_crimped_front.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_tools_rj45_crimped_front.png",
+    "width": 960,
+    "height": 717
+  },
+  "images/tools/rj45_crimper.webp": {
+    "file": "images_tools_rj45_crimper.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_tools_rj45_crimper.png",
+    "width": 960,
+    "height": 960
+  },
+  "images/tools/rj45_good_vs_bad.webp": {
+    "file": "images_tools_rj45_good_vs_bad.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_tools_rj45_good_vs_bad.png",
+    "width": 1100,
+    "height": 614
+  },
+  "images/tools/rj45_plugs.webp": {
+    "file": "images_tools_rj45_plugs.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_tools_rj45_plugs.png",
+    "width": 960,
+    "height": 717
+  },
+  "images/tools/utp_cable.webp": {
+    "file": "images_tools_utp_cable.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_tools_utp_cable.png",
+    "width": 960,
+    "height": 536
+  },
+  "images/tools/wire_stripper.webp": {
+    "file": "images_tools_wire_stripper.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_tools_wire_stripper.png",
+    "width": 960,
+    "height": 960
+  }
+}
