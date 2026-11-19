@@ -648,7 +648,7 @@ export class PptxSlide {
   parseRichRuns(text, { baseColor, highlightColor, fontSize, fontFace = FONTS.BODY }) {
     const str = String(text ?? '');
     const colonIdx = str.indexOf(':');
-    if (colonIdx > 0 && colonIdx < 38) {
+    if (colonIdx > 0 && colonIdx < 56) {
       const lead = str.slice(0, colonIdx + 1);
       const rest = str.slice(colonIdx + 1);
       return [
@@ -667,7 +667,7 @@ export class PptxSlide {
     this.imageRels.push({ rId, mediaName: media.mediaName });
 
     // Background card behind photo so transparent or non-matching aspect ratio photos look crisp
-    const cardH = caption ? h - 0.36 : h;
+    const cardH = caption ? h - 0.50 : h;
     this.addRawShape({
       name: `${name} Frame`,
       x, y, w, h: cardH,
@@ -721,17 +721,21 @@ export class PptxSlide {
     this.elements.push(picXml);
 
     if (caption) {
+      const capLen = String(caption).length;
       this.addRawShape({
         name: `${name} Caption`,
-        x, y: y + cardH + 0.05, w, h: 0.30,
-        prst: 'roundRect', adj: 25000,
+        x, y: y + cardH + 0.06, w, h: 0.44,
+        prst: 'roundRect', adj: 20000,
         fill: COLORS.BLUE_CALLOUT,
+        valign: 'ctr',
+        padL: 0.08, padR: 0.08, padT: 0.02, padB: 0.02,
         paragraphs: [{
           text: caption,
           color: COLORS.WHITE,
-          fontSize: 11,
+          fontSize: capLen > 34 ? 9.4 : 10.5,
           bold: true,
-          align: 'ctr'
+          align: 'ctr',
+          lineSpacingPct: 105000
         }],
         decorative: true
       });
@@ -833,15 +837,18 @@ export class PptxSlide {
       decorative: true
     });
     // Header strip inside diagram container
+    const headerStr = String(title || '');
+    const headerFont = headerStr.length > 27 ? 9.4 : headerStr.length > 22 ? 10.2 : 11.2;
     this.addRawShape({
       name: `${name} Header`,
       x: x + 0.08, y: y + 0.08, w: w - 0.16, h: 0.36,
       prst: 'roundRect', adj: 18000,
       fill: COLORS.NAVY_DARK,
+      padL: 0.06, padR: 0.06, padT: 0.02, padB: 0.02,
       paragraphs: [{
-        text: title,
+        text: headerStr,
         color: COLORS.YELLOW_ACCENT,
-        fontSize: 11.5,
+        fontSize: headerFont,
         bold: true,
         align: 'ctr'
       }],
@@ -851,7 +858,7 @@ export class PptxSlide {
     const innerX = x + 0.12;
     const innerY = y + 0.50;
     const innerW = w - 0.24;
-    const innerH = footer ? h - 0.90 : h - 0.58;
+    const innerH = footer ? h - 0.98 : h - 0.58;
 
     // Connectors / lines (drawn before node boxes so node boxes sit cleanly on top)
     for (const arr of arrows) {
@@ -862,6 +869,7 @@ export class PptxSlide {
       this.addRawShape({
         name: `${name} Link`,
         x: ax, y: ay, w: aw, h: ah,
+        rot: arr.rot || 0,
         prst: arr.prst || 'rect',
         fill: arr.color || COLORS.BLUE_HEADING,
         decorative: true
@@ -886,14 +894,16 @@ export class PptxSlide {
             : COLORS.BLUE_CALLOUT;
       const fg = isYellow || isWhite ? COLORS.TEXT_DARK : COLORS.WHITE;
       const subFg = isYellow || isWhite ? COLORS.TEXT_MUTED : COLORS.YELLOW_ACCENT;
+      const nodeFont = nd.fontSize || 10.4;
 
       const paras = [
         {
           text: nd.label,
           color: fg,
-          fontSize: nd.fontSize || 11.5,
+          fontSize: nodeFont,
           bold: true,
           align: 'ctr',
+          lineSpacingPct: 104000,
           spaceAfterPt: nd.sub ? 1 : 0
         }
       ];
@@ -901,9 +911,10 @@ export class PptxSlide {
         paras.push({
           text: nd.sub,
           color: subFg,
-          fontSize: (nd.fontSize || 11.5) - 1.5,
+          fontSize: Math.max(8.2, nodeFont - 1.5),
           bold: false,
-          align: 'ctr'
+          align: 'ctr',
+          lineSpacingPct: 104000
         });
       }
 
@@ -916,23 +927,27 @@ export class PptxSlide {
         borderColor: isWhite ? COLORS.BLUE_HEADING : null,
         borderPt: 1.2,
         paragraphs: paras,
-        padL: 0.05, padR: 0.05, padT: 0.03, padB: 0.03,
+        padL: 0.04, padR: 0.04, padT: 0.02, padB: 0.02,
         decorative: true
       });
     }
 
     if (footer) {
+      const footStr = String(footer);
       this.addRawShape({
         name: `${name} Footer`,
-        x: x + 0.10, y: y + h - 0.36, w: w - 0.20, h: 0.28,
+        x: x + 0.10, y: y + h - 0.42, w: w - 0.20, h: 0.34,
         prst: 'roundRect', adj: 20000,
         fill: COLORS.YELLOW_BOX,
+        valign: 'ctr',
+        padL: 0.08, padR: 0.08, padT: 0.02, padB: 0.02,
         paragraphs: [{
-          text: footer,
+          text: footStr,
           color: COLORS.TEXT_DARK,
-          fontSize: 10.5,
+          fontSize: footStr.length > 34 ? 8.8 : 9.6,
           bold: true,
-          align: 'ctr'
+          align: 'ctr',
+          lineSpacingPct: 104000
         }],
         decorative: true
       });

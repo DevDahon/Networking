@@ -8,12 +8,12 @@ export function addCoverSlide(deck, { moduleNumber, topicTitle }) {
   );
 
   const upperTitle = String(topicTitle || '').toUpperCase();
-  const titleFontSize = upperTitle.length > 52 ? 32 : upperTitle.length > 38 ? 37 : 42;
+  const titleFontSize = upperTitle.length > 52 ? 26 : upperTitle.length > 34 ? 30 : 37;
 
-  // Course & Module Kicker + Oversized Navy Title (Right-aligned, clear of left geometric shapes)
+  // Course & Module Kicker + Oversized Navy Title (Right-aligned, completely clear of left geometric shapes)
   slide.addRawShape({
     name: 'Cover Title Box',
-    x: 2.38, y: 0.92, w: 7.12, h: 2.85,
+    x: 3.72, y: 0.92, w: 5.78, h: 2.85,
     txBox: true,
     valign: 'b',
     paragraphs: [
@@ -21,7 +21,7 @@ export function addCoverSlide(deck, { moduleNumber, topicTitle }) {
         text: `NETWORKING 1 · MODULE ${String(moduleNumber).padStart(2, '0')}`,
         color: COLORS.BLUE_HEADING,
         fontFace: FONTS.HEADING,
-        fontSize: 21,
+        fontSize: 20,
         bold: true,
         caps: true,
         align: 'r',
@@ -36,7 +36,7 @@ export function addCoverSlide(deck, { moduleNumber, topicTitle }) {
         bold: true,
         caps: true,
         align: 'r',
-        lineSpacingPct: 104000
+        lineSpacingPct: 105000
       }
     ]
   });
@@ -187,24 +187,13 @@ export function addSectionDividerSlide(deck, { sectionNumber, title, overview, n
   const upperTitle = String(title || '').toUpperCase();
   const titleFontSize = upperTitle.length > 44 ? 32 : upperTitle.length > 30 ? 36 : 40;
 
-  // Section Kicker + Large Bold Condensed Uppercase Bright-Blue Title
+  // Large Bold Condensed Uppercase Bright-Blue Title
   slide.addRawShape({
     name: 'Section Title Box',
-    x: 1.35, y: 1.15, w: 7.30, h: 1.65,
+    x: 1.35, y: 1.15, w: 7.30, h: 1.55,
     txBox: true,
     valign: 'b',
     paragraphs: [
-      {
-        text: `SECTION ${String(sectionNumber).padStart(2, '0')} · NETWORKING 1`,
-        color: COLORS.NAVY_MID,
-        fontFace: FONTS.HEADING,
-        fontSize: 15,
-        bold: true,
-        caps: true,
-        align: 'ctr',
-        spacing: 160,
-        spaceAfterPt: 6
-      },
       {
         text: upperTitle,
         color: COLORS.BLUE_HEADING,
@@ -221,7 +210,7 @@ export function addSectionDividerSlide(deck, { sectionNumber, title, overview, n
   // Centered Beginner-Friendly Overview Paragraph in Dark-Blue Body Text
   slide.addRawShape({
     name: 'Section Overview Box',
-    x: 1.45, y: 2.95, w: 7.10, h: 1.65,
+    x: 1.45, y: 2.86, w: 7.10, h: 1.65,
     txBox: true,
     valign: 't',
     paragraphs: [
@@ -239,13 +228,14 @@ export function addSectionDividerSlide(deck, { sectionNumber, title, overview, n
   return slide;
 }
 
-// 4. TEACHING SLIDE — Short Explanation + Blue Callout Box + Right Photo or Editable Labeled Diagram
-// (matches Pages 3, 9–13, 16–18, 22–25, 27)
+// 4. TEACHING SLIDE — Short Explanation + Blue Callout Box (+ Optional Right Photo / Diagram / Table)
+// When visual is null, expands cleanly to full classroom width so no generic filler diagram is repeated.
 export function addTeachingSlide(deck, {
   title,
   explanation,
   calloutBullets = [],
   calloutText = '',
+  itemLabels = null,
   visual = null,
   notes = ''
 }) {
@@ -254,13 +244,17 @@ export function addTeachingSlide(deck, {
     notes || `${title}\n${explanation}\n` + (calloutText || calloutBullets.join('\n'))
   );
 
+  const hasVisual = Boolean(visual);
+  const contentW = hasVisual ? 5.45 : 8.44;
   const upperTitle = String(title || '').toUpperCase();
-  const titleFontSize = upperTitle.length > 46 ? 22 : upperTitle.length > 34 ? 25 : 28;
+  const titleFontSize = hasVisual
+    ? (upperTitle.length > 46 ? 22 : upperTitle.length > 34 ? 25 : 28)
+    : (upperTitle.length > 54 ? 25 : 29);
 
   // Top-Left Heading
   slide.addRawShape({
     name: 'Teaching Heading',
-    x: 0.78, y: 0.40, w: 5.45, h: 0.82,
+    x: 0.78, y: 0.40, w: hasVisual ? 5.45 : 7.60, h: 0.82,
     txBox: true,
     valign: 'b',
     paragraphs: [
@@ -277,10 +271,12 @@ export function addTeachingSlide(deck, {
   });
 
   // Middle-Left Beginner-Friendly Explanation
-  const expFontSize = String(explanation || '').length > 140 ? 12.5 : 13.6;
+  const expFontSize = hasVisual
+    ? (String(explanation || '').length > 140 ? 12.5 : 13.6)
+    : (String(explanation || '').length > 180 ? 14.0 : 15.2);
   slide.addRawShape({
     name: 'Teaching Explanation',
-    x: 0.78, y: 1.24, w: 5.45, h: 0.96,
+    x: 0.78, y: 1.24, w: contentW, h: hasVisual ? 0.96 : 0.86,
     txBox: true,
     valign: 't',
     paragraphs: [
@@ -294,72 +290,78 @@ export function addTeachingSlide(deck, {
     ]
   });
 
-  // Bottom-Left Medium-Blue Callout Box with White Text (& Yellow highlighted lead terms like Page 27)
+  // Bottom-Left (or Full-Width) Medium-Blue Callout Box with White Text (& Yellow highlighted lead terms)
   const calloutParas = [];
   if (calloutText) {
     calloutParas.push({
       runs: slide.parseRichRuns(calloutText, {
         baseColor: COLORS.WHITE,
         highlightColor: COLORS.YELLOW_ACCENT,
-        fontSize: String(calloutText).length > 210 ? 12.2 : 13.5
+        fontSize: hasVisual ? (String(calloutText).length > 210 ? 12.2 : 13.5) : 14.8
       }),
       lineSpacingPct: 112000
     });
   }
   const totalChars = calloutBullets.reduce((acc, s) => acc + String(s).length, 0);
-  const bulletFontSize = (calloutBullets.length >= 4 || totalChars > 320) ? 11.4 : totalChars > 220 ? 12.2 : 13.2;
-  for (const b of calloutBullets) {
+  const bulletFontSize = hasVisual
+    ? ((calloutBullets.length >= 4 || totalChars > 320) ? 11.4 : totalChars > 220 ? 12.2 : 13.2)
+    : ((calloutBullets.length >= 4 || totalChars > 520) ? 13.2 : 14.4);
+  calloutBullets.forEach((b, idx) => {
+    const labelPrefix = Array.isArray(itemLabels) && itemLabels[idx] ? `${itemLabels[idx]}. ` : '';
+    const textWithLabel = labelPrefix ? `${labelPrefix}${b}` : b;
     calloutParas.push({
-      runs: slide.parseRichRuns(b, {
+      runs: slide.parseRichRuns(textWithLabel, {
         baseColor: COLORS.WHITE,
         highlightColor: COLORS.YELLOW_ACCENT,
         fontSize: bulletFontSize
       }),
-      bullet: '•',
+      bullet: labelPrefix ? false : '•',
       bulletColor: COLORS.YELLOW_ACCENT,
-      spaceAfterPt: 4,
-      lineSpacingPct: 110000
+      spaceAfterPt: hasVisual ? 4 : 7,
+      lineSpacingPct: 112000
     });
-  }
+  });
 
   slide.addRawShape({
     name: 'Teaching Blue Callout Box',
-    x: 0.78, y: 2.32, w: 5.45, h: 2.58,
+    x: 0.78, y: hasVisual ? 2.32 : 2.18, w: contentW, h: hasVisual ? 2.58 : 2.72,
     prst: 'roundRect', adj: 4500,
     fill: COLORS.BLUE_CALLOUT,
     valign: 'ctr',
-    padL: 0.16, padR: 0.16, padT: 0.10, padB: 0.10,
+    padL: hasVisual ? 0.16 : 0.22, padR: hasVisual ? 0.16 : 0.22, padT: 0.12, padB: 0.12,
     paragraphs: calloutParas
   });
 
-  // Right Column Visual (Photo, Editable Labeled Diagram, or Mini Table)
-  const vx = 6.42, vy = 0.78, vw = 2.95, vh = 4.10;
-  if (visual?.kind === 'photo' && visual.imagePath) {
-    slide.addPicture({
-      name: 'Teaching Photo',
-      imagePath: visual.imagePath,
-      x: vx, y: vy, w: vw, h: vh,
-      round: true,
-      caption: visual.caption || null
-    });
-  } else if (visual?.kind === 'table') {
-    slide.addTable({
-      name: 'Teaching Mini Table',
-      x: vx, y: vy, w: vw, h: vh,
-      headers: visual.headers,
-      rows: visual.rows,
-      colWeights: visual.colWeights,
-      fontSize: visual.fontSize || 10.5
-    });
-  } else if (visual?.kind === 'diagram') {
-    slide.addLabeledDiagram({
-      name: 'Teaching Editable Diagram',
-      x: vx, y: vy, w: vw, h: vh,
-      title: visual.title || 'CONCEPT DIAGRAM',
-      nodes: visual.nodes || [],
-      arrows: visual.arrows || [],
-      footer: visual.footer || null
-    });
+  // Right Column Visual (Photo, Editable Labeled Diagram, or Mini Table — ONLY when directly relevant)
+  if (hasVisual) {
+    const vx = 6.42, vy = 0.78, vw = 2.95, vh = 4.10;
+    if (visual.kind === 'photo' && visual.imagePath) {
+      slide.addPicture({
+        name: 'Teaching Photo',
+        imagePath: visual.imagePath,
+        x: vx, y: vy, w: vw, h: vh,
+        round: true,
+        caption: visual.caption || null
+      });
+    } else if (visual.kind === 'table') {
+      slide.addTable({
+        name: 'Teaching Mini Table',
+        x: vx, y: vy, w: vw, h: vh,
+        headers: visual.headers,
+        rows: visual.rows,
+        colWeights: visual.colWeights,
+        fontSize: visual.fontSize || 10.5
+      });
+    } else if (visual.kind === 'diagram') {
+      slide.addLabeledDiagram({
+        name: 'Teaching Editable Diagram',
+        x: vx, y: vy, w: vw, h: vh,
+        title: visual.title || 'CONCEPT DIAGRAM',
+        nodes: visual.nodes || [],
+        arrows: visual.arrows || [],
+        footer: visual.footer || null
+      });
+    }
   }
 
   return slide;
@@ -380,12 +382,12 @@ export function addComparisonSlide(deck, {
   );
 
   const upperTitle = String(title || '').toUpperCase();
-  const titleFontSize = upperTitle.length > 44 ? 26 : 30;
+  const titleFontSize = upperTitle.length > 44 ? 24 : 28;
 
   // Heading
   slide.addRawShape({
     name: 'Comparison Heading',
-    x: 0.78, y: 0.55, w: 7.45, h: 0.78,
+    x: 0.78, y: 0.45, w: 7.45, h: 0.78,
     txBox: true,
     valign: 'ctr',
     paragraphs: [
@@ -400,15 +402,15 @@ export function addComparisonSlide(deck, {
     ]
   });
 
-  const leftFontSize = leftBullets.length >= 5 ? 11.8 : 12.8;
+  const leftFontSize = leftBullets.length >= 4 ? 11.8 : 12.8;
   const leftParas = [
     {
       text: leftTitle,
       color: COLORS.WHITE,
       fontFace: FONTS.BODY,
-      fontSize: 16.5,
+      fontSize: leftTitle.length > 30 ? 14.5 : 15.8,
       bold: true,
-      spaceAfterPt: 6
+      spaceAfterPt: 5
     },
     ...leftBullets.map(b => ({
       runs: slide.parseRichRuns(b, {
@@ -418,31 +420,31 @@ export function addComparisonSlide(deck, {
       }),
       bullet: '•',
       bulletColor: COLORS.YELLOW_ACCENT,
-      spaceAfterPt: 4,
-      lineSpacingPct: 112000
+      spaceAfterPt: 3.5,
+      lineSpacingPct: 109000
     }))
   ];
 
   // Left Blue Box with White Text
   slide.addRawShape({
     name: 'Comparison Left Blue Box',
-    x: 0.78, y: 1.36, w: 4.08, h: 3.52,
+    x: 0.78, y: 1.30, w: 4.08, h: 3.62,
     prst: 'roundRect', adj: 4500,
     fill: COLORS.BLUE_CALLOUT,
     valign: 't',
-    padL: 0.18, padR: 0.16, padT: 0.14, padB: 0.14,
+    padL: 0.16, padR: 0.14, padT: 0.12, padB: 0.12,
     paragraphs: leftParas
   });
 
-  const rightFontSize = rightBullets.length >= 5 ? 11.8 : 12.8;
+  const rightFontSize = rightBullets.length >= 4 ? 11.8 : 12.8;
   const rightParas = [
     {
       text: rightTitle,
       color: COLORS.TEXT_DARK,
       fontFace: FONTS.BODY,
-      fontSize: 16.5,
+      fontSize: rightTitle.length > 30 ? 14.5 : 15.8,
       bold: true,
-      spaceAfterPt: 6
+      spaceAfterPt: 5
     },
     ...rightBullets.map(b => ({
       runs: slide.parseRichRuns(b, {
@@ -452,19 +454,19 @@ export function addComparisonSlide(deck, {
       }),
       bullet: '•',
       bulletColor: COLORS.TEXT_DARK,
-      spaceAfterPt: 4,
-      lineSpacingPct: 112000
+      spaceAfterPt: 3.5,
+      lineSpacingPct: 109000
     }))
   ];
 
   // Right Yellow Box with Dark-Blue Text
   slide.addRawShape({
     name: 'Comparison Right Yellow Box',
-    x: 5.14, y: 1.36, w: 4.08, h: 3.52,
+    x: 5.14, y: 1.30, w: 4.08, h: 3.62,
     prst: 'roundRect', adj: 4500,
     fill: COLORS.YELLOW_BOX,
     valign: 't',
-    padL: 0.18, padR: 0.16, padT: 0.14, padB: 0.14,
+    padL: 0.16, padR: 0.14, padT: 0.12, padB: 0.12,
     paragraphs: rightParas
   });
 
@@ -594,227 +596,12 @@ export function addDiscussionSlide(deck, { question, notes = '' }) {
   return slide;
 }
 
-// 8. END-OF-MODULE SLIDES: Short Recap + 5-Question Knowledge Check (2 slides, answer key in speaker notes) + References
-export function addEndOfModuleSlides(deck, { recapItems, quizQuestions, references }) {
-  // 8A. Short Recap Slide
-  addTableOrBarsSlide(deck, {
-    title: 'MODULE RECAP & KEY TAKEAWAYS',
-    lead: `Review these core takeaways from Module ${String(deck.moduleNumber).padStart(2, '0')} before taking the five-question knowledge check:`,
-    bars: recapItems,
-    notes: `Module ${deck.moduleNumber} Recap:\n` + recapItems.map((r, i) => `${i + 1}. ${r}`).join('\n')
-  });
-
-  // Full 5-Question Answer Key for Speaker Notes
-  const fullAnswerKeyText = [
-    `ANSWER KEY — MODULE ${String(deck.moduleNumber).padStart(2, '0')}: ${deck.title.toUpperCase()}`,
-    ...quizQuestions.map((q, idx) => `Q${idx + 1}: Correct Answer = ${q.answer} — ${q.explanation}`)
-  ].join('\n');
-
-  // 8B. Knowledge Check Slide 1 (Questions 1–3)
-  const qPart1 = quizQuestions.slice(0, 3);
-  const kc1 = deck.addSlide('teaching', fullAnswerKeyText);
-  kc1.addRawShape({
-    name: 'KC1 Heading',
-    x: 0.78, y: 0.45, w: 7.55, h: 0.65,
-    txBox: true,
-    valign: 'ctr',
-    paragraphs: [{
-      text: 'FIVE-QUESTION KNOWLEDGE CHECK (QUESTIONS 1–3)',
-      color: COLORS.BLUE_HEADING,
-      fontFace: FONTS.HEADING,
-      fontSize: 28,
-      bold: true,
-      caps: true
-    }]
-  });
-  qPart1.forEach((q, idx) => {
-    const qy = 1.18 + idx * 1.24;
-    const isYellow = idx === 1;
-    kc1.addRawShape({
-      name: `KC1 Question Card ${idx + 1}`,
-      x: 0.78, y: qy, w: 8.44, h: 1.12,
-      prst: 'roundRect', adj: 8000,
-      fill: isYellow ? COLORS.YELLOW_BOX : COLORS.BLUE_CALLOUT,
-      valign: 'ctr',
-      padL: 0.18, padR: 0.18, padT: 0.08, padB: 0.08,
-      paragraphs: [
-        {
-          text: `${idx + 1}. ${q.question}`,
-          color: isYellow ? COLORS.TEXT_DARK : COLORS.WHITE,
-          fontFace: FONTS.BODY,
-          fontSize: 13.5,
-          bold: true,
-          spaceAfterPt: 4
-        },
-        {
-          text: q.choices.join('     '),
-          color: isYellow ? COLORS.NAVY_DARK : COLORS.YELLOW_ACCENT,
-          fontFace: FONTS.BODY,
-          fontSize: 12.5,
-          bold: true
-        }
-      ]
-    });
-  });
-
-  // 8C. Knowledge Check Slide 2 (Questions 4–5)
-  const qPart2 = quizQuestions.slice(3, 5);
-  const kc2 = deck.addSlide('teaching', fullAnswerKeyText);
-  kc2.addRawShape({
-    name: 'KC2 Heading',
-    x: 0.78, y: 0.45, w: 7.55, h: 0.65,
-    txBox: true,
-    valign: 'ctr',
-    paragraphs: [{
-      text: 'FIVE-QUESTION KNOWLEDGE CHECK (QUESTIONS 4–5)',
-      color: COLORS.BLUE_HEADING,
-      fontFace: FONTS.HEADING,
-      fontSize: 28,
-      bold: true,
-      caps: true
-    }]
-  });
-  qPart2.forEach((q, idx) => {
-    const qNum = idx + 4;
-    const qy = 1.22 + idx * 1.38;
-    const isYellow = idx === 1;
-    kc2.addRawShape({
-      name: `KC2 Question Card ${qNum}`,
-      x: 0.78, y: qy, w: 8.44, h: 1.22,
-      prst: 'roundRect', adj: 8000,
-      fill: isYellow ? COLORS.YELLOW_BOX : COLORS.BLUE_CALLOUT,
-      valign: 'ctr',
-      padL: 0.18, padR: 0.18, padT: 0.10, padB: 0.10,
-      paragraphs: [
-        {
-          text: `${qNum}. ${q.question}`,
-          color: isYellow ? COLORS.TEXT_DARK : COLORS.WHITE,
-          fontFace: FONTS.BODY,
-          fontSize: 14,
-          bold: true,
-          spaceAfterPt: 5
-        },
-        {
-          text: q.choices.join('     '),
-          color: isYellow ? COLORS.NAVY_DARK : COLORS.YELLOW_ACCENT,
-          fontFace: FONTS.BODY,
-          fontSize: 13,
-          bold: true
-        }
-      ]
-    });
-  });
-  const compactKey = quizQuestions.map((q, idx) => `Q${idx + 1}: ${q.answer}`).join('   ·   ');
-  kc2.addRawShape({
-    name: 'KC2 Answer Key Banner',
-    x: 0.78, y: 4.02, w: 8.44, h: 0.78,
-    prst: 'roundRect', adj: 15000,
-    fill: COLORS.BLUE_LIGHT,
-    borderColor: COLORS.BLUE_HEADING,
-    borderPt: 1.2,
-    valign: 'ctr',
-    paragraphs: [
-      {
-        text: 'KNOWLEDGE CHECK ANSWER KEY',
-        color: COLORS.BLUE_HEADING,
-        fontFace: FONTS.HEADING,
-        fontSize: 13,
-        bold: true,
-        caps: true,
-        align: 'ctr',
-        spaceAfterPt: 2
-      },
-      {
-        text: compactKey,
-        color: COLORS.TEXT_DARK,
-        fontFace: FONTS.BODY,
-        fontSize: 11.5,
-        bold: true,
-        align: 'ctr'
-      }
-    ]
-  });
-
-  // 8D. References Slide
-  const refSlide = deck.addSlide(
-    'comparison',
-    `References and Source Pages for Module ${deck.moduleNumber}: ${deck.title}.\nPrepared by: ${deck.presenter}.\n` +
-      references.websiteLinks.concat(references.standards).join('\n')
-  );
-  refSlide.addRawShape({
-    name: 'References Heading',
-    x: 0.78, y: 0.52, w: 7.45, h: 0.75,
-    txBox: true,
-    valign: 'ctr',
-    paragraphs: [{
-      text: 'REFERENCES & SOURCE WEBSITE LINKS',
-      color: COLORS.BLUE_HEADING,
-      fontFace: FONTS.HEADING,
-      fontSize: 30,
-      bold: true,
-      caps: true
-    }]
-  });
-
-  // Left Blue Box: Source Website Pages Used
-  refSlide.addRawShape({
-    name: 'References Website Card',
-    x: 0.78, y: 1.34, w: 4.10, h: 3.52,
-    prst: 'roundRect', adj: 4500,
-    fill: COLORS.BLUE_CALLOUT,
-    valign: 't',
-    padL: 0.16, padR: 0.14, padT: 0.14, padB: 0.12,
-    paragraphs: [
-      {
-        text: 'Networking 1 Website Pages',
-        color: COLORS.WHITE,
-        fontFace: FONTS.BODY,
-        fontSize: 16,
-        bold: true,
-        spaceAfterPt: 6
-      },
-      ...references.websiteLinks.map(link => ({
-        runs: refSlide.parseRichRuns(link, {
-          baseColor: COLORS.WHITE,
-          highlightColor: COLORS.YELLOW_ACCENT,
-          fontSize: 11.8
-        }),
-        bullet: '•',
-        bulletColor: COLORS.YELLOW_ACCENT,
-        spaceAfterPt: 4,
-        lineSpacingPct: 112000
-      }))
-    ]
-  });
-
-  // Right Yellow Box: Technical Standards & Module Credits
-  refSlide.addRawShape({
-    name: 'References Standards Card',
-    x: 5.12, y: 1.34, w: 4.10, h: 3.52,
-    prst: 'roundRect', adj: 4500,
-    fill: COLORS.YELLOW_BOX,
-    valign: 't',
-    padL: 0.16, padR: 0.14, padT: 0.14, padB: 0.12,
-    paragraphs: [
-      {
-        text: 'Standards & Module Reference',
-        color: COLORS.TEXT_DARK,
-        fontFace: FONTS.BODY,
-        fontSize: 16,
-        bold: true,
-        spaceAfterPt: 6
-      },
-      ...references.standards.map(std => ({
-        runs: refSlide.parseRichRuns(std, {
-          baseColor: COLORS.TEXT_DARK,
-          highlightColor: COLORS.NAVY_DARK,
-          fontSize: 11.8
-        }),
-        bullet: '•',
-        bulletColor: COLORS.TEXT_DARK,
-        spaceAfterPt: 4,
-        lineSpacingPct: 112000
-      }))
-    ]
+// 8. FINAL SLIDE: SUMMARY OF THE DISCUSSION
+export function addSummaryOfDiscussionSlide(deck, { summaryItems = [] }) {
+  return addTableOrBarsSlide(deck, {
+    title: 'SUMMARY OF THE DISCUSSION',
+    lead: `Key concepts covered in Module ${String(deck.moduleNumber).padStart(2, '0')}:`,
+    bars: summaryItems,
+    notes: `Summary of the Discussion — Module ${deck.moduleNumber}:\n` + summaryItems.map((r, i) => `${i + 1}. ${r}`).join('\n')
   });
 }
