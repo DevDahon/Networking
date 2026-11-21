@@ -35,6 +35,117 @@ function slugify(text) {
     .replace(/^-+|-+$/g, '');
 }
 
+// Simplify dense technical wording into plain, student-friendly English for all 12 PDF modules
+// while preserving capitalization, natural grammar, and essential Networking 1 terms.
+function matchCase(source, target) {
+  if (!source) return target;
+  if (source[0] === source[0].toUpperCase() && source[0] !== source[0].toLowerCase()) {
+    return target[0].toUpperCase() + target.slice(1);
+  }
+  return target;
+}
+
+const TERM_SIMPLIFICATIONS = [
+  [/zero immunity issues/gi, m => matchCase(m, 'zero electrical interference')],
+  [/Auto-MDI\/Medium Dependent Interface Crossover \(MDIX\) ports/gi, 'auto-sensing ports (Auto-MDIX)'],
+  [/Auto-MDI\/Medium Dependent Interface Crossover \(MDIX\)/gi, 'auto-sensing (Auto-MDIX)'],
+  [/Auto-MDI\/MDIX/gi, 'auto-sensing (Auto-MDIX)'],
+  [/an arbitrary matching color order/gi, 'a made-up color order'],
+  [/arbitrary matching color order/gi, 'made-up color order'],
+  [/with jacket inside strain relief/gi, 'with the outer jacket inside the plug clamp'],
+  [/strain relief/gi, 'jacket clamp'],
+  [/electromagnetic interference \(EMI\)\s*(?:and|\/)\s*radio-frequency interference \(RFI\)/gi, m => matchCase(m, 'outside electrical noise (EMI/RFI)')],
+  [/external EMI\/RFI/gi, 'outside electrical noise'],
+  [/electromagnetic interference/gi, m => matchCase(m, 'electrical interference')],
+  [/electromagnetic waves/gi, m => matchCase(m, 'radio waves')],
+  [/concentric four-layer design/gi, 'four layered rings around one center wire'],
+  [/foam dielectric insulator/gi, 'thick white plastic insulator'],
+  [/insulation displacement contacts/gi, 'punch-down metal slots'],
+  [/110 IDC/g, '110 punch-down'],
+  [/burned-in MAC address/gi, 'factory-set MAC address'],
+  [/Separate Collision Domains:/g, 'No Wire Collisions:'],
+  [/Shared Collision Domain:/g, 'Shared Wire Collisions:'],
+  [/\bbroadcast domains\b/gi, m => matchCase(m, 'broadcast groups')],
+  [/\bbroadcast domain\b/gi, m => matchCase(m, 'broadcast group')],
+  [/broadcast storms/gi, 'broadcast traffic floods'],
+  [/unicast frames/gi, 'direct one-to-one messages (frames)'],
+  [/unicast traffic/gi, 'one-to-one traffic'],
+  [/full-duplex bandwidth/gi, 'two-way simultaneous speed'],
+  [/full-duplex/gi, 'two-way simultaneous (full-duplex)'],
+  [/half-duplex/gi, 'one-way-at-a-time (half-duplex)'],
+  [/connection-oriented/gi, m => matchCase(m, 'checks connection first')],
+  [/connectionless/gi, m => matchCase(m, 'no-handshake')],
+  [/best-effort delivery/gi, m => matchCase(m, 'fast send-and-forget delivery')],
+  [/minimal header overhead/gi, m => matchCase(m, 'less extra header data')],
+  [/low-overhead datagrams/gi, 'lightweight fast packets'],
+  [/\bdatagrams\b/gi, m => matchCase(m, 'fast data packets')],
+  [/Inter-Network Scope:/g, 'Multi-Network Scope:'],
+  [/local switching versus inter-network routing/gi, 'local switching versus routing between networks'],
+  [/\binter-network routing\b/gi, 'routing between networks'],
+  [/\binterconnects\b/gi, m => matchCase(m, 'connects')],
+  [/\binterconnect\b/gi, m => matchCase(m, 'connect')],
+  [/\bfault tolerance\b/gi, m => matchCase(m, 'backup reliability')],
+  [/\bfault isolation\b/gi, m => matchCase(m, 'keeping faults limited to one device')],
+  [/automatic failover/gi, m => matchCase(m, 'automatic backup switching')],
+  [/redundant links/gi, m => matchCase(m, 'backup links')],
+  [/redundant paths/gi, m => matchCase(m, 'backup paths')],
+  [/\bhierarchical\b/gi, m => matchCase(m, 'layered (top-to-bottom)')],
+  [/sub-millisecond delay/gi, 'under 1 ms delay'],
+  [/reclaims expired IPs/gi, 'recycles unused IPs'],
+  [/\blink-local\b/gi, 'local-only'],
+  [/granular control/gi, m => matchCase(m, 'detailed per-file control')],
+  [/most restrictive wins/gi, m => matchCase(m, 'strictest rule always wins')],
+  [/most restrictive/gi, m => matchCase(m, 'strictest')],
+  [/unsolicited inbound traffic/gi, 'unrequested incoming traffic'],
+  [/unsolicited incoming Internet scans/gi, 'unrequested outside scans'],
+  [/\b5-tuple\b/gi, '5 packet details (IPs, protocol, ports, direction)'],
+  [/horizontal channel/gi, 'room-to-switch cable run'],
+  [/horizontal cabling/gi, 'room-to-switch cabling'],
+  [/horizontal drops/gi, 'room-to-switch cables'],
+  [/dotted-decimal notation/gi, 'four numbers separated by dots'],
+  [/leading priority bits/gi, m => matchCase(m, 'starting bits')],
+  [/global IP exhaustion/gi, 'running out of global IP addresses'],
+  [/FCS error detection/gi, 'error check (FCS)'],
+  [/FCS error check/gi, 'error check (FCS)'],
+  [/cleartext transmission/gi, m => matchCase(m, 'unencrypted plain text')],
+  [/eavesdropping risk/gi, m => matchCase(m, 'snooping risk')],
+  [/malicious software/gi, m => matchCase(m, 'harmful software')],
+  [/unpatched systems/gi, m => matchCase(m, 'outdated systems missing updates')],
+  [/bogus traffic/gi, 'fake junk traffic'],
+  [/endpoint antivirus\/EDR/gi, 'device antivirus'],
+  [/small-office\/home-office \(SOHO\)/gi, 'home or small-office'],
+  [/\bSOHO\b/g, 'Home / Small-Office'],
+  [/character encoding \(UTF-8\)/gi, 'text formatting (UTF-8)'],
+  [/dialog sessions/gi, 'active sessions'],
+  [/\battenuation\b/gi, m => matchCase(m, 'signal weakening over distance')],
+  [/\bretransmits\b/gi, m => matchCase(m, 'resends')],
+  [/\bretransmit\b/gi, m => matchCase(m, 'resend')],
+  [/\bpropagates\b/gi, m => matchCase(m, 'travels')],
+  [/\bpropagate\b/gi, m => matchCase(m, 'travel')],
+  [/\bobsolete\b/gi, m => matchCase(m, 'outdated')],
+  [/\bpenetrate\b/gi, m => matchCase(m, 'pass through')],
+  [/\bpenetrates\b/gi, m => matchCase(m, 'passes through')],
+  [/\blegitimate\b/gi, m => matchCase(m, 'real')],
+  [/\bunauthorized\b/gi, m => matchCase(m, 'unapproved')],
+  [/\bcontiguous\b/gi, m => matchCase(m, 'continuous')],
+  [/\basymmetric\b/gi, m => matchCase(m, 'mismatched')],
+  [/\bper-file precision\b/gi, m => matchCase(m, 'file-by-file control')],
+  [/\bminimal appliance interference\b/gi, 'less interference from appliances'],
+  [/\bnarrower channels result in lower peak throughput\b/gi, m => matchCase(m, 'narrower channels mean lower top speeds')]
+];
+
+function simplifyTerminology(text) {
+  let out = String(text ?? '');
+  for (const [pattern, replacement] of TERM_SIMPLIFICATIONS) {
+    out = out.replace(pattern, replacement);
+  }
+  return out;
+}
+
+function simplifyList(arr) {
+  return Array.isArray(arr) ? arr.map(simplifyTerminology) : [];
+}
+
 // Editable labeled diagram / photo chooser — returns a visual ONLY when directly relevant to the specific slide
 function resolveSlideVisual(topic, slide, slideIdx, usedDiagrams = new Set()) {
   const title = String(slide.title || '').toLowerCase();
@@ -47,10 +158,11 @@ function resolveSlideVisual(topic, slide, slideIdx, usedDiagrams = new Set()) {
   // 1. Direct deviceKey or toolKey photo (always specific to that hardware/tool slide)
   if (slide.deviceKey && deviceMetadata[slide.deviceKey]?.image) {
     const dev = deviceMetadata[slide.deviceKey];
+    const imagePath = slide.deviceKey === 'ap' ? 'images/devices/ap_studio.png' : dev.image;
     return {
       kind: 'photo',
-      imagePath: dev.image,
-      caption: `${dev.shortName || dev.name} · ${dev.role}`
+      imagePath,
+      caption: null
     };
   }
   if (slide.toolKey && toolsMetadata[slide.toolKey]?.image) {
@@ -58,375 +170,185 @@ function resolveSlideVisual(topic, slide, slideIdx, usedDiagrams = new Set()) {
     return {
       kind: 'photo',
       imagePath: tool.image,
-      caption: tool.title
+      caption: null
     };
   }
 
-  // 2. Slide-specific real hardware/media/tool photos from public/images/
-  if (title.includes('unshielded twisted pair') || title.includes('utp')) {
-    return useOnce('photo-utp', { kind: 'photo', imagePath: 'images/media/utp_cable.webp', caption: '4-Pair Unshielded Twisted Pair (UTP)' });
-  }
-  if (title.includes('shielded twisted pair') || title.includes('stp')) {
-    return useOnce('photo-stp', { kind: 'photo', imagePath: 'images/media/stp_cable.webp', caption: 'Shielded Twisted Pair (STP) Foil/Braid' });
-  }
-  if (title.includes('coaxial')) {
-    return useOnce('photo-coax', { kind: 'photo', imagePath: 'images/media/coaxial_cutaway.webp', caption: '4-Layer Coaxial Cable Structure' });
-  }
-  if (title.includes('fiber')) {
-    return useOnce('photo-fiber', { kind: 'photo', imagePath: 'images/media/fiber_types.webp', caption: 'Single-Mode vs Multi-Mode Optical Fiber' });
-  }
-  if (title.includes('wireless media') || title.includes('unguided media') || title.includes('wi-fi frequencies') || title.includes('frequency band')) {
-    return useOnce('photo-ap', { kind: 'photo', imagePath: 'images/devices/ap.webp', caption: 'Wireless Access Point (IEEE 802.11)' });
-  }
-  if (title.includes('ethernet categories')) {
-    return useOnce('photo-cat', { kind: 'photo', imagePath: 'images/media/ethernet_categories.webp', caption: 'Twisted-Pair Categories (Cat 5e – Cat 8)' });
-  }
-  if (title.includes('rj45') || title.includes('modular connector')) {
-    return useOnce('photo-rj45', { kind: 'photo', imagePath: 'images/tools/rj45_plugs.webp', caption: '8P8C RJ45 Modular Plug Connectors' });
-  }
-  if (title.includes('crimp') || title.includes('termination')) {
-    return useOnce('photo-crimp', { kind: 'photo', imagePath: 'images/tools/rj45_good_vs_bad.webp', caption: 'Proper vs Improper RJ45 Crimp Seat' });
-  }
-  if (title.includes('cable fault') || title.includes('cable test') || title.includes('wiring fault') || title.includes('wire-map')) {
-    return useOnce('photo-tester', { kind: 'photo', imagePath: 'images/tools/cable_tester.webp', caption: '2-Piece RJ45 Cable Continuity Tester' });
-  }
-  if (title.includes('wan vs lan') || title.includes('gateway interface') || title.includes('inside a home or lab wireless router')) {
-    return useOnce('photo-router-rear', { kind: 'photo', imagePath: 'images/router/router_rear.webp', caption: 'SOHO Router WAN Uplink & 4 LAN Ports' });
+  // 1b. Module 01 unlabeled device-shape architecture visuals (PAN, LAN, MAN, WAN, Client-Server vs P2P)
+  if (topic.id === '01-introduction-to-networking') {
+    if (title.includes('personal area network')) {
+      return useOnce('photo-pan', { kind: 'photo', imagePath: 'images/coverage/pan.png', caption: null });
+    }
+    if (title.includes('local area network')) {
+      return useOnce('photo-lan', { kind: 'photo', imagePath: 'images/coverage/lan.png', caption: null });
+    }
+    if (title.includes('metropolitan area network')) {
+      return useOnce('photo-man', { kind: 'photo', imagePath: 'images/coverage/man.png', caption: null });
+    }
+    if (title.includes('wide area network')) {
+      return useOnce('photo-wan', { kind: 'photo', imagePath: 'images/coverage/wan.png', caption: null });
+    }
+    if (title.includes('two network service architectures')) {
+      return useOnce('photo-arch', { kind: 'photo', imagePath: 'images/coverage/architectures.png', caption: null });
+    }
   }
 
-  // 3. Slide-specific Editable Labeled Diagrams (each shown ONCE on its exact matching slide)
+  // 2. Slide-specific real hardware/media/tool photos from public/images/
+  if (topic.id === '06-network-cables-media') {
+    if (title.includes('five network media choices')) {
+      return useOnce('photo-utp-stp', { kind: 'photo', imagePath: 'images/media/utp_and_stp.png', caption: null });
+    }
+    if (title.includes('ethernet cable categories') || title.includes('ethernet categories')) {
+      return useOnce('photo-cat', { kind: 'photo', imagePath: 'images/media/ethernet_categories.webp', caption: null });
+    }
+    if (title.includes('fiber')) {
+      return useOnce('photo-fiber', { kind: 'photo', imagePath: 'images/media/fiber_types.webp', caption: null });
+    }
+    if (title.includes('coaxial')) {
+      return useOnce('photo-coax', { kind: 'photo', imagePath: 'images/media/coaxial_cutaway.webp', caption: null });
+    }
+    if (title.includes('unguided media') || title.includes('wireless')) {
+      return useOnce('photo-wireless-media', { kind: 'photo', imagePath: 'images/media/wireless_media.png', caption: null });
+    }
+    if (title.includes('rj45 plugs') || title.includes('modular connector')) {
+      return useOnce('photo-rj45-keystone', { kind: 'photo', imagePath: 'images/tools/rj45_and_keystone.png', caption: null });
+    }
+    if (title.includes('crimping tools')) {
+      return useOnce('photo-crimping-kit', { kind: 'photo', imagePath: 'images/tools/crimping_toolkit.png', caption: null });
+    }
+    if (title.includes('punch-down tools')) {
+      return useOnce('photo-punchdown-kit', { kind: 'photo', imagePath: 'images/tools/punchdown_toolkit.png', caption: null });
+    }
+    if (title.includes('straight-through') && title.includes('crossover')) {
+      return useOnce('photo-patch-cable', { kind: 'photo', imagePath: 'images/tools/ethernet_patch_cable.webp', caption: null });
+    }
+  }
+  if (topic.id === '12-router-wireless') {
+    if (title.includes('wi-fi frequencies') || title.includes('frequency band')) {
+      return useOnce('photo-wifi-router', { kind: 'photo', imagePath: 'images/router/wifi_router.webp', caption: null });
+    }
+    if (title.includes('gateway interface') || title.includes('wan vs lan')) {
+      return useOnce('photo-router-rear', { kind: 'photo', imagePath: 'images/router/router_rear.webp', caption: null });
+    }
+  }
+  if (title.includes('unshielded twisted pair') || title.includes('utp')) {
+    return useOnce('photo-utp', { kind: 'photo', imagePath: 'images/media/utp_cable.webp', caption: null });
+  }
+  if (title.includes('shielded twisted pair') || title.includes('stp')) {
+    return useOnce('photo-stp', { kind: 'photo', imagePath: 'images/media/stp_cable.webp', caption: null });
+  }
+  if (title.includes('coaxial')) {
+    return useOnce('photo-coax', { kind: 'photo', imagePath: 'images/media/coaxial_cutaway.webp', caption: null });
+  }
+  if (title.includes('fiber')) {
+    return useOnce('photo-fiber', { kind: 'photo', imagePath: 'images/media/fiber_types.webp', caption: null });
+  }
+  if (title.includes('wireless media') || title.includes('unguided media') || title.includes('wi-fi frequencies') || title.includes('frequency band')) {
+    return useOnce('photo-ap', { kind: 'photo', imagePath: 'images/devices/ap_studio.png', caption: null });
+  }
+  if (title.includes('ethernet categories')) {
+    return useOnce('photo-cat', { kind: 'photo', imagePath: 'images/media/ethernet_categories.webp', caption: null });
+  }
+  if (title.includes('rj45') || title.includes('modular connector')) {
+    return useOnce('photo-rj45', { kind: 'photo', imagePath: 'images/tools/rj45_plugs.webp', caption: null });
+  }
+  if (title.includes('crimp') || title.includes('termination')) {
+    return useOnce('photo-crimp', { kind: 'photo', imagePath: 'images/tools/rj45_good_vs_bad.webp', caption: null });
+  }
+  if (title.includes('cable fault') || title.includes('cable test') || title.includes('wiring fault') || title.includes('wire-map')) {
+    return useOnce('photo-tester', { kind: 'photo', imagePath: 'images/tools/cable_tester.webp', caption: null });
+  }
+  if (title.includes('wan vs lan') || title.includes('gateway interface') || title.includes('inside a home or lab wireless router')) {
+    return useOnce('photo-router-rear', { kind: 'photo', imagePath: 'images/router/router_rear.webp', caption: null });
+  }
+
+  // 3. Slide-specific Simple Zero-Text Visual Illustrations (each shown ONCE on its exact matching slide)
   if (title.includes('components of computer networks')) {
-    return useOnce('diag-components', {
-      kind: 'diagram',
-      title: '4 CORE NETWORK COMPONENTS',
-      arrows: [{ x: 0.48, y: 0.20, w: 0.04, h: 0.55 }],
-      nodes: [
-        { x: 0.08, y: 0.06, w: 0.84, h: 0.24, label: '1. END DEVICES (HOSTS)', sub: 'PCs, Phones, Printers & Servers', variant: 'blue' },
-        { x: 0.08, y: 0.37, w: 0.84, h: 0.24, label: '2. NETWORKING DEVICES', sub: 'Switches, Access Points & Routers', variant: 'yellow' },
-        { x: 0.08, y: 0.68, w: 0.84, h: 0.24, label: '3. MEDIA & 4. PROTOCOLS', sub: 'Copper/Fiber/Wi-Fi + IP, TCP, HTTP', variant: 'navy' }
-      ],
-      footer: 'All 4 core components work together'
-    });
+    return useOnce('diag-components', { kind: 'photo', imagePath: 'images/concepts/components.png', caption: null });
   }
 
   if (title.includes('five elements') || title.includes('conversation')) {
-    return useOnce('diag-5elements', {
-      kind: 'diagram',
-      title: '5 ELEMENTS OF COMMUNICATION',
-      arrows: [
-        { x: 0.25, y: 0.24, w: 0.50, h: 0.04 },
-        { x: 0.48, y: 0.24, w: 0.04, h: 0.48 }
-      ],
-      nodes: [
-        { x: 0.04, y: 0.14, w: 0.40, h: 0.22, label: '1. SENDER', sub: 'Source PC', variant: 'blue' },
-        { x: 0.56, y: 0.14, w: 0.40, h: 0.22, label: '2. RECEIVER', sub: 'Target PC', variant: 'blue' },
-        { x: 0.18, y: 0.44, w: 0.64, h: 0.20, label: '3. MESSAGE & 4. MEDIUM', sub: 'Data over Cable / Wi-Fi', variant: 'yellow' },
-        { x: 0.12, y: 0.72, w: 0.76, h: 0.22, label: '5. PROTOCOL RULES', sub: 'Shared Format, Timing & Checks', variant: 'navy' }
-      ],
-      footer: 'All 5 elements must work together'
-    });
+    return useOnce('diag-5elements', { kind: 'photo', imagePath: 'images/concepts/five_elements.png', caption: null });
   }
 
   if (title === 'star topology' || title.includes('star topology')) {
-    return useOnce('diag-star', {
-      kind: 'diagram',
-      title: 'STAR TOPOLOGY (LAN)',
-      arrows: [
-        { x: 0.22, y: 0.22, w: 0.56, h: 0.03 },
-        { x: 0.22, y: 0.72, w: 0.56, h: 0.03 },
-        { x: 0.48, y: 0.22, w: 0.04, h: 0.53 }
-      ],
-      nodes: [
-        { x: 0.04, y: 0.08, w: 0.36, h: 0.22, label: 'PC 1', sub: 'Drop Link', variant: 'white' },
-        { x: 0.60, y: 0.08, w: 0.36, h: 0.22, label: 'PC 2', sub: 'Drop Link', variant: 'white' },
-        { x: 0.20, y: 0.38, w: 0.60, h: 0.24, label: 'CENTRAL SWITCH', sub: 'MAC Table Forwarding', variant: 'blue' },
-        { x: 0.04, y: 0.70, w: 0.36, h: 0.22, label: 'PC 3', sub: 'Drop Link', variant: 'white' },
-        { x: 0.60, y: 0.70, w: 0.36, h: 0.22, label: 'Printer', sub: 'Drop Link', variant: 'yellow' }
-      ],
-      footer: '1 cut cable affects only 1 host'
-    });
+    return useOnce('diag-star', { kind: 'photo', imagePath: 'images/topologies/star.png', caption: null });
   }
 
   if (title === 'bus topology' || title.includes('bus topology')) {
-    return useOnce('diag-bus', {
-      kind: 'diagram',
-      title: 'BUS TOPOLOGY (BACKBONE)',
-      arrows: [
-        { x: 0.14, y: 0.48, w: 0.72, h: 0.05, color: '062B61' },
-        { x: 0.26, y: 0.25, w: 0.03, h: 0.25 },
-        { x: 0.50, y: 0.50, w: 0.03, h: 0.25 },
-        { x: 0.74, y: 0.25, w: 0.03, h: 0.25 }
-      ],
-      nodes: [
-        { x: 0.08, y: 0.08, w: 0.36, h: 0.22, label: 'Host A', sub: 'Drop Tap', variant: 'white' },
-        { x: 0.56, y: 0.08, w: 0.36, h: 0.22, label: 'Host C', sub: 'Drop Tap', variant: 'white' },
-        { x: 0.01, y: 0.40, w: 0.22, h: 0.20, label: '50 Ω', sub: 'Term', fontSize: 9.5, variant: 'yellow' },
-        { x: 0.77, y: 0.40, w: 0.22, h: 0.20, label: '50 Ω', sub: 'Term', fontSize: 9.5, variant: 'yellow' },
-        { x: 0.32, y: 0.70, w: 0.36, h: 0.22, label: 'Host B', sub: 'Drop Tap', variant: 'blue' }
-      ],
-      footer: 'Backbone break stops the whole bus'
-    });
+    return useOnce('diag-bus', { kind: 'photo', imagePath: 'images/topologies/bus.png', caption: null });
   }
 
   if (title === 'ring topology' || title.includes('ring topology')) {
-    return useOnce('diag-ring', {
-      kind: 'diagram',
-      title: 'RING TOPOLOGY (LOOP)',
-      arrows: [
-        { x: 0.20, y: 0.18, w: 0.60, h: 0.03 },
-        { x: 0.20, y: 0.76, w: 0.60, h: 0.03 },
-        { x: 0.20, y: 0.18, w: 0.03, h: 0.60 },
-        { x: 0.77, y: 0.18, w: 0.03, h: 0.60 }
-      ],
-      nodes: [
-        { x: 0.26, y: 0.06, w: 0.48, h: 0.22, label: 'Node 1', sub: 'Token Clockwise →', variant: 'blue' },
-        { x: 0.58, y: 0.38, w: 0.38, h: 0.22, label: 'Node 2', sub: 'Repeats Frame', variant: 'white' },
-        { x: 0.26, y: 0.68, w: 0.48, h: 0.22, label: 'Node 3', sub: '← Around Ring', variant: 'yellow' },
-        { x: 0.04, y: 0.38, w: 0.38, h: 0.22, label: 'Node 4', sub: 'To Sender', variant: 'white' }
-      ],
-      footer: 'Dual-ring adds a backup path'
-    });
+    return useOnce('diag-ring', { kind: 'photo', imagePath: 'images/topologies/ring.png', caption: null });
   }
 
   if (title === 'mesh topology' || title.includes('mesh topology')) {
-    return useOnce('diag-mesh', {
-      kind: 'diagram',
-      title: 'MESH TOPOLOGY (REDUNDANT)',
-      arrows: [
-        { x: 0.22, y: 0.18, w: 0.56, h: 0.03 },
-        { x: 0.22, y: 0.78, w: 0.56, h: 0.03 },
-        { x: 0.20, y: 0.18, w: 0.03, h: 0.62 },
-        { x: 0.77, y: 0.18, w: 0.03, h: 0.62 },
-        { x: 0.18, y: 0.48, w: 0.64, h: 0.03, rot: 45 },
-        { x: 0.18, y: 0.48, w: 0.64, h: 0.03, rot: -45 }
-      ],
-      nodes: [
-        { x: 0.04, y: 0.08, w: 0.38, h: 0.22, label: 'Router A', sub: '3 Direct Links', variant: 'blue' },
-        { x: 0.58, y: 0.08, w: 0.38, h: 0.22, label: 'Router B', sub: '3 Direct Links', variant: 'blue' },
-        { x: 0.04, y: 0.68, w: 0.38, h: 0.22, label: 'Router C', sub: 'Backup Path', variant: 'yellow' },
-        { x: 0.58, y: 0.68, w: 0.38, h: 0.22, label: 'Router D', sub: 'Backup Path', variant: 'yellow' }
-      ],
-      footer: 'Links = n(n − 1) / 2 · Auto failover'
-    });
+    return useOnce('diag-mesh', { kind: 'photo', imagePath: 'images/topologies/mesh.png', caption: null });
   }
 
-  if (title.includes('tree topology') || title.includes('hybrid topology')) {
-    return useOnce('diag-tree', {
-      kind: 'diagram',
-      title: 'TREE / HIERARCHICAL DESIGN',
-      arrows: [
-        { x: 0.48, y: 0.25, w: 0.04, h: 0.22 },
-        { x: 0.24, y: 0.45, w: 0.52, h: 0.03 },
-        { x: 0.24, y: 0.45, w: 0.03, h: 0.32 },
-        { x: 0.73, y: 0.45, w: 0.03, h: 0.32 }
-      ],
-      nodes: [
-        { x: 0.18, y: 0.06, w: 0.64, h: 0.22, label: 'CORE ROUTER', sub: 'Campus Root Uplink', variant: 'navy' },
-        { x: 0.04, y: 0.38, w: 0.42, h: 0.22, label: 'Switch A', sub: 'Floor 1 Star', variant: 'blue' },
-        { x: 0.54, y: 0.38, w: 0.42, h: 0.22, label: 'Switch B', sub: 'Floor 2 Star', variant: 'blue' },
-        { x: 0.04, y: 0.70, w: 0.42, h: 0.22, label: 'Student PCs', sub: 'Access Ports', variant: 'yellow' },
-        { x: 0.54, y: 0.70, w: 0.42, h: 0.22, label: 'Faculty PCs', sub: 'Access Ports', variant: 'yellow' }
-      ],
-      footer: 'Star branches under a core root'
-    });
+  if (title === 'tree topology' || title.includes('tree topology')) {
+    return useOnce('diag-tree', { kind: 'photo', imagePath: 'images/topologies/tree.png', caption: null });
+  }
+
+  if (title === 'hybrid topology' || title.includes('hybrid topology')) {
+    return useOnce('diag-hybrid', { kind: 'photo', imagePath: 'images/topologies/hybrid.png', caption: null });
   }
 
   if (title.includes('what is the osi')) {
-    return useOnce('diag-osi', {
-      kind: 'diagram',
-      title: 'OSI 7-LAYER STACK & PDUs',
-      nodes: [
-        { x: 0.06, y: 0.02, w: 0.88, h: 0.12, label: '7. Application · Data', fontSize: 10.2, variant: 'blue' },
-        { x: 0.06, y: 0.16, w: 0.88, h: 0.12, label: '6. Presentation · Data', fontSize: 10.2, variant: 'blue' },
-        { x: 0.06, y: 0.30, w: 0.88, h: 0.12, label: '5. Session · Data', fontSize: 10.2, variant: 'blue' },
-        { x: 0.06, y: 0.44, w: 0.88, h: 0.12, label: '4. Transport · Segment (Port)', fontSize: 10.2, variant: 'yellow' },
-        { x: 0.06, y: 0.58, w: 0.88, h: 0.12, label: '3. Network · Packet (IP)', fontSize: 10.2, variant: 'navy' },
-        { x: 0.06, y: 0.72, w: 0.88, h: 0.12, label: '2. Data Link · Frame (MAC)', fontSize: 10.2, variant: 'navy' },
-        { x: 0.06, y: 0.86, w: 0.88, h: 0.12, label: '1. Physical · Bits (10110)', fontSize: 10.2, variant: 'white' }
-      ],
-      footer: '7 layers separate network tasks'
-    });
+    return useOnce('diag-osi', { kind: 'photo', imagePath: 'images/concepts/osi_layers.png', caption: null });
   }
 
   if (title.includes('what is encapsulation')) {
-    return useOnce('diag-encap', {
-      kind: 'diagram',
-      title: 'ENCAPSULATION STAGES',
-      arrows: [{ x: 0.48, y: 0.12, w: 0.04, h: 0.76 }],
-      nodes: [
-        { x: 0.08, y: 0.03, w: 0.84, h: 0.16, label: '1. DATA (L7–L5)', sub: 'User message / HTTP payload', fontSize: 9.8, variant: 'blue' },
-        { x: 0.08, y: 0.22, w: 0.84, h: 0.16, label: '2. SEGMENT (L4)', sub: '+ TCP/UDP Port Header', fontSize: 9.8, variant: 'yellow' },
-        { x: 0.08, y: 0.41, w: 0.84, h: 0.16, label: '3. PACKET (L3)', sub: '+ Source & Dest IP Header', fontSize: 9.8, variant: 'blue' },
-        { x: 0.08, y: 0.60, w: 0.84, h: 0.16, label: '4. FRAME (L2)', sub: '+ MAC Header & FCS Trailer', fontSize: 9.8, variant: 'navy' },
-        { x: 0.08, y: 0.79, w: 0.84, h: 0.16, label: '5. BITS (L1)', sub: '10110... over Cable / Wi-Fi', fontSize: 9.8, variant: 'white' }
-      ],
-      footer: 'Wrap L7→L1 · Unwrap L1→L7'
-    });
+    return useOnce('diag-encap', { kind: 'photo', imagePath: 'images/concepts/encapsulation.png', caption: null });
   }
 
   if (title.includes('tcp/ip')) {
-    return useOnce('diag-tcpip', {
-      kind: 'diagram',
-      title: 'TCP/IP 4-LAYER MODEL',
-      arrows: [{ x: 0.48, y: 0.14, w: 0.04, h: 0.72 }],
-      nodes: [
-        { x: 0.08, y: 0.04, w: 0.84, h: 0.20, label: '4. APPLICATION (OSI L7–5)', sub: 'HTTP, HTTPS, DNS, DHCP, SSH', fontSize: 9.8, variant: 'blue' },
-        { x: 0.08, y: 0.28, w: 0.84, h: 0.20, label: '3. TRANSPORT (OSI L4)', sub: 'TCP Reliable · UDP Fast · Ports', fontSize: 9.8, variant: 'yellow' },
-        { x: 0.08, y: 0.52, w: 0.84, h: 0.20, label: '2. INTERNET (OSI L3)', sub: 'IPv4/IPv6 Routing & ICMP', fontSize: 9.8, variant: 'navy' },
-        { x: 0.08, y: 0.76, w: 0.84, h: 0.20, label: '1. NETWORK ACCESS (L2–1)', sub: 'Ethernet, Wi-Fi, MAC & ARP', fontSize: 9.8, variant: 'white' }
-      ],
-      footer: 'Maps directly to the 7-layer OSI'
-    });
+    return useOnce('diag-tcpip', { kind: 'photo', imagePath: 'images/concepts/tcpip_layers.png', caption: null });
   }
 
   if (title.includes('address resolution protocol')) {
-    return useOnce('diag-arp', {
-      kind: 'diagram',
-      title: 'ARP REQUEST → REPLY',
-      arrows: [{ x: 0.48, y: 0.14, w: 0.04, h: 0.72 }],
-      nodes: [
-        { x: 0.08, y: 0.04, w: 0.84, h: 0.20, label: '1. CHECK ARP CACHE', sub: 'Is target MAC already stored?', fontSize: 9.8, variant: 'white' },
-        { x: 0.08, y: 0.28, w: 0.84, h: 0.20, label: '2. BROADCAST REQUEST', sub: '"Who has .20?" → All LAN ports', fontSize: 9.8, variant: 'blue' },
-        { x: 0.08, y: 0.52, w: 0.84, h: 0.20, label: '3. UNICAST REPLY', sub: 'Target replies with its MAC', fontSize: 9.8, variant: 'yellow' },
-        { x: 0.08, y: 0.76, w: 0.84, h: 0.20, label: '4. CACHE & DELIVER', sub: 'Store MAC & send local frame', fontSize: 9.8, variant: 'navy' }
-      ],
-      footer: 'Resolves Layer 3 IP → Layer 2 MAC'
-    });
+    return useOnce('diag-arp', { kind: 'photo', imagePath: 'images/concepts/arp_exchange.png', caption: null });
   }
 
   if (title.includes('domain name system')) {
-    return useOnce('diag-dns', {
-      kind: 'diagram',
-      title: 'DNS RESOLUTION STAGES',
-      arrows: [{ x: 0.48, y: 0.14, w: 0.04, h: 0.72 }],
-      nodes: [
-        { x: 0.08, y: 0.04, w: 0.84, h: 0.20, label: '1. CHECK LOCAL CACHE', sub: 'Browser & OS cache (TTL timer)', fontSize: 9.8, variant: 'white' },
-        { x: 0.08, y: 0.28, w: 0.84, h: 0.20, label: '2. QUERY RESOLVER (53)', sub: 'Ask DNS server for domain IP', fontSize: 9.8, variant: 'blue' },
-        { x: 0.08, y: 0.52, w: 0.84, h: 0.20, label: '3. RETURN A / AAAA IP', sub: 'Server replies with IPv4 / IPv6', fontSize: 9.8, variant: 'yellow' },
-        { x: 0.08, y: 0.76, w: 0.84, h: 0.20, label: '4. CONNECT TO SERVER', sub: 'Browser loads page via IP', fontSize: 9.8, variant: 'navy' }
-      ],
-      footer: 'Translates domain names → IPs'
-    });
+    return useOnce('diag-dns', { kind: 'photo', imagePath: 'images/concepts/dns_lookup.png', caption: null });
+  }
+
+  if (title.includes('what is a subnet and why do we subnet')) {
+    return useOnce('diag-why-subnet', { kind: 'photo', imagePath: 'images/concepts/subnet_split.png', caption: null });
   }
 
   if (title.includes('inside every subnet') || title.includes('subnet mask: the dividing boundary')) {
-    return useOnce('diag-ipv4-subnet', {
-      kind: 'diagram',
-      title: 'IPV4 SUBNET BOUNDARY',
-      nodes: [
-        { x: 0.06, y: 0.04, w: 0.88, h: 0.22, label: 'IP: 192.168.10.25 / 24', sub: '32 Bits = Four 8-Bit Octets', fontSize: 10.2, variant: 'navy' },
-        { x: 0.06, y: 0.30, w: 0.56, h: 0.22, label: 'NETWORK (24b)', sub: '192.168.10', fontSize: 9.6, variant: 'blue' },
-        { x: 0.65, y: 0.30, w: 0.29, h: 0.22, label: 'HOST (8b)', sub: '.25', fontSize: 9.6, variant: 'yellow' },
-        { x: 0.06, y: 0.56, w: 0.88, h: 0.19, label: 'Network ID: 192.168.10.0', sub: 'First IP (Identifies Subnet)', fontSize: 9.8, variant: 'white' },
-        { x: 0.06, y: 0.78, w: 0.88, h: 0.19, label: 'Broadcast: 192.168.10.255', sub: 'Last IP (Usable: .1–.254)', fontSize: 9.8, variant: 'white' }
-      ],
-      footer: 'Usable Hosts = 2^(Host Bits) − 2'
-    });
+    return useOnce('diag-ipv4-subnet', { kind: 'photo', imagePath: 'images/concepts/subnet_boundary.png', caption: null });
   }
 
   if (title.includes('five steps to subnet')) {
-    return useOnce('diag-subnet-steps', {
-      kind: 'diagram',
-      title: '5-STEP SUBNETTING FLOW',
-      arrows: [{ x: 0.48, y: 0.10, w: 0.04, h: 0.80 }],
-      nodes: [
-        { x: 0.08, y: 0.03, w: 0.84, h: 0.16, label: '1. BORROW BITS (n)', sub: 'Choose n where 2^n ≥ subnets', fontSize: 9.6, variant: 'blue' },
-        { x: 0.08, y: 0.22, w: 0.84, h: 0.16, label: '2. NEW SUBNET MASK', sub: 'Add n bits to base CIDR prefix', fontSize: 9.6, variant: 'yellow' },
-        { x: 0.08, y: 0.41, w: 0.84, h: 0.16, label: '3. BLOCK SIZE', sub: '256 − interesting mask octet', fontSize: 9.6, variant: 'blue' },
-        { x: 0.08, y: 0.60, w: 0.84, h: 0.16, label: '4. LIST NETWORK IDs', sub: 'Step by block (.0, .64, .128)', fontSize: 9.6, variant: 'white' },
-        { x: 0.08, y: 0.79, w: 0.84, h: 0.16, label: '5. HOST & BROADCAST', sub: 'Usable: Net+1 to Broadcast−1', fontSize: 9.6, variant: 'navy' }
-      ],
-      footer: 'Example: /24 → /26 gives 4 × 62 hosts'
-    });
+    return useOnce('diag-subnet-steps', { kind: 'photo', imagePath: 'images/concepts/subnet_steps.png', caption: null });
   }
 
   if (title.includes('four messages in the initial dhcp') || title.includes('dhcp allocation') || title.includes('what is dhcp')) {
-    return useOnce('diag-dora', {
-      kind: 'diagram',
-      title: 'DHCP 4-STEP DORA EXCHANGE',
-      arrows: [{ x: 0.48, y: 0.14, w: 0.04, h: 0.72 }],
-      nodes: [
-        { x: 0.08, y: 0.04, w: 0.84, h: 0.20, label: '1. DISCOVER (Broadcast)', sub: 'Client → "Any DHCP servers?"', fontSize: 9.8, variant: 'blue' },
-        { x: 0.08, y: 0.28, w: 0.84, h: 0.20, label: '2. OFFER (Server Reply)', sub: 'Server → "Use 192.168.1.105"', fontSize: 9.8, variant: 'yellow' },
-        { x: 0.08, y: 0.52, w: 0.84, h: 0.20, label: '3. REQUEST (Broadcast)', sub: 'Client → "Requesting .105"', fontSize: 9.8, variant: 'blue' },
-        { x: 0.08, y: 0.76, w: 0.84, h: 0.20, label: '4. ACKNOWLEDGE (ACK)', sub: 'Server → "Lease committed"', fontSize: 9.8, variant: 'navy' }
-      ],
-      footer: 'Automatic IP, Mask, Gateway & DNS'
-    });
+    return useOnce('diag-dora', { kind: 'photo', imagePath: 'images/concepts/dhcp_dora.png', caption: null });
   }
 
   if (title.includes('lease lifecycle')) {
-    return useOnce('diag-dhcp-lease', {
-      kind: 'diagram',
-      title: 'DHCP LEASE LIFECYCLE',
-      arrows: [{ x: 0.48, y: 0.14, w: 0.04, h: 0.72 }],
-      nodes: [
-        { x: 0.08, y: 0.04, w: 0.84, h: 0.20, label: '1. LEASE ACTIVE (0%)', sub: 'Host uses leased IPv4 address', fontSize: 9.8, variant: 'blue' },
-        { x: 0.08, y: 0.28, w: 0.84, h: 0.20, label: '2. T1 RENEWAL (50%)', sub: 'Unicast renew to same server', fontSize: 9.8, variant: 'yellow' },
-        { x: 0.08, y: 0.52, w: 0.84, h: 0.20, label: '3. T2 REBIND (87.5%)', sub: 'Broadcast to any DHCP server', fontSize: 9.8, variant: 'blue' },
-        { x: 0.08, y: 0.76, w: 0.84, h: 0.20, label: '4. EXPIRED / NO SERVER', sub: 'Reclaimed or APIPA 169.254.x.x', fontSize: 9.8, variant: 'navy' }
-      ],
-      footer: 'ipconfig /release & /renew'
-    });
+    return useOnce('diag-dhcp-lease', { kind: 'photo', imagePath: 'images/concepts/dhcp_lease.png', caption: null });
   }
 
   if (title.includes('two permission gates') || title.includes('file & printer sharing properties') || title.includes('share permissions vs ntfs')) {
-    return useOnce('diag-smb', {
-      kind: 'diagram',
-      title: 'SMB SHARE + NTFS GATES',
-      arrows: [{ x: 0.48, y: 0.22, w: 0.04, h: 0.55 }],
-      nodes: [
-        { x: 0.08, y: 0.06, w: 0.84, h: 0.22, label: 'Client PC (Private)', sub: 'Opens \\\\LAB-PC1\\SharedDocs', fontSize: 9.8, variant: 'blue' },
-        { x: 0.08, y: 0.34, w: 0.40, h: 0.24, label: 'Share Rule', sub: 'Network Gate', fontSize: 9.6, variant: 'yellow' },
-        { x: 0.52, y: 0.34, w: 0.40, h: 0.24, label: 'NTFS Rule', sub: 'Disk Gate', fontSize: 9.6, variant: 'yellow' },
-        { x: 0.08, y: 0.66, w: 0.84, h: 0.24, label: 'MOST RESTRICTIVE WINS', sub: 'Mapped Drive (Z:) or Printer', fontSize: 9.8, variant: 'navy' }
-      ],
-      footer: 'Uses SMB (TCP 445) on trusted LANs'
-    });
+    return useOnce('diag-smb', { kind: 'photo', imagePath: 'images/concepts/smb_gates.png', caption: null });
   }
 
   if (title.includes('systematic troubleshooting')) {
-    return useOnce('diag-troubleshoot', {
-      kind: 'diagram',
-      title: 'BOTTOM-UP DIAGNOSTIC LADDER',
-      arrows: [{ x: 0.48, y: 0.14, w: 0.04, h: 0.72 }],
-      nodes: [
-        { x: 0.08, y: 0.04, w: 0.84, h: 0.20, label: '1. PHYSICAL LINK CHECK', sub: 'Cable, RJ45 Latch, Link LEDs', fontSize: 9.8, variant: 'yellow' },
-        { x: 0.08, y: 0.28, w: 0.84, h: 0.20, label: '2. LOCAL IP (ipconfig /all)', sub: 'IPv4, Mask, Gateway & APIPA', fontSize: 9.8, variant: 'blue' },
-        { x: 0.08, y: 0.52, w: 0.84, h: 0.20, label: '3. REACHABILITY (ping)', sub: 'Ping Gateway & 8.8.8.8', fontSize: 9.8, variant: 'blue' },
-        { x: 0.08, y: 0.76, w: 0.84, h: 0.20, label: '4. NAME LOOKUP (nslookup)', sub: 'Verify DNS Name Resolution', fontSize: 9.8, variant: 'navy' }
-      ],
-      footer: 'Change 1 thing → Verify → Document'
-    });
+    return useOnce('diag-troubleshoot', { kind: 'photo', imagePath: 'images/concepts/troubleshoot_ladder.png', caption: null });
   }
 
   if (title.includes('cia triad')) {
-    return useOnce('diag-cia', {
-      kind: 'diagram',
-      title: 'CIA TRIAD MODEL',
-      nodes: [
-        { x: 0.06, y: 0.05, w: 0.88, h: 0.20, label: 'CONFIDENTIALITY', sub: 'WPA3, HTTPS/TLS & Access Control', fontSize: 9.8, variant: 'blue' },
-        { x: 0.06, y: 0.29, w: 0.88, h: 0.20, label: 'INTEGRITY', sub: 'Checksums, Signatures & Logs', fontSize: 9.8, variant: 'yellow' },
-        { x: 0.06, y: 0.53, w: 0.88, h: 0.20, label: 'AVAILABILITY', sub: 'Redundancy, Backups & DoS Defense', fontSize: 9.8, variant: 'blue' },
-        { x: 0.06, y: 0.77, w: 0.88, h: 0.19, label: 'DEFENSE IN DEPTH', sub: 'Firewalls + MFA + Updates', fontSize: 9.8, variant: 'navy' }
-      ],
-      footer: 'Layered security protects networks'
-    });
+    return useOnce('diag-cia', { kind: 'photo', imagePath: 'images/concepts/cia_triad.png', caption: null });
   }
 
   if (title.includes('stateful firewall')) {
-    return useOnce('diag-firewall', {
-      kind: 'diagram',
-      title: 'FIREWALL RULE INSPECTION',
-      arrows: [{ x: 0.48, y: 0.14, w: 0.04, h: 0.72 }],
-      nodes: [
-        { x: 0.08, y: 0.04, w: 0.84, h: 0.20, label: '1. INSPECT 5-TUPLE', sub: 'Src/Dst IP, Proto, Port, Dir', fontSize: 9.8, variant: 'white' },
-        { x: 0.08, y: 0.28, w: 0.84, h: 0.20, label: '2. CHECK RULES TOP-DOWN', sub: 'Evaluate Rule 1 → Rule 2 → ...', fontSize: 9.8, variant: 'blue' },
-        { x: 0.08, y: 0.52, w: 0.84, h: 0.20, label: '3. FIRST MATCH WINS', sub: 'Immediately Allow or Drop', fontSize: 9.8, variant: 'yellow' },
-        { x: 0.08, y: 0.76, w: 0.84, h: 0.20, label: '4. IMPLICIT DENY ALL', sub: 'Block unmatched inbound', fontSize: 9.8, variant: 'navy' }
-      ],
-      footer: 'Stateful tables track return flows'
-    });
+    return useOnce('diag-firewall', { kind: 'photo', imagePath: 'images/concepts/firewall_inspect.png', caption: null });
   }
 
   // No generic fallback diagram — slides without a dedicated visual use clean full-width layout!
@@ -766,6 +688,21 @@ function getSpecialTableForSlide(topic, slide) {
     };
   }
 
+  if (title.includes('Five IPv4 Address Classes')) {
+    return {
+      headers: ['Class', 'Starting Bits', 'First Number', 'Default Mask', 'Everyday Use'],
+      colWeights: [0.9, 1.1, 1.3, 1.7, 2.8],
+      fontSize: 11.4,
+      rows: [
+        ['Class A', '0...', '1 – 126', '255.0.0.0 (/8)', 'Very large organizations (up to 16M hosts)'],
+        ['Class B', '10...', '128 – 191', '255.255.0.0 (/16)', 'Medium campuses & companies (65K hosts)'],
+        ['Class C', '110...', '192 – 223', '255.255.255.0 (/24)', 'Small offices, labs & home LANs (254 hosts)'],
+        ['Class D', '1110...', '224 – 239', 'N/A (Group)', 'Group streaming & multicast traffic'],
+        ['Class E', '1111...', '240 – 255', 'N/A (Reserved)', 'Reserved for research and future testing']
+      ]
+    };
+  }
+
   if (title.includes('Seven OSI layer responsibilities')) {
     return {
       headers: ['Layer #', 'OSI Layer Name', 'PDU Name', 'Core Responsibility & Common Examples'],
@@ -874,7 +811,7 @@ function buildModulePptx(topic) {
 
   // 2. Learning Objectives Slide
   addObjectivesSlide(deck, {
-    objectives: topic.objectives || [],
+    objectives: simplifyList(topic.objectives || []),
     imagePath: enrich?.objectivesImage || 'images/devices/switch.webp'
   });
 
@@ -919,7 +856,7 @@ function buildModulePptx(topic) {
           addSectionDividerSlide(deck, {
             sectionNumber: sec.number,
             title: sec.title,
-            overview: sec.overview,
+            overview: simplifyTerminology(sec.overview),
             notes: `Section ${sec.number}: ${sec.title} — Aligns with Networking 1 Website (#/topic/${topic.id}/slide/${idx + 1}).`
           });
         }
@@ -933,18 +870,18 @@ function buildModulePptx(topic) {
     if (specialTable) {
       addTableOrBarsSlide(deck, {
         title: displayTitle,
-        lead: slide.lead || 'Use this reference table alongside the interactive Networking 1 website:',
+        lead: simplifyTerminology(slide.lead || 'Use this reference table alongside the interactive Networking 1 website:'),
         table: specialTable,
         notes: `${displayTitle}\n${slide.lead || ''}\n${sourceNote}`
       });
     } else if (slide.kind === 'example') {
       // Kept core topic slides (PAN/LAN/MAN/WAN in M01; Star/Bus/Ring/Mesh/Tree/Hybrid in M02) as concise concept bullets
-      const explanation = slide.lead || `Key concepts of ${displayTitle}:`;
-      const calloutBullets = Array.isArray(slide.bullets) && slide.bullets.length > 0
+      const explanation = simplifyTerminology(slide.lead || `Key concepts of ${displayTitle}:`);
+      const calloutBullets = simplifyList(Array.isArray(slide.bullets) && slide.bullets.length > 0
         ? slide.bullets
         : Array.isArray(slide.items) && slide.items.length > 0
           ? slide.items
-          : [explanation];
+          : [explanation]);
 
       addTeachingSlide(deck, {
         title: displayTitle,
@@ -956,11 +893,12 @@ function buildModulePptx(topic) {
     } else {
       // Standard Concept / Walkthrough Slide
       const cleanLines = arr => (Array.isArray(arr) ? arr : []).filter(s => !/^Default port or identifier:\s*\.?$/i.test(String(s || '').trim()));
-      const paragraphs = cleanLines(slide.paragraphs);
-      const items = cleanLines(slide.items);
+      const paragraphs = simplifyList(cleanLines(slide.paragraphs));
+      const items = simplifyList(cleanLines(slide.items));
       const visual = resolveSlideVisual(topic, slide, idx + 1, usedDiagrams);
       const totalItemChars = items.reduce((acc, s) => acc + String(s).length, 0);
-      const splitThreshold = visual ? 290 : 480;
+      const keepTogether = topic.id === '06-network-cables-media' && slideTitle.toLowerCase().includes('ethernet cable categories');
+      const splitThreshold = keepTogether ? 420 : (visual ? 290 : 480);
 
       // Split crowded multi-item slides across 2 spacious slides so text stays large and uncluttered
       if (items.length >= 5 || (visual && items.length >= 4) || (items.length >= 3 && totalItemChars > splitThreshold)) {
@@ -984,7 +922,7 @@ function buildModulePptx(topic) {
 
         addTeachingSlide(deck, {
           title: title1,
-          explanation: slide.lead || paragraphs[0] || `Key concepts for ${slideTitle}:`,
+          explanation: simplifyTerminology(slide.lead || paragraphs[0] || `Key concepts for ${slideTitle}:`),
           calloutBullets: part1,
           itemLabels: labels1,
           visual,
@@ -993,22 +931,22 @@ function buildModulePptx(topic) {
 
         addTeachingSlide(deck, {
           title: title2,
-          explanation: paragraphs[1] || slide.lead || `Continuing ${slideTitle}:`,
+          explanation: simplifyTerminology(paragraphs[1] || slide.lead || `Continuing ${slideTitle}:`),
           calloutBullets: part2,
           itemLabels: labels2,
           visual: null,
           notes: `${title2}\n${part2.join('\n')}\n${sourceNote}`
         });
       } else {
-        const explanation = slide.lead || paragraphs[0] || `Key principles of ${displayTitle}:`;
+        const explanation = simplifyTerminology(slide.lead || paragraphs[0] || `Key principles of ${displayTitle}:`);
         const visualConceptBullets = {
           osiIntroduction: [
-            'Upper Host Layers (7–5): Application, Presentation, and Session prepare user data, encoding, and TLS encryption.',
+            'Upper Host Layers (7–5): Application, Presentation, and Session prepare user data, text formatting, and encryption.',
             'Lower Media & Transport Layers (4–1): Transport ports, Network IPs, Data Link MAC frames, and Physical signals move data across networks.'
           ],
           securityFirewall: [
             'Top-Down Rule Matching: Firewalls check each packet’s IP, protocol, and port against rules in order and apply the first match.',
-            'Stateful Tracking & Implicit Deny: Return replies from active outbound requests are allowed while unsolicited inbound traffic is dropped.'
+            'Remembers Active Connections & Default Block: Replies to your outgoing requests are allowed while unrequested incoming traffic is blocked.'
           ]
         };
 
@@ -1016,7 +954,7 @@ function buildModulePptx(topic) {
           ? items
           : paragraphs.length > 0
             ? (slide.lead ? paragraphs : paragraphs.slice(1))
-            : (visualConceptBullets[slide.type] || [slide.lead || 'Essential concept in computer networking.']);
+            : (visualConceptBullets[slide.type] || [simplifyTerminology(slide.lead || 'Essential concept in computer networking.')]);
 
         addTeachingSlide(deck, {
           title: displayTitle,
@@ -1035,11 +973,11 @@ function buildModulePptx(topic) {
         if (!usedComparisons.has(cIdx) && slideTitle.toLowerCase().includes(comp.afterMatch.toLowerCase())) {
           usedComparisons.add(cIdx);
           addComparisonSlide(deck, {
-            title: comp.title,
-            leftTitle: comp.leftTitle,
-            leftBullets: comp.leftBullets,
-            rightTitle: comp.rightTitle,
-            rightBullets: comp.rightBullets,
+            title: simplifyTerminology(comp.title),
+            leftTitle: simplifyTerminology(comp.leftTitle),
+            leftBullets: simplifyList(comp.leftBullets),
+            rightTitle: simplifyTerminology(comp.rightTitle),
+            rightBullets: simplifyList(comp.rightBullets),
             notes: `Comparison: ${comp.title}\n${sourceNote}`
           });
         }
@@ -1064,21 +1002,35 @@ function buildModulePptx(topic) {
   if (enrich?.comparisons) {
     enrich.comparisons.forEach((comp, cIdx) => {
       if (!usedComparisons.has(cIdx)) {
-        addComparisonSlide(deck, comp);
+        addComparisonSlide(deck, {
+          title: simplifyTerminology(comp.title),
+          leftTitle: simplifyTerminology(comp.leftTitle),
+          leftBullets: simplifyList(comp.leftBullets),
+          rightTitle: simplifyTerminology(comp.rightTitle),
+          rightBullets: simplifyList(comp.rightBullets),
+          notes: comp.notes || ''
+        });
       }
     });
   }
 
   // 3. Final Slide: Summary of the Discussion (no Recap, Knowledge Check, or References slides)
   const summarySlide = topic.slides.find(s => s.kind === 'summary');
-  const summaryItems = summarySlide?.items?.length
+  const summaryItems = simplifyList(summarySlide?.items?.length
     ? summarySlide.items
-    : (topic.objectives || []).slice(0, 4);
+    : (topic.objectives || []).slice(0, 4));
 
   addSummaryOfDiscussionSlide(deck, { summaryItems });
 
   const modNumStr = String(modNum).padStart(2, '0');
-  const fileName = `Module-${modNumStr}-${slugify(topic.title)}.pptx`;
+  const shortTitle = String(topic.title || '')
+    .replace(/^Open Systems Interconnection \(OSI\)/i, 'OSI')
+    .replace(/^Internet Protocol \(IP\)/i, 'IP')
+    .replace(/:\s*(.+)$/, ' ($1)')
+    .replace(/[<>:"/\\|?*]+/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  const fileName = `M${modNum} - ${shortTitle}.pptx`;
   const outPath = resolve(modulesDir, fileName);
   deck.saveToPptx(outPath);
   return {

@@ -341,7 +341,7 @@ export function addTeachingSlide(deck, {
         imagePath: visual.imagePath,
         x: vx, y: vy, w: vw, h: vh,
         round: true,
-        caption: visual.caption || null
+        caption: null
       });
     } else if (visual.kind === 'table') {
       slide.addTable({

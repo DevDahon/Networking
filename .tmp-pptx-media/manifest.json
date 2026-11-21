@@ -1,9 +1,141 @@
 {
+  "images/concepts/arp_exchange.png": {
+    "file": "images_concepts_arp_exchange.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_concepts_arp_exchange.png",
+    "width": 900,
+    "height": 1200
+  },
+  "images/concepts/cia_triad.png": {
+    "file": "images_concepts_cia_triad.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_concepts_cia_triad.png",
+    "width": 900,
+    "height": 1200
+  },
+  "images/concepts/components.png": {
+    "file": "images_concepts_components.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_concepts_components.png",
+    "width": 900,
+    "height": 1200
+  },
+  "images/concepts/dhcp_dora.png": {
+    "file": "images_concepts_dhcp_dora.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_concepts_dhcp_dora.png",
+    "width": 900,
+    "height": 1200
+  },
+  "images/concepts/dhcp_lease.png": {
+    "file": "images_concepts_dhcp_lease.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_concepts_dhcp_lease.png",
+    "width": 900,
+    "height": 1200
+  },
+  "images/concepts/dns_lookup.png": {
+    "file": "images_concepts_dns_lookup.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_concepts_dns_lookup.png",
+    "width": 900,
+    "height": 1200
+  },
+  "images/concepts/encapsulation.png": {
+    "file": "images_concepts_encapsulation.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_concepts_encapsulation.png",
+    "width": 900,
+    "height": 1200
+  },
+  "images/concepts/firewall_inspect.png": {
+    "file": "images_concepts_firewall_inspect.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_concepts_firewall_inspect.png",
+    "width": 900,
+    "height": 1200
+  },
+  "images/concepts/five_elements.png": {
+    "file": "images_concepts_five_elements.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_concepts_five_elements.png",
+    "width": 900,
+    "height": 1200
+  },
+  "images/concepts/osi_layers.png": {
+    "file": "images_concepts_osi_layers.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_concepts_osi_layers.png",
+    "width": 900,
+    "height": 1200
+  },
+  "images/concepts/smb_gates.png": {
+    "file": "images_concepts_smb_gates.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_concepts_smb_gates.png",
+    "width": 900,
+    "height": 1200
+  },
+  "images/concepts/subnet_boundary.png": {
+    "file": "images_concepts_subnet_boundary.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_concepts_subnet_boundary.png",
+    "width": 900,
+    "height": 1200
+  },
+  "images/concepts/subnet_split.png": {
+    "file": "images_concepts_subnet_split.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_concepts_subnet_split.png",
+    "width": 900,
+    "height": 1200
+  },
+  "images/concepts/subnet_steps.png": {
+    "file": "images_concepts_subnet_steps.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_concepts_subnet_steps.png",
+    "width": 900,
+    "height": 1200
+  },
+  "images/concepts/tcpip_layers.png": {
+    "file": "images_concepts_tcpip_layers.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_concepts_tcpip_layers.png",
+    "width": 900,
+    "height": 1200
+  },
+  "images/concepts/troubleshoot_ladder.png": {
+    "file": "images_concepts_troubleshoot_ladder.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_concepts_troubleshoot_ladder.png",
+    "width": 900,
+    "height": 1200
+  },
+  "images/coverage/architectures.png": {
+    "file": "images_coverage_architectures.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_coverage_architectures.png",
+    "width": 896,
+    "height": 1200
+  },
+  "images/coverage/lan.png": {
+    "file": "images_coverage_lan.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_coverage_lan.png",
+    "width": 896,
+    "height": 1200
+  },
+  "images/coverage/man.png": {
+    "file": "images_coverage_man.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_coverage_man.png",
+    "width": 900,
+    "height": 1200
+  },
+  "images/coverage/pan.png": {
+    "file": "images_coverage_pan.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_coverage_pan.png",
+    "width": 896,
+    "height": 1200
+  },
+  "images/coverage/wan.png": {
+    "file": "images_coverage_wan.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_coverage_wan.png",
+    "width": 900,
+    "height": 1200
+  },
   "images/devices/ap.webp": {
     "file": "images_devices_ap.png",
     "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_devices_ap.png",
     "width": 960,
     "height": 868
+  },
+  "images/devices/ap_studio.png": {
+    "file": "images_devices_ap_studio.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_devices_ap_studio.png",
+    "width": 896,
+    "height": 1200
   },
   "images/devices/hub.webp": {
     "file": "images_devices_hub.png",
@@ -77,11 +209,23 @@
     "width": 960,
     "height": 536
   },
+  "images/media/utp_and_stp.png": {
+    "file": "images_media_utp_and_stp.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_media_utp_and_stp.png",
+    "width": 900,
+    "height": 1200
+  },
   "images/media/utp_cable.webp": {
     "file": "images_media_utp_cable.png",
     "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_media_utp_cable.png",
     "width": 960,
     "height": 536
+  },
+  "images/media/wireless_media.png": {
+    "file": "images_media_wireless_media.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_media_wireless_media.png",
+    "width": 896,
+    "height": 1200
   },
   "images/router/router_rear.webp": {
     "file": "images_router_router_rear.png",
@@ -100,6 +244,12 @@
     "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_tools_cable_tester.png",
     "width": 960,
     "height": 717
+  },
+  "images/tools/crimping_toolkit.png": {
+    "file": "images_tools_crimping_toolkit.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_tools_crimping_toolkit.png",
+    "width": 900,
+    "height": 1200
   },
   "images/tools/ethernet_patch_cable.webp": {
     "file": "images_tools_ethernet_patch_cable.png",
@@ -130,6 +280,18 @@
     "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_tools_punchdown_tool.png",
     "width": 960,
     "height": 717
+  },
+  "images/tools/punchdown_toolkit.png": {
+    "file": "images_tools_punchdown_toolkit.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_tools_punchdown_toolkit.png",
+    "width": 900,
+    "height": 1200
+  },
+  "images/tools/rj45_and_keystone.png": {
+    "file": "images_tools_rj45_and_keystone.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_tools_rj45_and_keystone.png",
+    "width": 900,
+    "height": 1200
   },
   "images/tools/rj45_crimped_front.webp": {
     "file": "images_tools_rj45_crimped_front.png",
@@ -166,5 +328,41 @@
     "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_tools_wire_stripper.png",
     "width": 960,
     "height": 960
+  },
+  "images/topologies/bus.png": {
+    "file": "images_topologies_bus.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_topologies_bus.png",
+    "width": 896,
+    "height": 1200
+  },
+  "images/topologies/hybrid.png": {
+    "file": "images_topologies_hybrid.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_topologies_hybrid.png",
+    "width": 896,
+    "height": 1200
+  },
+  "images/topologies/mesh.png": {
+    "file": "images_topologies_mesh.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_topologies_mesh.png",
+    "width": 896,
+    "height": 1200
+  },
+  "images/topologies/ring.png": {
+    "file": "images_topologies_ring.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_topologies_ring.png",
+    "width": 896,
+    "height": 1200
+  },
+  "images/topologies/star.png": {
+    "file": "images_topologies_star.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_topologies_star.png",
+    "width": 896,
+    "height": 1200
+  },
+  "images/topologies/tree.png": {
+    "file": "images_topologies_tree.png",
+    "path": "C:/Projects/Module/Networking/.tmp-pptx-media/images_topologies_tree.png",
+    "width": 896,
+    "height": 1200
   }
 }

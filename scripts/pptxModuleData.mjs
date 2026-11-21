@@ -255,7 +255,7 @@ export const MODULE_ENRICHMENTS = {
     discussions: [
       {
         afterMatch: 'Hub and Bridge',
-        question: 'WHY DID NETWORK ENGINEERS REPLACELEGACY ETHERNET HUBS WITH INTELLIGENT SWITCHES IN MODERN LANS?'
+        question: 'WHY DID NETWORK ENGINEERS REPLACE LEGACY ETHERNET HUBS WITH INTELLIGENT SWITCHES IN MODERN LANS?'
       },
       {
         afterMatch: 'Modem',
@@ -764,7 +764,7 @@ export const MODULE_ENRICHMENTS = {
     discussions: [
       {
         afterMatch: 'Static vs Dynamic IP Assignment',
-        question: 'WHY DO WE ASSIGN A STATIC IP TO A SCHOOL PRINTER OR ROUTER, BUT USE DHCP FOR HUNDRED OF STUDENT LAPTOPS AND PHONES?'
+        question: 'WHY DO WE ASSIGN A STATIC IP TO A SCHOOL PRINTER OR ROUTER, BUT USE DHCP FOR HUNDREDS OF STUDENT LAPTOPS AND PHONES?'
       },
       {
         afterMatch: 'DHCP Lease Lifecycle',
